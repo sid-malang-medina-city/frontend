@@ -179,7 +179,6 @@
 
       &.is-active::v-deep {
         border-left: 4px solid #859671;
-        // background-color: rgba(0, 218, 84, 0.05);
         font-weight: 600;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
@@ -279,7 +278,6 @@
 
   .ep-menu-vertical:not(.ep-menu--collapse) {
     width: 300px;
-    // min-height: 400px;
     border: none;
   }
   /* -- */
