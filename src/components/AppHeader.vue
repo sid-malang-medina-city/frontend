@@ -26,7 +26,7 @@
 
     &__icon {
       cursor: pointer;
-      color: #859671;
+      color: #555555;
     }
   }
 </style>
