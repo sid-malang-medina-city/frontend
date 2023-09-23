@@ -6,7 +6,8 @@ import {
 import sidIcon from '/logo.svg'
 import dashboardIcon from '/dashboard.svg'
 import {
-  Menu
+  Menu,
+  SwitchButton
 } from '@element-plus/icons-vue'
 
 export default {
@@ -17,7 +18,8 @@ export default {
   mixins: [RouterHandler],
 
   components: {
-    Menu
+    Menu,
+    SwitchButton
   },
 
   data () {
@@ -26,6 +28,7 @@ export default {
       adminMenuItems: [],
       menuItemsCode: [],
       isCollapse: false,
+      logoutIcon: SwitchButton,
       sidIcon,
       dashboardIcon
     }
