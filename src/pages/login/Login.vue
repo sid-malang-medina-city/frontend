@@ -83,7 +83,7 @@
       color: #262626;
       text-align: center;
       font-family: Plus Jakarta Sans;
-      font-size: 28px;
+      font-size: 20px;
       font-weight: 800;
     }
 
@@ -91,7 +91,7 @@
       color: #7B7B7B;
       text-align: center;
       font-family: Plus Jakarta Sans;
-      font-size: 20px;
+      font-size: 14px;
       margin-bottom: 32px;
     }
 
@@ -118,7 +118,7 @@
       text-align: center;
       color: #9D9D9D;
       font-family: Plus Jakarta Sans;
-      font-size: 16px;
+      font-size: 12px;
       font-weight: 500;
       border-top: 1px solid #D9D9D9;
     }
