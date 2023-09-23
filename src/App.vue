@@ -52,7 +52,7 @@
       margin-left: 240px;
 
       &.fullscreen {
-        margin-left: 64px;
+        margin-left: 100px;
       }
     }
 
@@ -69,7 +69,7 @@
       box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
 
       &.collapse {
-        width: 64px;
+        width: 100px;
       }
     }
 

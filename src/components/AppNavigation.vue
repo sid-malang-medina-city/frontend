@@ -2,6 +2,7 @@
   <div class="navigation">
     <div class="navigation__container">
       <div
+        :class="{ 'navigation__logo--collapse': isCollapse }"
         class="navigation__logo"
       >
         <img
@@ -118,7 +119,7 @@
             >
               <img
                 :src="menu.iconPath"
-                :class="{ grayscale: menu.routeName !== $route.name}"
+                :class="{ grayscale: menu.routeName !== $route.name, 'ep-menu__icon--collapse': isCollapse }"
                 class="ep-menu__icon"
                 alt=""
               >
@@ -131,7 +132,10 @@
           </div>
         </el-menu>
 
-        <div class="navigation__logout-btn-wrapper">
+        <div
+          :class="{ 'navigation__logout-btn-wrapper--collapse': isCollapse }"
+          class="navigation__logout-btn-wrapper"
+        >
           <el-button
             v-if="!isCollapse"
             :icon="logoutIcon"
@@ -142,14 +146,14 @@
           >
             Logout
           </el-button>
-          <el-icon
+          <el-button
             v-else
-            size="18"
-            class="navigation__logout-btn--collapsed"
+            :icon="logoutIcon"
+            type="primary"
+            class="navigation__logout-btn--collapse"
+            plain
             @click="logout"
-          >
-            <SwitchButton />
-          </el-icon>
+          />
         </div>
       </el-scrollbar>
     </div>
@@ -160,6 +164,11 @@
 
 <style lang="scss" scoped>
   /* CUSTOM CSS FOR ELEMENT-UI NAVIGATION */
+
+  :deep(.ep-menu--collapse) {
+    width: 100px;
+  }
+
   .ep-menu {
     border: none;
     height: 100%;
@@ -170,13 +179,18 @@
 
       &.is-active::v-deep {
         border-left: 4px solid #859671;
-        background-color: rgba(0, 218, 84, 0.05);
+        // background-color: rgba(0, 218, 84, 0.05);
         font-weight: 600;
         border-top-right-radius: 4px;
         border-bottom-right-radius: 4px;
         color: #859671;
         padding-left: 16px;
       }
+    }
+
+    :deep(.ep-tooltip__trigger) {
+      justify-content: center;
+      padding-right: 20px;
     }
 
     .ep-sub-menu::v-deep {
@@ -198,6 +212,10 @@
 
       &.grayscale {
         filter: grayscale(1);
+      }
+
+      &--collapse {
+        margin-right: 0;
       }
     }
 
@@ -293,6 +311,10 @@
       display: flex;
       gap: 12px;
 
+      &--collapse {
+        justify-content: center;
+      }
+
       &-icon {
         width: 40px;
       }
@@ -325,6 +347,7 @@
       position: absolute;
       right: 13px;
       padding: 5px;
+      width: 20px;
 
       &.active {
         position: static;
@@ -343,15 +366,20 @@
     &__logout-btn-wrapper {
       padding: 0 20px;
       margin-top: 32px;
+
+      &--collapse {
+        padding: 8px 0;
+        display: flex;
+        justify-content: center;
+      }
     }
 
     &__logout-btn {
       width: 100%;
 
-      &--collapsed {
-        display: block;
-        margin: auto;
-        cursor: pointer;
+      &--collapse {
+        padding: 0;
+        width: 68px;
       }
     }
   }
