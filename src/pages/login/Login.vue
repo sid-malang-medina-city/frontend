@@ -37,6 +37,7 @@
           :disabled="isSubmitButtonDisabled"
           type="primary"
           class="login__submit-btn"
+          @click="login"
         >
           Login Akun
         </el-button>
