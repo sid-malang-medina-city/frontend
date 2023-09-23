@@ -133,6 +133,8 @@
 
         <div class="navigation__logout-btn-wrapper">
           <el-button
+            v-if="!isCollapse"
+            :icon="logoutIcon"
             type="primary"
             class="navigation__logout-btn"
             plain
@@ -140,6 +142,14 @@
           >
             Logout
           </el-button>
+          <el-icon
+            v-else
+            size="18"
+            class="navigation__logout-btn--collapsed"
+            @click="logout"
+          >
+            <SwitchButton />
+          </el-icon>
         </div>
       </el-scrollbar>
     </div>
@@ -337,6 +347,12 @@
 
     &__logout-btn {
       width: 100%;
+
+      &--collapsed {
+        display: block;
+        margin: auto;
+        cursor: pointer;
+      }
     }
   }
 </style>

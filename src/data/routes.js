@@ -21,5 +21,5 @@ export default [
       action: 'DASHBOARD_VIEW',
       requireLogin: true
     }
-  },
+  }
 ]
