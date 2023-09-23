@@ -130,6 +130,17 @@
             </el-menu-item>
           </div>
         </el-menu>
+
+        <div class="navigation__logout-btn-wrapper">
+          <el-button
+            type="primary"
+            class="navigation__logout-btn"
+            plain
+            @click="logout"
+          >
+            Logout
+          </el-button>
+        </div>
       </el-scrollbar>
     </div>
   </div>
@@ -317,6 +328,15 @@
       color: #9D9D9D;
       font-size: 14px;
       font-weight: 600;
+    }
+
+    &__logout-btn-wrapper {
+      padding: 0 20px;
+      margin-top: 32px;
+    }
+
+    &__logout-btn {
+      width: 100%;
     }
   }
 </style>

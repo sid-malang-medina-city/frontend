@@ -1,3 +1,4 @@
+import RouterHandler from '~/mixins/router-handler'
 import {
   NAVIGATION_ITEMS,
   ADMIN_NAVIGATION_ITEMS
@@ -12,6 +13,8 @@ export default {
   name: 'app-nav',
 
   emits: ['toggle'],
+
+  mixins: [RouterHandler],
 
   components: {
     Menu
@@ -41,6 +44,10 @@ export default {
     toggleNavigation () {
       this.isCollapse = !this.isCollapse
       this.$emit('toggle', this.isCollapse)
+    },
+
+    logout () {
+      this.redirectTo('Login')
     }
   }
 }
