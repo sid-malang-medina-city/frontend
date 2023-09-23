@@ -12,6 +12,7 @@ export default {
   data () {
     return {
       innerHeight: window.innerHeight,
+      // TODO: need to move isCollapse to store
       isCollapse: false,
       visibleRouterView: true
     }
