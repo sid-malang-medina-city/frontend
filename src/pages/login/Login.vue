@@ -61,10 +61,13 @@
 
     &__wrapper {
       width: 524px;
-      padding: 32px;
       border-radius: 20px;
       border: 1px solid #D9D9D9;
       background: white;
+    }
+
+    &__main-section {
+      padding: 32px;
     }
 
     &__logo {
@@ -105,7 +108,6 @@
 
     &__submit-btn {
       margin-top: 12px;
-      margin-bottom: 32px;
       width: 100%;
       height: 40px;
     }
@@ -117,7 +119,7 @@
       font-family: Plus Jakarta Sans;
       font-size: 16px;
       font-weight: 500;
-      border-top: #D9D9D9;
+      border-top: 1px solid #D9D9D9;
     }
   }
 </style>
