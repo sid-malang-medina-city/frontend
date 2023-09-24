@@ -135,16 +135,6 @@
           color: #61876E;
         }
       }
-
-      .actions {
-        &__edit-btn, &__delete-btn {
-          background: white;
-
-          &:hover {
-            background: #859671;
-          }
-        }
-      }
     }
 
     .content {
