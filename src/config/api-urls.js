@@ -1,5 +1,6 @@
 export default {
   users: {
-    login: '/users/login/'
+    login: '/users/login/',
+    list: '/users/'
   }
 }

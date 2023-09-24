@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://sid-mmc-backend.onrender.com'
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default {
   getRequest (path, params) {
