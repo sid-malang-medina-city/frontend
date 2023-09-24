@@ -71,7 +71,10 @@ export default {
   },
 
   methods: {
-    ...mapActions(userStore, ['fetchUsers']),
+    ...mapActions(userStore, [
+      'fetchUsers',
+      'deleteUser'
+    ]),
 
     async getUsers () {
       this.visibleLoadingTable = true
@@ -110,6 +113,31 @@ export default {
           id: id
         }
       })
+    },
+
+    async openModalConfirmation (id) {
+      try {
+        await this.$confirm(
+          'Apakah anda yakin ingin menghapus user ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus user berarti menghilangkan progress data dan akses mereka',
+          'Hapus User',
+          {
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            type: 'warning',
+            showClose: true
+          }
+        )
+        await this.handleDeleteUser(id)
+        this.showToast('User berhasil dihapus!')
+      } catch (e) {}
+    },
+
+    async handleDeleteUser(id) {
+      try {
+        await this.deleteUser({ id: id})
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
     }
   }
 }
