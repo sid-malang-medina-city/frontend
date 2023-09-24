@@ -38,7 +38,7 @@
         <el-menu
           :key="1"
           :default-active="$route.name"
-          class="ep-menu-vertical"
+          class="el-menu-vertical"
           :collapse="isCollapse"
           unique-opened
           router
@@ -46,7 +46,7 @@
           <div
             v-for="(menu, menuIndex) in menuItems"
             :key="'menu-item' + menuIndex"
-            class="ep-menu__custom-wrapper"
+            class="el-menu__custom-wrapper"
           >
             <el-sub-menu
               v-if="menu.children.length"
@@ -82,7 +82,7 @@
               <img
                 :src="menu.iconPath"
                 :class="{ grayscale: menu.routeName !== $route.name}"
-                class="ep-menu__icon"
+                class="el-menu__icon"
                 alt=""
               >
               <template #title>
@@ -103,7 +103,7 @@
         <el-menu
           :key="2"
           :default-active="$route.name"
-          class="ep-menu-vertical"
+          class="el-menu-vertical"
           :collapse="isCollapse"
           unique-opened
           router
@@ -111,7 +111,7 @@
           <div
             v-for="(menu, menuIndex) in adminMenuItems"
             :key="'menu-item' + menuIndex"
-            class="ep-menu__custom-wrapper"
+            class="el-menu__custom-wrapper"
           >
             <el-menu-item
               :route="{ name: menu.routeName }"
@@ -119,8 +119,8 @@
             >
               <img
                 :src="menu.iconPath"
-                :class="{ grayscale: menu.routeName !== $route.name, 'ep-menu__icon--collapse': isCollapse }"
-                class="ep-menu__icon"
+                :class="{ grayscale: menu.routeName !== $route.name, 'el-menu__icon--collapse': isCollapse }"
+                class="el-menu__icon"
                 alt=""
               >
               <template #title>
@@ -165,15 +165,15 @@
 <style lang="scss" scoped>
   /* CUSTOM CSS FOR ELEMENT-UI NAVIGATION */
 
-  :deep(.ep-menu--collapse) {
+  :deep(.el-menu--collapse) {
     width: 100px;
   }
 
-  .ep-menu {
+  .el-menu {
     border: none;
     height: 100%;
 
-    .ep-menu-item {
+    .el-menu-item {
       height: 42px;
       line-height: 42px;
 
@@ -187,20 +187,20 @@
       }
     }
 
-    :deep(.ep-tooltip__trigger) {
+    :deep(.el-tooltip__trigger) {
       justify-content: center;
       padding-right: 20px;
     }
 
-    .ep-sub-menu::v-deep {
-      .ep-sub-menu__title {
+    .el-sub-menu::v-deep {
+      .el-sub-menu__title {
         height: 42px;
         line-height: 42px;
       }
 
       &.is-active {
 
-        .ep-sub-menu__title {
+        .el-sub-menu__title {
           color: #0095da;
         }
       }
@@ -220,9 +220,9 @@
 
     &--collapse {
 
-      &>.ep-menu__custom-wrapper {
+      &>.el-menu__custom-wrapper {
 
-        &>.ep-menu-item::v-deep {
+        &>.el-menu-item::v-deep {
 
           span {
             height:0;
@@ -232,14 +232,14 @@
             display:inline-block
           }
 
-          [class^=ep-icon-] {
+          [class^=el-icon-] {
             margin:0;
             vertical-align:middle;
             width:24px;
             text-align:center
           }
 
-          .ep-sub-menu__icon-arrow {
+          .el-sub-menu__icon-arrow {
             display: none;
           }
 
@@ -248,7 +248,7 @@
           }
         }
 
-        &>.ep-sub-menu::v-deep {
+        &>.el-sub-menu::v-deep {
 
           span {
             height:0;
@@ -258,9 +258,9 @@
             display:inline-block
           }
 
-          .ep-sub-menu__title {
+          .el-sub-menu__title {
 
-            [class^=ep-icon-] {
+            [class^=el-icon-] {
               margin:0;
               vertical-align:middle;
               width:24px;
@@ -268,7 +268,7 @@
             }
           }
 
-          .ep-sub-menu__icon-arrow {
+          .el-sub-menu__icon-arrow {
             display: none;
           }
         }
@@ -276,14 +276,14 @@
     }
   }
 
-  .ep-menu-vertical:not(.ep-menu--collapse) {
+  .el-menu-vertical:not(.el-menu--collapse) {
     width: 300px;
     border: none;
   }
   /* -- */
 
-  /* CUSTOM CSS FOR epEMENT-UI SCROLLBAR */
-  .ep-scrollbar {
+  /* CUSTOM CSS FOR ELEMENT-UI SCROLLBAR */
+  .el-scrollbar {
     height: 100%;
 
     &::v-deep &__bar.is-vertical {
@@ -291,7 +291,7 @@
     }
   }
 
-  .ep-scrollbar__wrapper {
+  .el-scrollbar__wrapper {
     overflow-y: auto;
   }
   /* -- */

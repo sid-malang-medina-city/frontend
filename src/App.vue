@@ -49,7 +49,7 @@
 
     &__main {
       transition: margin-left .3s;
-      margin-left: 240px;
+      margin-left: 300px;
 
       &.fullscreen {
         margin-left: 100px;
@@ -75,7 +75,6 @@
 
     &__pages {
       min-height: calc(100vh - 108px);
-      padding: 20px 20px 30px;
       background: #FAFAFA;
     }
 
