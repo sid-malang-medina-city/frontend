@@ -1,4 +1,5 @@
 import RouterHandler from '~/mixins/router-handler'
+import { mapActions, mapState } from 'pinia'
 import {
   NAVIGATION_ITEMS,
   ADMIN_NAVIGATION_ITEMS
@@ -9,6 +10,7 @@ import {
   Menu,
   SwitchButton
 } from '@element-plus/icons-vue'
+import { navigationStore } from '~/store/navigation'
 
 export default {
   name: 'app-nav',
@@ -27,11 +29,14 @@ export default {
       menuItems: [],
       adminMenuItems: [],
       menuItemsCode: [],
-      isCollapse: false,
       logoutIcon: SwitchButton,
       sidIcon,
       dashboardIcon
     }
+  },
+
+  computed: {
+    ...mapState(navigationStore, ['isCollapse'])
   },
 
   created () {
@@ -40,16 +45,19 @@ export default {
   },
 
   methods: {
+    ...mapActions(navigationStore, ['toggleNavigationBar']),
+
     getChildren (menu) {
       return this.menuItems[menu].children
     },
 
     toggleNavigation () {
-      this.isCollapse = !this.isCollapse
-      this.$emit('toggle', this.isCollapse)
+      this.toggleNavigationBar()
     },
 
     logout () {
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
       this.redirectTo('Login')
     }
   }
