@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider namespace="ep">
+  <el-config-provider namespace="el">
     <div
       v-if="routeIsNotLogin"
       class="app"
@@ -16,7 +16,7 @@
           class="app__pages"
         >
           <router-view
-            v-if="visibleRouterView"
+            v-if="routeIsNotLogin"
             class="app__content"
           />
         </section>
@@ -26,7 +26,7 @@
         class="app__nav"
         :class="{ collapse : isCollapse }"
       >
-        <app-navigation @toggle="toggleNavigation"/>
+        <app-navigation />
       </nav>
     </div>
     <router-view v-else />

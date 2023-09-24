@@ -1,5 +1,7 @@
+import { mapState } from 'pinia'
 import AppHeader from '~/components/AppHeader.vue'
 import AppNavigation from '~/components/AppNavigation.vue'
+import { navigationStore } from '~/store/navigation'
 
 export default {
   name: 'app',
@@ -12,21 +14,18 @@ export default {
   data () {
     return {
       innerHeight: window.innerHeight,
-      // TODO: need to move isCollapse to store
-      isCollapse: false,
-      visibleRouterView: true
+      visibleRouterView: true,
+      routeIsNotLogin: false
     }
   },
 
   computed: {
-    routeIsNotLogin () {
-      return this.$route.name !== 'Login'
-    }
+    ...mapState(navigationStore, ['isCollapse'])
   },
 
-  methods: {
-    toggleNavigation (isCollapse) {
-      this.isCollapse = isCollapse
+  watch: {
+    '$route.name' () {
+      this.routeIsNotLogin = this.$route.name !== 'Login'
     }
   }
 }

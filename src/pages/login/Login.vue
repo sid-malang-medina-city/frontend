@@ -31,13 +31,15 @@
             placeholder="Masukkan password"
             type="password"
             show-password
+            @keypress.enter="submit"
           />
         </div>
         <el-button
           :disabled="isSubmitButtonDisabled"
+          :loading="visibleLoading"
           type="primary"
           class="login__submit-btn"
-          @click="login"
+          @click="submit"
         >
           Login Akun
         </el-button>
