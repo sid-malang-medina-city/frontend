@@ -1,5 +1,8 @@
+import { mapActions } from 'pinia'
+
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
+import ToastHandler from '~/mixins/toast-handler'
 
 import {
   ArrowDown,
@@ -9,11 +12,12 @@ import {
   Edit,
   Delete
 } from '@element-plus/icons-vue'
+import { userStore } from '../../../store/users'
 
 export default {
   name: 'manajemen-user',
 
-  mixins: [RouterHandler],
+  mixins: [RouterHandler, ToastHandler],
 
   components: {
     PageHeader,
@@ -67,11 +71,13 @@ export default {
   },
 
   methods: {
+    ...mapActions(userStore, ['fetchUsers']),
+
     async getUsers () {
       this.visibleLoadingTable = true
       try {
         const { data } = await this.fetchUsers(this.filters)
-        this.users = JSON.parse(JSON.stringify(data.users))
+        this.users = JSON.parse(JSON.stringify(data.data))
         this.totalUsers = data.pagination.totalUsers
       } catch (error) {
         this.showErrorResponse(error)
