@@ -11,4 +11,7 @@ export default {
   createUser (body) {
     return api.postRequest(apiUrls.users.list, body)
   },
+  editUser (id, body) {
+    return api.putRequest(apiUrls.users.edit(id), body)
+  }
 }
