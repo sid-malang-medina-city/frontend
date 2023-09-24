@@ -1,4 +1,5 @@
 import { mapActions } from 'pinia'
+import { userStore } from '~/store/users'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -12,7 +13,6 @@ import {
   Edit,
   Delete
 } from '@element-plus/icons-vue'
-import { userStore } from '../../../store/users'
 
 export default {
   name: 'manajemen-user',
@@ -98,6 +98,10 @@ export default {
 
     toggleFilter () {
       this.visibleFilter = !this.visibleFilter
+    },
+
+    goToCreatePage () {
+      this.redirectTo('ManajemenUserCreate')
     }
   }
 }

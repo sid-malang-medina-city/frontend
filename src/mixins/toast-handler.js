@@ -2,7 +2,7 @@ export default {
   methods: {
     async showToast (
       message,
-      type = 'error',
+      type = 'success',
       duration = 7000,
       showClose = true
     ) {
