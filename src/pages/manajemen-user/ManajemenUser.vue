@@ -93,6 +93,7 @@
           class="manajemen-user__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
+          @row-click="goToDetailPage"
         >
           <el-table-column
             prop="name"

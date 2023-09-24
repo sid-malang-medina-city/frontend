@@ -115,6 +115,14 @@ export default {
       })
     },
 
+    goToDetailPage ({ id }) {
+      this.redirectTo('ManajemenUserDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
@@ -134,7 +142,7 @@ export default {
 
     async handleDeleteUser(id) {
       try {
-        await this.deleteUser({ id: id})
+        await this.deleteUser({ id: id })
       } catch (error) {
         this.showErrorResponse(error)
       }
