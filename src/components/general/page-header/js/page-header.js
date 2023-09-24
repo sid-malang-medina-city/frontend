@@ -3,6 +3,8 @@ import { Back } from '@element-plus/icons-vue'
 export default {
   name: 'page-header',
 
+  emits: ['back'],
+
   props: {
     title: {
       type: String,
@@ -17,5 +19,11 @@ export default {
 
   components: {
     Back
+  },
+
+  methods: {
+    back () {
+      this.$emit('back')
+    }
   }
 }

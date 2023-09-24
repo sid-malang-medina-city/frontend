@@ -46,5 +46,14 @@ export default [
         'totalPage': 2
       }
     }
+  },
+  {
+    url: BASE_URL + '/users/',
+    method: 'POST',
+    response: {
+      'code': 200,
+      'status': 'OK',
+      'data': true
+    }
   }
 ]

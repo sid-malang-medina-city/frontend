@@ -3,6 +3,7 @@
     <el-icon
       v-if="showBackIcon"
       class="page-header__icon"
+      @click="back"
     >
       <Back />
     </el-icon>

@@ -18,6 +18,7 @@
           <el-button
             type="primary"
             class="actions__create-btn"
+            @click="goToCreatePage"
           >
             Tambah User
             <el-icon class="el-icon--right">

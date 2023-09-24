@@ -7,5 +7,8 @@ export default {
   },
   fetchUsers (params) {
     return api.getRequest(apiUrls.users.list, params)
-  }
+  },
+  createUser (body) {
+    return api.postRequest(apiUrls.users.list, body)
+  },
 }
