@@ -34,7 +34,8 @@ export default {
         confirmPassword: '',
       },
       error: {
-        email: ''
+        email: '',
+        password: ''
       },
       // TODO need to update divisis and roles, this is temporary for mock usage
       divisis: ['Marketing', 'Verifikasi', 'Teknik'],
@@ -70,8 +71,18 @@ export default {
       return true
     },
 
+    validatePassword () {
+      if (!!+this.formData.password || this.formData.password.length < 8) {
+        this.error.password = 'Password tidak boleh semua numerik dan minimal 8 karakter'
+        return false
+      }
+      
+      this.error.password = ''
+      return true
+    },
+
     async submit () {
-      if (this.validateEmail()) {
+      if (this.validateEmail() && this.validatePassword()) {
         this.visibleLoading = true
         try {
           await this.createUser(this.formData)

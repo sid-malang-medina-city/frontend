@@ -86,9 +86,21 @@
               </div>
               <el-input
                 v-model="formData.password"
+                :class="{ 'row__input--error': !!error.password }"
                 placeholder="Masukkan kata sandi"
                 class="row__input"
               />
+              <div class="row__password">
+                <el-icon
+                  v-if="!!error.password"
+                  color="#CC4E2E"
+                >
+                  <WarningFilled />
+                </el-icon>
+                <div class="row__password-msg">
+                  {{ error.password }}
+                </div>
+              </div>
             </div>
             <div class="rows__row row">
               <div class="row__label">
@@ -154,7 +166,7 @@
     }
 
     &__submit-btn {
-      width: 68px;
+      width: 100px;
     }
 
     .rows {
@@ -197,7 +209,7 @@
           }
         }
         
-        &__email {
+        &__email, &__password {
           margin-top: 4px;
           display: flex;
           gap: 4px;

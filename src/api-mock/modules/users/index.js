@@ -67,5 +67,14 @@ export default [
       'status': 'OK',
       'data': true
     }
+  },
+  {
+    url: BASE_URL + '/users/',
+    method: 'DELETE',
+    response: {
+      'code': 200,
+      'status': 'OK',
+      'data': true
+    }
   }
 ]

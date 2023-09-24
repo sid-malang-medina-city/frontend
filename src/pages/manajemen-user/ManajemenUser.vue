@@ -168,7 +168,6 @@
 @import "~/assets/scss/table.scss";
 
   .manajemen-user {
-
     &__actions-wrapper {
       border-radius: 12px;
       border: 1px solid #EAEAEA;

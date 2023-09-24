@@ -13,5 +13,8 @@ export default {
   },
   editUser (id, body) {
     return api.putRequest(apiUrls.users.edit(id), body)
+  },
+  deleteUser (body) {
+    return api.deleteRequest(apiUrls.users.list, body)
   }
 }

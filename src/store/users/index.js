@@ -14,6 +14,9 @@ export const userStore = defineStore('UserStore', {
     },
     async editUser (id, body) {
       return api.editUser(id, body)
+    },
+    async deleteUser (body) {
+      return api.deleteUser(body)
     }
   }
 })
