@@ -21,23 +21,26 @@ export default [
       'status': 'OK',
       'data': [
         {
+          'id': 1,
           'name': 'Gafi',
           'email': 'gafi@gmail.com',
           'divisi': 'Marketing',
           'role': 'Admin'
         },
-        {
-          'name': 'Ali',
-          'email': 'ali@gmail.com',
-          'divisi': 'Verifikasi',
-          'role': 'Staff'
-        },
-        {
-          'name': 'Fani',
-          'email': 'fani@gmail.com',
-          'divisi': 'Teknik',
-          'role': 'Staff'
-        }
+        // {
+        //   'id': 2,
+        //   'name': 'Ali',
+        //   'email': 'ali@gmail.com',
+        //   'divisi': 'Verifikasi',
+        //   'role': 'Staff'
+        // },
+        // {
+        //   'id': 3,
+        //   'name': 'Fani',
+        //   'email': 'fani@gmail.com',
+        //   'divisi': 'Teknik',
+        //   'role': 'Staff'
+        // }
       ],
       'pagination': {
         'totalUsers': 15,
@@ -50,6 +53,15 @@ export default [
   {
     url: BASE_URL + '/users/',
     method: 'POST',
+    response: {
+      'code': 200,
+      'status': 'OK',
+      'data': true
+    }
+  },
+  {
+    url: BASE_URL + '/users/1',
+    method: 'PUT',
     response: {
       'code': 200,
       'status': 'OK',

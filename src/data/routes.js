@@ -2,6 +2,7 @@ const Dashboard = () => import(/* webpackChunkName: "p-dashboard" */ '~/pages/da
 const Login = () => import(/* webpackChunkName: "p-login" */ '~/pages/login/Login.vue')
 const ManajemenUser = () => import(/* webpackChunkName: "p-manajemen-user" */ '~/pages/manajemen-user/ManajemenUser.vue')
 const ManajemenUserCreate = () => import(/* webpackChunkName: "p-manajemen-user-create" */ '~/pages/manajemen-user/create/ManajemenUserCreate.vue')
+const ManajemenUserEdit = () => import(/* webpackChunkName: "p-manajemen-user-edit" */ '~/pages/manajemen-user/edit/ManajemenUserEdit.vue')
 
 export default [
   {
@@ -43,6 +44,17 @@ export default [
       title: 'Manajemen User Create',
       module: 'MANAJEMEN_USER',
       action: 'MANAJEMEN_USER_CREATE',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/manajemen-user/edit/:id',
+    name: 'ManajemenUserEdit',
+    component: ManajemenUserEdit,
+    meta: {
+      title: 'Manajemen User Edit',
+      module: 'MANAJEMEN_USER',
+      action: 'MANAJEMEN_USER_EDIT',
       requireLogin: true
     }
   }

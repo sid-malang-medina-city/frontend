@@ -1,6 +1,7 @@
 export default {
   users: {
     login: '/users/login/',
-    list: '/users/'
+    list: '/users/',
+    edit: id => `/users/${encodeURIComponent(id)}`
   }
 }

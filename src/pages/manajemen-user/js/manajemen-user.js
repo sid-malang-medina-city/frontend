@@ -102,6 +102,14 @@ export default {
 
     goToCreatePage () {
       this.redirectTo('ManajemenUserCreate')
+    },
+
+    goToEditPage (id) {
+      this.redirectTo('ManajemenUserEdit', {
+        params: {
+          id: id
+        }
+      })
     }
   }
 }

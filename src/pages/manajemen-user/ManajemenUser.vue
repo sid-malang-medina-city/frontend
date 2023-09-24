@@ -127,14 +127,14 @@
                   type="primary"
                   class="table__actions-edit"
                   text
-                  @click.stop="goToEditPage(scope.row.email)"
+                  @click.stop="goToEditPage(scope.row.id)"
                 />
                 <el-button
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"
                   text
-                  @click.stop="openModalConfirmation(scope.row.email)"
+                  @click.stop="openModalConfirmation(scope.row.id)"
                 />
               </div>
             </template>
