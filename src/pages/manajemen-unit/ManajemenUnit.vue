@@ -1,11 +1,10 @@
 <template>
-  <div class="manajemen-user">
-    <page-header title="Manajemen User" />
-    <div class="manajemen-user__wrapper page-content">
-      <div class="manajemen-user__actions-wrapper">
-        <div class="manajemen-user__actions actions">
+  <div class="manajemen-unit">
+    <page-header title="Manajemen Unit" />
+    <div class="manajemen-unit__wrapper page-content">
+      <div class="manajemen-unit__actions-wrapper">
+        <div class="manajemen-unit__actions actions">
           <el-button
-            type="secondary"
             class="actions__filter-btn"
             @click="toggleFilter"
           >
@@ -18,9 +17,8 @@
           <el-button
             type="primary"
             class="actions__create-btn"
-            @click="goToCreatePage"
           >
-            Tambah User
+            Tambah Unit
             <el-icon class="el-icon--right">
               <Plus />
             </el-icon>
@@ -28,15 +26,15 @@
         </div>
         <div
           v-if="visibleFilter"
-          class="manajemen-user__filters filters"
+          class="manajemen-unit__filters filters"
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Nama/Email
+              Nomor Kavling
             </div>
             <el-input
-              v-model="filters.username"
-              placeholder="Cari berdasarkan nama/email"
+              v-model="filters.lotNumber"
+              placeholder="Cari berdasarkan nomor kavling"
               class="filters__input"
               @keyup.enter="handleFilterChange()"
             >
@@ -48,9 +46,18 @@
 
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Divisi
+              Range Harga
             </div>
-            <el-select
+            <el-slider
+              v-model="priceRange"
+              :min="minPrice"
+              :max="maxPrice"
+              :format-tooltip="helpers.convertPriceToRupiah"
+              class="filters__slider"
+              range
+              @change="handleFilterChange()"
+            />
+            <!-- <el-select
               v-model="filters.divisi"
               placeholder="Pilih divisi"
               class="filters__input"
@@ -62,57 +69,69 @@
                 :label="divisi"
                 :value="divisi"
               />
-            </el-select>
+            </el-select> -->
           </div>
 
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Role
+              Status
             </div>
             <el-select
               v-model="filters.role"
-              placeholder="Pilih role"
+              placeholder="Pilih status"
               class="filters__input"
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="role in roles"
-                :key="role"
-                :label="role"
-                :value="role"
+                v-for="status in statuses"
+                :key="status"
+                :label="status"
+                :value="status"
               />
             </el-select>
           </div>
         </div>
       </div>
 
-      <div class="manajemen-user__table-wrapper">
+      <div class="manajemen-unit__table-wrapper">
         <el-table
           v-loading="visibleLoadingTable"
-          :data="users"
-          class="manajemen-user__table table general-table"
+          :data="units"
+          class="manajemen-unit__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
-          @row-click="goToDetailPage"
         >
           <el-table-column
-            prop="name"
-            label="Nama"
+            prop="lotNumber"
+            label="Nomor Kavling"
             min-width="220"
           />
           <el-table-column
-            prop="email"
-            label="Email"
+            prop="status"
+            label="Status"
             min-width="210"
-          />
+          >
+            <template #default="scope">
+              <status-badge
+                :color="statusColors[scope.row.status]"
+                :text="scope.row.status"
+              />
+            </template>
+          </el-table-column>
           <el-table-column
-            prop="divisi"
-            label="Divisi"
+            prop="price"
+            label="Harga Unit"
             min-width="180"
-          />
+          >
+            <template #default="scope">
+              <div>
+                {{ helpers.convertPriceToRupiah(scope.row.price) }}
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
-            prop="role"
-            label="Role"
+            prop="type"
+            label="Tipe Unit"
             min-width="170"
           />
           <el-table-column
@@ -128,28 +147,27 @@
                   type="primary"
                   class="table__actions-edit"
                   text
-                  @click.stop="goToEditPage(scope.row.id)"
                 />
                 <el-button
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"
                   text
-                  @click.stop="openModalConfirmation(scope.row.id)"
+                  @click.stop="openModalConfirmation(scope.row.lotNumber)"
                 />
               </div>
             </template>
           </el-table-column>
         </el-table>
-        <div class="manajemen-user__footer">
-          <div class="manajemen-user__total-users font-grey">
-            Showing {{ totalShownUsers }} of {{ totalUsers }} user
+        <div class="manajemen-unit__footer">
+          <div class="manajemen-unit__total-units font-grey">
+            Showing {{ totalShownUnits }} of {{ totalUnits }} unit
           </div>
-          <div class="manajemen-user__pagination">
+          <div class="manajemen-unit__pagination">
             <el-pagination
               :current-page="pagination.page"
               :page-size="pagination.size"
-              :total="totalUsers"
+              :total="totalUnits"
               layout="prev, pager, next"
               background
               hide-on-single-page
@@ -162,13 +180,13 @@
   </div>
 </template>
 
-<script src="./js/manajemen-user.js"></script>
+<script src="./js/manajemen-unit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-user {
+  .manajemen-unit {
     &__actions-wrapper {
       border-radius: 12px;
       border: 1px solid #EAEAEA;
@@ -207,7 +225,7 @@
         font-weight: 600;
       }
 
-      &__input {
+      &__input, &__slider {
         width: 265px;
       }
     }
