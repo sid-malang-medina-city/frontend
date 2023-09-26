@@ -59,10 +59,6 @@ export default {
       const lastPageSize = totalItems % size
 
       return (totalItems >= totalSize) ? size : lastPageSize
-    },
-
-    isAnyFilterFilled () {
-      return !!this.filters.username || !!this.filters.divisi || !!this.filters.role
     }
   },
 
