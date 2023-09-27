@@ -34,13 +34,14 @@ export default {
       error: {
         email: ''
       },
-      // TODO need to update divisis and roles, this is temporary for mock usage
-      divisis: ['Marketing', 'Verifikasi', 'Teknik'],
-      roles: ['Staff', 'Admin', 'Manager']
+      divisions: [],
+      roles: []
     }
   },
 
   created () {
+    this.getRoles()
+    this.getDivisions()
     this.initData()
   },
 
@@ -58,8 +59,28 @@ export default {
   methods: {
     ...mapActions(userStore, [
       'fetchUsers',
-      'editUser'
+      'editUser',
+      'fetchDivisions',
+      'fetchRoles',
     ]),
+
+    async getRoles () {
+      try {
+        const { data } = await this.fetchRoles()
+        this.roles = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    async getDivisions () {
+      try {
+        const { data } = await this.fetchDivisions()
+        this.divisions = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
 
     async initData () {
       try {

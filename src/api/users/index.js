@@ -16,5 +16,11 @@ export default {
   },
   deleteUser (body) {
     return api.deleteRequest(apiUrls.users.list, body)
-  }
+  },
+  fetchRoles (params) {
+    return api.getRequest(apiUrls.users.roles, params)
+  },
+  fetchDivisions (params) {
+    return api.getRequest(apiUrls.users.divisions, params)
+  },
 }

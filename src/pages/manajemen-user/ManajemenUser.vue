@@ -57,10 +57,10 @@
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="divisi in divisis"
-                :key="divisi"
-                :label="divisi"
-                :value="divisi"
+                v-for="divisi in divisions"
+                :key="divisi.code"
+                :label="divisi.name"
+                :value="divisi.code"
               />
             </el-select>
           </div>
@@ -77,9 +77,9 @@
             >
               <el-option
                 v-for="role in roles"
-                :key="role"
-                :label="role"
-                :value="role"
+                :key="role.code"
+                :label="role.name"
+                :value="role.code"
               />
             </el-select>
           </div>

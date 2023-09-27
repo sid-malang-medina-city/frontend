@@ -38,7 +38,7 @@ export default {
         page: 1,
         size: 10
       },
-      divisis: [],
+      divisions: [],
       roles: [],
       users: [],
       totalUsers: 0,
@@ -64,11 +64,15 @@ export default {
 
   created () {
     this.getUsers()
+    this.getRoles()
+    this.getDivisions()
   },
 
   methods: {
     ...mapActions(userStore, [
       'fetchUsers',
+      'fetchRoles',
+      'fetchDivisions',
       'deleteUser'
     ]),
 
@@ -82,6 +86,24 @@ export default {
         this.showErrorResponse(error)
       } finally {
         this.visibleLoadingTable = false
+      }
+    },
+
+    async getRoles () {
+      try {
+        const { data } = await this.fetchRoles()
+        this.roles = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getDivisions () {
+      try {
+        const { data } = await this.fetchDivisions()
+        this.divisions = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
       }
     },
 

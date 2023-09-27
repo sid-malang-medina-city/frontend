@@ -17,6 +17,12 @@ export const userStore = defineStore('UserStore', {
     },
     async deleteUser (body) {
       return api.deleteUser(body)
+    },
+    async fetchRoles (params) {
+      return api.fetchRoles(params)
+    },
+    async fetchDivisions (params) {
+      return api.fetchDivisions(params)
     }
   }
 })
