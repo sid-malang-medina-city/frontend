@@ -24,8 +24,8 @@ export default [
           'id': 1,
           'name': 'Gafi',
           'email': 'gafi@gmail.com',
-          'divisi': 'Marketing',
-          'role': 'Admin'
+          'divisi': 'MARKETING',
+          'role': 'ADMINISTRATOR'
         },
         // {
         //   'id': 2,
@@ -75,6 +75,61 @@ export default [
       'code': 200,
       'status': 'OK',
       'data': true
+    }
+  },
+  {
+    url: BASE_URL + '/users/roles/',
+    method: 'GET',
+    response: {
+      'code': 200,
+      'status': 'OK',
+      'data': [
+        {
+            'id': 1,
+            'name': 'Administrator',
+            'code': 'ADMINISTRATOR'
+        },
+        {
+            'id': 2,
+            'name': 'Manager',
+            'code': 'MANAGER'
+        },
+        {
+            'id': 3,
+            'name': 'Staff',
+            'code': 'STAFF'
+        }
+      ]
+    }
+  },
+  {
+    url: BASE_URL + '/users/divisions/',
+    method: 'GET',
+    response: {
+      'code': 200,
+      'status': 'OK',
+      'data': [
+        {
+            'id': 1,
+            'name': 'Admin',
+            'code': 'ADMIN'
+        },
+        {
+            'id': 2,
+            'name': 'Marketing',
+            'code': 'MARKETING'
+        },
+        {
+            'id': 3,
+            'name': 'Verifikasi',
+            'code': 'VERIFIKASI'
+        },
+        {
+            'id': 4,
+            'name': 'Teknik',
+            'code': 'TEKNIK'
+        }
+      ]
     }
   }
 ]

@@ -57,19 +57,6 @@
               range
               @change="handleFilterChange()"
             />
-            <!-- <el-select
-              v-model="filters.divisi"
-              placeholder="Pilih divisi"
-              class="filters__input"
-              @change="handleFilterChange()"
-            >
-              <el-option
-                v-for="divisi in divisis"
-                :key="divisi"
-                :label="divisi"
-                :value="divisi"
-              />
-            </el-select> -->
           </div>
 
           <div class="filters__input-wrapper">
