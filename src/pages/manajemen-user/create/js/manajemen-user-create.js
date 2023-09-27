@@ -51,6 +51,10 @@ export default {
     isAllRequiredFieldsFilled () {
       const requiredFields = Object.keys(this.formData)
       return requiredFields.every(field => !!this.formData[field])
+    },
+
+    isSubmitButtonDisabled () {
+      return this.isAllRequiredFieldsFilled && this.isPasswordSame
     }
   },
 

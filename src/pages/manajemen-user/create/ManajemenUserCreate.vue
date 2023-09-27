@@ -127,7 +127,7 @@
         </div>
         <div class="manajemen-user-create__submit-section">
           <el-button
-            :disabled="!isAllRequiredFieldsFilled"
+            :disabled="!isSubmitButtonDisabled"
             type="primary"
             class="manajemen-user-create__submit-btn"
             @click="submit"
