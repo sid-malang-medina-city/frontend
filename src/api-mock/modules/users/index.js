@@ -24,8 +24,8 @@ export default [
           'id': 1,
           'name': 'Gafi',
           'email': 'gafi@gmail.com',
-          'division': 'MARKETING',
-          'role': 'ADMINISTRATOR'
+          'division': 'Marketing',
+          'role': 'Administrator'
         },
         // {
         //   'id': 2,
