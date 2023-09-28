@@ -5,17 +5,23 @@ export default {
   login (body) {
     return api.postRequest(apiUrls.users.login, body)
   },
+  refreshAccessToken () {
+    return api.postRequest(apiUrls.users.refreshToken, { refresh: localStorage.getItem('refreshToken') })
+  },
   fetchUsers (params) {
     return api.getRequest(apiUrls.users.list, params)
   },
+  fetchUser (id) {
+    return api.getRequest(apiUrls.users.detail(id))
+  },
   createUser (body) {
-    return api.postRequest(apiUrls.users.list, body)
+    return api.postRequest(apiUrls.users.create, body)
   },
   editUser (id, body) {
-    return api.putRequest(apiUrls.users.edit(id), body)
+    return api.putRequest(apiUrls.users.detail(id), body)
   },
-  deleteUser (body) {
-    return api.deleteRequest(apiUrls.users.list, body)
+  deleteUser (id) {
+    return api.deleteRequest(apiUrls.users.detail(id))
   },
   fetchRoles (params) {
     return api.getRequest(apiUrls.users.roles, params)

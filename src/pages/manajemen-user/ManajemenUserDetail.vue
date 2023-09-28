@@ -57,7 +57,7 @@
                   Divisi
                 </div>
                 <div class="content__value">
-                  {{ user.divisi }}
+                  {{ user.division }}
                 </div>
               </div>
               <div class="content__data">
