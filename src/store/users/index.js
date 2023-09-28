@@ -9,6 +9,9 @@ export const userStore = defineStore('UserStore', {
     async fetchUsers (params) {
       return api.fetchUsers(params)
     },
+    async fetchUser (id) {
+      return api.fetchUser(id)
+    },
     async createUser (body) {
       return api.createUser(body)
     },

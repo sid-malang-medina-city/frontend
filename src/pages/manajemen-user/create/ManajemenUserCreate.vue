@@ -25,15 +25,15 @@
                 Divisi
               </div>
               <el-select
-                v-model="formData.divisi"
+                v-model="formData.division"
                 placeholder="Pilih divisi"
                 class="row__input"
               >
                 <el-option
-                  v-for="divisi in divisions"
-                  :key="divisi.code"
-                  :label="divisi.name"
-                  :value="divisi.code"
+                  v-for="division in divisions"
+                  :key="division.code"
+                  :label="division.name"
+                  :value="division.code"
                 />
               </el-select>
             </div>

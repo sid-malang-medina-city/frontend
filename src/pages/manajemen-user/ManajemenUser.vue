@@ -35,7 +35,7 @@
               Nama/Email
             </div>
             <el-input
-              v-model="filters.username"
+              v-model="filters.search"
               placeholder="Cari berdasarkan nama/email"
               class="filters__input"
               @keyup.enter="handleFilterChange()"
@@ -51,16 +51,16 @@
               Divisi
             </div>
             <el-select
-              v-model="filters.divisi"
+              v-model="filters.division"
               placeholder="Pilih divisi"
               class="filters__input"
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="divisi in divisions"
-                :key="divisi.code"
-                :label="divisi.name"
-                :value="divisi.code"
+                v-for="division in divisions"
+                :key="division.code"
+                :label="division.name"
+                :value="division.code"
               />
             </el-select>
           </div>
@@ -106,7 +106,7 @@
             min-width="210"
           />
           <el-table-column
-            prop="divisi"
+            prop="division"
             label="Divisi"
             min-width="180"
           />

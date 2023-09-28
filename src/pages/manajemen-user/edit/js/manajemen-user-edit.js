@@ -27,7 +27,7 @@ export default {
     return {
       formData: {
         name: '',
-        divisi: '',
+        division: '',
         role: '',
         email: ''
       },
@@ -58,7 +58,7 @@ export default {
 
   methods: {
     ...mapActions(userStore, [
-      'fetchUsers',
+      'fetchUser',
       'editUser',
       'fetchDivisions',
       'fetchRoles',
@@ -67,7 +67,7 @@ export default {
     async getRoles () {
       try {
         const { data } = await this.fetchRoles()
-        this.roles = JSON.parse(JSON.stringify(data.data))
+        this.roles = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -76,7 +76,7 @@ export default {
     async getDivisions () {
       try {
         const { data } = await this.fetchDivisions()
-        this.divisions = JSON.parse(JSON.stringify(data.data))
+        this.divisions = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -84,8 +84,8 @@ export default {
 
     async initData () {
       try {
-        const { data } = await this.fetchUsers({ id: this.id })
-        this.formData = JSON.parse(JSON.stringify(data.data))[0]
+        const { data } = await this.fetchUser(this.id)
+        this.formData = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }

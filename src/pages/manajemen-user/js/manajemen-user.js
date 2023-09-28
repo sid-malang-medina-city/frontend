@@ -30,8 +30,8 @@ export default {
   data () {
     return {
       filters: {
-        username: this.$route.query.username || null,
-        divisi: this.$route.query.divisi || null,
+        search: this.$route.query.search || null,
+        division: this.$route.query.division || null,
         role: this.$route.query.role || null,
       },
       pagination: {
@@ -81,7 +81,7 @@ export default {
       try {
         const { data } = await this.fetchUsers(this.filters)
         this.users = JSON.parse(JSON.stringify(data.data))
-        this.totalUsers = data.pagination.totalUsers
+        this.totalUsers = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -92,7 +92,7 @@ export default {
     async getRoles () {
       try {
         const { data } = await this.fetchRoles()
-        this.roles = JSON.parse(JSON.stringify(data.data))
+        this.roles = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -101,7 +101,7 @@ export default {
     async getDivisions () {
       try {
         const { data } = await this.fetchDivisions()
-        this.divisions = JSON.parse(JSON.stringify(data.data))
+        this.divisions = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -160,7 +160,7 @@ export default {
 
     async handleDeleteUser(id) {
       try {
-        await this.deleteUser({ id: id })
+        await this.deleteUser(id)
       } catch (error) {
         this.showErrorResponse(error)
       }

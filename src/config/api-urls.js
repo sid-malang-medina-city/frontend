@@ -1,12 +1,15 @@
 export default {
   users: {
-    login: '/users/login/',
-    list: '/users/',
-    roles: '/users/roles/',
-    divisions: '/users/divisions/',
-    edit: id => `/users/${encodeURIComponent(id)}`
+    login: '/user/login',
+    list: '/users',
+    roles: '/user/roles',
+    divisions: '/user/divisions',
+    refreshToken: '/user/refresh-token',
+    create: '/user',
+    detail: id => `/user/${encodeURIComponent(id)}`
   },
   unit: {
-    list: '/unit/'
+    list: '/units',
+    detail: id => `/unit/${encodeURIComponent(id)}`
   }
 }

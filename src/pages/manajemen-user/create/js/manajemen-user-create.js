@@ -27,7 +27,7 @@ export default {
     return {
       formData: {
         name: '',
-        divisi: '',
+        division: '',
         role: '',
         email: '',
         password: '',
@@ -72,7 +72,7 @@ export default {
     async getRoles () {
       try {
         const { data } = await this.fetchRoles()
-        this.roles = JSON.parse(JSON.stringify(data.data))
+        this.roles = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -81,7 +81,7 @@ export default {
     async getDivisions () {
       try {
         const { data } = await this.fetchDivisions()
-        this.divisions = JSON.parse(JSON.stringify(data.data))
+        this.divisions = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
