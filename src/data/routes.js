@@ -5,6 +5,7 @@ const ManajemenUserDetail = () => import(/* webpackChunkName: "p-manajemen-user-
 const ManajemenUserCreate = () => import(/* webpackChunkName: "p-manajemen-user-create" */ '~/pages/manajemen-user/create/ManajemenUserCreate.vue')
 const ManajemenUserEdit = () => import(/* webpackChunkName: "p-manajemen-user-edit" */ '~/pages/manajemen-user/edit/ManajemenUserEdit.vue')
 const ManajemenUnit = () => import(/* webpackChunkName: "p-manajemen-unit" */ '~/pages/manajemen-unit/ManajemenUnit.vue')
+const ManajemenUnitCreate = () => import(/* webpackChunkName: "p-manajemen-unit-create" */ '~/pages/manajemen-unit/create/ManajemenUnitCreate.vue')
 
 export default [
   {
@@ -79,6 +80,17 @@ export default [
       title: 'Manajemen Unit',
       module: 'MANAJEMEN_UNIT',
       action: 'MANAJEMEN_UNIT_VIEW',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/manajemen-unit/create',
+    name: 'ManajemenUnitCreate',
+    component: ManajemenUnitCreate,
+    meta: {
+      title: 'Manajemen Unit Create',
+      module: 'MANAJEMEN_UNIT',
+      action: 'MANAJEMEN_UNIT_CREATE',
       requireLogin: true
     }
   },

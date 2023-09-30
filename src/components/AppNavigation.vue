@@ -81,7 +81,7 @@
             >
               <img
                 :src="menu.iconPath"
-                :class="{ grayscale: menu.routeName !== $route.name}"
+                :class="{ grayscale: menu.routeName !== $route.name, 'el-menu__icon--collapse': isCollapse }"
                 class="el-menu__icon"
                 alt=""
               >
