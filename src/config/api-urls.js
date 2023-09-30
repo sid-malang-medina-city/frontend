@@ -11,5 +11,9 @@ export default {
   unit: {
     list: '/units',
     detail: id => `/unit/${encodeURIComponent(id)}`
+  },
+  konsumen: {
+    list: '/konsumens',
+    detail: id => `konsumen/${encodeURIComponent(id)}`
   }
 }
