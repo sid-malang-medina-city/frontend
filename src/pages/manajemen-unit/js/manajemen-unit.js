@@ -153,6 +153,10 @@ export default {
       } catch (error) {
         this.showErrorResponse(error)
       }
+    },
+
+    goToManajemenUnitCreate () {
+      this.redirectTo('ManajemenUnitCreate')
     }
   }
 }

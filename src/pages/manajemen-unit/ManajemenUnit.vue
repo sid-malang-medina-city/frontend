@@ -17,6 +17,7 @@
           <el-button
             type="primary"
             class="actions__create-btn"
+            @click="goToManajemenUnitCreate"
           >
             Tambah Unit
             <el-icon class="el-icon--right">
