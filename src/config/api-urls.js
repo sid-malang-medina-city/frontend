@@ -9,7 +9,7 @@ export default {
     detail: id => `/user/${encodeURIComponent(id)}`
   },
   unit: {
-    list: '/units',
+    list: '/unit',
     detail: id => `/unit/${encodeURIComponent(id)}`
   },
   konsumen: {

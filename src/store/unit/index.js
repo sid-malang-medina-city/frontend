@@ -8,6 +8,9 @@ export const unitStore = defineStore('UnitStore', {
     },
     async deleteUnit (body) {
       return api.deleteUnit(body)
+    },
+    async createUnit (body) {
+      return api.createUnit(body)
     }
   }
 })

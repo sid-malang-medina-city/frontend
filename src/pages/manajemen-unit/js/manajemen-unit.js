@@ -16,10 +16,19 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 
-const STATUS_COLORS = {
-  'Booking': '#0BB1C4',
-  'Terjual': '#9D27C6',
-  'Tersedia': '#74C627'
+const STATUSES = {
+  'BOOKING': {
+    label: 'Booking',
+    color: '#0BB1C4'
+  },
+  'TERJUAL': {
+    label: 'Terjual',
+    color: '#9D27C6'
+  },
+  'TERSEDIA': {
+    label: 'Tersedia',
+    color: '#74C627'
+  }
 }
 
 export default {
@@ -40,8 +49,8 @@ export default {
     return {
       filters: {
         lotNumber: this.$route.query.lotNumber || null,
-        minPrice: this.$route.query.minPrice || null,
-        maxPrice:this.$route.query.maxPrice || null,
+        min_price: this.$route.query.min_price || null,
+        max_price:this.$route.query.max_price || null,
         status: this.$route.query.status || null,
       },
       pagination: {
@@ -60,7 +69,7 @@ export default {
         delete: Delete,
         edit: Edit
       },
-      statusColors: STATUS_COLORS,
+      statuses: STATUSES,
       helpers
     }
   },
@@ -104,8 +113,8 @@ export default {
       this.minPrice = 0
       this.maxPrice = 5000000000
 
-      if (this.filters.minPrice || this.filters.maxPrice) {
-        this.priceRange = [+this.filters.minPrice, +this.filters.maxPrice]
+      if (this.filters.min_price || this.filters.max_price) {
+        this.priceRange = [+this.filters.min_price, +this.filters.max_price]
         return
       }
 
@@ -118,8 +127,8 @@ export default {
     },
 
     handleFilterChange () {
-      this.filters.minPrice = this.priceRange[0]
-      this.filters.maxPrice = this.priceRange[1]
+      this.filters.min_price = this.priceRange[0]
+      this.filters.max_price = this.priceRange[1]
       this.setRouteParam('ManajemenUnit', { ...this.query, ...this.filters })
       this.getUnits()
     },
