@@ -26,36 +26,35 @@
 
         <div class="input-image-wrapper__image-upload image-upload">
           <el-upload
-            v-for="index in 3"
             :http-request="() => {}"
             :show-file-list="false"
-            :before-upload="validateUpload"
-            :class="{ error: uploadedImages[index-1].error }"
+            :before-upload="validateUpload1"
+            :class="{ error: uploadedImages[0].error }"
             accept=".jpg, .jpeg, .png"
             action=""
             class="image-upload__uploader"
           >
-            <template v-if="uploadedImages[index-1].visible">
+            <template v-if="uploadedImages[0].visible">
               <div
                 class="image-upload__content content"
-                :class="{ 'content--w-auto': uploadedImages[index-1].visible }"
+                :class="{ 'content--w-auto': uploadedImages[0].visible }"
                 @click.stop=""
-                @mouseenter="addVisibleImageActionIcons(index-1)"
-                @mouseleave="removeVisibleImageActionIcons(index-1)"
+                @mouseenter="addVisibleImageActionIcons(0)"
+                @mouseleave="removeVisibleImageActionIcons(0)"
               >
                 <img
-                  :src="uploadedImages[index-1].url"
-                  :class="{ 'content__img--hovered': visibleImageActionIcons[index-1] }"
+                  :src="uploadedImages[0].url"
+                  :class="{ 'content__img--hovered': visibleImageActionIcons[0] }"
                   alt=""
                   class="content__img"
                 />
                 <span
-                  v-if="visibleImageActionIcons[index-1]"
+                  v-if="visibleImageActionIcons[0]"
                   class="content__item-actions item-actions"
                 >
                   <div
                     class="item-actions__wrapper"
-                    @click="handlePictureCardPreview(index-1)"
+                    @click="handlePictureCardPreview(0)"
                   >
                     <el-icon color="#434343">
                       <View />
@@ -63,7 +62,133 @@
                   </div>
                   <div
                     class="item-actions__wrapper"
-                    @click="handleRemove(index-1)"
+                    @click="handleRemove(0)"
+                  >
+                    <el-icon color="#FF613A">
+                      <Delete />
+                    </el-icon>
+                  </div>
+                </span>
+              </div>
+            </template>
+            <div
+              v-else
+              class="image-upload__empty-state empty-state"
+            >
+              <img
+                :src="icons.uploadImage"
+                alt="Upload Image"
+                class="empty-state__upload-image-icon"
+              />
+              <div class="empty-state__desc">
+                Letakkan gambar unit disini atau telusuri gambar dari PC Anda
+              </div>
+              <div class="empty-state__format">
+                Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
+              </div>
+            </div>
+          </el-upload>
+          <el-upload
+            :http-request="() => {}"
+            :show-file-list="false"
+            :before-upload="validateUpload2"
+            :class="{ error: uploadedImages[1].error }"
+            accept=".jpg, .jpeg, .png"
+            action=""
+            class="image-upload__uploader"
+          >
+            <template v-if="uploadedImages[1].visible">
+              <div
+                class="image-upload__content content"
+                :class="{ 'content--w-auto': uploadedImages[1].visible }"
+                @click.stop=""
+                @mouseenter="addVisibleImageActionIcons(1)"
+                @mouseleave="removeVisibleImageActionIcons(1)"
+              >
+                <img
+                  :src="uploadedImages[1].url"
+                  :class="{ 'content__img--hovered': visibleImageActionIcons[1] }"
+                  alt=""
+                  class="content__img"
+                />
+                <span
+                  v-if="visibleImageActionIcons[1]"
+                  class="content__item-actions item-actions"
+                >
+                  <div
+                    class="item-actions__wrapper"
+                    @click="handlePictureCardPreview(1)"
+                  >
+                    <el-icon color="#434343">
+                      <View />
+                    </el-icon>
+                  </div>
+                  <div
+                    class="item-actions__wrapper"
+                    @click="handleRemove(1)"
+                  >
+                    <el-icon color="#FF613A">
+                      <Delete />
+                    </el-icon>
+                  </div>
+                </span>
+              </div>
+            </template>
+            <div
+              v-else
+              class="image-upload__empty-state empty-state"
+            >
+              <img
+                :src="icons.uploadImage"
+                alt="Upload Image"
+                class="empty-state__upload-image-icon"
+              />
+              <div class="empty-state__desc">
+                Letakkan gambar unit disini atau telusuri gambar dari PC Anda
+              </div>
+              <div class="empty-state__format">
+                Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
+              </div>
+            </div>
+          </el-upload>
+          <el-upload
+            :http-request="() => {}"
+            :show-file-list="false"
+            :before-upload="validateUpload3"
+            :class="{ error: uploadedImages[2].error }"
+            accept=".jpg, .jpeg, .png"
+            action=""
+            class="image-upload__uploader"
+          >
+            <template v-if="uploadedImages[2].visible">
+              <div
+                class="image-upload__content content"
+                :class="{ 'content--w-auto': uploadedImages[2].visible }"
+                @click.stop=""
+                @mouseenter="addVisibleImageActionIcons(2)"
+                @mouseleave="removeVisibleImageActionIcons(2)"
+              >
+                <img
+                  :src="uploadedImages[2].url"
+                  :class="{ 'content__img--hovered': visibleImageActionIcons[2] }"
+                  alt=""
+                  class="content__img"
+                />
+                <span
+                  v-if="visibleImageActionIcons[2]"
+                  class="content__item-actions item-actions"
+                >
+                  <div
+                    class="item-actions__wrapper"
+                    @click="handlePictureCardPreview(2)"
+                  >
+                    <el-icon color="#434343">
+                      <View />
+                    </el-icon>
+                  </div>
+                  <div
+                    class="item-actions__wrapper"
+                    @click="handleRemove(2)"
                   >
                     <el-icon color="#FF613A">
                       <Delete />
@@ -111,7 +236,7 @@
                 Nomor Kavling
               </div>
               <el-input
-                v-model="formData.noKavling"
+                v-model="formData.nomor_kavling"
                 placeholder="Masukkan nama unit"
                 class="row__input"
               />
@@ -121,7 +246,7 @@
                 Harga Unit
               </div>
               <el-input
-                v-model="formData.price"
+                v-model="formData.harga"
                 placeholder="Masukkan harga unit"
                 class="row__input"
               />
@@ -132,8 +257,13 @@
               <div class="row__label required">
                 Tipe Unit
               </div>
-              <el-select
-                v-model="formData.type"
+              <el-input
+                v-model="formData.tipe"
+                placeholder="Masukkan tipe unit"
+                class="row__input"
+              />
+              <!-- <el-select
+                v-model="formData.tipe"
                 placeholder="Pilih tipe unit"
                 class="row__input"
               >
@@ -143,7 +273,7 @@
                   :label="unit.name"
                   :value="unit.code"
                 />
-              </el-select>
+              </el-select> -->
             </div>
           </div>
           <div class="input-section__header header header--bordered">
@@ -163,7 +293,7 @@
                 Luas Bangunan
               </div>
               <el-input
-                v-model="formData.floorArea"
+                v-model="formData.luas_bangunan"
                 placeholder="Masukkan luas bangunan"
                 class="row__input"
               />
@@ -173,7 +303,7 @@
                 Luas Tanah
               </div>
               <el-input
-                v-model="formData.landArea"
+                v-model="formData.luas_tanah"
                 placeholder="Masukkan luas area"
                 class="row__input"
               />
@@ -184,8 +314,13 @@
               <div class="row__label">
                 Fasilitas
               </div>
-              <el-select
-                v-model="formData.facility"
+              <el-input
+                v-model="formData.fasilitas"
+                placeholder="Masukkan fasilitas"
+                class="row__input"
+              />
+              <!-- <el-select
+                v-model="formData.fasilitas"
                 placeholder="Pilih fasilitas"
                 class="row__input"
               >
@@ -195,14 +330,14 @@
                   :label="facility.name"
                   :value="facility.code"
                 />
-              </el-select>
+              </el-select> -->
             </div>
             <div class="rows__row row">
               <div class="row__label">
                 Daya Listrik
               </div>
               <el-input
-                v-model="formData.powerCapacity"
+                v-model="formData.daya_listrik"
                 placeholder="Masukkan daya listrik"
                 class="row__input"
               />
@@ -214,7 +349,7 @@
                 Jumlah Kamar Tidur
               </div>
               <el-input
-                v-model="formData.totalBedrooms"
+                v-model="formData.jumlah_kamar_tidur"
                 placeholder="Masukkan jumlah kamar tidur"
                 class="row__input"
               />
@@ -224,7 +359,7 @@
                 Jumlah Kamar Mandi
               </div>
               <el-input
-                v-model="formData.totalBathrooms"
+                v-model="formData.jumlah_kamar_mandi"
                 placeholder="Masukkan jumlah kamar mandi"
                 class="row__input"
               />

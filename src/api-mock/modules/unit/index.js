@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default [
   {
-    url: BASE_URL + '/units',
+    url: BASE_URL + '/unit',
     method: 'GET',
     response: {
       'code': 200,
@@ -38,6 +38,15 @@ export default [
   {
     url: BASE_URL + '/unit',
     method: 'DELETE',
+    response: {
+      'code': 200,
+      'status': 'OK',
+      'data': true
+    }
+  },
+  {
+    url: BASE_URL + '/unit',
+    method: 'POST',
     response: {
       'code': 200,
       'status': 'OK',

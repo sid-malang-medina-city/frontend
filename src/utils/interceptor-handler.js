@@ -6,6 +6,7 @@ export const requestInterceptor = async config => {
   const accessToken = localStorage.getItem('accessToken')
   config.headers = { 
     'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'multipart/form-data'
   }
   return config
 }

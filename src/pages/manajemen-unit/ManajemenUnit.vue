@@ -90,7 +90,7 @@
           stripe
         >
           <el-table-column
-            prop="lotNumber"
+            prop="nomor_kavling"
             label="Nomor Kavling"
             min-width="220"
           />
@@ -101,24 +101,24 @@
           >
             <template #default="scope">
               <status-badge
-                :color="statusColors[scope.row.status]"
-                :text="scope.row.status"
+                :color="statuses[scope.row.status].color"
+                :text="statuses[scope.row.status].label"
               />
             </template>
           </el-table-column>
           <el-table-column
-            prop="price"
+            prop="harga"
             label="Harga Unit"
             min-width="180"
           >
             <template #default="scope">
               <div>
-                {{ helpers.convertPriceToRupiah(scope.row.price) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga) }}
               </div>
             </template>
           </el-table-column>
           <el-table-column
-            prop="type"
+            prop="tipe"
             label="Tipe Unit"
             min-width="170"
           />
