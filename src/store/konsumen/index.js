@@ -8,6 +8,9 @@ export const konsumenStore = defineStore('KonsumenStore', {
     },
     async deleteKonsumen (body) {
       return api.deleteKonsumen(body)
+    },
+    async createKonsumen (body) {
+      return api.createKonsumen(body)
     }
   }
 })

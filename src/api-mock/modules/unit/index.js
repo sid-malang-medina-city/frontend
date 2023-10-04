@@ -7,30 +7,26 @@ export default [
     response: {
       'code': 200,
       'status': 'OK',
-      'data': {
-        units: [
-          {
-            'lotNumber': 'A-12',
-            'status': 'Terjual',
-            'price': '2500000000',
-            'type': 'Tipe 70',
-          },
-          {
-            'lotNumber': 'A-13',
-            'status': 'Booking',
-            'price': '3500000000',
-            'type': 'Tipe 69',
-          },
-          {
-            'lotNumber': 'A-14',
-            'status': 'Tersedia',
-            'price': '4500000000',
-            'type': 'Tipe 71',
-          }
-        ],
-        minPrice: 2500000000,
-        maxPrice: 4500000000
-      },
+      'data': [
+        {
+          'no_kavling': 'A-12',
+          'status': 'Terjual',
+          'price': '2500000000',
+          'type': 'Tipe 70',
+        },
+        {
+          'no_kavling': 'A-13',
+          'status': 'Booking',
+          'price': '3500000000',
+          'type': 'Tipe 69',
+        },
+        {
+          'no_kavling': 'A-14',
+          'status': 'Tersedia',
+          'price': '4500000000',
+          'type': 'Tipe 71',
+        }
+      ],
       'pagination': {
         'totalUnits': 15,
         'page': 1,

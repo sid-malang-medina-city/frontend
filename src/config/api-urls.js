@@ -1,7 +1,7 @@
 export default {
   users: {
     login: '/user/login',
-    list: '/users',
+    list: '/user',
     roles: '/user/roles',
     divisions: '/user/divisions',
     refreshToken: '/user/refresh-token',
@@ -13,7 +13,10 @@ export default {
     detail: id => `/unit/${encodeURIComponent(id)}`
   },
   konsumen: {
-    list: '/konsumens',
+    list: '/konsumen',
     detail: id => `konsumen/${encodeURIComponent(id)}`
+  },
+  marketer: {
+    list: '/marketer'
   }
 }

@@ -148,6 +148,10 @@ export default {
       } catch (error) {
         this.showErrorResponse(error)
       }
+    },
+
+    goToCreatePage () {
+      this.redirectTo('ManajemenKonsumenCreate')
     }
   }
 }

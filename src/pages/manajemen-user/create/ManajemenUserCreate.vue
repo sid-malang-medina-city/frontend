@@ -6,6 +6,8 @@
       @back="goToManajemenUser"
     />
 
+    <img src="https://storage.googleapis.com/sid-mmc.appspot.com/test/Logo%20Ver1-Sakitapa.png?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=firebase-adminsdk-lixh8%40sid-mmc.iam.gserviceaccount.com%2F20231002%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20231002T121936Z&X-Goog-Expires=1800&X-Goog-SignedHeaders=host&X-Goog-Signature=33efd321507faf82401b8ca91be4aca2492623905c0dcf54e928fa05751df0121514fc55448c26909989739cc915d8b660fd2d930bc3c97d330b0e424ad88cf8c896662796358aed45f965325873570e527830ad8bbbf5934aca9f8ef68897fa4a7e5ad787dd3366dd9bf48b03d3aff42536be47a388ec6450e8896a7102732edce6508a5c6822a83c4764ae418d86e147188b01a19629e9e8738a8bc5196c45022201d77475ecc1c3d0fc3c8d7a6f4bea93f10a60be02db97159f7312f8ab6ab80cb860f85879f7734101a4ab27752c263e6be0472e9ab3deec311acfd92d2fbaf5b2d13e21844c97c8a26199fb15f09d363e25e78b79c9448f146d5007997f">
+
     <div class="page-content">
       <div class="manajemen-user-create__wrapper">
         <div class="manajemen-user-create__input-section input-section">

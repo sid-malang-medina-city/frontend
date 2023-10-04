@@ -14,7 +14,7 @@ export default [
     }
   },
   {
-    url: BASE_URL + '/users',
+    url: BASE_URL + '/user',
     method: 'GET',
     response: {
       'code': 200,
@@ -27,20 +27,20 @@ export default [
           'division': 'Marketing',
           'role': 'Administrator'
         },
-        // {
-        //   'id': 2,
-        //   'name': 'Ali',
-        //   'email': 'ali@gmail.com',
-        //   'division': 'Verifikasi',
-        //   'role': 'Staff'
-        // },
-        // {
-        //   'id': 3,
-        //   'name': 'Fani',
-        //   'email': 'fani@gmail.com',
-        //   'division': 'Teknik',
-        //   'role': 'Staff'
-        // }
+        {
+          'id': 2,
+          'name': 'Ali',
+          'email': 'ali@gmail.com',
+          'division': 'Verifikasi',
+          'role': 'Staff'
+        },
+        {
+          'id': 3,
+          'name': 'Fani',
+          'email': 'fani@gmail.com',
+          'division': 'Teknik',
+          'role': 'Staff'
+        }
       ],
       'pagination': {
         'page': 1,

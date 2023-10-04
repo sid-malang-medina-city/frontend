@@ -90,8 +90,8 @@ export default {
       this.visibleLoadingTable = true
       try {
         const { data } = await this.fetchUnits(this.filters)
-        this.units = JSON.parse(JSON.stringify(data.data.units))
-        this.totalUnits = data.pagination.totalUnits
+        this.units = JSON.parse(JSON.stringify(data.data))
+        this.totalUnits = data.pagination.total_items
         this.initPriceRange(data.data)
       } catch (error) {
         this.showErrorResponse(error)
@@ -100,9 +100,9 @@ export default {
       }
     },
 
-    initPriceRange (data) {
-      this.minPrice = data.minPrice
-      this.maxPrice = data.maxPrice
+    initPriceRange () {
+      this.minPrice = 0
+      this.maxPrice = 5000000000
 
       if (this.filters.minPrice || this.filters.maxPrice) {
         this.priceRange = [+this.filters.minPrice, +this.filters.maxPrice]

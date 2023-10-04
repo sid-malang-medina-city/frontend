@@ -7,5 +7,8 @@ export default {
   },
   deleteKonsumen (id) {
     return api.deleteRequest(apiUrls.konsumen.detail(id))
+  },
+  createKonsumen (body) {
+    return api.postRequest(apiUrls.konsumen.list, body)
   }
 }

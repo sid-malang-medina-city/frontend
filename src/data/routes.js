@@ -7,6 +7,7 @@ const ManajemenUserEdit = () => import(/* webpackChunkName: "p-manajemen-user-ed
 const ManajemenUnit = () => import(/* webpackChunkName: "p-manajemen-unit" */ '~/pages/manajemen-unit/ManajemenUnit.vue')
 const ManajemenUnitCreate = () => import(/* webpackChunkName: "p-manajemen-unit-create" */ '~/pages/manajemen-unit/create/ManajemenUnitCreate.vue')
 const ManajemenKonsumen = () => import(/* webpackChunkName: "p-manajemen-konsumen" */ '~/pages/manajemen-konsumen/ManajemenKonsumen.vue')
+const ManajemenKonsumenCreate = () => import(/* webpackChunkName: "p-manajemen-konsumen-create" */ '~/pages/manajemen-konsumen/create/ManajemenKonsumenCreate.vue')
 
 export default [
   {
@@ -103,6 +104,17 @@ export default [
       title: 'Manajemen Konsumen',
       module: 'MANAJEMEN_KONSUMEN',
       action: 'MANAJEMEN_KONSUMEN_VIEW',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/manajemen-konsumen/create',
+    name: 'ManajemenKonsumenCreate',
+    component: ManajemenKonsumenCreate,
+    meta: {
+      title: 'Manajemen Konsumen Create',
+      module: 'MANAJEMEN_KONSUMEN',
+      action: 'MANAJEMEN_KONSUMEN_CREATE',
       requireLogin: true
     }
   }
