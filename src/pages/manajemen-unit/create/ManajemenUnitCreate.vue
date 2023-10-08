@@ -296,7 +296,13 @@
                 v-model="formData.luas_bangunan"
                 placeholder="Masukkan luas bangunan"
                 class="row__input"
-              />
+              >
+                <template #append>
+                  <div>
+                    m<sup>2</sup>
+                  </div>
+                </template>
+              </el-input>
             </div>
             <div class="rows__row row">
               <div class="row__label">
@@ -306,7 +312,13 @@
                 v-model="formData.luas_tanah"
                 placeholder="Masukkan luas area"
                 class="row__input"
-              />
+              >
+                <template #append>
+                  <div>
+                    m<sup>2</sup>
+                  </div>
+                </template>
+              </el-input>
             </div>
           </div>
           <div class="input-section__rows rows">
@@ -487,7 +499,7 @@
           &__img {
             width: 250px;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 4px;
             transition: 0.3s;
 

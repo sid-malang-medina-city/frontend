@@ -9,14 +9,13 @@ export default {
     console.log(id)
     return api.getRequest(apiUrls.unit.detail(id))
   },
-  deleteUnit (body) {
-    return api.deleteRequest(apiUrls.unit.list, body)
+  deleteUnit (id) {
+    return api.deleteRequest(apiUrls.unit.detail(id))
   },
   createUnit (body) {
     return api.postRequest(apiUrls.unit.list, body)
   },
   editUnit (id, body) {
-    console.log('msk')
     return api.putRequest(apiUrls.unit.detail(id), body)
   }
 }

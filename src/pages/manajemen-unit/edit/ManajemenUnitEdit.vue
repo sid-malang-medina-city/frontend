@@ -494,7 +494,7 @@
           &__img {
             width: 250px;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 4px;
             transition: 0.3s;
 

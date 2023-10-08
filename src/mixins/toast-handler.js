@@ -4,6 +4,7 @@ export default {
       message,
       type = 'success',
       duration = 7000,
+      dangerouslyUseHTMLString = false,
       showClose = true
     ) {
       try {
@@ -11,6 +12,7 @@ export default {
           {
             message,
             duration,
+            dangerouslyUseHTMLString,
             showClose
           }
         )
@@ -18,16 +20,39 @@ export default {
     },
 
     /* display errors list from api response */
-    showErrorResponse (error, duration) {
-      if (error.response.code === 401) {
-        if (error.response.code === 500) {
+    showErrorResponse (error, duration = 3000) {
+      if (error.response.status === 401) {
+        if (error.response.status === 500) {
           this.showToast('Terjadi kesalahan. Tolong hubungi administrator terkait masalah ini.', 'error', 5000)
           return
         }
   
-        const message = error.response.data.detail
+        let message = error.response.data[Object.keys(error.response.data)[0]].join()
         this.showToast(message, 'error', duration)
       }
+
+      let errors = error.response.data
+      let message = `<div class="alert-list" style="display: flex; flex-direction: column; justify-content: center; gap: 5px;">`
+
+      for (const key in errors) {
+        const errorMessages = errors[key]
+        message += `
+          <div class="alert-list__item item">
+        `
+        message += errorMessages.reduce((acc, msg) => {
+          acc += `
+            <div class="item__list">
+              ${msg}
+            </div>
+          `
+          return acc
+        }, '')
+        message += '</div>'
+      }
+      message += '</div>'
+
+      // const message = error.response.data[Object.keys(error.response.data)[0]].join()
+      this.showToast(message, 'error', 20000, true)
     }
   }
 }

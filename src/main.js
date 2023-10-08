@@ -5,7 +5,7 @@ import './index.scss'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import router from './router'
-import apiMock from '~/api-mock/'
+// import apiMock from '~/api-mock/'
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -13,5 +13,5 @@ const app = createApp(App)
 app.use(router)
 app.use(pinia)
 app.use(ElementPlus)
-app.use(apiMock)
+// app.use(apiMock)
 app.mount('#app')

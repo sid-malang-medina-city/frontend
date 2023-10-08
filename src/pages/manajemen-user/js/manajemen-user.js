@@ -4,6 +4,7 @@ import { userStore } from '~/store/users'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import DebounceHandler from '~/mixins/debounce-handler'
 
 import {
   ArrowDown,
@@ -17,7 +18,7 @@ import {
 export default {
   name: 'manajemen-user',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, DebounceHandler],
 
   components: {
     PageHeader,
@@ -59,10 +60,18 @@ export default {
       const lastPageSize = totalItems % size
 
       return (totalItems >= totalSize) ? size : lastPageSize
+    },
+
+    generateFilters () {
+      return {
+        ...this.filters,
+        ...this.pagination
+      }
     }
   },
 
   created () {
+    this.visibleFilter = Object.keys(this.filters).some(key => !!this.filters[key])
     this.getUsers()
     this.getRoles()
     this.getDivisions()
@@ -79,7 +88,7 @@ export default {
     async getUsers () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchUsers(this.filters)
+        const { data } = await this.fetchUsers(this.generateFilters)
         this.users = JSON.parse(JSON.stringify(data.data))
         this.totalUsers = data.pagination.total_items
       } catch (error) {

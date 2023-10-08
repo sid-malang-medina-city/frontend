@@ -9,8 +9,8 @@ export const unitStore = defineStore('UnitStore', {
     async fetchUnit (id) {
       return api.fetchUnit(id)
     },
-    async deleteUnit (body) {
-      return api.deleteUnit(body)
+    async deleteUnit (id) {
+      return api.deleteUnit(id)
     },
     async createUnit (body) {
       return api.createUnit(body)

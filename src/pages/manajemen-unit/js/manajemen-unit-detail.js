@@ -48,6 +48,7 @@ export default {
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: [false, false, false],
       selectedImageUrl: '',
+      imageStartingIndex: 0,
       helpers
     }
   },
@@ -72,7 +73,7 @@ export default {
       try {
         console.log('masuk')
         const { data } = await this.fetchUnit(this.id)
-        this.unit = JSON.parse(JSON.stringify(data.data))
+        this.unit = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -128,8 +129,7 @@ export default {
         return this.unit.foto_2_access_url
       }
       if (index === 3) {
-        return null
-        // return this.unit.foto_3_access_url
+        return this.unit.foto_3_access_url
       }
     },
 
