@@ -118,7 +118,7 @@ export default {
     async getUnit () {
       try {
         const { data } = await this.fetchUnit(this.id)
-        this.initFormData(JSON.parse(JSON.stringify(data.data)))
+        this.initFormData(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
       }

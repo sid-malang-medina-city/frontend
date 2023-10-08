@@ -38,7 +38,7 @@
               v-model="filters.search"
               placeholder="Cari berdasarkan nama/email"
               class="filters__input"
-              @keyup.enter="handleFilterChange()"
+              @keyup="debounceDelay(() => handleFilterChange())"
             >
               <template #suffix>
                 <el-icon class="el-input__icon"><Search /></el-icon>
@@ -106,12 +106,12 @@
             min-width="210"
           />
           <el-table-column
-            prop="division"
+            prop="division.name"
             label="Divisi"
             min-width="180"
           />
           <el-table-column
-            prop="role"
+            prop="role.name"
             label="Role"
             min-width="170"
           />

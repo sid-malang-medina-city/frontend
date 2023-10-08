@@ -34,7 +34,7 @@ export default {
   data () {
     return {
       filters: {
-        lotNumber: this.$route.query.lotNumber || null,
+        search: this.$route.query.search || null,
         min_price: this.$route.query.min_price || null,
         max_price:this.$route.query.max_price || null,
         status: this.$route.query.status || null,
@@ -68,10 +68,18 @@ export default {
       const lastPageSize = totalItems % size
 
       return (totalItems >= totalSize) ? size : lastPageSize
+    },
+
+    generateFilters () {
+      return {
+        ...this.filters,
+        ...this.pagination
+      }
     }
   },
 
   created () {
+    this.visibleFilter = Object.keys(this.filters).some(key => !!this.filters[key])
     this.getUnits()
   },
 
@@ -123,7 +131,7 @@ export default {
       this.visibleFilter = !this.visibleFilter
     },
 
-    async openModalConfirmation (lotNumber) {
+    async openModalConfirmation (id) {
       try {
         await this.$confirm(
           'Apakah anda yakin ingin menghapus unit ini? Tindakan yang sudah dilakukan tidak dapat diubah',
@@ -135,16 +143,17 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteUnit(lotNumber)
+        await this.handleDeleteUnit(id)
         this.showToast('Unit berhasil dihapus!')
       } catch (e) {
         this.showErrorResponse(e)
       }
     },
 
-    async handleDeleteUnit(lotNumber) {
+    async handleDeleteUnit(id) {
       try {
-        await this.deleteUnit({ lotNumber: lotNumber })
+        await this.deleteUnit(id)
+        this.getUnits()
       } catch (error) {
         this.showErrorResponse(error)
       }

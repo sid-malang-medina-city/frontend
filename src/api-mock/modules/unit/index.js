@@ -39,7 +39,7 @@ export default [
     }
   },
   {
-    url: BASE_URL + '/unit',
+    url: BASE_URL + '/unit/1',
     method: 'DELETE',
     response: {
       'code': 200,

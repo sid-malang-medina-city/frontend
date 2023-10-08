@@ -93,7 +93,7 @@ export default {
     },
 
     isSubmitButtonDisabled () {
-      return this.isAllRequiredFieldsFilled
+      return this.isAllRequiredFieldsFilled && this.totalImagesUploaded > 0
     },
 
     totalImagesUploaded () {
@@ -261,19 +261,15 @@ export default {
     },
 
     async submit () {
-      if (this.totalImagesUploaded > 0) {
-        this.visibleLoading = true
-        try {
-          console.log('coba')
-          await this.createUnit(this.formData)
-          console.log('berhasil')
-          this.redirectTo('ManajemenUnit')
-          this.showToast('Unit baru berhasil ditambahkan!')
-        } catch (e) {
-          this.showErrorResponse(e)
-        } finally {
-          this.visibleLoading = false
-        }
+      this.visibleLoading = true
+      try {
+        await this.createUnit(this.formData)
+        this.redirectTo('ManajemenUnit')
+        this.showToast('Unit baru berhasil ditambahkan!')
+      } catch (e) {
+        this.showErrorResponse(e)
+      } finally {
+        this.visibleLoading = false
       }
     }
   }

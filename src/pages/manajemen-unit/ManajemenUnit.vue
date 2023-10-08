@@ -34,7 +34,7 @@
               Nomor Kavling
             </div>
             <el-input
-              v-model="filters.lotNumber"
+              v-model="filters.search"
               placeholder="Cari berdasarkan nomor kavling"
               class="filters__input"
               @keyup.enter="handleFilterChange()"
@@ -65,16 +65,16 @@
               Status
             </div>
             <el-select
-              v-model="filters.role"
+              v-model="filters.status"
               placeholder="Pilih status"
               class="filters__input"
               @change="handleFilterChange()"
             >
               <el-option
                 v-for="status in statuses"
-                :key="status"
-                :label="status"
-                :value="status"
+                :key="status.value"
+                :label="status.label"
+                :value="status.value"
               />
             </el-select>
           </div>
@@ -143,7 +143,7 @@
                   type="primary"
                   class="table__actions-delete"
                   text
-                  @click.stop="openModalConfirmation(scope.row.lotNumber)"
+                  @click.stop="openModalConfirmation(scope.row.id)"
                 />
               </div>
             </template>
