@@ -82,7 +82,6 @@
         </div>
         <div class="manajemen-user-edit__submit-section">
           <el-button
-            :disabled="!isAllRequiredFieldsFilled"
             type="secondary"
             class="manajemen-user-edit__cancel-btn"
             @click="goToManajemenUser"

@@ -6,6 +6,7 @@ import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import helpers from '~/utils/helpers'
+import { STATUSES } from '~/data/unit'
 
 import {
   ArrowDown,
@@ -15,21 +16,6 @@ import {
   Edit,
   Delete
 } from '@element-plus/icons-vue'
-
-const STATUSES = {
-  'BOOKING': {
-    label: 'Booking',
-    color: '#0BB1C4'
-  },
-  'TERJUAL': {
-    label: 'Terjual',
-    color: '#9D27C6'
-  },
-  'TERSEDIA': {
-    label: 'Tersedia',
-    color: '#74C627'
-  }
-}
 
 export default {
   name: 'manajemen-unit',
@@ -166,6 +152,22 @@ export default {
 
     goToManajemenUnitCreate () {
       this.redirectTo('ManajemenUnitCreate')
+    },
+
+    goToDetailPage ({ id }) {
+      this.redirectTo('ManajemenUnitDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+    
+    goToEditPage ( id ) {
+      this.redirectTo('ManajemenUnitEdit', {
+        params: {
+          id: id
+        }
+      })
     }
   }
 }
