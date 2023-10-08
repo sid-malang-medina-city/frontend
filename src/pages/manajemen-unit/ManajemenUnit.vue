@@ -88,6 +88,7 @@
           class="manajemen-unit__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
+          @row-click="goToDetailPage"
         >
           <el-table-column
             prop="nomor_kavling"
@@ -135,6 +136,7 @@
                   type="primary"
                   class="table__actions-edit"
                   text
+                  @click.stop="goToEditPage(scope.row.id)"
                 />
                 <el-button
                   :icon="icons.delete"

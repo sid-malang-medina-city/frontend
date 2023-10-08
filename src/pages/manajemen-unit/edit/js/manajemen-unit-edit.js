@@ -17,7 +17,7 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-unit-create',
+  name: 'manajemen-unit-edit',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -97,23 +97,57 @@ export default {
     },
 
     totalImagesUploaded () {
-      return !!this.formData.foto_1_file + !!this.formData.foto_2_file + !!this.formData.foto_3_file
-    }
+      return !!this.uploadedImages[0].url + !!this.uploadedImages[1].url + !!this.uploadedImages[2].url
+    },
+
+    id () {
+      return this.$route.params.id
+    },
   },
 
   created () {
-    // this.getRoles()
-    // this.getDivisions()
+    this.getUnit()
   },
 
   methods: {
-    // ...mapActions(userStore, [
-    //   'createUser',
-    //   'fetchDivisions',
-    //   'fetchRoles'
-    // ]),
+    ...mapActions(unitStore, [
+      'editUnit',
+      'fetchUnit'
+    ]),
 
-    ...mapActions(unitStore, ['createUnit']),
+    async getUnit () {
+      try {
+        const { data } = await this.fetchUnit(this.id)
+        this.initFormData(JSON.parse(JSON.stringify(data.data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initFormData (data) {
+      const {
+        foto_1_access_url,
+        foto_2_access_url,
+        foto_3_access_url,
+        ...formData
+      } = data
+
+      if (foto_1_access_url) {
+        this.uploadedImages[0].visible = true
+        this.uploadedImages[0].url = foto_1_access_url
+      }
+      
+      if (foto_2_access_url) {
+        this.uploadedImages[1].visible = true
+        this.uploadedImages[1].url = foto_2_access_url
+      }
+      if (foto_3_access_url) {
+        this.uploadedImages[2].visible = true
+        this.uploadedImages[2].url = foto_3_access_url
+      }
+
+      this.formData = formData
+    },
 
     goToManajemenUnit () {
       this.redirectTo('ManajemenUnit')
@@ -131,6 +165,7 @@ export default {
       }
 
       this.formData.foto_1_file = file
+      this.formData.foto_1_file_delete = false
       this.generateImage(file, 0)
     },
 
@@ -146,6 +181,7 @@ export default {
       }
 
       this.formData.foto_2_file = file
+      this.formData.foto_2_file_delete = false
       this.generateImage(file, 1)
     },
     validateUpload3 (file) {
@@ -160,6 +196,7 @@ export default {
       }
 
       this.formData.foto_3_file = file
+      this.formData.foto_3_file_delete = false
       this.generateImage(file, 2)
     },
 
@@ -239,25 +276,28 @@ export default {
       
       if (index === 0) {
         this.formData.foto_1_file = ""
+        this.formData.foto_1_file_delete = true
       }
       
       if (index === 1) {
         this.formData.foto_2_file = ""
+        this.formData.foto_2_file_delete = true
       }
       
       if (index === 2) {
         this.formData.foto_3_file = ""
+        this.formData.foto_3_file_delete = true
       }
     },
 
     addVisibleImageActionIcons (index) {
       this.visibleImageActionIcons[index] = true
-      // console.log(this.visibleImageActionIcons)
+      console.log(this.visibleImageActionIcons)
     },
     
     removeVisibleImageActionIcons (index) {
       this.visibleImageActionIcons[index] = false
-      // console.log(this.visibleImageActionIcons)
+      console.log(this.visibleImageActionIcons)
     },
 
     async submit () {
@@ -265,10 +305,10 @@ export default {
         this.visibleLoading = true
         try {
           console.log('coba')
-          await this.createUnit(this.formData)
+          await this.editUnit(this.id, this.formData)
           console.log('berhasil')
           this.redirectTo('ManajemenUnit')
-          this.showToast('Unit baru berhasil ditambahkan!')
+          this.showToast('Data unit berhasil diperbarui!')
         } catch (e) {
           this.showErrorResponse(e)
         } finally {

@@ -1,6 +1,26 @@
 export default {
   convertPriceToRupiah (price) {
+    if (!price) {
+      return
+    }
     return 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  },
+
+  convertWithEmptyValueDash (str) {
+    return !str ? '-' : str
+  },
+
+  convertDateTimeZoneToDateTimeString (dateTime) {
+    if (!dateTime) {
+      return
+    }
+
+    const inputDate = new Date(dateTime);
+    const formattedDate = `${inputDate.getDate().toString().padStart(2, '0')}/${(inputDate.getMonth() + 1).toString().padStart(2, '0')}/${inputDate.getFullYear()}`
+    const formattedTime = `${inputDate.getHours().toString().padStart(2, '0')}:${inputDate.getMinutes().toString().padStart(2, '0')}`;
+    
+    const output = `pada ${formattedDate}, ${formattedTime}`;
+    return output
   },
 
   fileToByteArray (file) {

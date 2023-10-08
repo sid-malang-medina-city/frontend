@@ -1,13 +1,13 @@
 <template>
-  <div class="manajemen-unit-create">
+  <div class="manajemen-unit-edit">
     <page-header
-      title="Buat Unit Baru"
+      title="Edit Unit"
       show-back-icon
       @back="goToManajemenUnit"
     />
 
     <div class="page-content">
-      <div class="manajemen-unit-create__input-image-wrapper input-image-wrapper">
+      <div class="manajemen-unit-edit__input-image-wrapper input-image-wrapper">
         <div class="input-image-wrapper__header header">
           <div class="header__title-wrapper">
             <img
@@ -217,8 +217,8 @@
         </div>
       </div>
 
-      <div class="manajemen-unit-create__form-wrapper">
-        <div class="manajemen-unit-create__input-section input-section">
+      <div class="manajemen-unit-edit__form-wrapper">
+        <div class="manajemen-unit-edit__input-section input-section">
           <div class="input-section__header header">
             <div class="header__title-wrapper">
               <img
@@ -366,14 +366,21 @@
             </div>
           </div>
         </div>
-        <div class="manajemen-unit-create__submit-section">
+        <div class="manajemen-unit-edit__submit-section">
+          <el-button
+            type="secondary"
+            class="manajemen-unit-edit__cancel-btn"
+            @click="goToManajemenUnit"
+          >
+            Cancel
+          </el-button>
           <el-button
             :disabled="!isSubmitButtonDisabled"
             type="primary"
-            class="manajemen-unit-create__submit-btn"
+            class="manajemen-unit-edit__submit-btn"
             @click="submit"
           >
-            Buat Unit
+            Simpan
           </el-button>
         </div>
       </div>
@@ -384,17 +391,17 @@
     <img
       :src="selectedImageUrl"
       alt="Preview Image"
-      class="manajemen-unit-create__preview-image"
+      class="manajemen-unit-edit__preview-image"
     />
   </el-dialog>
 </template>
 
-<script src="./js/manajemen-unit-create.js"></script>
+<script src="./js/manajemen-unit-edit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 
-  .manajemen-unit-create {
+  .manajemen-unit-edit {
     &__form-wrapper {
       background: white;
       border-radius: 12px;
@@ -605,7 +612,7 @@
       justify-content: end;
     }
 
-    &__submit-btn {
+    &__submit-btn, &__cancel-btn {
       width: 100px;
     }
 
