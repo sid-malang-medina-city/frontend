@@ -247,6 +247,7 @@
               </div>
               <el-input
                 v-model="formData.harga"
+                :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
                 placeholder="Masukkan harga unit"
                 class="row__input"
               />
