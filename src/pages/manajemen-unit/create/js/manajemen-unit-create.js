@@ -10,6 +10,8 @@ import uploadImageIcon from '/upload-image.svg'
 import signatureIcon from '/signature.svg'
 import newspaperClippingIcon from '/newspaper-clipping.svg'
 
+import helpers from '~/utils/helpers'
+
 import {
   Plus,
   Delete,
@@ -81,6 +83,7 @@ export default {
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: [false, false, false],
       selectedImageUrl: '',
+      helpers
       // divisions: [],
       // roles: []
     }

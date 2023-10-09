@@ -145,16 +145,28 @@
               <div class="row__label required">
                 Luas Tanah
               </div>
-              <div class="row__value">
-                {{ helpers.convertWithEmptyValueDash(unit.luas_tanah) }}
+              <div class="row__value row__value--flex">
+                {{ `${helpers.convertWithEmptyValueDash(unit.luas_tanah)} ` }}
+                <div
+                  v-if="helpers.convertWithEmptyValueDash(unit.luas_tanah) !== '-'"
+                  class="row__uom"
+                >
+                  m<sup>2</sup>
+                </div>
               </div>
             </div>
             <div class="rows__row">
               <div class="row__label required">
                 Luas Bangunan
               </div>
-              <div class="row__value">
+              <div class="row__value row__value--flex">
                 {{ helpers.convertWithEmptyValueDash(unit.luas_bangunan) }}
+                <div
+                  v-if="helpers.convertWithEmptyValueDash(unit.luas_bangunan) !== '-'"
+                  class="row__uom"
+                >
+                  m<sup>2</sup>
+                </div>
               </div>
             </div>
           </div>
@@ -172,8 +184,14 @@
               <div class="row__label required">
                 Daya Listrik
               </div>
-              <div class="row__value">
+              <div class="row__value row__value--flex">
                 {{ helpers.convertWithEmptyValueDash(unit.daya_listrik) }}
+                <div
+                  v-if="helpers.convertWithEmptyValueDash(unit.daya_listrik) !== '-'"
+                  class="row__uom"
+                >
+                  watt
+                </div>
               </div>
             </div>
           </div>
@@ -326,6 +344,12 @@
             color: #696969;
             font-size: 14px;
             font-weight: 400;
+
+            &--flex {
+              display: flex;
+              align-items: flex-end;
+              gap: 5px;
+            }
           }
         }
       }
