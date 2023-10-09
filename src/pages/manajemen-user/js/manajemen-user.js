@@ -123,7 +123,7 @@ export default {
 
     handleFilterChange () {
       this.setRouteParam('ManajemenUser', { ...this.query, ...this.filters })
-      this.getUsers()
+      this.handlePageChange(1)
     },
 
     toggleFilter () {

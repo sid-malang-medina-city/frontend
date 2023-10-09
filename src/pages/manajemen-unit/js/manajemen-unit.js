@@ -124,7 +124,7 @@ export default {
       this.filters.min_price = this.priceRange[0]
       this.filters.max_price = this.priceRange[1]
       this.setRouteParam('ManajemenUnit', { ...this.query, ...this.filters })
-      this.getUnits()
+      this.handlePageChange(1)
     },
 
     toggleFilter () {

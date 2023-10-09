@@ -118,7 +118,7 @@ export default {
 
     handleFilterChange () {
       this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })
-      this.getKonsumens()
+      this.handlePageChange(1)
     },
 
     toggleFilter () {
