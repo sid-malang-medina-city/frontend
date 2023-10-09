@@ -247,7 +247,8 @@
               </div>
               <el-input
                 v-model="formData.harga"
-                :formatter="(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
                 placeholder="Masukkan harga unit"
                 class="row__input"
               />
@@ -297,7 +298,13 @@
                 v-model="formData.luas_bangunan"
                 placeholder="Masukkan luas bangunan"
                 class="row__input"
-              />
+              >
+                <template #append>
+                  <div>
+                    m<sup>2</sup>
+                  </div>
+                </template>
+              </el-input>
             </div>
             <div class="rows__row row">
               <div class="row__label">
@@ -307,7 +314,13 @@
                 v-model="formData.luas_tanah"
                 placeholder="Masukkan luas area"
                 class="row__input"
-              />
+              >
+                <template #append>
+                  <div>
+                    m<sup>2</sup>
+                  </div>
+                </template>
+              </el-input>
             </div>
           </div>
           <div class="input-section__rows rows">
@@ -341,7 +354,13 @@
                 v-model="formData.daya_listrik"
                 placeholder="Masukkan daya listrik"
                 class="row__input"
-              />
+              >
+                <template #append>
+                  <div>
+                    watt
+                  </div>
+                </template>
+              </el-input>
             </div>
           </div>
           <div class="input-section__rows rows">
