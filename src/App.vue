@@ -20,6 +20,9 @@
             class="app__content"
           />
         </section>
+        <div class="app__footer">
+          © Troops 2023
+        </div>
       </div>
       <nav
         id="navigation-sidebar"
@@ -71,6 +74,15 @@
       &.collapse {
         width: 100px;
       }
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 54px;
+      background: #FAFAFA;
+      color: #A7A7A7;
     }
 
     &__pages {
