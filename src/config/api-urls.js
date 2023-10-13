@@ -10,7 +10,19 @@ export default {
   },
   unit: {
     list: '/unit',
-    detail: id => `/unit/${encodeURIComponent(id)}`
+    detail: id => `/unit/${encodeURIComponent(id)}`,
+    cluster: {
+      list: '/unit/cluster',
+      detail: id => `/unit/cluster/${encodeURIComponent(id)}`
+    },
+    tipe: {
+      list: '/unit/tipe',
+      detail: id => `/unit/tipe/${encodeURIComponent(id)}`
+    },
+    fasilitas: {
+      list: '/unit/fasilitas',
+      detail: id => `/unit/fasilitas/${encodeURIComponent(id)}`
+    }
   },
   konsumen: {
     list: '/konsumen',

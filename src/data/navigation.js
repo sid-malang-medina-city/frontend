@@ -76,14 +76,50 @@ export const NAVIGATION_ITEMS = [
 
 export const ADMIN_NAVIGATION_ITEMS = [
   {
-    label: 'Manajemen Unit',
+    label: 'Unit',
     iconPath: manajemenUnitIcon,
-    menuCode: 'MANAJEMEN_UNIT_ACCESS',
     type: 'root',
     path: '',
-    routeName: 'ManajemenUnit',
+    routeName: '',
     labelIndex: 1,
-    children: []
+    children: [
+      {
+        label: 'Manajemen Unit',
+        path: '/manajemen-unit',
+        routeName: 'ManajemenUnit',
+        menuCode: 'DATA_MARKETER_ACCESS',
+        labelIndex: 1,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen Cluster',
+        path: '/manajemen-unit/cluster',
+        menuCode: 'LAPORAN_MARKETING_ACCESS',
+        routeName: 'ManajemenCluster',
+        labelIndex: 2,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen Tipe Unit',
+        path: '/manajemen-unit/tipe',
+        menuCode: 'LAPORAN_MARKETING_INVOICE_ACCESS',
+        routeName: 'ManajemenTipeUnit',
+        labelIndex: 3,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen Fasilitas',
+        path: '/manajemen-unit/fasilitas',
+        menuCode: 'LAPORAN_MARKETING_INVOICE_ACCESS',
+        routeName: 'ManajemenFasilitas',
+        labelIndex: 4,
+        childRoutes: [],
+        iconPath: null
+      }
+    ]
   },
   {
     label: 'Manajemen Konsumen',

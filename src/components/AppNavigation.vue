@@ -101,7 +101,7 @@
           KONFIGURASI
         </div>
         <el-menu
-          :key="2"
+          :key="1"
           :default-active="$route.name"
           class="el-menu-vertical"
           :collapse="isCollapse"
@@ -113,7 +113,34 @@
             :key="'menu-item' + menuIndex"
             class="el-menu__custom-wrapper"
           >
+            <el-sub-menu
+              v-if="menu.children.length"
+              :index="`${menu.labelIndex}`"
+            >
+              <template #title>
+                <div class="navigation__menu-wrapper">
+                  <img
+                    :src="menu.iconPath"
+                    alt=""
+                    class="navigation__menu-icon"
+                  >
+                  <div v-if="!isCollapse">
+                    {{ menu.label }}
+                  </div>
+                </div>
+              </template>
+              <el-menu-item
+                v-for="(subMenu, subIndex) in getAdminChildren(menuIndex)"
+                :key="'sub-menu-item' + subIndex"
+                :route="{ name: subMenu.routeName }"
+                :index="subMenu.routeName"
+              >
+                {{ subMenu.label }}
+              </el-menu-item>
+            </el-sub-menu>
+
             <el-menu-item
+              v-else
               :route="{ name: menu.routeName }"
               :index="menu.routeName"
             >
@@ -201,7 +228,7 @@
       &.is-active {
 
         .el-sub-menu__title {
-          color: #0095da;
+          color: #859671;
         }
       }
     }
@@ -320,7 +347,7 @@
       span {
         font-size: 2em;
         font-weight: bold;
-        color: #0095da;
+        color: #859671;
       }
     }
 

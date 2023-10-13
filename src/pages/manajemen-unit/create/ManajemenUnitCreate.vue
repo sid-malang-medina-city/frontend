@@ -233,15 +233,34 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
+                Cluster
+              </div>
+              <el-select
+                v-model="formData.cluster_id"
+                placeholder="Pilih cluster"
+                class="row__input"
+              >
+                <el-option
+                  v-for="cluster in clusters"
+                  :key="cluster.id"
+                  :label="cluster.nama"
+                  :value="cluster.id"
+                />
+              </el-select>
+            </div>
+            <div class="rows__row">
+              <div class="row__label required">
                 Nomor Kavling
               </div>
               <el-input
                 v-model="formData.nomor_kavling"
-                placeholder="Masukkan nama unit"
+                placeholder="Masukkan nomor kavling"
                 class="row__input"
               />
             </div>
-            <div class="rows__row">
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row row">
               <div class="row__label required">
                 Harga Unit
               </div>
@@ -253,29 +272,22 @@
                 class="row__input"
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Tipe Unit
               </div>
-              <el-input
-                v-model="formData.tipe"
-                placeholder="Masukkan tipe unit"
-                class="row__input"
-              />
-              <!-- <el-select
+              <el-select
                 v-model="formData.tipe"
                 placeholder="Pilih tipe unit"
                 class="row__input"
               >
                 <el-option
-                  v-for="unit in units"
-                  :key="unit.code"
-                  :label="unit.name"
-                  :value="unit.code"
+                  v-for="tipeUnit in tipeUnits"
+                  :key="tipeUnit.id"
+                  :label="tipeUnit.nama"
+                  :value="tipeUnit.id"
                 />
-              </el-select> -->
+              </el-select>
             </div>
           </div>
           <div class="input-section__header header header--bordered">
@@ -328,23 +340,24 @@
               <div class="row__label">
                 Fasilitas
               </div>
-              <el-input
+              <el-select
                 v-model="formData.fasilitas"
-                placeholder="Masukkan fasilitas"
+                :remote-method="getFasilitas"
+                :loading="visibleLoading"
+                placeholder="Please enter a keyword"
                 class="row__input"
-              />
-              <!-- <el-select
-                v-model="formData.fasilitas"
-                placeholder="Pilih fasilitas"
-                class="row__input"
+                multiple
+                filterable
+                remote
+                reserve-keyword
               >
                 <el-option
-                  v-for="facility in facilities"
-                  :key="facility.code"
-                  :label="facility.name"
-                  :value="facility.code"
+                  v-for="fasilitas in fasilitass"
+                  :key="fasilitas.id"
+                  :label="fasilitas.nama"
+                  :value="fasilitas.id"
                 />
-              </el-select> -->
+              </el-select>
             </div>
             <div class="rows__row row">
               <div class="row__label">

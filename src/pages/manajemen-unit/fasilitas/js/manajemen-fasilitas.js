@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { konsumenStore } from '~/store/konsumen'
+import { unitStore } from '~/store/unit'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -14,36 +14,8 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 
-const STATUS_KONSUMEN = {
-  BOOKING: {
-    name: 'Booking',
-    code: 'BOOKING',
-    color: '#1DC4F9'
-  },
-  TERJADWAL_VERIFIKASI: {
-    name: 'Terjadwal verifikasi',
-    code: 'TERJADWAL_VERFIKASI',
-    color: '#F91DBB'
-  },
-  TERVERIFIKASI: {
-    name: 'Terverifikasi',
-    code: 'TERVERIFIKASI',
-    color: '#0B6BC4'
-  },
-  DITOLAK: {
-    name: 'Ditolak',
-    code: 'DITOLAK',
-    color: '#C4C4C4'
-  },
-  CANCEL: {
-    name: 'Cancel',
-    code: 'CANCEL',
-    color: '#FF613A'
-  }
-}
-
 export default {
-  name: 'manajemen-konsumen',
+  name: 'manajemen-fasilitas',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -59,15 +31,13 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        status: this.$route.query.status || null
       },
       pagination: {
         page: 1,
         size: 10
       },
-      statuses: STATUS_KONSUMEN,
-      konsumens: [],
-      totalKonsumens: 0,
+      fasilitass: [],
+      totalFasilitass: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
@@ -78,8 +48,8 @@ export default {
   },
 
   computed: {
-    totalShownKonsumens () {
-      const totalItems = this.totalKonsumens
+    totalShownFasilitass () {
+      const totalItems = this.totalFasilitass
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -96,21 +66,21 @@ export default {
   },
 
   created () {
-    this.getKonsumens()
+    this.getFasilitass()
   },
 
   methods: {
-    ...mapActions(konsumenStore, [
-      'fetchKonsumens',
-      'deleteKonsumen'
+    ...mapActions(unitStore, [
+      'fetchFasilitass',
+      'deleteFasilitas'
     ]),
 
-    async getKonsumens () {
+    async getFasilitass () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchKonsumens(this.generateFilters)
-        this.konsumens = JSON.parse(JSON.stringify(data.data))
-        this.totalKonsumens = data.pagination.total_items
+        const { data } = await this.fetchFasilitass(this.generateFilters)
+        this.fasilitass = JSON.parse(JSON.stringify(data.data))
+        this.totalFasilitass = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -120,11 +90,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getKonsumens()
+      this.getFasilitass()
     },
 
     handleFilterChange () {
-      this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenFasilitas', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -135,8 +105,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus konsumen ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus konsumen berarti menghilangkan progress data dan akses mereka',
-          'Hapus Konsumen',
+          'Apakah anda yakin ingin menghapus fasilitas ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus fasilitas berarti menghilangkan progress data dan akses mereka',
+          'Hapus Fasilitas',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -144,21 +114,30 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteKonsumen(id)
-        this.showToast('Konsumen berhasil dihapus!')
+        await this.handleDeleteFasilitas(id)
+        this.showToast('Fasilitas berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteKonsumen(id) {
+    async handleDeleteFasilitas(id) {
       try {
-        await this.deleteKonsumen(id)
+        await this.deleteFasilitas(id)
+        this.getFasilitass()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenKonsumenCreate')
+      this.redirectTo('ManajemenFasilitasCreate')
+    },
+    
+    goToEditPage (id) {
+      this.redirectTo('ManajemenFasilitasEdit', {
+        params: {
+          id: id
+        }
+      })
     }
   }
 }

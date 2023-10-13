@@ -50,6 +50,10 @@ export default {
     getChildren (menu) {
       return this.menuItems[menu].children
     },
+    
+    getAdminChildren (menu) {
+      return this.adminMenuItems[menu].children
+    },
 
     toggleNavigation () {
       this.toggleNavigationBar()

@@ -81,8 +81,10 @@ export default {
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: [false, false, false],
       selectedImageUrl: '',
-      // divisions: [],
-      // roles: []
+      tipeUnits: [],
+      clusters: [],
+      fasilitass: [],
+      visibleLoading: false,
     }
   },
 
@@ -107,12 +109,18 @@ export default {
 
   created () {
     this.getUnit()
+    this.getTipeUnits()
+    this.getClusters()
+    this.getFasilitas()
   },
 
   methods: {
     ...mapActions(unitStore, [
       'editUnit',
-      'fetchUnit'
+      'fetchUnit',
+      'fetchTipeUnits',
+      'fetchClusters',
+      'fetchFasilitass'
     ]),
 
     async getUnit () {
@@ -121,6 +129,46 @@ export default {
         this.initFormData(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
+      }
+    },
+
+    async getTipeUnits () {
+      try {
+        const { data } = await this.fetchTipeUnits({
+          page: 1,
+          page_size: 9999
+        })
+        this.tipeUnits = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getClusters () {
+      try {
+        const { data } = await this.fetchClusters({
+          page: 1,
+          page_size: 9999
+        })
+        this.clusters = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getFasilitas (keyword = '') {
+      this.visibleLoading = true
+      try {
+        const { data } = await this.fetchFasilitass({
+          page: 1,
+          page_size: 9999,
+          search: keyword
+        })
+        this.fasilitass = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      } finally {
+        this.visibleLoading = false
       }
     },
 

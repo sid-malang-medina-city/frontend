@@ -83,6 +83,10 @@ export default {
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: [false, false, false],
       selectedImageUrl: '',
+      tipeUnits: [],
+      clusters: [],
+      fasilitass: [],
+      visibleLoading: false,
       helpers
       // divisions: [],
       // roles: []
@@ -96,7 +100,7 @@ export default {
     },
 
     isSubmitButtonDisabled () {
-      return this.isAllRequiredFieldsFilled && this.totalImagesUploaded > 0
+      return this.isAllRequiredFieldsFilled
     },
 
     totalImagesUploaded () {
@@ -105,7 +109,9 @@ export default {
   },
 
   created () {
-    // this.getRoles()
+    this.getTipeUnits()
+    this.getClusters()
+    this.getFasilitas()
     // this.getDivisions()
   },
 
@@ -116,10 +122,55 @@ export default {
     //   'fetchRoles'
     // ]),
 
-    ...mapActions(unitStore, ['createUnit']),
+    ...mapActions(unitStore, [
+      'createUnit',
+      'fetchTipeUnits',
+      'fetchClusters',
+      'fetchFasilitass'
+    ]),
 
     goToManajemenUnit () {
       this.redirectTo('ManajemenUnit')
+    },
+
+    async getTipeUnits () {
+      try {
+        const { data } = await this.fetchTipeUnits({
+          page: 1,
+          page_size: 9999
+        })
+        this.tipeUnits = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getClusters () {
+      try {
+        const { data } = await this.fetchClusters({
+          page: 1,
+          page_size: 9999
+        })
+        this.clusters = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getFasilitas (keyword = '') {
+      this.visibleLoading = true
+      try {
+        const { data } = await this.fetchFasilitass({
+          page: 1,
+          page_size: 9999,
+          search: keyword
+        })
+        this.fasilitass = JSON.parse(JSON.stringify(data.data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      } finally {
+        this.visibleLoading = false
+      }
     },
 
     validateUpload1 (file) {

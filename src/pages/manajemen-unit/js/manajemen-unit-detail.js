@@ -56,6 +56,9 @@ export default {
   computed: {
     id () {
       return this.$route.params.id
+    },
+    isImagesExists () {
+      return !!this.unit.foto_1_access_url || !!this.unit.foto_2_access_url || !!this.unit.foto_3_access_url
     }
   },
 

@@ -1,10 +1,11 @@
 <template>
-  <div class="manajemen-unit">
-    <page-header title="Manajemen Unit" />
-    <div class="manajemen-unit__wrapper page-content">
-      <div class="manajemen-unit__actions-wrapper">
-        <div class="manajemen-unit__actions actions">
+  <div class="manajemen-cluster">
+    <page-header title="Manajemen Cluster" />
+    <div class="manajemen-cluster__wrapper page-content">
+      <div class="manajemen-cluster__actions-wrapper">
+        <div class="manajemen-cluster__actions actions">
           <el-button
+            type="secondary"
             class="actions__filter-btn"
             @click="toggleFilter"
           >
@@ -17,9 +18,9 @@
           <el-button
             type="primary"
             class="actions__create-btn"
-            @click="goToManajemenUnitCreate"
+            @click="goToCreatePage"
           >
-            Tambah Unit
+            Tambah Cluster
             <el-icon class="el-icon--right">
               <Plus />
             </el-icon>
@@ -27,15 +28,15 @@
         </div>
         <div
           v-if="visibleFilter"
-          class="manajemen-unit__filters filters"
+          class="manajemen-cluster__filters filters"
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Nomor Kavling
+              Nama
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari berdasarkan nomor kavling"
+              placeholder="Cari cluster berdasarkan nama"
               class="filters__input"
               @keyup.enter="handleFilterChange()"
             >
@@ -44,84 +45,22 @@
               </template>
             </el-input>
           </div>
-
-          <div class="filters__input-wrapper">
-            <div class="filters__label">
-              Range Harga
-            </div>
-            <el-slider
-              v-model="priceRange"
-              :min="minPrice"
-              :max="maxPrice"
-              :format-tooltip="helpers.convertPriceToRupiah"
-              class="filters__slider"
-              range
-              @change="handleFilterChange()"
-            />
-          </div>
-
-          <div class="filters__input-wrapper">
-            <div class="filters__label">
-              Status
-            </div>
-            <el-select
-              v-model="filters.status"
-              placeholder="Pilih status"
-              class="filters__input"
-              @change="handleFilterChange()"
-            >
-              <el-option
-                v-for="status in statuses"
-                :key="status.value"
-                :label="status.label"
-                :value="status.value"
-              />
-            </el-select>
-          </div>
         </div>
       </div>
 
-      <div class="manajemen-unit__table-wrapper">
+      <div class="manajemen-cluster__table-wrapper">
         <el-table
           v-loading="visibleLoadingTable"
-          :data="units"
-          class="manajemen-unit__table table general-table"
+          :data="clusters"
+          class="manajemen-cluster__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
           @row-click="goToDetailPage"
         >
           <el-table-column
-            prop="nomor_kavling"
-            label="Nomor Kavling"
-            min-width="220"
-          />
-          <el-table-column
-            prop="status"
-            label="Status"
+            prop="nama"
+            label="Nama"
             min-width="210"
-          >
-            <template #default="scope">
-              <status-badge
-                :color="statuses[scope.row.status].color"
-                :text="statuses[scope.row.status].label"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="harga"
-            label="Harga Unit"
-            min-width="180"
-          >
-            <template #default="scope">
-              <div>
-                {{ helpers.convertPriceToRupiah(scope.row.harga) }}
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="tipe_nama"
-            label="Tipe Unit"
-            min-width="170"
           />
           <el-table-column
             label="Action"
@@ -149,15 +88,15 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="manajemen-unit__footer">
-          <div class="manajemen-unit__total-units font-grey">
-            Showing {{ totalShownUnits }} of {{ totalUnits }} unit
+        <div class="manajemen-cluster__footer">
+          <div class="manajemen-cluster__total-clusters font-grey">
+            Showing {{ totalShownClusters }} of {{ totalClusters }} cluster
           </div>
-          <div class="manajemen-unit__pagination">
+          <div class="manajemen-cluster__pagination">
             <el-pagination
               :current-page="pagination.page"
               :page-size="pagination.size"
-              :total="totalUnits"
+              :total="totalClusters"
               layout="prev, pager, next"
               background
               hide-on-single-page
@@ -170,13 +109,13 @@
   </div>
 </template>
 
-<script src="./js/manajemen-unit.js"></script>
+<script src="./js/manajemen-cluster.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-unit {
+  .manajemen-cluster {
     &__actions-wrapper {
       border-radius: 12px;
       border: 1px solid #EAEAEA;
@@ -194,7 +133,7 @@
       }
 
       &__create-btn {
-        width: 150px;
+        width: 180px;
       }
     }
 
@@ -215,8 +154,8 @@
         font-weight: 600;
       }
 
-      &__input, &__slider {
-        width: 265px;
+      &__input {
+        width: 400px;
       }
     }
 

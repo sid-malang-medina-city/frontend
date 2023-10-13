@@ -41,55 +41,69 @@
         </div>
 
         <div class="manajemen-unit-detail__content content">
-          <div class="content__header">
-            <img
-              :src="icons.signature"
-              alt="Image Icon"
-            />
-            <div class="content__header-title">
-              Informasi Utama
-            </div>
-          </div>
-          <div class="content__informasi-utama informasi-utama">
-            <div class="informasi-utama__column column">
-              <div class="column__label">
-                Nomor Kavling
-              </div>
-              <div class="column__value">
-                {{ unit.nomor_kavling }}
+          <div class="content__informasi-utama-wrapper">
+
+            <div class="content__header">
+              <img
+                :src="icons.signature"
+                alt="Image Icon"
+              />
+              <div class="content__header-title">
+                Informasi Utama
               </div>
             </div>
-            <div class="informasi-utama__column column">
-              <div class="column__label">
-                Harga Unit
+            <div class="content__informasi-utama informasi-utama">
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Cluster
+                </div>
+                <div class="column__value">
+                  {{ unit.cluster_nama }}
+                </div>
               </div>
-              <div class="column__value">
-                {{ helpers.convertPriceToRupiah(unit.harga) }}
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Nomor Kavling
+                </div>
+                <div class="column__value">
+                  {{ unit.nomor_kavling }}
+                </div>
               </div>
-            </div>
-            <div class="informasi-utama__column column">
-              <div class="column__label">
-                Tipe Unit
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Harga Unit
+                </div>
+                <div class="column__value">
+                  {{ helpers.convertPriceToRupiah(unit.harga) }}
+                </div>
               </div>
-              <div class="column__value">
-                {{ unit.tipe }}
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Tipe Unit
+                </div>
+                <div class="column__value">
+                  {{ unit.tipe_nama }}
+                </div>
               </div>
-            </div>
-            <div class="informasi-utama__column column">
-              <div class="column__label">
-                Status
-              </div>
-              <div class="column__value">
-                <status-badge
-                  :text="statuses[unit.status] ? statuses[unit.status].label: ''"
-                  :color="statuses[unit.status] ? statuses[unit.status].color: ''"
-                  type="detail"
-                />
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Status
+                </div>
+                <div class="column__value">
+                  <status-badge
+                    :text="statuses[unit.status] ? statuses[unit.status].label: ''"
+                    :color="statuses[unit.status] ? statuses[unit.status].color: ''"
+                    type="detail"
+                  />
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="content__image-upload image-upload">
+          <div
+            v-if="isImagesExists"
+            class="content__image-upload image-upload"
+          >
             <el-upload
               v-for="index in 3"
               :http-request="() => {}"
@@ -130,87 +144,96 @@
             </el-upload>
           </div>
 
-          <div class="content__header">
-            <img
-              :src="icons.newspaperClipping"
-              alt="Image Icon"
-            />
-            <div class="content__header-title">
-              Informasi Pendukung
-            </div>
-          </div>
-
-          <div class="content__rows rows">
-            <div class="rows__row">
-              <div class="row__label required">
-                Luas Tanah
+          <div class="content__informasi-pendukung-wrapper">
+            <div class="content__header">
+              <img
+                :src="icons.newspaperClipping"
+                alt="Image Icon"
+              />
+              <div class="content__header-title">
+                Informasi Pendukung
               </div>
-              <div class="row__value row__value--flex">
-                {{ `${helpers.convertWithEmptyValueDash(unit.luas_tanah)} ` }}
-                <div
-                  v-if="helpers.convertWithEmptyValueDash(unit.luas_tanah) !== '-'"
-                  class="row__uom"
-                >
-                  m<sup>2</sup>
+            </div>
+  
+            <div class="content__rows rows">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Luas Tanah
+                </div>
+                <div class="row__value row__value--flex">
+                  {{ `${helpers.convertWithEmptyValueDash(unit.luas_tanah)} ` }}
+                  <div
+                    v-if="helpers.convertWithEmptyValueDash(unit.luas_tanah) !== '-'"
+                    class="row__uom"
+                  >
+                    m<sup>2</sup>
+                  </div>
+                </div>
+              </div>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Luas Bangunan
+                </div>
+                <div class="row__value row__value--flex">
+                  {{ helpers.convertWithEmptyValueDash(unit.luas_bangunan) }}
+                  <div
+                    v-if="helpers.convertWithEmptyValueDash(unit.luas_bangunan) !== '-'"
+                    class="row__uom"
+                  >
+                    m<sup>2</sup>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="rows__row">
-              <div class="row__label required">
-                Luas Bangunan
+            
+            <div class="content__rows rows">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Fasilitas
+                </div>
+                <div class="row__value row__value--flex-start">
+                  <div
+                    v-if="unit.fasilitas.length > 0"
+                    v-for="fasilitas in unit.fasilitas"
+                    class="row__fasilitas"
+                  >
+                    {{ fasilitas.nama }}
+                  </div>
+                  <div v-else>-</div>
+                </div>
               </div>
-              <div class="row__value row__value--flex">
-                {{ helpers.convertWithEmptyValueDash(unit.luas_bangunan) }}
-                <div
-                  v-if="helpers.convertWithEmptyValueDash(unit.luas_bangunan) !== '-'"
-                  class="row__uom"
-                >
-                  m<sup>2</sup>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Daya Listrik
+                </div>
+                <div class="row__value row__value--flex">
+                  {{ helpers.convertWithEmptyValueDash(unit.daya_listrik) }}
+                  <div
+                    v-if="helpers.convertWithEmptyValueDash(unit.daya_listrik) !== '-'"
+                    class="row__uom"
+                  >
+                    watt
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <div class="content__rows rows">
-            <div class="rows__row">
-              <div class="row__label required">
-                Fasilitas
-              </div>
-              <div class="row__value">
-                {{ helpers.convertWithEmptyValueDash(unit.fasilitas) }}
-              </div>
-            </div>
-            <div class="rows__row">
-              <div class="row__label required">
-                Daya Listrik
-              </div>
-              <div class="row__value row__value--flex">
-                {{ helpers.convertWithEmptyValueDash(unit.daya_listrik) }}
-                <div
-                  v-if="helpers.convertWithEmptyValueDash(unit.daya_listrik) !== '-'"
-                  class="row__uom"
-                >
-                  watt
+            
+            <div class="content__rows rows last-row">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Jumlah Kamar Tidur
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertWithEmptyValueDash(unit.jumlah_kamar_tidur) }}
                 </div>
               </div>
-            </div>
-          </div>
-          
-          <div class="content__rows rows last-row">
-            <div class="rows__row">
-              <div class="row__label required">
-                Jumlah Kamar Tidur
-              </div>
-              <div class="row__value">
-                {{ helpers.convertWithEmptyValueDash(unit.jumlah_kamar_tidur) }}
-              </div>
-            </div>
-            <div class="rows__row">
-              <div class="row__label required">
-                Jumlah Kamar Mandi
-              </div>
-              <div class="row__value">
-                {{ helpers.convertWithEmptyValueDash(unit.jumlah_kamar_mandi) }}
+              <div class="rows__row">
+                <div class="row__label required">
+                  Jumlah Kamar Mandi
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertWithEmptyValueDash(unit.jumlah_kamar_mandi) }}
+                </div>
               </div>
             </div>
           </div>
@@ -288,7 +311,6 @@
     }
 
     .content {
-      padding: 20px;
       border-top: 1px solid #E9E9E9;
       border-bottom: 1px solid var(--neutral-gray-100, #E9E9E9);
 
@@ -304,9 +326,17 @@
         }
       }
 
+      &__informasi-utama-wrapper, &__informasi-pendukung-wrapper {
+        padding: 20px;
+      }
+
+      &__informasi-pendukung-wrapper {
+        border-top: 1px solid #E9E9E9;
+      }
+
       .informasi-utama {
         display: flex;
-        gap: 100px;
+        justify-content: space-between;
         margin-bottom: 20px;
 
         .column {
@@ -344,12 +374,28 @@
             color: #696969;
             font-size: 14px;
             font-weight: 400;
+            width: 400px;
 
             &--flex {
               display: flex;
               align-items: flex-end;
               gap: 5px;
             }
+
+            &--flex-start {
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              gap: 8px;
+            }
+          }
+
+          &__fasilitas {
+            padding: 4px 12px;
+            border-radius: 80px;
+            border: 1px solid var(--neutral-gray-200, #D9D9D9);
+            background: var(--neutral-gray-100, #E9E9E9);
+            box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
           }
         }
       }

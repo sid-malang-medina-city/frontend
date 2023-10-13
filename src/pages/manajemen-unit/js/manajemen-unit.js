@@ -92,7 +92,7 @@ export default {
     async getUnits () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchUnits(this.filters)
+        const { data } = await this.fetchUnits(this.generateFilters)
         this.units = JSON.parse(JSON.stringify(data.data))
         this.totalUnits = data.pagination.total_items
         this.initPriceRange(data.data)
