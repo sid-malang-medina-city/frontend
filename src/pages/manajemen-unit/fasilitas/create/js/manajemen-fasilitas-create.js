@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { unitStore } from '~/store/unit'
+import { fasilitasStore } from '~/store/unit/fasilitas'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -30,7 +30,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(unitStore, ['createFasilitas']),
+    ...mapActions(fasilitasStore, ['createFasilitas']),
 
     goToManajemenFasilitas () {
       this.redirectTo('ManajemenFasilitas')

@@ -1,5 +1,8 @@
 import { mapActions } from 'pinia'
 import { unitStore } from '~/store/unit'
+import { clusterStore } from '~/store/unit/cluster'
+import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { fasilitasStore } from '~/store/unit/fasilitas'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -117,11 +120,11 @@ export default {
   methods: {
     ...mapActions(unitStore, [
       'editUnit',
-      'fetchUnit',
-      'fetchTipeUnits',
-      'fetchClusters',
-      'fetchFasilitass'
+      'fetchUnit'
     ]),
+    ...mapActions(clusterStore, ['fetchClusters']),
+    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
+    ...mapActions(fasilitasStore, ['fetchFasilitass']),
 
     async getUnit () {
       try {

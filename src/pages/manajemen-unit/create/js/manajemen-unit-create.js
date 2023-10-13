@@ -1,5 +1,8 @@
 import { mapActions } from 'pinia'
 import { unitStore } from '~/store/unit'
+import { clusterStore } from '~/store/unit/cluster'
+import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { fasilitasStore } from '~/store/unit/fasilitas'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -112,22 +115,13 @@ export default {
     this.getTipeUnits()
     this.getClusters()
     this.getFasilitas()
-    // this.getDivisions()
   },
 
   methods: {
-    // ...mapActions(userStore, [
-    //   'createUser',
-    //   'fetchDivisions',
-    //   'fetchRoles'
-    // ]),
-
-    ...mapActions(unitStore, [
-      'createUnit',
-      'fetchTipeUnits',
-      'fetchClusters',
-      'fetchFasilitass'
-    ]),
+    ...mapActions(unitStore, ['createUnit']),
+    ...mapActions(clusterStore, ['fetchClusters']),
+    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
+    ...mapActions(fasilitasStore, ['fetchFasilitass']),
 
     goToManajemenUnit () {
       this.redirectTo('ManajemenUnit')

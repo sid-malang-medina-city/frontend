@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { unitStore } from '~/store/unit'
+import { clusterStore } from '~/store/unit/cluster'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -70,7 +70,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(unitStore, [
+    ...mapActions(clusterStore, [
       'fetchClusters',
       'deleteCluster'
     ]),

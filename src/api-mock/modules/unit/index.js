@@ -13,21 +13,21 @@ export default [
           'nomor_kavling': 'A-12',
           'status': 'TERJUAL',
           'harga': '2500000000',
-          'tipe': 'Tipe 70',
+          'tipe_nama': 'Tipe 70',
         },
         {
           'id': 2,
           'nomor_kavling': 'A-13',
           'status': 'BOOKING',
           'harga': '3500000000',
-          'tipe': 'Tipe 69',
+          'tipe_nama': 'Tipe 69',
         },
         {
           'id': 3,
           'nomor_kavling': 'A-14',
           'status': 'TERSEDIA',
           'harga': '4500000000',
-          'tipe': 'Tipe 71',
+          'tipe_nama': 'Tipe 71',
         }
       ],
       'pagination': {

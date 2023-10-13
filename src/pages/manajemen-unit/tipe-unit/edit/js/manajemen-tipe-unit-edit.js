@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { unitStore } from '~/store/unit'
+import { tipeUnitStore } from '~/store/unit/tipe-unit'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -38,7 +38,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(unitStore, [
+    ...mapActions(tipeUnitStore, [
       'fetchTipeUnit',
       'editTipeUnit'
     ]),
