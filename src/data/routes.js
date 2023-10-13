@@ -21,6 +21,9 @@ const ManajemenFasilitasCreate = defineAsyncComponent(() => import(/* webpackChu
 const ManajemenFasilitasEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-fasilitas-edit" */ '~/pages/manajemen-unit/fasilitas/edit/ManajemenFasilitasEdit.vue'))
 const ManajemenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen" */ '~/pages/manajemen-konsumen/ManajemenKonsumen.vue'))
 const ManajemenKonsumenCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen-create" */ '~/pages/manajemen-konsumen/create/ManajemenKonsumenCreate.vue'))
+const ManajemenMarketer = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer" */ '~/pages/marketing/manajemen-marketer/ManajemenMarketer.vue'))
+const ManajemenMarketerCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-create" */ '~/pages/marketing/manajemen-marketer/create/ManajemenMarketerCreate.vue'))
+const ManajemenMarketerEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-edit" */ '~/pages/marketing/manajemen-marketer/edit/ManajemenMarketerEdit.vue'))
 
 export default [
   {
@@ -251,5 +254,38 @@ export default [
       action: 'MANAJEMEN_KONSUMEN_CREATE',
       requireLogin: true
     }
-  }
+  },
+  {
+    path: '/marketing/manajemen-marketer',
+    name: 'ManajemenMarketer',
+    component: ManajemenMarketer,
+    meta: {
+      title: 'Manajemen Marketer',
+      module: 'MANAJEMEN_MARKETER',
+      action: 'MANAJEMEN_MARKETER_VIEW',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/manajemen-marketer/create',
+    name: 'ManajemenMarketerCreate',
+    component: ManajemenMarketerCreate,
+    meta: {
+      title: 'Manajemen Marketer Create',
+      module: 'MANAJEMEN_MARKETER',
+      action: 'MANAJEMEN_MARKETER_CREATE',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/manajemen-marketer/edit/:id',
+    name: 'ManajemenMarketerEdit',
+    component: ManajemenMarketerEdit,
+    meta: {
+      title: 'Manajemen Marketer Edit',
+      module: 'MANAJEMEN_MARKETER',
+      action: 'MANAJEMEN_MARKETER_Edit',
+      requireLogin: true
+    }
+  },
 ]

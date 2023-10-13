@@ -25,9 +25,9 @@ export const NAVIGATION_ITEMS = [
     labelIndex: 2,
     children: [
       {
-        label: 'Data Marketer',
-        path: '/data-marketer',
-        routeName: '',
+        label: 'Manajemen Marketer',
+        path: '/marketing/manajemen-marketer',
+        routeName: 'ManajemenMarketer',
         menuCode: 'DATA_MARKETER_ACCESS',
         labelIndex: 1,
         childRoutes: [],
@@ -35,16 +35,16 @@ export const NAVIGATION_ITEMS = [
       },
       {
         label: 'Laporan Marketing',
-        path: '/laporan-marketing',
-        menuCode: 'LAPORAN_MARKETING_ACCESS',
+        path: '/marketing/laporan-marketing',
         routeName: 'LaporanMarketing',
+        menuCode: 'LAPORAN_MARKETING_ACCESS',
         labelIndex: 2,
         childRoutes: [],
         iconPath: null
       },
       {
         label: 'Laporan Invoice',
-        path: '/laporan-marketing-invoice',
+        path: '/marketing/laporan-invoice',
         menuCode: 'LAPORAN_MARKETING_INVOICE_ACCESS',
         routeName: 'LaporanMarketingInvoice',
         labelIndex: 3,

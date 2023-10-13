@@ -46,7 +46,6 @@ export default {
       minPrice: 0,
       maxPrice: 0,
       priceRange: [0, 0],
-      statuses: [],
       units: [],
       totalUnits: 0,
       visibleFilter: false,

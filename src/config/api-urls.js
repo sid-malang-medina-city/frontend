@@ -28,7 +28,10 @@ export default {
     list: '/konsumen',
     detail: id => `konsumen/${encodeURIComponent(id)}`
   },
-  marketer: {
-    list: '/marketer'
+  marketing: {
+    marketer: {
+      list: '/marketing/marketer',
+      detail: id => `/marketing/marketer/${encodeURIComponent(id)}`
+    }
   }
 }

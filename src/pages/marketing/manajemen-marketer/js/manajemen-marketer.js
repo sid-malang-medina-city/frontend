@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { konsumenStore } from '~/store/konsumen'
+import { marketerStore } from '~/store/marketing/marketer'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -14,36 +14,21 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 
-const STATUS_KONSUMEN = {
-  BOOKING: {
-    name: 'Booking',
-    code: 'BOOKING',
+const STATUS_MARKETER = {
+  INHOUSE: {
+    name: 'Inhouse',
+    code: 'INHOUSE',
     color: '#1DC4F9'
   },
-  TERJADWAL_VERIFIKASI: {
-    name: 'Terjadwal verifikasi',
-    code: 'TERJADWAL_VERIFIKASI',
-    color: '#F91DBB'
-  },
-  TERVERIFIKASI: {
-    name: 'Terverifikasi',
-    code: 'TERVERIFIKASI',
-    color: '#0B6BC4'
-  },
-  DITOLAK: {
-    name: 'Ditolak',
-    code: 'DITOLAK',
-    color: '#C4C4C4'
-  },
-  CANCEL: {
-    name: 'Cancel',
-    code: 'CANCEL',
-    color: '#FF613A'
+  EXTERNAL: {
+    name: 'Eksternal',
+    code: 'EXTERNAL',
+    color: '#C62786'
   }
 }
 
 export default {
-  name: 'manajemen-konsumen',
+  name: 'manajemen-marketer',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -65,9 +50,9 @@ export default {
         page: 1,
         size: 10
       },
-      statuses: STATUS_KONSUMEN,
-      konsumens: [],
-      totalKonsumens: 0,
+      statuses: STATUS_MARKETER,
+      marketers: [],
+      totalMarketers: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
@@ -78,8 +63,8 @@ export default {
   },
 
   computed: {
-    totalShownKonsumens () {
-      const totalItems = this.totalKonsumens
+    totalShownMarketers () {
+      const totalItems = this.totalMarketers
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -96,21 +81,21 @@ export default {
   },
 
   created () {
-    this.getKonsumens()
+    this.getMarketers()
   },
 
   methods: {
-    ...mapActions(konsumenStore, [
-      'fetchKonsumens',
-      'deleteKonsumen'
+    ...mapActions(marketerStore, [
+      'fetchMarketers',
+      'deleteMarketer'
     ]),
 
-    async getKonsumens () {
+    async getMarketers () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchKonsumens(this.generateFilters)
-        this.konsumens = JSON.parse(JSON.stringify(data.data))
-        this.totalKonsumens = data.pagination.total_items
+        const { data } = await this.fetchMarketers(this.generateFilters)
+        this.marketers = JSON.parse(JSON.stringify(data.data))
+        this.totalMarketers = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -120,11 +105,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getKonsumens()
+      this.getMarketers()
     },
 
     handleFilterChange () {
-      this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenMarketer', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -135,8 +120,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus konsumen ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus konsumen berarti menghilangkan progress data dan akses mereka',
-          'Hapus Konsumen',
+          'Apakah anda yakin ingin menghapus marketer ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus marketer berarti menghilangkan progress data dan akses mereka',
+          'Hapus Marketer',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -144,21 +129,30 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteKonsumen(id)
-        this.showToast('Konsumen berhasil dihapus!')
+        await this.handleDeleteMarketer(id)
+        this.showToast('Marketer berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteKonsumen(id) {
+    async handleDeleteMarketer(id) {
       try {
-        await this.deleteKonsumen(id)
+        await this.deleteMarketer(id)
+        this.getMarketers()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenKonsumenCreate')
+      this.redirectTo('ManajemenMarketerCreate')
+    },
+
+    goToEditPage (id) {
+      this.redirectTo('ManajemenMarketerEdit', {
+        params: {
+          id: id
+        }
+      })
     }
   }
 }
