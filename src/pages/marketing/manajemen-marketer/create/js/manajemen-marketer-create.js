@@ -5,25 +5,14 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 
-const PHONE_NUMBER_REGEX = /^\d+$/
+import { STATUS_MARKETER } from '~/data/marketing'
 
 import {
   CircleCheckFilled,
   WarningFilled
 } from '@element-plus/icons-vue'
 
-const STATUS_MARKETER = {
-  INHOUSE: {
-    name: 'Inhouse',
-    code: 'INHOUSE',
-    color: '#1DC4F9'
-  },
-  EXTERNAL: {
-    name: 'Eksternal',
-    code: 'EXTERNAL',
-    color: '#C62786'
-  }
-}
+const PHONE_NUMBER_REGEX = /^\d+$/
 
 export default {
   name: 'manajemen-marketer-create',

@@ -23,6 +23,18 @@ export default {
     return output
   },
 
+  convertDateTimeZoneToDateString (dateTime) {
+    if (!dateTime) {
+      return
+    }
+
+    const inputDate = new Date(dateTime);
+    const formattedDate = `${inputDate.getDate().toString().padStart(2, '0')}/${(inputDate.getMonth() + 1).toString().padStart(2, '0')}/${inputDate.getFullYear()}`
+    
+    const output = `${formattedDate}`;
+    return output
+  },
+
   fileToByteArray (file) {
     return new Promise((resolve, reject) => {
       try {

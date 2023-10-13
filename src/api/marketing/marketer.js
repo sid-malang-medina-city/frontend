@@ -14,4 +14,7 @@ export default {
   createMarketer (body) {
     return api.postRequest(apiUrls.marketing.marketer.list, body)
   },
+  editMarketer (id, body) {
+    return api.putRequest(apiUrls.marketing.marketer.detail(id), body)
+  },
 }

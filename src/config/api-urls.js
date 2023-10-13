@@ -32,6 +32,10 @@ export default {
     marketer: {
       list: '/marketing/marketer',
       detail: id => `/marketing/marketer/${encodeURIComponent(id)}`
+    },
+    laporanMarketing: {
+      list: '/marketing/laporan-marketing',
+      detail: id => `/marketing/laporan-marketing/${encodeURIComponent(id)}`
     }
   }
 }

@@ -1,11 +1,12 @@
 import { mapActions } from 'pinia'
-import { marketerStore } from '~/store/marketing/marketer'
+import { laporanMarketingStore } from '~/store/marketing/laporan-marketing'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import helpers from '~/utils/helpers'
 
-import { STATUS_MARKETER } from '~/data/marketing'
+import { STATUS_MARKETING } from '~/data/marketing'
 
 import {
   ArrowDown,
@@ -17,7 +18,7 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-marketer',
+  name: 'laporan-marketing',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -39,21 +40,22 @@ export default {
         page: 1,
         size: 10
       },
-      statuses: STATUS_MARKETER,
-      marketers: [],
-      totalMarketers: 0,
+      statuses: STATUS_MARKETING,
+      laporanMarketings: [],
+      totalLaporanMarketings: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
         edit: Edit
-      }
+      },
+      helpers
     }
   },
 
   computed: {
-    totalShownMarketers () {
-      const totalItems = this.totalMarketers
+    totalShownLaporanMarketings () {
+      const totalItems = this.totalLaporanMarketings
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -70,22 +72,24 @@ export default {
   },
 
   created () {
-    this.getMarketers()
+    this.getLaporanMarketings()
   },
 
   methods: {
-    ...mapActions(marketerStore, [
-      'fetchMarketers',
-      'deleteMarketer'
+    ...mapActions(laporanMarketingStore, [
+      'fetchLaporanMarketings',
+      'deleteLaporanMarketing'
     ]),
 
-    async getMarketers () {
+    async getLaporanMarketings () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchMarketers(this.generateFilters)
-        this.marketers = JSON.parse(JSON.stringify(data.data))
-        this.totalMarketers = data.pagination.total_items
+        const { data } = await this.fetchLaporanMarketings(this.generateFilters)
+        console.log('data', data)
+        this.laporanMarketings = JSON.parse(JSON.stringify(data.data))
+        this.totalLaporanMarketings = data.pagination.total_items
       } catch (error) {
+        console.log(error)
         this.showErrorResponse(error)
       } finally {
         this.visibleLoadingTable = false
@@ -94,11 +98,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getMarketers()
+      this.getLaporanMarketings()
     },
 
     handleFilterChange () {
-      this.setRouteParam('ManajemenMarketer', { ...this.query, ...this.filters })
+      this.setRouteParam('LaporanMarketing', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -106,38 +110,8 @@ export default {
       this.visibleFilter = !this.visibleFilter
     },
 
-    async openModalConfirmation (id) {
-      try {
-        await this.$confirm(
-          'Apakah anda yakin ingin menghapus marketer ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus marketer berarti menghilangkan progress data dan akses mereka',
-          'Hapus Marketer',
-          {
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal',
-            type: 'warning',
-            showClose: true
-          }
-        )
-        await this.handleDeleteMarketer(id)
-        this.showToast('Marketer berhasil dihapus!')
-      } catch (e) {}
-    },
-
-    async handleDeleteMarketer(id) {
-      try {
-        await this.deleteMarketer(id)
-        this.getMarketers()
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
-    },
-
-    goToCreatePage () {
-      this.redirectTo('ManajemenMarketerCreate')
-    },
-
     goToEditPage (id) {
-      this.redirectTo('ManajemenMarketerEdit', {
+      this.redirectTo('LaporanMarketingEdit', {
         params: {
           id: id
         }

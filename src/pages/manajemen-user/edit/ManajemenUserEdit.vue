@@ -25,15 +25,15 @@
                 Divisi
               </div>
               <el-select
-                v-model="formData.division"
+                v-model="formData.division_id"
                 placeholder="Pilih divisi"
                 class="row__input"
               >
                 <el-option
                   v-for="division in divisions"
-                  :key="division.code"
+                  :key="division.id"
                   :label="division.name"
-                  :value="division.code"
+                  :value="division.id"
                 />
               </el-select>
             </div>
@@ -44,15 +44,15 @@
                 Role
               </div>
               <el-select
-                v-model="formData.role"
+                v-model="formData.role_id"
                 placeholder="Pilih role"
                 class="row__input"
               >
                 <el-option
                   v-for="role in roles"
-                  :key="role.code"
+                  :key="role.id"
                   :label="role.name"
-                  :value="role.code"
+                  :value="role.id"
                 />
               </el-select>
             </div>

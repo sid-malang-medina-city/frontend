@@ -14,6 +14,9 @@ export const marketerStore = defineStore('MarketerStore', {
     },
     async createMarketer (body) {
       return api.createMarketer(body)
+    },
+    async editMarketer (id, body) {
+      return api.editMarketer(id, body)
     }
   }
 })

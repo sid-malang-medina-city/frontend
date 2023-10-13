@@ -27,8 +27,8 @@ export default {
     return {
       formData: {
         name: '',
-        division: '',
-        role: '',
+        division_id: '',
+        role_id: '',
         email: ''
       },
       error: {
@@ -85,7 +85,13 @@ export default {
     async initData () {
       try {
         const { data } = await this.fetchUser(this.id)
-        this.formData = JSON.parse(JSON.stringify(data))
+        const userData = JSON.parse(JSON.stringify(data)) 
+        this.formData = {
+          name: userData.name,
+          division_id: userData.division.id,
+          role_id: userData.role.id,
+          email: userData.email
+        }
       } catch (error) {
         this.showErrorResponse(error)
       }

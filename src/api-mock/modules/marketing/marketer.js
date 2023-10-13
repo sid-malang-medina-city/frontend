@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 
 export default [
   {
-    url: BASE_URL + '/marketer',
+    url: BASE_URL + '/marketing/marketer',
     method: 'GET',
     response: {
       'code': 200,

@@ -27,8 +27,8 @@ export default {
     return {
       formData: {
         name: '',
-        division: '',
-        role: '',
+        division_id: '',
+        role_id: '',
         email: '',
         password: '',
         confirmPassword: '',

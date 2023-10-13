@@ -193,7 +193,7 @@
                 </div>
                 <div class="row__value row__value--flex-start">
                   <div
-                    v-if="unit.fasilitas.length > 0"
+                    v-if="unit.fasilitas?.length > 0"
                     v-for="fasilitas in unit.fasilitas"
                     class="row__fasilitas"
                   >

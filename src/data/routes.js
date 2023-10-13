@@ -24,6 +24,8 @@ const ManajemenKonsumenCreate = defineAsyncComponent(() => import(/* webpackChun
 const ManajemenMarketer = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer" */ '~/pages/marketing/manajemen-marketer/ManajemenMarketer.vue'))
 const ManajemenMarketerCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-create" */ '~/pages/marketing/manajemen-marketer/create/ManajemenMarketerCreate.vue'))
 const ManajemenMarketerEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-edit" */ '~/pages/marketing/manajemen-marketer/edit/ManajemenMarketerEdit.vue'))
+const LaporanMarketing = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing" */ '~/pages/marketing/laporan-marketing/LaporanMarketing.vue'))
+const LaporanMarketingEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing-edit" */ '~/pages/marketing/laporan-marketing/edit/LaporanMarketingEdit.vue'))
 
 export default [
   {
@@ -285,6 +287,28 @@ export default [
       title: 'Manajemen Marketer Edit',
       module: 'MANAJEMEN_MARKETER',
       action: 'MANAJEMEN_MARKETER_Edit',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/laporan-marketing',
+    name: 'LaporanMarketing',
+    component: LaporanMarketing,
+    meta: {
+      title: 'Laporan Marketing',
+      module: 'LAPORAN_MARKETING',
+      action: 'LAPORAN_MARKETING_VIEW',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/laporan-marketing/edit/:id',
+    name: 'LaporanMarketingEdit',
+    component: LaporanMarketingEdit,
+    meta: {
+      title: 'Laporan Marketing Edit',
+      module: 'LAPORAN_MARKETING',
+      action: 'LAPORAN_MARKETING_Edit',
       requireLogin: true
     }
   },
