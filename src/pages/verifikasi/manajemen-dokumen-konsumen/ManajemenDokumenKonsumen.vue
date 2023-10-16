@@ -1,0 +1,344 @@
+<template>
+  <div class="manajemen-dokumen-konsumen">
+    <page-header title="Manajemen Dokumen Konsumen" />
+    <div class="manajemen-dokumen-konsumen__wrapper page-content">
+      <div class="manajemen-dokumen-konsumen__actions-wrapper">
+        <div class="manajemen-dokumen-konsumen__actions actions">
+          <el-button
+            type="secondary"
+            class="actions__filter-btn"
+            @click="toggleFilter"
+          >
+            Filter
+            <el-icon class="el-icon--right">
+              <ArrowDown v-if="!visibleFilter" />
+              <ArrowUp v-else />
+            </el-icon>
+          </el-button>
+        </div>
+        <div
+          v-if="visibleFilter"
+          class="manajemen-dokumen-konsumen__filters filters"
+        >
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              ID/Nama Marketer/Konsumen/Unit
+            </div>
+            <el-input
+              v-model="filters.search"
+              placeholder="Cari berdasarkan ID atau nama"
+              class="filters__input"
+              @keyup="debounceDelay(() => handleFilterChange())"
+            >
+              <template #suffix>
+                <el-icon class="el-input__icon"><Search /></el-icon>
+              </template>
+            </el-input>
+          </div>
+
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status Verifikasi
+            </div>
+            <el-select
+              v-model="filters.status_verifikasi"
+              placeholder="Pilih status verifikasi"
+              class="filters__input"
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="status in verificationStatuses"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
+              />
+            </el-select>
+          </div>
+
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status Pembayaran
+            </div>
+            <el-select
+              v-model="filters.status_pembayaran"
+              placeholder="Pilih status pembayaran"
+              class="filters__input"
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="status in paymentStatuses"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
+              />
+            </el-select>
+          </div>
+        </div>
+      </div>
+
+      <div class="manajemen-dokumen-konsumen__table-wrapper">
+        <el-table
+          v-loading="visibleLoadingTable"
+          :data="dokumenKonsumens"
+          class="manajemen-dokumen-konsumen__table table general-table"
+          header-row-class-name="general-table__header-gray"
+          stripe
+          @row-click="goToDetailPage"
+        >
+          <el-table-column
+            prop="id"
+            label="ID"
+            min-width="100"
+          />
+          <el-table-column
+            prop="konsumen_nama"
+            label="Nama Konsumen"
+            min-width="220"
+          />
+          <el-table-column
+            prop="laporan_marketing_id"
+            label="ID Laporan Marketing"
+            min-width="210"
+          />
+          <el-table-column
+            prop="unit_nomor_kavling"
+            label="Unit"
+            min-width="180"
+          />
+          <el-table-column
+            prop="status_verifikasi"
+            label="Status Verifikasi"
+            min-width="170"
+          >
+            <template #default="scope">
+              <status-badge
+                :color="verificationStatuses[scope.row.status_verifikasi].color"
+                :text="verificationStatuses[scope.row.status_verifikasi].name"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="status_pembayaran"
+            label="Status Pembayaran"
+            min-width="170"
+          >
+            <template #default="scope">
+              <status-badge
+                :color="paymentStatuses[scope.row.status_pembayaran].color"
+                :text="paymentStatuses[scope.row.status_pembayaran].name"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="true"
+            prop="e_ktp_access_url"
+            label="e-KTP"
+            min-width="170"
+          >
+            <template #default="scope">
+              <img
+                v-if="scope.row.e_ktp_access_url"
+                :src="scope.row.e_ktp_access_url"
+                alt="e-KTP"
+                class="table__img"
+              >
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="true"
+            prop="kartu_keluarga_access_url"
+            label="Kartu Keluarga"
+            min-width="170"
+          >
+            <template #default="scope">
+              <img
+                v-if="scope.row.kartu_keluarga_access_url"
+                :src="scope.row.kartu_keluarga_access_url"
+                alt="Kartu Keluarga"
+                class="table__img"
+              >
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="true"
+            prop="slip_gaji_access_url"
+            label="Slip Gaji"
+            min-width="170"
+          >
+            <template #default="scope">
+              <img
+                v-if="scope.row.slip_gaji_access_url"
+                :src="scope.row.slip_gaji_access_url"
+                alt="Slip Gaji"
+                class="table__img"
+              >
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="true"
+            prop="mutasi_tabungan_access_url"
+            label="Mutasi Tabungan"
+            min-width="170"
+          >
+            <template #default="scope">
+              <img
+                v-if="scope.row.mutasi_tabungan_access_url"
+                :src="scope.row.mutasi_tabungan_access_url"
+                alt="Mutasi Tabungan"
+                class="table__img"
+              >
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="true"
+            prop="surat_pernikahan_access_url"
+            label="Surat Pernikahan"
+            min-width="170"
+          >
+            <template #default="scope">
+              <img
+                v-if="scope.row.surat_pernikahan_access_url"
+                :src="scope.row.surat_pernikahan_access_url"
+                alt="Surat Pernikahan"
+                class="table__img"
+              >
+              <div v-else>-</div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="Action"
+            width="90"
+            align="center"
+            fixed="right"
+          >
+            <template #default="scope">
+              <div class="table__actions">
+                <el-button
+                  :icon="icons.edit"
+                  type="primary"
+                  class="table__actions-edit"
+                  text
+                  @click.stop="goToEditPage(scope.row.id)"
+                />
+                <el-button
+                  :icon="icons.delete"
+                  type="primary"
+                  class="table__actions-delete"
+                  text
+                  @click.stop="openModalConfirmation(scope.row.id)"
+                />
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="manajemen-dokumen-konsumen__footer">
+          <div class="manajemen-dokumen-konsumen__total-dokumen-konsumens font-grey">
+            Showing {{ totalShownDokumenKonsumens }} of {{ totalDokumenKonsumens }} dokumen konsumen
+          </div>
+          <div class="manajemen-dokumen-konsumen__pagination">
+            <el-pagination
+              :current-page="pagination.page"
+              :page-size="pagination.size"
+              :total="totalDokumenKonsumens"
+              layout="prev, pager, next"
+              background
+              hide-on-single-page
+              @current-change="handlePageChange"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="./js/manajemen-dokumen-konsumen.js"></script>
+
+<style lang="scss" scoped>
+@import "~/assets/scss/main.scss";
+@import "~/assets/scss/table.scss";
+
+  .manajemen-dokumen-konsumen {
+    &__actions-wrapper {
+      border-radius: 12px;
+      border: 1px solid #EAEAEA;
+      background: white;
+      box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
+      padding: 16px 20px;
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: space-between;
+
+      &__filter-btn {
+        width: 100px;
+      }
+    }
+
+    .filters {
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #E3EADC;
+      background: #F6F8F4;
+      display: flex;
+      gap: 24px;
+      margin-top: 16px;
+
+      &__label {
+        margin-bottom: 8px;
+        color: #434343;
+        font-family: Plus Jakarta Sans;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      &__input {
+        width: 265px;
+      }
+    }
+
+    &__table-wrapper {
+      border-radius: 12px;
+      border: 1px solid #EAEAEA;
+      background: white;
+      box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .table {
+      margin-bottom: 24px;
+
+      &__img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+
+      &__actions {
+        display: flex;
+        justify-content: center;
+
+        &-edit, &-delete {
+          padding: 0;
+        }
+      }
+    }
+
+    &__footer {
+      color: #7B7B7B;
+      font-family: Plus Jakarta Sans;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+</style>

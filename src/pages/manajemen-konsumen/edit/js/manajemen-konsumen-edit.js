@@ -27,7 +27,7 @@ const STATUS_KONSUMEN = {
 }
 
 export default {
-  name: 'manajemen-konsumen-create',
+  name: 'manajemen-konsumen-edit',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -63,19 +63,33 @@ export default {
   computed: {
     isAllRequiredFieldsFilled () {
       return this.requiredFields.every(field => !!this.formData[field])
+    },
+    
+    id () {
+      return this.$route.params.id
     }
   },
 
   created () {
+    this.getKonsumen()
     this.getMarketers()
     this.getUnits()
   },
 
   methods: {
-    ...mapActions(konsumenStore, ['createKonsumen']),
+    ...mapActions(konsumenStore, ['editKonsumen', 'fetchKonsumen']),
     ...mapActions(marketerStore, ['fetchMarketers']),
     ...mapActions(unitStore, ['fetchUnits']),
 
+    async getKonsumen () {
+      try {
+        const { data } = await this.fetchKonsumen(this.id)
+        this.formData = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
     async getMarketers () {
       try {
         const { data } = await this.fetchMarketers({ skip_pagination: "True" })
@@ -126,9 +140,9 @@ export default {
       if (this.validateEmail() && this.validatePhoneNumber()) {
         this.visibleLoading = true
         try {
-          await this.createKonsumen(this.formData)
+          await this.editKonsumen(this.id, this.formData)
           this.redirectTo('ManajemenKonsumen')
-          this.showToast('Konsumen baru berhasil ditambahkan!')
+          this.showToast('Konsumen berhasil diperbaharui!')
         } catch (e) {
           this.showErrorResponse(e)
         } finally {

@@ -77,7 +77,7 @@
           @row-click="goToDetailPage"
         >
           <el-table-column
-            prop="name"
+            prop="nama"
             label="Nama"
             min-width="120"
           />
@@ -87,7 +87,7 @@
             min-width="210"
           />
           <el-table-column
-            prop="address"
+            prop="alamat"
             label="Alamat"
             min-width="250"
           />

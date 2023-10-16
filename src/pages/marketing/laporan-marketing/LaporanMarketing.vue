@@ -41,7 +41,7 @@
               Status
             </div>
             <el-select
-              v-model="filters.status"
+              v-model="filters.status_fee"
               placeholder="Pilih status"
               class="filters__input"
               @change="handleFilterChange()"
@@ -72,12 +72,12 @@
             min-width="100"
           />
           <el-table-column
-            prop="marketer.nama"
+            prop="marketer_nama"
             label="Nama"
             min-width="210"
           />
           <el-table-column
-            prop="dokumen_konsumen.nama"
+            prop="dokumen_konsumen_id"
             label="Dokumen Konsumen"
             min-width="150"
           />

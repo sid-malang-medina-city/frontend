@@ -34,7 +34,7 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        status: this.$route.query.status || null
+        status_fee: this.$route.query.status_fee || null
       },
       pagination: {
         page: 1,

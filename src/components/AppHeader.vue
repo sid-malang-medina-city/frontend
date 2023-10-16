@@ -1,14 +1,14 @@
 <template>
   <div class="header">
-    <el-icon class="header__icon">
+    <!-- <el-icon class="header__icon">
       <Search />
-    </el-icon>
+    </el-icon> -->
     <el-icon class="header__icon">
       <Bell />
     </el-icon>
-    <el-icon class="header__icon">
+    <!-- <el-icon class="header__icon">
       <User />
-    </el-icon>
+    </el-icon> -->
   </div>
 </template>
 

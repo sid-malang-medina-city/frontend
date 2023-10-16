@@ -1,9 +1,10 @@
 import { mapActions } from 'pinia'
-import { konsumenStore } from '~/store/konsumen'
+import { dokumenKonsumenStore } from '~/store/verifikasi/dokumen-konsumen'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import DebounceHandler from '~/mixins/debounce-handler'
 
 import {
   ArrowDown,
@@ -14,7 +15,7 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 
-const STATUS_VERIFIKASI_KONSUMEN = {
+const STATUS_VERIFIKASI = {
   BOOKING: {
     name: 'Booking',
     code: 'BOOKING',
@@ -42,23 +43,43 @@ const STATUS_VERIFIKASI_KONSUMEN = {
   }
 }
 
-const STATUS_KONSUMEN = {
-  BOOKING: {
-    name: 'Booking',
-    code: 'BOOKING',
-    color: '#1DC4F9'
+const STATUS_PEMBAYARAN = {
+  BELUM_TERBAYAR: {
+    name: 'Belum Terbayar',
+    code: 'BELUM_TERBAYAR',
+    color: '#C4C4C4'
   },
-  PROSPECT: {
-    name: 'Prospect',
-    code: 'PROSPECT',
-    color: '#F91DBB'
+  DP1: {
+    name: 'DP 1',
+    code: 'DP1',
+    color: '#F9CA1D'
+  },
+  DP1_PPJB: {
+    name: 'DP1 + PPJB',
+    code: 'DP1_PPJB',
+    color: '#F9CA1D'
+  },
+  CASH_LUNAS: {
+    name: 'Cash Lunas',
+    code: 'CASH_LUNAS',
+    color: '#74C627'
+  },
+  CASH_LUNAS_PPJB: {
+    name: 'Cash Lunas + PPJB',
+    code: 'CASH_LUNAS_PPJB',
+    color: '#74C627'
+  },
+  REFUND_TERBAYAR: {
+    name: 'Refund Terbayar',
+    code: 'REFUND_TERBAYAR',
+    color: '#559816'
   },
 }
 
 export default {
-  name: 'manajemen-konsumen',
+  name: 'manajemen-dokumen-konsumen',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, DebounceHandler],
 
   components: {
     PageHeader,
@@ -72,16 +93,19 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        status: this.$route.query.status || null
+        division: this.$route.query.division || null,
+        role: this.$route.query.role || null,
       },
       pagination: {
         page: 1,
         size: 10
       },
-      statuses: STATUS_KONSUMEN,
-      verificationStatuses: STATUS_VERIFIKASI_KONSUMEN,
-      konsumens: [],
-      totalKonsumens: 0,
+      divisions: [],
+      roles: [],
+      dokumenKonsumens: [],
+      totalDokumenKonsumens: 0,
+      verificationStatuses: STATUS_VERIFIKASI,
+      paymentStatuses: STATUS_PEMBAYARAN,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
@@ -92,8 +116,8 @@ export default {
   },
 
   computed: {
-    totalShownKonsumens () {
-      const totalItems = this.totalKonsumens
+    totalShownDokumenKonsumens () {
+      const totalItems = this.totalDokumenKonsumens
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -110,21 +134,21 @@ export default {
   },
 
   created () {
-    this.getKonsumens()
+    this.visibleFilter = Object.keys(this.filters).some(key => !!this.filters[key])
+    this.getDokumenKonsumens()
   },
 
   methods: {
-    ...mapActions(konsumenStore, [
-      'fetchKonsumens',
-      'deleteKonsumen'
+    ...mapActions(dokumenKonsumenStore, [
+      'fetchDokumenKonsumens'
     ]),
 
-    async getKonsumens () {
+    async getDokumenKonsumens () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchKonsumens(this.generateFilters)
-        this.konsumens = JSON.parse(JSON.stringify(data.data))
-        this.totalKonsumens = data.pagination.total_items
+        const { data } = await this.fetchDokumenKonsumens(this.generateFilters)
+        this.dokumenKonsumens = JSON.parse(JSON.stringify(data.data))
+        this.totalDokumenKonsumens = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -134,11 +158,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getKonsumens()
+      this.getDokumenKonsumens()
     },
 
     handleFilterChange () {
-      this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenDokumenKonsumen', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -146,37 +170,16 @@ export default {
       this.visibleFilter = !this.visibleFilter
     },
 
-    async openModalConfirmation (id) {
-      try {
-        await this.$confirm(
-          'Apakah anda yakin ingin menghapus konsumen ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus konsumen berarti menghilangkan progress data dan akses mereka',
-          'Hapus Konsumen',
-          {
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal',
-            type: 'warning',
-            showClose: true
-          }
-        )
-        await this.handleDeleteKonsumen(id)
-        this.showToast('Konsumen berhasil dihapus!')
-      } catch (e) {}
-    },
-
-    async handleDeleteKonsumen(id) {
-      try {
-        await this.deleteKonsumen(id)
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
-    },
-
-    goToCreatePage () {
-      this.redirectTo('ManajemenKonsumenCreate')
-    },
-    
     goToEditPage (id) {
-      this.redirectTo('ManajemenKonsumenEdit', {
+      this.redirectTo('ManajemenDokumenKonsumenEdit', {
+        params: {
+          id: id
+        }
+      })
+    },
+
+    goToDetailPage ({ id }) {
+      this.redirectTo('ManajemenDokumenKonsumenDetail', {
         params: {
           id: id
         }

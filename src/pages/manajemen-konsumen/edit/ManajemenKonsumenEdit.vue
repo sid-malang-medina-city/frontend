@@ -1,14 +1,14 @@
 <template>
-  <div class="manajemen-konsumen-create">
+  <div class="manajemen-konsumen-edit">
     <page-header
-      title="Buat Konsumen Baru"
+      title="Edit Konsumen"
       show-back-icon
       @back="goToManajemenKonsumen"
     />
 
     <div class="page-content">
-      <div class="manajemen-konsumen-create__wrapper">
-        <div class="manajemen-konsumen-create__input-section input-section">
+      <div class="manajemen-konsumen-edit__wrapper">
+        <div class="manajemen-konsumen-edit__input-section input-section">
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
@@ -84,6 +84,7 @@
               </div>
               <el-select
                 v-model="formData.status"
+                :disabled="formData.status === 'BOOKING'"
                 placeholder="Pilih status"
                 class="row__input"
               >
@@ -104,6 +105,7 @@
               </div>
               <el-date-picker
                 v-model="formData.dokumen_konsumen_tanggal_booking"
+                :disabled="formData.status === 'BOOKING'"
                 type="date"
                 placeholder="Pilih tanggal booking"
                 format="DD-MM-YYYY"
@@ -122,6 +124,7 @@
               </div>
               <el-select
                 v-model="formData.marketer_id"
+                :disabled="formData.status === 'BOOKING'"
                 placeholder="Pilih marketer"
                 class="row__input"
               >
@@ -138,7 +141,8 @@
                 Unit
               </div>
               <el-select
-                v-model="formData.unit_id"
+                v-model="formData.dokumen_konsumen_unit_id"
+                :disabled="formData.status === 'BOOKING'"
                 placeholder="Pilih unit"
                 class="row__input"
               >
@@ -152,14 +156,21 @@
             </div>
           </div>
         </div>
-        <div class="manajemen-konsumen-create__submit-section">
+        <div class="manajemen-konsumen-edit__submit-section">
+          <el-button
+            type="secondary"
+            class="manajemen-konsumen-edit__cancel-btn"
+            @click="goToManajemenKonsumen"
+          >
+            Cancel
+          </el-button>
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
             type="primary"
-            class="manajemen-konsumen-create__submit-btn"
+            class="manajemen-konsumen-edit__submit-btn"
             @click="submit"
           >
-            Buat Konsumen
+            Simpan
           </el-button>
         </div>
       </div>
@@ -167,12 +178,12 @@
   </div>
 </template>
 
-<script src="./js/manajemen-konsumen-create.js"></script>
+<script src="./js/manajemen-konsumen-edit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 
-  .manajemen-konsumen-create {
+  .manajemen-konsumen-edit {
     &__wrapper {
       background: white;
       border-radius: 12px;

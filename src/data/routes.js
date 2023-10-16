@@ -21,11 +21,14 @@ const ManajemenFasilitasCreate = defineAsyncComponent(() => import(/* webpackChu
 const ManajemenFasilitasEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-fasilitas-edit" */ '~/pages/manajemen-unit/fasilitas/edit/ManajemenFasilitasEdit.vue'))
 const ManajemenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen" */ '~/pages/manajemen-konsumen/ManajemenKonsumen.vue'))
 const ManajemenKonsumenCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen-create" */ '~/pages/manajemen-konsumen/create/ManajemenKonsumenCreate.vue'))
+const ManajemenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen-edit" */ '~/pages/manajemen-konsumen/edit/ManajemenKonsumenEdit.vue'))
 const ManajemenMarketer = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer" */ '~/pages/marketing/manajemen-marketer/ManajemenMarketer.vue'))
 const ManajemenMarketerCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-create" */ '~/pages/marketing/manajemen-marketer/create/ManajemenMarketerCreate.vue'))
 const ManajemenMarketerEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-edit" */ '~/pages/marketing/manajemen-marketer/edit/ManajemenMarketerEdit.vue'))
 const LaporanMarketing = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing" */ '~/pages/marketing/laporan-marketing/LaporanMarketing.vue'))
 const LaporanMarketingEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing-edit" */ '~/pages/marketing/laporan-marketing/edit/LaporanMarketingEdit.vue'))
+const ManajemenDokumenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/ManajemenDokumenKonsumen.vue'))
+// const ManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-edit" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/edit/ManajemenDokumenKonsumenEdit.vue'))
 
 export default [
   {
@@ -258,6 +261,17 @@ export default [
     }
   },
   {
+    path: '/manajemen-konsumen/edit/:id',
+    name: 'ManajemenKonsumenEdit',
+    component: ManajemenKonsumenEdit,
+    meta: {
+      title: 'Manajemen Konsumen Edit',
+      module: 'MANAJEMEN_KONSUMEN',
+      action: 'MANAJEMEN_KONSUMEN_EDIT',
+      requireLogin: true
+    }
+  },
+  {
     path: '/marketing/manajemen-marketer',
     name: 'ManajemenMarketer',
     component: ManajemenMarketer,
@@ -309,6 +323,28 @@ export default [
       title: 'Laporan Marketing Edit',
       module: 'LAPORAN_MARKETING',
       action: 'LAPORAN_MARKETING_Edit',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-dokumen-konsumen',
+    name: 'ManajemenDokumenKonsumen',
+    component: ManajemenDokumenKonsumen,
+    meta: {
+      title: 'Dokumen Konsumen',
+      module: 'DOKUMEN_KONSUMEN',
+      action: 'DOKUMEN_KONSUMEN_VIEW',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-dokumen-konsumen/edit/:id',
+    name: 'ManajemenDokumenKonsumenEdit',
+    // component: ManajemenDokumenKonsumenEdit,
+    meta: {
+      title: 'Dokumen Konsumen Edit',
+      module: 'DOKUMEN_KONSUMEN',
+      action: 'DOKUMEN_KONSUMEN_Edit',
       requireLogin: true
     }
   },

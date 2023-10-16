@@ -63,7 +63,7 @@ export default {
     async getLaporanMarketing () {
       try {
         const { data } = await this.fetchLaporanMarketing(this.id)
-        this.laporanMarketing = JSON.parse(JSON.stringify(data.data))
+        this.laporanMarketing = JSON.parse(JSON.stringify(data))
         this.formData = {
           jumlah_fee: this.laporanMarketing.jumlah_fee,
           keterangan: this.laporanMarketing.keterangan,

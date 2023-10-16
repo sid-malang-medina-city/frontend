@@ -6,7 +6,6 @@ export default {
     return api.getRequest(apiUrls.marketing.laporanMarketing.list, params)
   },
   fetchLaporanMarketing (id) {
-    console.log('msk', id)
     return api.getRequest(apiUrls.marketing.laporanMarketing.detail(id))
   },
   deleteLaporanMarketing (id) {

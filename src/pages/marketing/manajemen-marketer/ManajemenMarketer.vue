@@ -32,11 +32,11 @@
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Nama/Email
+              Nama
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari marketer berdasarkan nama/email"
+              placeholder="Cari marketer berdasarkan nama"
               class="filters__input"
               @keyup.enter="handleFilterChange()"
             >
@@ -80,11 +80,6 @@
             prop="nama"
             label="Nama"
             min-width="120"
-          />
-          <el-table-column
-            prop="email"
-            label="Email"
-            min-width="210"
           />
           <el-table-column
             prop="nomor_telepon"

@@ -1,7 +1,7 @@
 <template>
   <div class="laporan-marketing-edit">
     <page-header
-      title="Buat Laporan Marketing Baru"
+      title="Edit Laporan Marketing"
       show-back-icon
       @back="goToLaporanMarketing"
     />
@@ -44,7 +44,7 @@
                 Nama Marketer
               </div>
               <el-input
-                :value="marketerName"
+                :value="laporanMarketing.marketer_nama"
                 class="row__input"
                 disabled
               />
@@ -54,7 +54,7 @@
                 Dokumen Konsumen
               </div>
               <el-input
-                :value="dokumenKonsumenCode"
+                :value="laporanMarketing.dokumen_konsumen_id"
                 class="row__input"
                 disabled
               />

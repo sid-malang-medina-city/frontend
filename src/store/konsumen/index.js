@@ -6,6 +6,9 @@ export const konsumenStore = defineStore('KonsumenStore', {
     async fetchKonsumens (params) {
       return api.fetchKonsumens(params)
     },
+    async fetchKonsumen (id) {
+      return api.fetchKonsumen(id)
+    },
     async deleteKonsumen (body) {
       return api.deleteKonsumen(body)
     },

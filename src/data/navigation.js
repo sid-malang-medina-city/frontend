@@ -62,10 +62,10 @@ export const NAVIGATION_ITEMS = [
     labelIndex: 3,
     children: [
       {
-        label: 'Manajemen Dokumentasi Konsumen',
-        path: '/manajemen-dokumentasi-konsumen',
-        routeName: '',
-        menuCode: 'MANAJEMEN_DOKUMENTASI_KONSUMEN_ACCESS',
+        label: 'Manajemen Dokumen Konsumen',
+        path: '/verifikasi/manajemen-dokumen-konsumen',
+        routeName: 'ManajemenDokumenKonsumen',
+        menuCode: 'MANAJEMEN_DOKUMEN_KONSUMEN_ACCESS',
         labelIndex: 1,
         childRoutes: [],
         iconPath: null

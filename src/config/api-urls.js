@@ -26,7 +26,7 @@ export default {
   },
   konsumen: {
     list: '/konsumen',
-    detail: id => `konsumen/${encodeURIComponent(id)}`
+    detail: id => `/konsumen/${encodeURIComponent(id)}`
   },
   marketing: {
     marketer: {
@@ -36,6 +36,12 @@ export default {
     laporanMarketing: {
       list: '/marketing/laporan-marketing',
       detail: id => `/marketing/laporan-marketing/${encodeURIComponent(id)}`
+    }
+  },
+  verifikasi: {
+    dokumenKonsumen: {
+      list: '/verifikasi/dokumen-konsumen',
+      detail: id => `/verifikasi/dokumen-konsumen/${encodeURIComponent(id)}`
     }
   }
 }
