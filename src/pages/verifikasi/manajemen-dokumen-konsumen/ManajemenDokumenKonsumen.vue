@@ -81,6 +81,7 @@
           v-loading="visibleLoadingTable"
           :data="dokumenKonsumens"
           class="manajemen-dokumen-konsumen__table table general-table"
+          row-class-name="table__row"
           header-row-class-name="general-table__header-gray"
           stripe
           @row-click="goToDetailPage"
@@ -309,6 +310,10 @@
       box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
       padding: 20px;
       margin-top: 20px;
+    }
+
+    :deep(.table__row) {
+      height: 67px;
     }
 
     .table {
