@@ -36,46 +36,13 @@
         <div class="manajemen-dokumen-konsumen-detail__content content">
           <div class="content__informasi-umum-wrapper">
             <div class="content__informasi-umum-content">
-              <div class="content__header">
-                <img
-                  :src="icons.signature"
-                  alt="Image Icon"
-                />
-                <div class="content__header-title">
-                  Informasi Utama
-                </div>
-              </div>
               <div class="content__informasi-umum informasi-umum">
                 <div class="informasi-umum__column column">
                   <div class="column__label">
-                    Cluster
+                    ID
                   </div>
                   <div class="column__value">
-                    {{ dokumenKonsumen.cluster?.nama }}
-                  </div>
-                </div>
-                <div class="informasi-umum__column column">
-                  <div class="column__label">
-                    Nomor Kavling
-                  </div>
-                  <div class="column__value">
-                    {{ dokumenKonsumen.nomor_kavling }}
-                  </div>
-                </div>
-                <div class="informasi-umum__column column">
-                  <div class="column__label">
-                    Harga Dokumen Konsumen
-                  </div>
-                  <div class="column__value">
-                    {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga) }}
-                  </div>
-                </div>
-                <div class="informasi-umum__column column">
-                  <div class="column__label">
-                    Tipe Dokumen Konsumen
-                  </div>
-                  <div class="column__value">
-                    {{ dokumenKonsumen.tipe?.nama }}
+                    {{ dokumenKonsumen.id }}
                   </div>
                 </div>
                 <div class="informasi-umum__column column">
@@ -90,6 +57,33 @@
                     />
                   </div>
                 </div>
+                <div class="informasi-umum__column column">
+                  <div class="column__label">
+                    Status Pembayaran
+                  </div>
+                  <div class="column__value">
+                    <status-badge
+                      :text="paymentStatuses[dokumenKonsumen.status_pembayaran] ? paymentStatuses[dokumenKonsumen.status_pembayaran].name: ''"
+                      :color="paymentStatuses[dokumenKonsumen.status_pembayaran] ? paymentStatuses[dokumenKonsumen.status_pembayaran].color: ''"
+                      type="detail"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                v-if="!!dokumenKonsumen.keterangan"
+                class="content__informasi-umum-keterangan informasi-umum-keterangan"
+              >
+                <div class="informasi-umum-keterangan__header">
+                  <img
+                    :src="icons.megaphone"
+                    alt=""
+                  >
+                  Keterangan
+                </div>
+                <div class="informasi-umum-keterangan__content">
+                  {{ dokumenKonsumen.keterangan }}
+                </div>
               </div>
             </div>
           </div>
@@ -101,90 +95,40 @@
                 alt="Image Icon"
               />
               <div class="content__header-title">
-                Informasi Utama
-              </div>
-            </div>
-            <div class="content__informasi-utama informasi-utama">
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Cluster
-                </div>
-                <div class="column__value">
-                  {{ dokumenKonsumen.cluster?.nama }}
-                </div>
-              </div>
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Nomor Kavling
-                </div>
-                <div class="column__value">
-                  {{ dokumenKonsumen.nomor_kavling }}
-                </div>
-              </div>
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Harga Dokumen Konsumen
-                </div>
-                <div class="column__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga) }}
-                </div>
-              </div>
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Tipe Dokumen Konsumen
-                </div>
-                <div class="column__value">
-                  {{ dokumenKonsumen.tipe?.nama }}
-                </div>
-              </div>
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Status Verifikasi
-                </div>
-                <div class="column__value">
-                  <status-badge
-                    :text="verificationStatuses[dokumenKonsumen.status_verifikasi] ? verificationStatuses[dokumenKonsumen.status_verifikasi].name: ''"
-                    :color="verificationStatuses[dokumenKonsumen.status_verifikasi] ? verificationStatuses[dokumenKonsumen.status_verifikasi].color: ''"
-                    type="detail"
-                  />
-                </div>
+                Lampiran Berkas
               </div>
             </div>
           </div>
 
-          <div
-            v-if="isImagesExists"
-            class="content__image-upload image-upload"
-          >
-            <el-upload
-              v-for="index in 3"
-              :http-request="() => {}"
-              :show-file-list="false"
-              accept=".jpg, .jpeg, .png"
-              action=""
-              class="image-upload__uploader"
+          <div class="content__image-upload image-upload">
+            <div
+              v-for="(identifier, index) in fileIdentifiers"
+              class="image-upload__wrapper"
             >
-              <template v-if="!!getImageUrl(index)">
+              <div
+                v-if="!!getFilesUrl(identifier)"
+                class="image-upload__container"
+              >
                 <div
                   class="image-upload__image-content image-content"
-                  :class="{ 'image-content--w-auto': !!getImageUrl(index) }"
+                  :class="{ 'image-content--w-auto': !!getFilesUrl(identifier) }"
                   @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons(index)"
-                  @mouseleave="removeVisibleImageActionIcons(index)"
+                  @mouseenter="addVisibleImageActionIcons(identifier)"
+                  @mouseleave="removeVisibleImageActionIcons(identifier)"
                 >
                   <img
-                    :src="getImageUrl(index)"
-                    :class="{ 'image-content__img--hovered': visibleImageActionIcons[index-1] }"
+                    :src="getFilesUrl(identifier)"
+                    :class="{ 'image-content__img--hovered': visibleImageActionIcons[identifier] }"
                     alt=""
                     class="image-content__img"
                   />
                   <span
-                    v-if="visibleImageActionIcons[index-1]"
+                    v-if="visibleImageActionIcons[identifier]"
                     class="image-content__item-actions item-actions"
                   >
                     <div
                       class="item-actions__wrapper"
-                      @click="handlePictureCardPreview(index)"
+                      @click="handlePictureCardPreview(identifier)"
                     >
                       <el-icon color="#434343">
                         <View />
@@ -192,8 +136,21 @@
                     </div>
                   </span>
                 </div>
-              </template>
-            </el-upload>
+                <div class="image-upload__label">
+                  {{ fileLabels[index] }}
+                </div>
+              </div>
+              <div
+                v-else
+                class="image-upload__empty-state empty-state"
+              >
+                <img
+                  :src="icons.uploadImage"
+                  alt="Upload Image"
+                  class="empty-state__upload-image-icon"
+                />
+              </div>
+            </div>
           </div>
 
           <div class="content__informasi-pendukung-wrapper">
@@ -203,69 +160,25 @@
                 alt="Image Icon"
               />
               <div class="content__header-title">
-                Informasi Pendukung
+                Rincian Pembelian
               </div>
             </div>
   
             <div class="content__rows rows">
               <div class="rows__row">
                 <div class="row__label required">
-                  Luas Tanah
+                  Nama Konsumen
                 </div>
-                <div class="row__value row__value--flex">
-                  {{ `${helpers.convertEmptyValueWithDash(dokumenKonsumen.luas_tanah)} ` }}
-                  <div
-                    v-if="helpers.convertEmptyValueWithDash(dokumenKonsumen.luas_tanah) !== '-'"
-                    class="row__uom"
-                  >
-                    m<sup>2</sup>
-                  </div>
+                <div class="row__value">
+                  {{ dokumenKonsumen.konsumen_nama }}
                 </div>
               </div>
               <div class="rows__row">
                 <div class="row__label required">
-                  Luas Bangunan
+                  Nama Marketer
                 </div>
-                <div class="row__value row__value--flex">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.luas_bangunan) }}
-                  <div
-                    v-if="helpers.convertEmptyValueWithDash(dokumenKonsumen.luas_bangunan) !== '-'"
-                    class="row__uom"
-                  >
-                    m<sup>2</sup>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="content__rows rows">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Fasilitas
-                </div>
-                <div class="row__value row__value--flex-start">
-                  <div
-                    v-if="dokumenKonsumen.fasilitas?.length > 0"
-                    v-for="fasilitas in dokumenKonsumen.fasilitas"
-                    class="row__fasilitas"
-                  >
-                    {{ fasilitas.nama }}
-                  </div>
-                  <div v-else>-</div>
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Daya Listrik
-                </div>
-                <div class="row__value row__value--flex">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.daya_listrik) }}
-                  <div
-                    v-if="helpers.convertEmptyValueWithDash(dokumenKonsumen.daya_listrik) !== '-'"
-                    class="row__uom"
-                  >
-                    watt
-                  </div>
+                <div class="row__value">
+                  {{ dokumenKonsumen.marketer_nama }}
                 </div>
               </div>
             </div>
@@ -273,18 +186,18 @@
             <div class="content__rows rows last-row">
               <div class="rows__row">
                 <div class="row__label required">
-                  Jumlah Kamar Tidur
+                  Cluster
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.jumlah_kamar_tidur) }}
+                  {{ dokumenKonsumen.unit_cluster_nama }}
                 </div>
               </div>
               <div class="rows__row">
                 <div class="row__label required">
-                  Jumlah Kamar Mandi
+                  Unit
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.jumlah_kamar_mandi) }}
+                  {{ dokumenKonsumen.unit_nomor_kavling }}
                 </div>
               </div>
             </div>
@@ -378,8 +291,12 @@
         }
       }
 
-      &__informasi-utama-wrapper, &__informasi-pendukung-wrapper, &__informasi-umum-content {
+      &__informasi-pendukung-wrapper, &__informasi-umum-content {
         padding: 20px;
+      }
+
+      &__informasi-utama-wrapper {
+        padding: 20px 20px 0px 20px;
       }
 
       &__informasi-umum-wrapper {
@@ -390,12 +307,40 @@
         border-top: 1px solid #E9E9E9;
       }
 
+      .informasi-umum-keterangan {
+        padding: 16px 22px;
+        border: 1px solid #E9E9E9;
+        background: #F5F5F5;
+        border-radius: 8px;
+
+        &__header {
+          margin-bottom: 4px;
+          color: #434343;
+          font-size: 12px;
+          font-weight: 600;
+          display: flex;
+          gap: 4px;
+          align-items: center;
+        }
+
+        &__content {
+          color: #696969;
+          font-size: 12px;
+          font-weight: 400;
+        }
+      }
+
       .informasi-umum {
         display: flex;
         justify-content: space-between;
         margin-bottom: 20px;
+        background-color: #F5F5F5;
+        padding: 16px;
+        border-radius: 8px;
+        border-left: 6px solid #C4C4C4;
 
         .column {
+
           &__label {
             margin-bottom: 8px;
             color: #434343;
@@ -409,12 +354,6 @@
             font-weight: 600;
           }
         }
-      }
-
-      &__informasi-umum-content {
-        // display: flex;
-        // justify-content: space-between;
-        // margin-bottom: 20px;
       }
 
       .informasi-utama {
@@ -486,15 +425,16 @@
       .image-upload {
         display: flex;
         gap: 24px;
-        margin-left: -20px;
-        margin-right: -20px;
-        margin-bottom: 20px;
         padding: 20px;
-        background: #F5F5F5;
 
         :deep(.el-upload) {
           height: 100%;
           cursor: default;
+        }
+
+        &__container {
+          width: 250px;
+          height: 270px;
         }
 
         &__wrapper {
@@ -523,7 +463,7 @@
           border-radius: 8px;
 
           &--w-auto {
-            width: auto;
+            // width: auto;
           }
           
           &__img {
@@ -553,6 +493,26 @@
               justify-content: center;
               align-items: center;
             }
+          }
+        }
+
+        .empty-state {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          box-sizing: border-box;
+          width: 270px;
+          height: 250px;
+          padding: 24px;
+          border-radius: 4px;
+          border: 1px dashed #C4C4C4;
+          background: #FAFAFA;
+
+          &__upload-image-icon {
+            display: block;
+            margin-bottom: 16px;
+            margin-left: auto;
+            margin-right: auto;
           }
         }
       }

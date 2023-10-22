@@ -80,8 +80,8 @@
                 Nomor Rekening Bank
               </div>
               <el-input
-                v-model="formData.no_rekening"
-                :class="{ 'row__input--error': !!error.no_rekening }"
+                v-model="formData.nomor_rekening"
+                :class="{ 'row__input--error': !!error.nomor_rekening }"
                 placeholder="Masukkan nomor rekening bank"
                 class="row__input"
               />

@@ -50,9 +50,9 @@
               >
                 <el-option
                   v-for="role in roles"
-                  :key="role.role_id"
+                  :key="role.id"
                   :label="role.name"
-                  :value="role.role_id"
+                  :value="role.id"
                 />
               </el-select>
             </div>
@@ -89,6 +89,8 @@
                 :class="{ 'row__input--error': !!error.password }"
                 placeholder="Masukkan kata sandi"
                 class="row__input"
+                type="password"
+                show-password
               />
               <div class="row__password">
                 <el-icon
@@ -110,6 +112,8 @@
                 v-model="formData.confirmPassword"
                 placeholder="Masukkan kembali kata sandi"
                 class="row__input"
+                type="password"
+                show-password
               />
               <div class="row__confirm-password">
                 <el-icon :color="isPasswordSame ? '#74C627' : '#7B7B7B'">

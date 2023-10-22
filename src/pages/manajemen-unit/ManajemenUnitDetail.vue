@@ -405,8 +405,6 @@
       .image-upload {
         display: flex;
         gap: 24px;
-        margin-left: -20px;
-        margin-right: -20px;
         margin-bottom: 20px;
         padding: 20px;
         background: #F5F5F5;

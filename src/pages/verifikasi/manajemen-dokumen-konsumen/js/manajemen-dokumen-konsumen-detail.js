@@ -16,6 +16,7 @@ import imageIcon from '/image.svg'
 import uploadImageIcon from '/upload-image.svg'
 import signatureIcon from '/signature.svg'
 import newspaperClippingIcon from '/newspaper-clipping.svg'
+import megaphoneIcon from '/megaphone.svg'
 
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
@@ -42,13 +43,16 @@ export default {
         image: imageIcon,
         uploadImage: uploadImageIcon,
         signature: signatureIcon,
-        newspaperClipping: newspaperClippingIcon
+        newspaperClipping: newspaperClippingIcon,
+        megaphone: megaphoneIcon,
       },
+      fileIdentifiers: ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url'],
+      fileLabels: ['e-KTP', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Akta Perkawinan'],
       verificationStatuses: STATUS_VERIFIKASI,
       paymentStatuses: STATUS_PEMBAYARAN,
       visiblePassword: false,
       visibleImagePreviewDialog: false,
-      visibleImageActionIcons: [false, false, false],
+      visibleImageActionIcons: {},
       selectedImageUrl: '',
       imageStartingIndex: 0,
       helpers
@@ -58,13 +62,11 @@ export default {
   computed: {
     id () {
       return this.$route.params.id
-    },
-    isImagesExists () {
-      return !!this.dokumenKonsumen.foto_1_access_url || !!this.dokumenKonsumen.foto_2_access_url || !!this.dokumenKonsumen.foto_3_access_url
     }
   },
 
   created () {
+    this.initVisibleImageActions()
     this.getDokumenKonsumen()
   },
 
@@ -73,6 +75,12 @@ export default {
       'fetchDokumenKonsumen',
       'deleteDokumenKonsumen'
     ]),
+
+    initVisibleImageActions () {
+      this.fileIdentifiers.forEach(identifier => {
+        this.visibleImageActionIcons[identifier] = false
+      })
+    },
 
     async getDokumenKonsumen () {
       try {
@@ -100,28 +108,12 @@ export default {
       this.redirectTo('ManajemenDokumenKonsumen')
     },
 
-    getImageUrl (index) {
-      if (index === 1) {
-        return this.dokumenKonsumen.foto_1_access_url
-      }
-      if (index === 2) {
-        return this.dokumenKonsumen.foto_2_access_url
-      }
-      if (index === 3) {
-        return this.dokumenKonsumen.foto_3_access_url
-      }
+    getFilesUrl (identifier) {
+      return this.dokumenKonsumen[identifier]
     },
 
-    addVisibleImageActionIcons (index) {
-      this.visibleImageActionIcons[index-1] = true
-    },
-    
-    removeVisibleImageActionIcons (index) {
-      this.visibleImageActionIcons[index-1] = false
-    },
-
-    handlePictureCardPreview (index) {
-      this.selectedImageUrl = this.getImageUrl(index)
+    handlePictureCardPreview (identifier) {
+      this.selectedImageUrl = this.getImageUrl(identifier)
       this.visibleImagePreviewDialog = true
     },
   }

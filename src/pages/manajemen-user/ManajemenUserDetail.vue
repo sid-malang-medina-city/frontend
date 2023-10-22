@@ -30,7 +30,7 @@
                 <EditPen />
               </el-icon>
             </el-button>
-            <el-button
+            <!-- <el-button
               v-if="hasAccess('DELETE_USER')"
               :icon="icons.delete"
               type="danger"
@@ -38,7 +38,7 @@
               plain
               @click="openModalConfirmation"
             >
-            </el-button>
+            </el-button> -->
           </div>
         </div>
 

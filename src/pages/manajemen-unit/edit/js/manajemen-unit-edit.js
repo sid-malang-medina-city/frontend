@@ -180,8 +180,20 @@ export default {
         foto_1_access_url,
         foto_2_access_url,
         foto_3_access_url,
+        cluster,
+        tipe,
         ...formData
       } = data
+
+      console.log('masuk')
+      // this.formData.cluster_id = cluster.id
+      // this.formData.tipe_id = tipe.id
+      this.formData = {
+        ...formData,
+        cluster_id: cluster.id,
+        tipe_id: tipe.id
+      }
+      console.log(this.formData)
 
       if (foto_1_access_url) {
         this.uploadedImages[0].visible = true
@@ -196,8 +208,6 @@ export default {
         this.uploadedImages[2].visible = true
         this.uploadedImages[2].url = foto_3_access_url
       }
-
-      this.formData = formData
     },
 
     goToManajemenUnit () {

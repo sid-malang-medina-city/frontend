@@ -171,6 +171,7 @@ export default {
     async handleDeleteUser(id) {
       try {
         await this.deleteUser(id)
+        this.getUsers()
       } catch (error) {
         this.showErrorResponse(error)
       }
