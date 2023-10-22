@@ -68,8 +68,8 @@ export default {
       }
     },
 
-    goToUserProfile () {
-      this.redirectTo('UserProfile')
-    }
+    // goToUserProfile () {
+    //   this.redirectTo('UserProfile')
+    // }
   }
 }
