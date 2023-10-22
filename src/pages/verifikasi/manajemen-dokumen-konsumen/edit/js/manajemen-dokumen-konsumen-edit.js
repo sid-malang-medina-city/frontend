@@ -39,20 +39,6 @@ export default {
 
   data () {
     return {
-      // formData: {
-      //   nomor_kavling: '',
-      //   harga: '',
-      //   tipe: '',
-      //   luas_bangunan: '',
-      //   luas_tanah: '',
-      //   fasilitas: [],
-      //   daya_listrik: '',
-      //   jumlah_kamar_tidur: null,
-      //   jumlah_kamar_mandi: null,
-      //   foto_1_file: null,
-      //   foto_2_file: null,
-      //   foto_3_file: null
-      // },
       formData: {
         status_verifikasi: '',
         status_pembayaran: '',
@@ -140,7 +126,11 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = []
+      const requiredFields = ['status_verifikasi', 'status_pembayaran']
+      if (this.formData.status_verifikasi === 'TERJADWAL_VERIFIKASI') {
+        requiredFields.push('tanggal_verifikasi')  
+      }
+
       return requiredFields.every(field => !!this.formData[field])
     },
 
@@ -179,7 +169,6 @@ export default {
 
     initFormData (data) {
       this.formData = data
-      console.log('init')
       const imagesIdentifier = ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'surat_pernikahan_access_url']
       imagesIdentifier.forEach(identifier => {
         this.uploadedImages[identifier].visible = !!this.formData[identifier]

@@ -95,7 +95,7 @@
                 </div>
               </div>
               <div
-                v-if="!!konsumen.marketer_nama"
+                v-if="konsumen.status === 'BOOKING'"
                 class="content__data"
               >
                 <div class="content__label">
@@ -108,14 +108,25 @@
             </div>
             <div class="content__row">
               <div
-                v-if="!!konsumen.unit_nama"
+                v-if="konsumen.status === 'BOOKING'"
                 class="content__data"
               >
                 <div class="content__label">
                   Unit
                 </div>
                 <div class="content__value">
-                  {{ helpers.convertEmptyValueWithDash(konsumen.unit_nama) }}
+                  {{ konsumen.unit_cluster_nama }} - {{ konsumen.unit_nomor_kavling }}
+                </div>
+              </div>
+              <div
+                v-if="konsumen.status === 'BOOKING'"
+                class="content__data"
+              >
+                <div class="content__label">
+                  Dokumen Konsumen
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertEmptyValueWithDash(konsumen.dokumen_konsumen_id) }}
                 </div>
               </div>
             </div>

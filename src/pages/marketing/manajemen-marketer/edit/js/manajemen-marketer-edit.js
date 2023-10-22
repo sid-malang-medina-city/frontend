@@ -52,7 +52,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = Object.keys(this.formData)
+      const requiredFields = ['nama', 'nomor_telepon', 'alamat', 'status', 'rekening_bank', 'nomor_rekening', 'nama_rekening', 'npwp']
       return requiredFields.every(field => !!this.formData[field])
     },
 
@@ -98,7 +98,7 @@ export default {
       if (this.validatePhoneNumber()) {
         this.visibleLoading = true
         try {
-          await this.editMarketer(this.formData)
+          await this.editMarketer(this.id, this.formData)
           this.redirectTo('ManajemenMarketer')
           this.showToast('Marketer baru berhasil ditambahkan!')
         } catch (e) {

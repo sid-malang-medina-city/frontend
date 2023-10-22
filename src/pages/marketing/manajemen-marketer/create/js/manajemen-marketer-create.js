@@ -33,7 +33,7 @@ export default {
         alamat: '',
         status: '',
         rekening_bank: '',
-        no_rekening: '',
+        nomor_rekening: '',
         nama_rekening: '',
         npwp: ''
       },
@@ -43,7 +43,7 @@ export default {
         alamat: '',
         status: '',
         rekening_bank: '',
-        no_rekening: '',
+        nomor_rekening: '',
         nama_rekening: '',
       },
       statuses: STATUS_MARKETER

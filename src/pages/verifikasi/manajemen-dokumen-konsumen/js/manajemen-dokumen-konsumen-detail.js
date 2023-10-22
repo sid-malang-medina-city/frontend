@@ -5,7 +5,9 @@ import {
   Delete,
   EditPen,
   View,
-  Hide
+  Hide,
+  CircleCheckFilled,
+  Document
 } from '@element-plus/icons-vue'
 
 import { STATUS_VERIFIKASI, STATUS_PEMBAYARAN } from '~/data/konsumen'
@@ -32,6 +34,8 @@ export default {
     EditPen,
     View,
     Hide,
+    CircleCheckFilled,
+    Document,
     StatusBadge
   },
 
@@ -46,7 +50,7 @@ export default {
         newspaperClipping: newspaperClippingIcon,
         megaphone: megaphoneIcon,
       },
-      fileIdentifiers: ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url'],
+      fileIdentifiers: ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'akta_perkawinan_access_url'],
       fileLabels: ['e-KTP', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Akta Perkawinan'],
       verificationStatuses: STATUS_VERIFIKASI,
       paymentStatuses: STATUS_PEMBAYARAN,
@@ -112,9 +116,21 @@ export default {
       return this.dokumenKonsumen[identifier]
     },
 
+    addVisibleImageActionIcons (identifier) {
+      this.visibleImageActionIcons[identifier] = true
+    },
+    
+    removeVisibleImageActionIcons (identifier) {
+      this.visibleImageActionIcons[identifier] = false
+    },
+
     handlePictureCardPreview (identifier) {
-      this.selectedImageUrl = this.getImageUrl(identifier)
+      this.selectedImageUrl = this.getFilesUrl(identifier)
       this.visibleImagePreviewDialog = true
     },
+
+    openDocumentInNewTab () {
+      window.open(this.dokumenKonsumen.dokumen_pendukung_access_url, '_blank');
+    }
   }
 }

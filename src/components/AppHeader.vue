@@ -68,9 +68,12 @@
         </div>
       </template>
     </el-popover>
-    <!-- <el-icon class="header__icon">
+    <el-icon
+      class="header__icon"
+      @click="goToUserProfile"
+    >
       <User />
-    </el-icon> -->
+    </el-icon>
   </div>
 </template>
 

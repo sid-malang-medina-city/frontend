@@ -519,6 +519,43 @@
                 />
               </el-select>
             </div>
+            <div
+              v-if="formData.status_verifikasi === 'TERJADWAL_VERIFIKASI'"
+              class="rows__row"
+            >
+              <div class="row__label required">
+                Tanggal Verifikasi
+              </div>
+              <el-date-picker
+                v-model="formData.tanggal_verifikasi"
+                type="date"
+                placeholder="Pilih tanggal verifikasi"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+            <div
+              v-else
+              class="rows__row"
+            >
+              <div class="row__label">
+                Keterangan
+              </div>
+              <el-input
+                v-model="formData.keterangan"
+                :rows="3"
+                resize="none"
+                placeholder="Masukkan keterangan"
+                type="textarea"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div
+            v-if="formData.status_verifikasi === 'TERJADWAL_VERIFIKASI'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label required">
                 Keterangan
@@ -867,6 +904,10 @@
     .required::after {
       content: "*";
       color: #FF613A;
+    }
+
+    :deep(.el-date-editor) {
+      width: 400px;
     }
   }
 </style>

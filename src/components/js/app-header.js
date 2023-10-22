@@ -46,7 +46,6 @@ export default {
     async markAsRead (notification) {
       try {
         await this.readNotification(notification.id, { is_read: true })
-        this.hideNotification()
         this.redirectTo(notification.route_name, {
           params: {
             id: notification.param_id
@@ -67,6 +66,10 @@ export default {
       } catch (error) {
         this.showErrorResponse(error)
       }
+    },
+
+    goToUserProfile () {
+      this.redirectTo('UserProfile')
     }
   }
 }

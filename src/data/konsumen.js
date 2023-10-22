@@ -193,7 +193,7 @@ export const STATUS_PEMBAYARAN_EDIT = {
       color: '#559816'
     }
   },
-  DP_1: {
+  DP1: {
     DP1: {
       name: 'DP 1',
       code: 'DP1',

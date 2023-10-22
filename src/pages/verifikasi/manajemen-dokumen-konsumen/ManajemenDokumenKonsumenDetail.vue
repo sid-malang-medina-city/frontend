@@ -19,7 +19,7 @@
           </div>
           <div class="header__actions actions">
             <el-button
-              v-if="hasAccess('UPDATE_UNIT')"
+              v-if="hasAccess('UPDATE_DOKUMEN_KONSUMEN')"
               type="primary"
               class="actions__edit-btn"
               plain
@@ -142,13 +142,76 @@
               </div>
               <div
                 v-else
-                class="image-upload__empty-state empty-state"
+                class="image-upload__empty-state-wrapper"
               >
-                <img
-                  :src="icons.uploadImage"
-                  alt="Upload Image"
-                  class="empty-state__upload-image-icon"
-                />
+                <div class="image-upload__empty-state empty-state">
+                  <img
+                    :src="icons.uploadImage"
+                    alt="Upload Image"
+                    class="empty-state__upload-image-icon"
+                  />
+                </div>
+                <div class="empty-state__label">
+                  {{ fileLabels[index] }}
+                </div>
+              </div>
+            </div>
+            <div class="image-upload__wrapper">
+              <div
+                v-if="!!getFilesUrl('dokumen_pendukung_access_url')"
+                class="image-upload__container"
+              >
+                <div
+                  class="image-upload__image-content image-content image-content--bg-success empty-state"
+                  :class="{ 'image-content--w-auto': !!getFilesUrl('dokumen_pendukung_access_url') }"
+                  @click.stop=""
+                  @mouseenter="addVisibleImageActionIcons('dokumen_pendukung_access_url')"
+                  @mouseleave="removeVisibleImageActionIcons('dokumen_pendukung_access_url')"
+                >
+                  <el-icon
+                    size="77"
+                    color="#89AE8B"
+                    class="empty-state__upload-image-icon"
+                  >
+                    <CircleCheckFilled />
+                  </el-icon>
+                  <div class="empty-state__desc">
+                    Dokumen Tersedia
+                  </div>
+                  <span
+                    v-if="visibleImageActionIcons['dokumen_pendukung_access_url']"
+                    class="image-content__item-actions item-actions"
+                  >
+                    <div
+                      class="item-actions__wrapper"
+                      @click="openDocumentInNewTab"
+                    >
+                      <el-icon color="#434343">
+                        <View />
+                      </el-icon>
+                    </div>
+                  </span>
+                </div>
+                <div class="image-upload__label">
+                  Dokumen Pendukung
+                </div>
+              </div>
+              <div
+                v-else
+                class="image-upload__empty-state-wrapper"
+              >
+                <div class="image-upload__empty-state empty-state">
+                  <el-icon
+                    size="77"
+                    color="#9D9D9D"
+                    class="empty-state__upload-image-icon"
+                  >
+                    <Document />
+                  </el-icon>
+                </div>
+                <div class="empty-state__label">
+                  Dokumen Pendukung
+                </div>
               </div>
             </div>
           </div>
@@ -426,6 +489,7 @@
         display: flex;
         gap: 24px;
         padding: 20px;
+        flex-wrap: wrap;
 
         :deep(.el-upload) {
           height: 100%;
@@ -433,13 +497,10 @@
         }
 
         &__container {
-          width: 250px;
-          height: 270px;
+          width: 270px;
         }
 
         &__wrapper {
-          height: 250px;
-          
           :deep(.el-upload--picture-card) {
             width: 270px;
             height: 250px;
@@ -455,15 +516,16 @@
 
         .image-content {
           width: 270px;
-          height: 100%;
+          height: 250px;
           position: relative;
           display: flex;
           justify-content: center;
           align-items: center;
           border-radius: 8px;
+          margin-bottom: 8px;
 
-          &--w-auto {
-            // width: auto;
+          &--bg-success {
+            background: #D4E6D5 !important;
           }
           
           &__img {
@@ -507,6 +569,7 @@
           border-radius: 4px;
           border: 1px dashed #C4C4C4;
           background: #FAFAFA;
+          margin-bottom: 8px;
 
           &__upload-image-icon {
             display: block;
@@ -514,6 +577,10 @@
             margin-left: auto;
             margin-right: auto;
           }
+        }
+
+        &__empty-state-wrapper {
+          margin-bottom: 8px;
         }
       }
 

@@ -47,7 +47,7 @@ export default {
         marketer_id: '',
         unit_id: '',
         dokumen_konsumen_tanggal_booking: '',
-        status: 'BOOKING'
+        status: ''
       },
       error: {
         email: '',
@@ -67,6 +67,7 @@ export default {
   },
 
   created () {
+    this.initFormData()
     this.getMarketers()
     this.getUnits()
   },
@@ -75,6 +76,12 @@ export default {
     ...mapActions(konsumenStore, ['createKonsumen']),
     ...mapActions(marketerStore, ['fetchMarketers']),
     ...mapActions(unitStore, ['fetchUnits']),
+
+    initFormData () {
+      const currentDate = new Date()
+      this.formData.status = 'BOOKING'
+      this.formData.dokumen_konsumen_tanggal_booking = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
+    },
 
     async getMarketers () {
       try {
@@ -147,6 +154,8 @@ export default {
         this.requiredFields = ['nama', 'nomor_telepon', 'alamat', 'status']
         return
       }
+      const currentDate = new Date()
+      this.formData.dokumen_konsumen_tanggal_booking = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
       this.requiredFields = ['nama', 'nomor_telepon', 'alamat', 'marketer_id', 'unit_id', 'status']
     }
   }
