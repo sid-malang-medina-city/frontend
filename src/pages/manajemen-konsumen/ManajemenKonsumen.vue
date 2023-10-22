@@ -16,6 +16,7 @@
             </el-icon>
           </el-button>
           <el-button
+            v-if="hasAccess('CREATE_KONSUMEN')"
             type="primary"
             class="actions__create-btn"
             @click="goToCreatePage"
@@ -104,6 +105,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if="hasAccess('UPDATE_KONSUMEN') || hasAccess('DELETE_KONSUMEN')"
             label="Action"
             width="90"
             align="center"
@@ -112,6 +114,7 @@
             <template #default="scope">
               <div class="table__actions">
                 <el-button
+                  v-if="hasAccess('UPDATE_KONSUMEN')"
                   :icon="icons.edit"
                   type="primary"
                   class="table__actions-edit"
@@ -119,6 +122,7 @@
                   @click.stop="goToEditPage(scope.row.id)"
                 />
                 <el-button
+                  v-if="hasAccess('DELETE_KONSUMEN')"
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"

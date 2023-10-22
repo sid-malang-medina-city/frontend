@@ -84,7 +84,7 @@
               </div>
               <el-select
                 v-model="formData.status"
-                :disabled="formData.status === 'BOOKING'"
+                :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih status"
                 class="row__input"
               >
@@ -105,7 +105,7 @@
               </div>
               <el-date-picker
                 v-model="formData.dokumen_konsumen_tanggal_booking"
-                :disabled="formData.status === 'BOOKING'"
+                :disabled="currentData.status === 'BOOKING'"
                 type="date"
                 placeholder="Pilih tanggal booking"
                 format="DD-MM-YYYY"
@@ -124,7 +124,7 @@
               </div>
               <el-select
                 v-model="formData.marketer_id"
-                :disabled="formData.status === 'BOOKING'"
+                :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih marketer"
                 class="row__input"
               >
@@ -142,7 +142,7 @@
               </div>
               <el-select
                 v-model="formData.dokumen_konsumen_unit_id"
-                :disabled="formData.status === 'BOOKING'"
+                :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih unit"
                 class="row__input"
               >

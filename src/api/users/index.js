@@ -5,6 +5,9 @@ export default {
   login (body) {
     return api.postRequest(apiUrls.users.login, body)
   },
+  fetchACL () {
+    return api.getRequest(apiUrls.users.acl)
+  },
   refreshAccessToken () {
     return api.postRequest(apiUrls.users.refreshToken, { refresh: localStorage.getItem('refreshToken') })
   },

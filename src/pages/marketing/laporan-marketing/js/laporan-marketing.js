@@ -4,6 +4,7 @@ import { laporanMarketingStore } from '~/store/marketing/laporan-marketing'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 import helpers from '~/utils/helpers'
 
 import { STATUS_MARKETING } from '~/data/marketing'
@@ -20,7 +21,7 @@ import {
 export default {
   name: 'laporan-marketing',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     PageHeader,
@@ -108,6 +109,14 @@ export default {
 
     toggleFilter () {
       this.visibleFilter = !this.visibleFilter
+    },
+
+    goToDetailPage ({ id }) {
+      this.redirectTo('LaporanMarketingDetail', {
+        params: {
+          id: id
+        }
+      })
     },
 
     goToEditPage (id) {

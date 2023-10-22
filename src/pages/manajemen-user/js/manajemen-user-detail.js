@@ -1,6 +1,8 @@
 import { mapActions } from 'pinia'
 import { userStore } from '~/store/users'
 
+import helpers from '~/utils/helpers'
+
 import {
   Delete,
   EditPen,
@@ -10,11 +12,12 @@ import {
 
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 
 export default {
   name: 'manajemen-user-detail',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     Delete,
@@ -29,30 +32,33 @@ export default {
       icons: {
         delete: Delete
       },
-      visiblePassword: false
+      helpers
+    }
+  },
+
+  computed: {
+    id () {
+      return this.$route.params.id
     }
   },
 
   created () {
-    // TODO: need to get data from API
-    this.user = {
-      id: 1,
-      name: 'Gafirazi',
-      divisi: 'Marketing',
-      role: 'Staff',
-      email: 'gafi@gmail.com',
-      password: 'gafi1234'
-    }
+    this.getUser()
   },
 
   methods: {
     ...mapActions(userStore, [
-      'fetchUsers',
+      'fetchUser',
       'deleteUser'
     ]),
 
-    toggleVisiblePassword () {
-      this.visiblePassword = !this.visiblePassword
+    async getUser () {
+      try {
+        const { data } = await this.fetchUser(this.id)
+        this.user = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
     },
 
     goToEditPage () {

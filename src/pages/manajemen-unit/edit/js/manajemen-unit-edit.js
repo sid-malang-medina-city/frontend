@@ -36,10 +36,10 @@ export default {
       formData: {
         nomor_kavling: '',
         harga: '',
-        tipe: '',
+        tipe_id: '',
         luas_bangunan: '',
         luas_tanah: '',
-        fasilitas: [],
+        fasilitas_ids: [],
         daya_listrik: '',
         jumlah_kamar_tidur: null,
         jumlah_kamar_mandi: null,
@@ -50,7 +50,7 @@ export default {
       error: {
         nomor_kavling: '',
         harga: '',
-        tipe: '',
+        tipe_id: '',
       },
       uploadedImages: [
         {
@@ -93,7 +93,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['nomor_kavling', 'harga', 'tipe']
+      const requiredFields = ['nomor_kavling', 'harga', 'tipe_id']
       return requiredFields.every(field => !!this.formData[field])
     },
 
@@ -352,19 +352,17 @@ export default {
     },
 
     async submit () {
-      if (this.totalImagesUploaded > 0) {
-        this.visibleLoading = true
-        try {
-          console.log('coba')
-          await this.editUnit(this.id, this.formData)
-          console.log('berhasil')
-          this.redirectTo('ManajemenUnit')
-          this.showToast('Data unit berhasil diperbarui!')
-        } catch (e) {
-          this.showErrorResponse(e)
-        } finally {
-          this.visibleLoading = false
-        }
+      this.visibleLoading = true
+      try {
+        console.log('coba')
+        await this.editUnit(this.id, this.formData)
+        console.log('berhasil')
+        this.redirectTo('ManajemenUnit')
+        this.showToast('Data unit berhasil diperbarui!')
+      } catch (e) {
+        this.showErrorResponse(e)
+      } finally {
+        this.visibleLoading = false
       }
     }
   }

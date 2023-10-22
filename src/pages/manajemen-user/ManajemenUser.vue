@@ -16,6 +16,7 @@
             </el-icon>
           </el-button>
           <el-button
+            v-if="hasAccess('CREATE_USER')"
             type="primary"
             class="actions__create-btn"
             @click="goToCreatePage"
@@ -116,6 +117,7 @@
             min-width="170"
           />
           <el-table-column
+            v-if="hasAccess('UPDATE_USER') || hasAccess('DELETE_USER')"
             label="Action"
             width="90"
             align="center"

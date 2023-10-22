@@ -49,6 +49,16 @@ export default {
         dokumen_konsumen_tanggal_booking: '',
         status: 'BOOKING'
       },
+      currentData: {
+        nama: '',
+        email: '',
+        nomor_telepon: '',
+        alamat: '',
+        marketer_id: '',
+        unit_id: '',
+        dokumen_konsumen_tanggal_booking: '',
+        status: ''
+      },
       error: {
         email: '',
         nomor_telepon: ''
@@ -85,6 +95,7 @@ export default {
       try {
         const { data } = await this.fetchKonsumen(this.id)
         this.formData = JSON.parse(JSON.stringify(data))
+        this.currentData = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }

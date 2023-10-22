@@ -63,7 +63,7 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
-                Jumlah Biaya
+                Jumlah Fee
               </div>
               <el-input
                 v-model="formData.jumlah_fee"
@@ -73,7 +73,7 @@
               />
             </div>
             <div class="rows__row">
-              <div class="row__label required">
+              <div class="row__label">
                 Keterangan
               </div>
               <el-input
@@ -92,6 +92,7 @@
             Cancel
           </el-button>
           <el-button
+            :disabled="!isRequiredFieldsFilled"
             type="primary"
             class="laporan-marketing-edit__submit-btn"
             @click="submit"

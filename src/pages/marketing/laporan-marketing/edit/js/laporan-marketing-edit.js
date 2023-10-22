@@ -46,6 +46,10 @@ export default {
 
     dokumenKonsumenCode () {
       return this.laporanMarketing?.dokumenKonsumen?.code
+    },
+
+    isRequiredFieldsFilled () {
+      return !!this.formData.status_fee && !!this.formData.jumlah_fee
     }
   },
 

@@ -14,11 +14,12 @@
               User
             </div>
             <div class="header__title-name">
-              {{ user.name || 'Gafi' }}
+              {{ helpers.convertEmptyValueWithDash(user.name) }}
             </div>
           </div>
           <div class="header__actions actions">
             <el-button
+              v-if="hasAccess('UPDATE_USER')"
               type="primary"
               class="actions__edit-btn"
               plain
@@ -30,6 +31,7 @@
               </el-icon>
             </el-button>
             <el-button
+              v-if="hasAccess('DELETE_USER')"
               :icon="icons.delete"
               type="danger"
               class="actions__delete-btn"
@@ -46,7 +48,7 @@
               Nama User
             </div>
             <div class="content__name">
-              {{ user.name }}
+              {{ helpers.convertEmptyValueWithDash(user.name) }}
             </div>
           </div>
 
@@ -57,7 +59,7 @@
                   Divisi
                 </div>
                 <div class="content__value">
-                  {{ user.division }}
+                  {{ helpers.convertEmptyValueWithDash(user.division?.name) }}
                 </div>
               </div>
               <div class="content__data">
@@ -65,7 +67,7 @@
                   Role
                 </div>
                 <div class="content__value">
-                  {{ user.role }}
+                  {{ helpers.convertEmptyValueWithDash(user.role?.name) }}
                 </div>
               </div>
             </div>
@@ -75,24 +77,7 @@
                   Email
                 </div>
                 <div class="content__value">
-                  {{ user.email }}
-                </div>
-              </div>
-              <div class="content__data">
-                <div class="content__label">
-                  Kata Sandi
-                </div>
-                <div
-                  class="content__value-password"
-                >
-                  {{ visiblePassword ? user.password : '••••••••••••'}}
-                  <el-icon
-                    class="content__password-icon"
-                    @click="toggleVisiblePassword"
-                  >
-                    <View v-if="!visiblePassword" />
-                    <Hide v-else />
-                  </el-icon>
+                  {{ helpers.convertEmptyValueWithDash(user.email) }}
                 </div>
               </div>
             </div>
@@ -183,19 +168,6 @@
         color: #696969;
         font-size: 14px;
         font-weight: 400;
-      }
-
-      &__value-password {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #696969;
-        font-size: 14px;
-        font-weight: 400;
-      }
-
-      &__password-icon {
-        cursor: pointer;
       }
     }
   }

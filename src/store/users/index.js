@@ -6,6 +6,9 @@ export const userStore = defineStore('UserStore', {
     async login (body) {
       return api.login(body)
     },
+    async fetchACL () {
+      return api.fetchACL()
+    },
     async fetchUsers (params) {
       return api.fetchUsers(params)
     },

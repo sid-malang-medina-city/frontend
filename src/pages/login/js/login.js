@@ -27,7 +27,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(userStore, ['login']),
+    ...mapActions(userStore, ['login', 'fetchACL']),
 
     async submit () {
       this.visibleLoading = true
@@ -35,11 +35,23 @@ export default {
         const { data } = await this.login(this.formData)
         localStorage.setItem('accessToken', data.access)
         localStorage.setItem('refreshToken', data.refresh)
+        await this.getACL()
         this.redirectTo('Dashboard')
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
         this.visibleLoading = false
+      }
+    },
+
+    async getACL () {
+      try {
+        const { data } = await this.fetchACL()
+        localStorage.setItem('acls', JSON.parse(JSON.stringify(data.access_constants)))
+        localStorage.setItem('role', JSON.parse(JSON.stringify(data.role.code)))
+        localStorage.setItem('division', JSON.parse(JSON.stringify(data.division.code)))
+      } catch (error) {
+        this.showErrorResponse(error)
       }
     }
   }

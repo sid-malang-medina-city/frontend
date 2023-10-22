@@ -5,6 +5,7 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 import helpers from '~/utils/helpers'
 import { STATUSES } from '~/data/unit'
 
@@ -20,7 +21,7 @@ import {
 export default {
   name: 'manajemen-unit',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     PageHeader,

@@ -11,4 +11,7 @@ export default {
   editDokumenKonsumen (id, body) {
     return api.putRequest(apiUrls.verifikasi.dokumenKonsumen.detail(id), body)
   },
+  triggerNotifications () {
+    return api.postRequest(apiUrls.verifikasi.dokumenKonsumen.triggerNotifications)
+  },
 }

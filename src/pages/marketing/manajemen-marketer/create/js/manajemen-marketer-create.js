@@ -35,6 +35,7 @@ export default {
         rekening_bank: '',
         no_rekening: '',
         nama_rekening: '',
+        npwp: ''
       },
       error: {
         nama: '',

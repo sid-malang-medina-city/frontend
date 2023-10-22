@@ -1,6 +1,7 @@
 import { defineAsyncComponent } from 'vue'
 
 const Dashboard = defineAsyncComponent(() => import(/* webpackChunkName: "p-dashboard" */ '~/pages/dashboard/Dashboard.vue'))
+const NoAccess = defineAsyncComponent(() => import(/* webpackChunkName: "p-no-access" */ '~/pages/NoAccess.vue'))
 const Login = defineAsyncComponent(() => import(/* webpackChunkName: "p-login" */ '~/pages/login/Login.vue'))
 const ManajemenUser = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user" */ '~/pages/manajemen-user/ManajemenUser.vue'))
 const ManajemenUserDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-detail" */ '~/pages/manajemen-user/ManajemenUserDetail.vue'))
@@ -20,15 +21,20 @@ const ManajemenFasilitas = defineAsyncComponent(() => import(/* webpackChunkName
 const ManajemenFasilitasCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-fasilitas-create" */ '~/pages/manajemen-unit/fasilitas/create/ManajemenFasilitasCreate.vue'))
 const ManajemenFasilitasEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-fasilitas-edit" */ '~/pages/manajemen-unit/fasilitas/edit/ManajemenFasilitasEdit.vue'))
 const ManajemenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen" */ '~/pages/manajemen-konsumen/ManajemenKonsumen.vue'))
+const ManajemenKonsumenDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen-detail" */ '~/pages/manajemen-konsumen/ManajemenKonsumenDetail.vue'))
 const ManajemenKonsumenCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen-create" */ '~/pages/manajemen-konsumen/create/ManajemenKonsumenCreate.vue'))
 const ManajemenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-konsumen-edit" */ '~/pages/manajemen-konsumen/edit/ManajemenKonsumenEdit.vue'))
 const ManajemenMarketer = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer" */ '~/pages/marketing/manajemen-marketer/ManajemenMarketer.vue'))
+const ManajemenMarketerDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-detail" */ '~/pages/marketing/manajemen-marketer/ManajemenMarketerDetail.vue'))
 const ManajemenMarketerCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-create" */ '~/pages/marketing/manajemen-marketer/create/ManajemenMarketerCreate.vue'))
 const ManajemenMarketerEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-marketer-edit" */ '~/pages/marketing/manajemen-marketer/edit/ManajemenMarketerEdit.vue'))
 const LaporanMarketing = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing" */ '~/pages/marketing/laporan-marketing/LaporanMarketing.vue'))
+const LaporanMarketingDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing-detail" */ '~/pages/marketing/laporan-marketing/LaporanMarketingDetail.vue'))
 const LaporanMarketingEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-marketing-edit" */ '~/pages/marketing/laporan-marketing/edit/LaporanMarketingEdit.vue'))
+const LaporanInvoiceMarketing = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-invoice-marketing" */ '~/pages/marketing/laporan-invoice/LaporanInvoice.vue'))
 const ManajemenDokumenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/ManajemenDokumenKonsumen.vue'))
-// const ManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-edit" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/edit/ManajemenDokumenKonsumenEdit.vue'))
+const ManajemenDokumenKonsumenDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-detail" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/ManajemenDokumenKonsumenDetail.vue'))
+const ManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-edit" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/edit/ManajemenDokumenKonsumenEdit.vue'))
 
 export default [
   {
@@ -41,13 +47,20 @@ export default [
     }
   },
   {
+    path: '/no-access',
+    name: 'NoAccess',
+    component: NoAccess,
+    meta: {
+      title: 'No Access',
+      requiredLogin: true
+    }
+  },
+  {
     path: '',
     name: 'Dashboard',
     component: Dashboard,
     meta: {
       title: 'Dashboard',
-      module: 'DASHBOARD',
-      action: 'DASHBOARD_VIEW',
       requireLogin: true
     }
   },
@@ -57,8 +70,7 @@ export default [
     component: ManajemenUser,
     meta: {
       title: 'Manajemen User',
-      module: 'MANAJEMEN_USER',
-      action: 'MANAJEMEN_USER_VIEW',
+      action: 'LIST_USER',
       requireLogin: true
     }
   },
@@ -68,8 +80,7 @@ export default [
     component: ManajemenUserDetail,
     meta: {
       title: 'Manajemen User Detail',
-      module: 'MANAJEMEN_USER',
-      action: 'MANAJEMEN_USER_VIEW',
+      action: 'READ_USER',
       requireLogin: true
     }
   },
@@ -79,8 +90,7 @@ export default [
     component: ManajemenUserCreate,
     meta: {
       title: 'Manajemen User Create',
-      module: 'MANAJEMEN_USER',
-      action: 'MANAJEMEN_USER_CREATE',
+      action: 'CREATE_USER',
       requireLogin: true
     }
   },
@@ -90,8 +100,7 @@ export default [
     component: ManajemenUserEdit,
     meta: {
       title: 'Manajemen User Edit',
-      module: 'MANAJEMEN_USER',
-      action: 'MANAJEMEN_USER_EDIT',
+      action: 'UPDATE_USER',
       requireLogin: true
     }
   },
@@ -101,8 +110,7 @@ export default [
     component: ManajemenUnit,
     meta: {
       title: 'Manajemen Unit',
-      module: 'MANAJEMEN_UNIT',
-      action: 'MANAJEMEN_UNIT_VIEW',
+      action: 'LIST_UNIT',
       requireLogin: true
     }
   },
@@ -112,8 +120,7 @@ export default [
     component: ManajemenUnitCreate,
     meta: {
       title: 'Manajemen Unit Create',
-      module: 'MANAJEMEN_UNIT',
-      action: 'MANAJEMEN_UNIT_CREATE',
+      action: 'CREATE_UNIT',
       requireLogin: true
     }
   },
@@ -123,8 +130,7 @@ export default [
     component: ManajemenUnitDetail,
     meta: {
       title: 'Manajemen Unit Detail',
-      module: 'MANAJEMEN_UNIT',
-      action: 'MANAJEMEN_UNIT_DETAIL',
+      action: 'READ_UNIT',
       requireLogin: true
     }
   },
@@ -134,8 +140,7 @@ export default [
     component: ManajemenUnitEdit,
     meta: {
       title: 'Manajemen Unit Edit',
-      module: 'MANAJEMEN_UNIT',
-      action: 'MANAJEMEN_UNIT_EDIT',
+      action: 'UPDATE_UNIT',
       requireLogin: true
     }
   },
@@ -145,8 +150,7 @@ export default [
     component: ManajemenCluster,
     meta: {
       title: 'Manajemen Cluster',
-      module: 'MANAJEMEN_CLUSTER',
-      action: 'MANAJEMEN_CLUSTER_VIEW',
+      action: 'LIST_UNIT',
       requireLogin: true
     }
   },
@@ -156,8 +160,7 @@ export default [
     component: ManajemenClusterCreate,
     meta: {
       title: 'Manajemen Cluster Create',
-      module: 'MANAJEMEN_CLUSTER',
-      action: 'MANAJEMEN_CLUSTER_CREATE',
+      action: 'CREATE_UNIT',
       requireLogin: true
     }
   },
@@ -167,8 +170,7 @@ export default [
     component: ManajemenClusterEdit,
     meta: {
       title: 'Manajemen Cluster Edit',
-      module: 'MANAJEMEN_CLUSTER',
-      action: 'MANAJEMEN_CLUSTER_EDIT',
+      action: 'UPDATE_UNIT',
       requireLogin: true
     }
   },
@@ -178,8 +180,7 @@ export default [
     component: ManajemenTipeUnit,
     meta: {
       title: 'Manajemen Tipe Unit',
-      module: 'MANAJEMEN_TIPE_UNIT',
-      action: 'MANAJEMEN_TIPE_UNIT_VIEW',
+      action: 'LIST_UNIT',
       requireLogin: true
     }
   },
@@ -189,8 +190,7 @@ export default [
     component: ManajemenTipeUnitCreate,
     meta: {
       title: 'Manajemen Tipe Unit Create',
-      module: 'MANAJEMEN_TIPE_UNIT',
-      action: 'MANAJEMEN_TIPE_UNIT_CREATE',
+      action: 'CREATE_UNIT',
       requireLogin: true
     }
   },
@@ -200,8 +200,7 @@ export default [
     component: ManajemenTipeUnitEdit,
     meta: {
       title: 'Manajemen Tipe Unit Edit',
-      module: 'MANAJEMEN_TIPE_UNIT',
-      action: 'MANAJEMEN_TIPE_UNIT_EDIT',
+      action: 'UPDATE_UNIT',
       requireLogin: true
     }
   },
@@ -211,8 +210,7 @@ export default [
     component: ManajemenFasilitas,
     meta: {
       title: 'Manajemen Fasilitas',
-      module: 'MANAJEMEN_FASILITAS',
-      action: 'MANAJEMEN_FASILITAS_VIEW',
+      action: 'LIST_UNIT',
       requireLogin: true
     }
   },
@@ -222,8 +220,7 @@ export default [
     component: ManajemenFasilitasCreate,
     meta: {
       title: 'Manajemen Fasilitas Create',
-      module: 'MANAJEMEN_FASILITAS',
-      action: 'MANAJEMEN_FASILITAS_CREATE',
+      action: 'CREATE_UNIT',
       requireLogin: true
     }
   },
@@ -233,8 +230,7 @@ export default [
     component: ManajemenFasilitasEdit,
     meta: {
       title: 'Manajemen Fasilitas Edit',
-      module: 'MANAJEMEN_FASILITAS',
-      action: 'MANAJEMEN_FASILITAS_EDIT',
+      action: 'UPDATE_UNIT',
       requireLogin: true
     }
   },
@@ -244,8 +240,17 @@ export default [
     component: ManajemenKonsumen,
     meta: {
       title: 'Manajemen Konsumen',
-      module: 'MANAJEMEN_KONSUMEN',
-      action: 'MANAJEMEN_KONSUMEN_VIEW',
+      action: 'LIST_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/manajemen-konsumen/:id',
+    name: 'ManajemenKonsumenDetail',
+    component: ManajemenKonsumenDetail,
+    meta: {
+      title: 'Manajemen Konsumen Detail',
+      action: 'READ_KONSUMEN',
       requireLogin: true
     }
   },
@@ -255,8 +260,7 @@ export default [
     component: ManajemenKonsumenCreate,
     meta: {
       title: 'Manajemen Konsumen Create',
-      module: 'MANAJEMEN_KONSUMEN',
-      action: 'MANAJEMEN_KONSUMEN_CREATE',
+      action: 'CREATE_KONSUMEN',
       requireLogin: true
     }
   },
@@ -266,8 +270,7 @@ export default [
     component: ManajemenKonsumenEdit,
     meta: {
       title: 'Manajemen Konsumen Edit',
-      module: 'MANAJEMEN_KONSUMEN',
-      action: 'MANAJEMEN_KONSUMEN_EDIT',
+      action: 'UPDATE_KONSUMEN',
       requireLogin: true
     }
   },
@@ -277,8 +280,17 @@ export default [
     component: ManajemenMarketer,
     meta: {
       title: 'Manajemen Marketer',
-      module: 'MANAJEMEN_MARKETER',
-      action: 'MANAJEMEN_MARKETER_VIEW',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/manajemen-marketer/:id',
+    name: 'ManajemenMarketerDetail',
+    component: ManajemenMarketerDetail,
+    meta: {
+      title: 'Manajemen Marketer Detail',
+      action: 'READ_MARKETER',
       requireLogin: true
     }
   },
@@ -288,8 +300,7 @@ export default [
     component: ManajemenMarketerCreate,
     meta: {
       title: 'Manajemen Marketer Create',
-      module: 'MANAJEMEN_MARKETER',
-      action: 'MANAJEMEN_MARKETER_CREATE',
+      action: 'CREATE_MARKETER',
       requireLogin: true
     }
   },
@@ -299,8 +310,7 @@ export default [
     component: ManajemenMarketerEdit,
     meta: {
       title: 'Manajemen Marketer Edit',
-      module: 'MANAJEMEN_MARKETER',
-      action: 'MANAJEMEN_MARKETER_Edit',
+      action: 'UPDATE_MARKETER',
       requireLogin: true
     }
   },
@@ -310,8 +320,17 @@ export default [
     component: LaporanMarketing,
     meta: {
       title: 'Laporan Marketing',
-      module: 'LAPORAN_MARKETING',
-      action: 'LAPORAN_MARKETING_VIEW',
+      action: 'LIST_LAPORAN_MARKETING',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/laporan-marketing/:id',
+    name: 'LaporanMarketingDetail',
+    component: LaporanMarketingDetail,
+    meta: {
+      title: 'Laporan Marketing Detail',
+      action: 'READ_LAPORAN_MARKETING',
       requireLogin: true
     }
   },
@@ -321,8 +340,27 @@ export default [
     component: LaporanMarketingEdit,
     meta: {
       title: 'Laporan Marketing Edit',
-      module: 'LAPORAN_MARKETING',
-      action: 'LAPORAN_MARKETING_Edit',
+      action: 'UPDATE_LAPORAN_MARKETING',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/laporan-marketing/:id',
+    name: 'LaporanMarketingDetail',
+    component: LaporanMarketingDetail,
+    meta: {
+      title: 'Laporan Marketing Detail',
+      action: 'READ_LAPORAN_MARKETING',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/marketing/laporan-invoice',
+    name: 'LaporanMarketingInvoice',
+    component: LaporanInvoiceMarketing,
+    meta: {
+      title: 'Laporan Invoice Marketing',
+      action: 'LIST_LAPORAN_MARKETING_INVOICE',
       requireLogin: true
     }
   },
@@ -332,19 +370,27 @@ export default [
     component: ManajemenDokumenKonsumen,
     meta: {
       title: 'Dokumen Konsumen',
-      module: 'DOKUMEN_KONSUMEN',
-      action: 'DOKUMEN_KONSUMEN_VIEW',
+      action: 'LIST_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-dokumen-konsumen/:id',
+    name: 'ManajemenDokumenKonsumenDetail',
+    component: ManajemenDokumenKonsumenDetail,
+    meta: {
+      title: 'Dokumen Konsumen',
+      action: 'READ_FILEVIEW_DOKUMEN_KONSUMEN',
       requireLogin: true
     }
   },
   {
     path: '/verifikasi/manajemen-dokumen-konsumen/edit/:id',
     name: 'ManajemenDokumenKonsumenEdit',
-    // component: ManajemenDokumenKonsumenEdit,
+    component: ManajemenDokumenKonsumenEdit,
     meta: {
       title: 'Dokumen Konsumen Edit',
-      module: 'DOKUMEN_KONSUMEN',
-      action: 'DOKUMEN_KONSUMEN_Edit',
+      action: 'UPDATE_DOKUMEN_KONSUMEN',
       requireLogin: true
     }
   },

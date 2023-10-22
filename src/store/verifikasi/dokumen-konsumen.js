@@ -11,6 +11,9 @@ export const dokumenKonsumenStore = defineStore('DokumenKonsumenStore', {
     },
     async editDokumenKonsumen (id, body) {
       return api.editDokumenKonsumen(id, body)
+    },
+    async triggerNotifications () {
+      return api.triggerNotifications()
     }
   }
 })

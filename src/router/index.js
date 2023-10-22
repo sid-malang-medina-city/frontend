@@ -3,13 +3,15 @@ import {
   createWebHistory
 } from 'vue-router'
 import routes from '~/data/routes'
-import checkACL from '~/router/check-acl'
+import beforeHandler from './before-handler'
+import afterHandler from './after-handler'
 
 const router = createRouter({
   history: createWebHistory(),
   routes
 })
 
-router.beforeEach(checkACL)
+router.beforeEach(beforeHandler)
+router.afterEach(afterHandler)
 
 export default router

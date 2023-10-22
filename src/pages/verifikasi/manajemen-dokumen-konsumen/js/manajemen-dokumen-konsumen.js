@@ -5,6 +5,14 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
+import AclHandler from '~/mixins/acl-handler'
+
+import {
+  STATUS_VERIFIKASI,
+  STATUS_PEMBAYARAN
+} from '~/data/konsumen'
+
+import imagesIcon from '/images.svg'
 
 import {
   ArrowDown,
@@ -15,71 +23,11 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 
-const STATUS_VERIFIKASI = {
-  BOOKING: {
-    name: 'Booking',
-    code: 'BOOKING',
-    color: '#1DC4F9'
-  },
-  TERJADWAL_VERIFIKASI: {
-    name: 'Terjadwal verifikasi',
-    code: 'TERJADWAL_VERIFIKASI',
-    color: '#F91DBB'
-  },
-  TERVERIFIKASI: {
-    name: 'Terverifikasi',
-    code: 'TERVERIFIKASI',
-    color: '#0B6BC4'
-  },
-  DITOLAK: {
-    name: 'Ditolak',
-    code: 'DITOLAK',
-    color: '#C4C4C4'
-  },
-  CANCEL: {
-    name: 'Cancel',
-    code: 'CANCEL',
-    color: '#FF613A'
-  }
-}
-
-const STATUS_PEMBAYARAN = {
-  BELUM_TERBAYAR: {
-    name: 'Belum Terbayar',
-    code: 'BELUM_TERBAYAR',
-    color: '#C4C4C4'
-  },
-  DP1: {
-    name: 'DP 1',
-    code: 'DP1',
-    color: '#F9CA1D'
-  },
-  DP1_PPJB: {
-    name: 'DP1 + PPJB',
-    code: 'DP1_PPJB',
-    color: '#F9CA1D'
-  },
-  CASH_LUNAS: {
-    name: 'Cash Lunas',
-    code: 'CASH_LUNAS',
-    color: '#74C627'
-  },
-  CASH_LUNAS_PPJB: {
-    name: 'Cash Lunas + PPJB',
-    code: 'CASH_LUNAS_PPJB',
-    color: '#74C627'
-  },
-  REFUND_TERBAYAR: {
-    name: 'Refund Terbayar',
-    code: 'REFUND_TERBAYAR',
-    color: '#559816'
-  },
-}
 
 export default {
   name: 'manajemen-dokumen-konsumen',
 
-  mixins: [RouterHandler, ToastHandler, DebounceHandler],
+  mixins: [RouterHandler, ToastHandler, DebounceHandler, AclHandler],
 
   components: {
     PageHeader,
@@ -111,7 +59,8 @@ export default {
       icons: {
         delete: Delete,
         edit: Edit
-      }
+      },
+      imagesIcon
     }
   },
 

@@ -9,7 +9,7 @@ export const NAVIGATION_ITEMS = [
   {
     label: 'Dashboard',
     iconPath: dashboardIcon,
-    menuCode: 'DASHBOARD_ACCESS',
+    menuCode: '',
     type: 'root',
     path: '',
     routeName: 'Dashboard',
@@ -28,7 +28,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Manajemen Marketer',
         path: '/marketing/manajemen-marketer',
         routeName: 'ManajemenMarketer',
-        menuCode: 'DATA_MARKETER_ACCESS',
+        menuCode: 'LIST_MARKETER',
         labelIndex: 1,
         childRoutes: [],
         iconPath: null
@@ -37,7 +37,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Laporan Marketing',
         path: '/marketing/laporan-marketing',
         routeName: 'LaporanMarketing',
-        menuCode: 'LAPORAN_MARKETING_ACCESS',
+        menuCode: 'LIST_LAPORAN_MARKETING',
         labelIndex: 2,
         childRoutes: [],
         iconPath: null
@@ -45,7 +45,7 @@ export const NAVIGATION_ITEMS = [
       {
         label: 'Laporan Invoice',
         path: '/marketing/laporan-invoice',
-        menuCode: 'LAPORAN_MARKETING_INVOICE_ACCESS',
+        menuCode: 'LIST_LAPORAN_MARKETING_INVOICE',
         routeName: 'LaporanMarketingInvoice',
         labelIndex: 3,
         childRoutes: [],
@@ -65,7 +65,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Manajemen Dokumen Konsumen',
         path: '/verifikasi/manajemen-dokumen-konsumen',
         routeName: 'ManajemenDokumenKonsumen',
-        menuCode: 'MANAJEMEN_DOKUMEN_KONSUMEN_ACCESS',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
         labelIndex: 1,
         childRoutes: [],
         iconPath: null
@@ -87,7 +87,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
         label: 'Manajemen Unit',
         path: '/manajemen-unit',
         routeName: 'ManajemenUnit',
-        menuCode: 'DATA_MARKETER_ACCESS',
+        menuCode: 'LIST_UNIT',
         labelIndex: 1,
         childRoutes: [],
         iconPath: null
@@ -95,7 +95,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
       {
         label: 'Manajemen Cluster',
         path: '/manajemen-unit/cluster',
-        menuCode: 'LAPORAN_MARKETING_ACCESS',
+        menuCode: 'LIST_UNIT',
         routeName: 'ManajemenCluster',
         labelIndex: 2,
         childRoutes: [],
@@ -104,7 +104,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
       {
         label: 'Manajemen Tipe Unit',
         path: '/manajemen-unit/tipe',
-        menuCode: 'LAPORAN_MARKETING_INVOICE_ACCESS',
+        menuCode: 'LIST_UNIT',
         routeName: 'ManajemenTipeUnit',
         labelIndex: 3,
         childRoutes: [],
@@ -113,7 +113,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
       {
         label: 'Manajemen Fasilitas',
         path: '/manajemen-unit/fasilitas',
-        menuCode: 'LAPORAN_MARKETING_INVOICE_ACCESS',
+        menuCode: 'LIST_UNIT',
         routeName: 'ManajemenFasilitas',
         labelIndex: 4,
         childRoutes: [],
@@ -124,7 +124,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
   {
     label: 'Manajemen Konsumen',
     iconPath: manajemenKonsumenIcon,
-    menuCode: 'MANAJEMEN_KONSUMEN_ACCESS',
+    menuCode: 'LIST_KONSUMEN',
     type: 'root',
     path: '',
     routeName: 'ManajemenKonsumen',
@@ -134,7 +134,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
   {
     label: 'Manajemen User',
     iconPath: manajemenUserIcon,
-    menuCode: 'MANAJEMEN_USER_ACCESS',
+    menuCode: 'LIST_USER',
     type: 'root',
     path: '',
     routeName: 'ManajemenUser',

@@ -4,6 +4,9 @@ import { konsumenStore } from '~/store/konsumen'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
+
+import { STATUS_KONSUMEN } from '~/data/konsumen'
 
 import {
   ArrowDown,
@@ -14,51 +17,10 @@ import {
   Delete
 } from '@element-plus/icons-vue'
 
-const STATUS_VERIFIKASI_KONSUMEN = {
-  BOOKING: {
-    name: 'Booking',
-    code: 'BOOKING',
-    color: '#1DC4F9'
-  },
-  TERJADWAL_VERIFIKASI: {
-    name: 'Terjadwal verifikasi',
-    code: 'TERJADWAL_VERIFIKASI',
-    color: '#F91DBB'
-  },
-  TERVERIFIKASI: {
-    name: 'Terverifikasi',
-    code: 'TERVERIFIKASI',
-    color: '#0B6BC4'
-  },
-  DITOLAK: {
-    name: 'Ditolak',
-    code: 'DITOLAK',
-    color: '#C4C4C4'
-  },
-  CANCEL: {
-    name: 'Cancel',
-    code: 'CANCEL',
-    color: '#FF613A'
-  }
-}
-
-const STATUS_KONSUMEN = {
-  BOOKING: {
-    name: 'Booking',
-    code: 'BOOKING',
-    color: '#1DC4F9'
-  },
-  PROSPECT: {
-    name: 'Prospect',
-    code: 'PROSPECT',
-    color: '#F91DBB'
-  },
-}
-
 export default {
   name: 'manajemen-konsumen',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     PageHeader,
@@ -79,7 +41,6 @@ export default {
         size: 10
       },
       statuses: STATUS_KONSUMEN,
-      verificationStatuses: STATUS_VERIFIKASI_KONSUMEN,
       konsumens: [],
       totalKonsumens: 0,
       visibleFilter: false,
@@ -175,6 +136,14 @@ export default {
       this.redirectTo('ManajemenKonsumenCreate')
     },
     
+    goToDetailPage ({ id }) {
+      this.redirectTo('ManajemenKonsumenDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+
     goToEditPage (id) {
       this.redirectTo('ManajemenKonsumenEdit', {
         params: {

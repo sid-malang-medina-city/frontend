@@ -16,6 +16,7 @@
             </el-icon>
           </el-button>
           <el-button
+            v-if="hasAccess('CREATE_UNIT')"
             type="primary"
             class="actions__create-btn"
             @click="goToCreatePage"
@@ -63,6 +64,7 @@
             min-width="210"
           />
           <el-table-column
+            v-if="hasAccess('UPDATE_UNIT') || hasAccess('DELETE_UNIT')"
             label="Action"
             width="90"
             align="center"
@@ -71,6 +73,7 @@
             <template #default="scope">
               <div class="table__actions">
                 <el-button
+                  v-if="hasAccess('UPDATE_UNIT')"
                   :icon="icons.edit"
                   type="primary"
                   class="table__actions-edit"
@@ -78,6 +81,7 @@
                   @click.stop="goToEditPage(scope.row.id)"
                 />
                 <el-button
+                  v-if="hasAccess('DELETE_UNIT')"
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"

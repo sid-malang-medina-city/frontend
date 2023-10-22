@@ -4,6 +4,7 @@ import { marketerStore } from '~/store/marketing/marketer'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 
 import { STATUS_MARKETER } from '~/data/marketing'
 
@@ -19,7 +20,7 @@ import {
 export default {
   name: 'manajemen-marketer',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     PageHeader,
@@ -134,6 +135,14 @@ export default {
 
     goToCreatePage () {
       this.redirectTo('ManajemenMarketerCreate')
+    },
+
+    goToDetailPage ({ id }) {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: id
+        }
+      })
     },
 
     goToEditPage (id) {

@@ -131,7 +131,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            v-if="true"
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="e_ktp_access_url"
             label="e-KTP"
             min-width="170"
@@ -143,11 +143,20 @@
                 alt="e-KTP"
                 class="table__img"
               >
-              <div v-else>-</div>
+              <div
+                v-else
+                class="table__img-empty-state-wrapper"
+              >
+                <img
+                  :src="imagesIcon"
+                  alt="e-KTP"
+                  class="table__img-empty-state"
+                >
+              </div>
             </template>
           </el-table-column>
           <el-table-column
-            v-if="true"
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="kartu_keluarga_access_url"
             label="Kartu Keluarga"
             min-width="170"
@@ -159,11 +168,20 @@
                 alt="Kartu Keluarga"
                 class="table__img"
               >
-              <div v-else>-</div>
+              <div
+                v-else
+                class="table__img-empty-state-wrapper"
+              >
+                <img
+                  :src="imagesIcon"
+                  alt="Kartu Keluarga"
+                  class="table__img-empty-state"
+                >
+              </div>
             </template>
           </el-table-column>
           <el-table-column
-            v-if="true"
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="slip_gaji_access_url"
             label="Slip Gaji"
             min-width="170"
@@ -175,11 +193,20 @@
                 alt="Slip Gaji"
                 class="table__img"
               >
-              <div v-else>-</div>
+              <div
+                v-else
+                class="table__img-empty-state-wrapper"
+              >
+                <img
+                  :src="imagesIcon"
+                  alt="Slip Gaji"
+                  class="table__img-empty-state"
+                >
+              </div>
             </template>
           </el-table-column>
           <el-table-column
-            v-if="true"
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="mutasi_tabungan_access_url"
             label="Mutasi Tabungan"
             min-width="170"
@@ -191,11 +218,20 @@
                 alt="Mutasi Tabungan"
                 class="table__img"
               >
-              <div v-else>-</div>
+              <div
+                v-else
+                class="table__img-empty-state-wrapper"
+              >
+                <img
+                  :src="imagesIcon"
+                  alt="Mutasi Tabungan"
+                  class="table__img-empty-state"
+                >
+              </div>
             </template>
           </el-table-column>
           <el-table-column
-            v-if="true"
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="surat_pernikahan_access_url"
             label="Surat Pernikahan"
             min-width="170"
@@ -207,10 +243,20 @@
                 alt="Surat Pernikahan"
                 class="table__img"
               >
-              <div v-else>-</div>
+              <div
+                v-else
+                class="table__img-empty-state-wrapper"
+              >
+                <img
+                  :src="imagesIcon"
+                  alt="Surat Pernikahan"
+                  class="table__img-empty-state"
+                >
+              </div>
             </template>
           </el-table-column>
           <el-table-column
+            v-if="hasAccess('UPDATE_DOKUMEN_KONSUMEN')"
             label="Action"
             width="90"
             align="center"
@@ -224,13 +270,6 @@
                   class="table__actions-edit"
                   text
                   @click.stop="goToEditPage(scope.row.id)"
-                />
-                <el-button
-                  :icon="icons.delete"
-                  type="primary"
-                  class="table__actions-delete"
-                  text
-                  @click.stop="openModalConfirmation(scope.row.id)"
                 />
               </div>
             </template>
@@ -320,10 +359,28 @@
       margin-bottom: 24px;
 
       &__img {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         object-fit: cover;
         border-radius: 6px;
+        display: flex;
+        align-items: center;
+      }
+
+      &__img-empty-state-wrapper {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+        border: 0.8px solid #E9E9E9;
+        background: #F0F0F0;
+      }
+
+      &__img-empty-state {
+        width: 24px;
+        height: 24px;
       }
 
       &__actions {

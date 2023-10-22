@@ -38,10 +38,10 @@ export default {
       formData: {
         nomor_kavling: '',
         harga: '',
-        tipe: '',
+        tipe_id: '',
         luas_bangunan: '',
         luas_tanah: '',
-        fasilitas: [],
+        fasilitas_ids: '',
         daya_listrik: '',
         jumlah_kamar_tidur: null,
         jumlah_kamar_mandi: null,
@@ -52,7 +52,7 @@ export default {
       error: {
         nomor_kavling: '',
         harga: '',
-        tipe: '',
+        tipe_id: '',
       },
       uploadedImages: [
         {
@@ -98,7 +98,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['nomor_kavling', 'harga', 'tipe']
+      const requiredFields = ['nomor_kavling', 'harga', 'tipe_id']
       return requiredFields.every(field => !!this.formData[field])
     },
 

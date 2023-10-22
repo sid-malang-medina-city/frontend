@@ -99,6 +99,16 @@
             </div>
           </div>
           <div class="input-section__rows rows">
+            <div class="rows__row row">
+              <div class="row__label required">
+                NPWP
+              </div>
+              <el-input
+                v-model="formData.npwp"
+                placeholder="Masukkan nomor NPWP"
+                class="row__input"
+              />
+            </div>
             <div class="rows__row">
               <div class="row__label required">
                 Alamat
@@ -108,7 +118,7 @@
                 :class="{ 'row__input--error': !!error.alamat }"
                 :rows="5"
                 resize="none"
-                placeholder="Masukkan nomor rekening bank"
+                placeholder="Masukkan alamat"
                 type="textarea"
                 class="row__input"
               />

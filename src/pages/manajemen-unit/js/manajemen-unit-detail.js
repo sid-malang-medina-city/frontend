@@ -19,11 +19,12 @@ import newspaperClippingIcon from '/newspaper-clipping.svg'
 
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 
 export default {
   name: 'manajemen-unit-detail',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     Delete,

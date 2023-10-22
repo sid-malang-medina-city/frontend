@@ -19,6 +19,7 @@
           </div>
           <div class="header__actions actions">
             <el-button
+              v-if="hasAccess('UPDATE_UNIT')"
               type="primary"
               class="actions__edit-btn"
               plain
@@ -30,6 +31,7 @@
               </el-icon>
             </el-button>
             <el-button
+              v-if="hasAccess('DELETE_UNIT')"
               :icon="icons.delete"
               type="danger"
               class="actions__delete-btn"
@@ -58,7 +60,7 @@
                   Cluster
                 </div>
                 <div class="column__value">
-                  {{ unit.cluster_nama }}
+                  {{ unit.cluster?.nama }}
                 </div>
               </div>
               <div class="informasi-utama__column column">
@@ -82,7 +84,7 @@
                   Tipe Unit
                 </div>
                 <div class="column__value">
-                  {{ unit.tipe_nama }}
+                  {{ unit.tipe?.nama }}
                 </div>
               </div>
               <div class="informasi-utama__column column">
@@ -161,9 +163,9 @@
                   Luas Tanah
                 </div>
                 <div class="row__value row__value--flex">
-                  {{ `${helpers.convertWithEmptyValueDash(unit.luas_tanah)} ` }}
+                  {{ `${helpers.convertEmptyValueWithDash(unit.luas_tanah)} ` }}
                   <div
-                    v-if="helpers.convertWithEmptyValueDash(unit.luas_tanah) !== '-'"
+                    v-if="helpers.convertEmptyValueWithDash(unit.luas_tanah) !== '-'"
                     class="row__uom"
                   >
                     m<sup>2</sup>
@@ -175,9 +177,9 @@
                   Luas Bangunan
                 </div>
                 <div class="row__value row__value--flex">
-                  {{ helpers.convertWithEmptyValueDash(unit.luas_bangunan) }}
+                  {{ helpers.convertEmptyValueWithDash(unit.luas_bangunan) }}
                   <div
-                    v-if="helpers.convertWithEmptyValueDash(unit.luas_bangunan) !== '-'"
+                    v-if="helpers.convertEmptyValueWithDash(unit.luas_bangunan) !== '-'"
                     class="row__uom"
                   >
                     m<sup>2</sup>
@@ -207,9 +209,9 @@
                   Daya Listrik
                 </div>
                 <div class="row__value row__value--flex">
-                  {{ helpers.convertWithEmptyValueDash(unit.daya_listrik) }}
+                  {{ helpers.convertEmptyValueWithDash(unit.daya_listrik) }}
                   <div
-                    v-if="helpers.convertWithEmptyValueDash(unit.daya_listrik) !== '-'"
+                    v-if="helpers.convertEmptyValueWithDash(unit.daya_listrik) !== '-'"
                     class="row__uom"
                   >
                     watt
@@ -224,7 +226,7 @@
                   Jumlah Kamar Tidur
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertWithEmptyValueDash(unit.jumlah_kamar_tidur) }}
+                  {{ helpers.convertEmptyValueWithDash(unit.jumlah_kamar_tidur) }}
                 </div>
               </div>
               <div class="rows__row">
@@ -232,7 +234,7 @@
                   Jumlah Kamar Mandi
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertWithEmptyValueDash(unit.jumlah_kamar_mandi) }}
+                  {{ helpers.convertEmptyValueWithDash(unit.jumlah_kamar_mandi) }}
                 </div>
               </div>
             </div>
@@ -444,7 +446,7 @@
           }
           
           &__img {
-            width: 250px;
+            width: 270px;
             height: 100%;
             object-fit: cover;
             border-radius: 8px;

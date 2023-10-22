@@ -277,7 +277,7 @@
                 Tipe Unit
               </div>
               <el-select
-                v-model="formData.tipe"
+                v-model="formData.tipe_id"
                 placeholder="Pilih tipe unit"
                 class="row__input"
               >
@@ -341,7 +341,7 @@
                 Fasilitas
               </div>
               <el-select
-                v-model="formData.fasilitas"
+                v-model="formData.fasilitas_ids"
                 :remote-method="getFasilitas"
                 :loading="visibleLoading"
                 placeholder="Please enter a keyword"
@@ -518,7 +518,7 @@
           }
           
           &__img {
-            width: 250px;
+            width: 270px;
             height: 100%;
             object-fit: cover;
             border-radius: 4px;

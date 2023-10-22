@@ -16,6 +16,7 @@
             </el-icon>
           </el-button>
           <el-button
+            v-if="hasAccess('CREATE_MARKETER')"
             type="primary"
             class="actions__create-btn"
             @click="goToCreatePage"
@@ -79,7 +80,7 @@
           <el-table-column
             prop="nama"
             label="Nama"
-            min-width="120"
+            min-width="200"
           />
           <el-table-column
             prop="nomor_telepon"
@@ -99,16 +100,17 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="total_penjualan_unit"
+            prop="total_penjualan"
             label="Total Penjualan Unit"
             min-width="180"
           />
-          <el-table-column
+          <!-- <el-table-column
             prop="level"
             label="Level"
             min-width="100"
-          />
+          /> -->
           <el-table-column
+            v-if="hasAccess('UPDATE_MARKETER') || hasAccess('DELETE_MARKETER')"
             label="Action"
             width="90"
             align="center"
@@ -117,6 +119,7 @@
             <template #default="scope">
               <div class="table__actions">
                 <el-button
+                  v-if="hasAccess('UPDATE_MARKETER')"
                   :icon="icons.edit"
                   type="primary"
                   class="table__actions-edit"
@@ -124,6 +127,7 @@
                   @click.stop="goToEditPage(scope.row.id)"
                 />
                 <el-button
+                  v-if="hasAccess('DELETE_MARKETER')"
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"

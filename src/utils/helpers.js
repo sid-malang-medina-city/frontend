@@ -6,8 +6,8 @@ export default {
     return 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   },
 
-  convertWithEmptyValueDash (str) {
-    return !str ? '-' : str
+  convertEmptyValueWithDash (str) {
+    return !str & str !== 0 & str !== '0' ? '-' : str
   },
 
   convertDateTimeZoneToDateTimeString (dateTime) {
@@ -20,6 +20,30 @@ export default {
     const formattedTime = `${inputDate.getHours().toString().padStart(2, '0')}:${inputDate.getMinutes().toString().padStart(2, '0')}`;
     
     const output = `pada ${formattedDate}, ${formattedTime}`;
+    return output
+  },
+
+  getCurrentDate () {
+    const date = new Date();
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    };
+    
+    return date.toLocaleDateString('in', options)
+  },
+
+  convertDateTimeZoneToDateTimeStringWib (dateTime) {
+    if (!dateTime) {
+      return
+    }
+
+    const inputDate = new Date(dateTime);
+    const formattedDate = `${inputDate.getDate().toString().padStart(2, '0')}/${(inputDate.getMonth() + 1).toString().padStart(2, '0')}/${inputDate.getFullYear()}`
+    const formattedTime = `${inputDate.getHours().toString().padStart(2, '0')}:${inputDate.getMinutes().toString().padStart(2, '0')}`;
+    
+    const output = `${formattedDate}, ${formattedTime} WIB`;
     return output
   },
 

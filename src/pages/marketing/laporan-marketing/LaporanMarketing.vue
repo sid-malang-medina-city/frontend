@@ -84,7 +84,7 @@
           <el-table-column
             prop="status_fee"
             label="Status Pembayaran"
-            min-width="130"
+            min-width="180"
           >
             <template #default="scope">
               <status-badge
@@ -97,7 +97,11 @@
             prop="jumlah_fee"
             label="Jumlah Fee"
             min-width="180"
-          />
+          >
+            <template #default="scope">
+              {{ helpers.convertPriceToRupiah(scope.row.jumlah_fee) }}
+            </template>
+          </el-table-column>
           <el-table-column
             prop="updated_at"
             label="Tanggal Diperbaharui"
@@ -117,6 +121,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if="hasAccess('UPDATE_LAPORAN_MARKETING')"
             label="Action"
             width="90"
             align="center"

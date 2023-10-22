@@ -4,6 +4,7 @@ import { userStore } from '~/store/users'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
 
 import {
@@ -18,7 +19,7 @@ import {
 export default {
   name: 'manajemen-user',
 
-  mixins: [RouterHandler, ToastHandler, DebounceHandler],
+  mixins: [RouterHandler, ToastHandler, DebounceHandler, AclHandler],
 
   components: {
     PageHeader,

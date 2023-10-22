@@ -4,6 +4,7 @@ import { fasilitasStore } from '~/store/unit/fasilitas'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 
 import {
   ArrowDown,
@@ -17,7 +18,7 @@ import {
 export default {
   name: 'manajemen-fasilitas',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     PageHeader,
