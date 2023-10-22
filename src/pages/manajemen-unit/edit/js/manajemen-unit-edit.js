@@ -182,18 +182,17 @@ export default {
         foto_3_access_url,
         cluster,
         tipe,
+        fasilitas,
         ...formData
       } = data
 
-      console.log('masuk')
-      // this.formData.cluster_id = cluster.id
-      // this.formData.tipe_id = tipe.id
       this.formData = {
         ...formData,
         cluster_id: cluster.id,
         tipe_id: tipe.id
       }
-      console.log(this.formData)
+
+      this.formData.fasilitas_ids = fasilitas.map(item => item.id)
 
       if (foto_1_access_url) {
         this.uploadedImages[0].visible = true

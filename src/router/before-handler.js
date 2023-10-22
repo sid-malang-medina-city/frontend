@@ -21,7 +21,6 @@ export default async function beforeHandler (to, from, next) {
       days_back: 10
     })
   }
-
   
   next()
 }
