@@ -21,8 +21,8 @@ export default {
 
     /* display errors list from api response */
     showErrorResponse (error, duration = 3000) {
-      if (error.response.status === 401) {
-        let message = error.response.data[Object.keys(error.response.data)[0]].join()
+      if (error.response.data.detail) {
+        let message = error.response.data.detail
         this.showToast(message, 'error', duration)
         return
       }
@@ -54,7 +54,7 @@ export default {
       }
       message += '</div>'
 
-      this.showToast(message, 'error', 5000, true)
+      this.showToast(message, 'error', 20000, true)
     }
   }
 }
