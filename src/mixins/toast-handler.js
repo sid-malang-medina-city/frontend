@@ -21,6 +21,7 @@ export default {
 
     /* display errors list from api response */
     showErrorResponse (error, duration = 3000) {
+      console.log(error)
       if (error.response.data.detail) {
         let message = error.response.data.detail
         this.showToast(message, 'error', duration)
@@ -38,11 +39,14 @@ export default {
         return
       }
 
-      let errors = error.response.data
+      let errors = error.response.data.errors
       let message = `<div class="alert-list" style="display: flex; flex-direction: column; justify-content: center; gap: 5px;">`
+      console.log('msk')
 
       for (const key in errors) {
+        console.log('msk dlm', errors)
         const errorMessages = errors[key]
+        console.log(errorMessages)
         message += `
           <div class="alert-list__item item">
         `

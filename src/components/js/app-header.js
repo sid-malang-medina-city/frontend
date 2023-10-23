@@ -25,6 +25,8 @@ export default {
 
   data () {
     return {
+      visibleNotification: false,
+      popoverRef: null,
       helpers
     }
   },
@@ -46,6 +48,7 @@ export default {
     async markAsRead (notification) {
       try {
         await this.readNotification(notification.id, { is_read: true })
+        document.getElementById('id-header').click()
         this.redirectTo(notification.route_name, {
           params: {
             id: notification.param_id
@@ -68,8 +71,8 @@ export default {
       }
     },
 
-    // goToUserProfile () {
-    //   this.redirectTo('UserProfile')
-    // }
+    goToUserProfile () {
+      this.redirectTo('UserProfile')
+    }
   }
 }

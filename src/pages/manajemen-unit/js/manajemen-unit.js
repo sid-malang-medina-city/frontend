@@ -1,13 +1,18 @@
 import { mapActions } from 'pinia'
 import { unitStore } from '~/store/unit'
+import { clusterStore } from '~/store/unit/cluster'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
+import DebounceHandler from '~/mixins/debounce-handler'
 import helpers from '~/utils/helpers'
+
 import { STATUSES } from '~/data/unit'
+
+import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
 import {
   ArrowDown,
@@ -21,7 +26,7 @@ import {
 export default {
   name: 'manajemen-unit',
 
-  mixins: [RouterHandler, ToastHandler, AclHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
@@ -35,6 +40,7 @@ export default {
   data () {
     return {
       filters: {
+        cluster: this.$route.query.cluster || null,
         search: this.$route.query.search || null,
         min_price: this.$route.query.min_price || null,
         max_price:this.$route.query.max_price || null,
@@ -53,8 +59,10 @@ export default {
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
-        edit: Edit
+        edit: Edit,
+        arrowCounterClockwise: arrowCounterClockwiseIcon
       },
+      clusters: [],
       statuses: STATUSES,
       helpers
     }
@@ -75,11 +83,16 @@ export default {
         ...this.filters,
         ...this.pagination
       }
+    },
+
+    isAnyFilterApplied () {
+      return Object.keys(this.filters).some(key => !!this.filters[key])
     }
   },
 
   created () {
-    this.visibleFilter = Object.keys(this.filters).some(key => !!this.filters[key])
+    this.visibleFilter = this.isAnyFilterApplied
+    this.getClusters()
     this.getUnits()
   },
 
@@ -88,6 +101,16 @@ export default {
       'fetchUnits',
       'deleteUnit'
     ]),
+    ...mapActions(clusterStore, ['fetchClusters']),
+
+    async getClusters () {
+      try {
+        const { data } = await this.fetchClusters({ skip_pagination: true })
+        this.clusters = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
 
     async getUnits () {
       this.visibleLoadingTable = true
@@ -121,6 +144,14 @@ export default {
     },
 
     handleFilterChange () {
+      if (this.filters.status === '') {
+        this.filters.status = null
+      }
+      
+      if (this.filters.cluster === '') {
+        this.filters.cluster = null
+      }
+
       this.filters.min_price = this.priceRange[0]
       this.filters.max_price = this.priceRange[1]
       this.setRouteParam('ManajemenUnit', { ...this.query, ...this.filters })
@@ -129,6 +160,14 @@ export default {
 
     toggleFilter () {
       this.visibleFilter = !this.visibleFilter
+    },
+
+    clearFilters () {
+      Object.keys(this.filters).forEach(filter => {
+        this.filters[filter] = null
+      })
+      this.initPriceRange()
+      this.handleFilterChange()
     },
 
     async openModalConfirmation (id) {

@@ -5,8 +5,11 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
+import DebounceHandler from '~/mixins/debounce-handler'
 
 import { STATUS_KONSUMEN } from '~/data/konsumen'
+
+import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
 import {
   ArrowDown,
@@ -20,7 +23,7 @@ import {
 export default {
   name: 'manajemen-konsumen',
 
-  mixins: [RouterHandler, ToastHandler, AclHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
@@ -47,7 +50,8 @@ export default {
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
-        edit: Edit
+        edit: Edit,
+        arrowCounterClockwise: arrowCounterClockwiseIcon
       }
     }
   },
@@ -67,10 +71,15 @@ export default {
         ...this.filters,
         ...this.pagination
       }
+    },
+
+    isAnyFilterApplied () {
+      return Object.keys(this.filters).some(key => !!this.filters[key])
     }
   },
 
   created () {
+    this.visibleFilter = this.isAnyFilterApplied
     this.getKonsumens()
   },
 
@@ -99,12 +108,23 @@ export default {
     },
 
     handleFilterChange () {
+      if (this.filters.status === '') {
+        this.filters.status = null
+      }
+
       this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
     toggleFilter () {
       this.visibleFilter = !this.visibleFilter
+    },
+
+    clearFilters () {
+      Object.keys(this.filters).forEach(filter => {
+        this.filters[filter] = null
+      })
+      this.handleFilterChange()
     },
 
     async openModalConfirmation (id) {

@@ -3,6 +3,7 @@ export default {
     login: '/user/login',
     acl: '/user/acl',
     list: '/user',
+    me: '/user/me',
     roles: '/user/roles',
     divisions: '/user/divisions',
     refreshToken: '/user/refresh-token',

@@ -1,5 +1,8 @@
 <template>
-  <div class="header">
+  <div
+    id="id-header"
+    class="header"
+  >
     <el-popover
       :width="300"
       placement="bottom-start"
@@ -57,7 +60,7 @@
         </div>
       </el-scrollbar>
       <template #reference>
-        <div class="header__wrapper">
+        <div class="header__wrapper" @click="visibleNotification = true">
           <el-icon class="header__icon">
             <Bell />
           </el-icon>

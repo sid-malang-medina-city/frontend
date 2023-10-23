@@ -5,6 +5,7 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
+import DebounceHandler from '~/mixins/debounce-handler'
 
 import {
   ArrowDown,
@@ -18,7 +19,7 @@ import {
 export default {
   name: 'manajemen-fasilitas',
 
-  mixins: [RouterHandler, ToastHandler, AclHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
@@ -67,6 +68,7 @@ export default {
   },
 
   created () {
+    this.visibleFilter = !!this.filters.search
     this.getFasilitass()
   },
 

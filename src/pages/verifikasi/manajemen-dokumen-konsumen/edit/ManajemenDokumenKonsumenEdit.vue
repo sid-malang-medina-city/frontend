@@ -501,7 +501,10 @@
             </div>
           </div>
           <div class="input-section__rows rows">
-            <div class="rows__row">
+            <div
+              v-if="formData.status_verifikasi === 'TERVERIFIKASI'"
+              class="rows__row"
+            >
               <div class="row__label">
                 Status Pembayaran
               </div>
@@ -520,7 +523,7 @@
               </el-select>
             </div>
             <div
-              v-if="formData.status_verifikasi === 'TERJADWAL_VERIFIKASI'"
+              v-else-if="formData.status_verifikasi === 'TERJADWAL_VERIFIKASI'"
               class="rows__row"
             >
               <div class="row__label required">
@@ -536,28 +539,9 @@
               />
             </div>
             <div
-              v-else
               class="rows__row"
             >
               <div class="row__label">
-                Keterangan
-              </div>
-              <el-input
-                v-model="formData.keterangan"
-                :rows="3"
-                resize="none"
-                placeholder="Masukkan keterangan"
-                type="textarea"
-                class="row__input"
-              />
-            </div>
-          </div>
-          <div
-            v-if="formData.status_verifikasi === 'TERJADWAL_VERIFIKASI'"
-            class="input-section__rows rows"
-          >
-            <div class="rows__row">
-              <div class="row__label required">
                 Keterangan
               </div>
               <el-input

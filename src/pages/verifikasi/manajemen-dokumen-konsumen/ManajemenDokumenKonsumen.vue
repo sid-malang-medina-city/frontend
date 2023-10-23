@@ -4,17 +4,31 @@
     <div class="manajemen-dokumen-konsumen__wrapper page-content">
       <div class="manajemen-dokumen-konsumen__actions-wrapper">
         <div class="manajemen-dokumen-konsumen__actions actions">
-          <el-button
-            type="secondary"
-            class="actions__filter-btn"
-            @click="toggleFilter"
-          >
-            Filter
-            <el-icon class="el-icon--right">
-              <ArrowDown v-if="!visibleFilter" />
-              <ArrowUp v-else />
-            </el-icon>
-          </el-button>
+          <div class="actions-filters">
+            <el-button
+              type="secondary"
+              class="actions__filter-btn"
+              @click="toggleFilter"
+            >
+              Filter
+              <el-icon class="el-icon--right">
+                <ArrowDown v-if="!visibleFilter" />
+                <ArrowUp v-else />
+              </el-icon>
+            </el-button>
+            <el-button
+              v-if="isAnyFilterApplied"
+              class="actions__clear-filter-btn"
+              link
+              @click="clearFilters"
+            >
+              <img
+                :src="icons.arrowCounterClockwise"
+                alt=""
+              >
+              Hapus Semua Filter
+            </el-button>
+          </div>
         </div>
         <div
           v-if="visibleFilter"
@@ -44,6 +58,7 @@
               v-model="filters.status_verifikasi"
               placeholder="Pilih status verifikasi"
               class="filters__input"
+              clearable
               @change="handleFilterChange()"
             >
               <el-option
@@ -63,6 +78,7 @@
               v-model="filters.status_pembayaran"
               placeholder="Pilih status pembayaran"
               class="filters__input"
+              clearable
               @change="handleFilterChange()"
             >
               <el-option
@@ -72,6 +88,24 @@
                 :value="status.code"
               />
             </el-select>
+          </div>
+          
+          
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Tanggal Booking
+            </div>
+            <el-date-picker
+              v-model="tanggalBookingValue"
+              :clearable="false"
+              type="daterange"
+              range-separator="sampai"
+              start-placeholder="Tanggal awal"
+              end-placeholder="Tanggal akhir"
+              format="DD-MM-YYYY"
+              value-format="YYYY-MM-DD"
+              @change="handleDateRangeChange"
+            />
           </div>
         </div>
       </div>
@@ -314,6 +348,15 @@
     .actions {
       display: flex;
       justify-content: space-between;
+
+      &__filters {
+        display: flex;
+        gap: 8px;
+      }
+
+      :deep(.actions__clear-filter-btn span) {
+        gap: 4px;
+      }
 
       &__filter-btn {
         width: 100px;

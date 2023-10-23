@@ -163,8 +163,7 @@ export default {
       this.visibleLoading = true
       try {
         const { data } = await this.fetchFasilitass({
-          page: 1,
-          page_size: 9999,
+          skip_pagination: true,
           search: keyword
         })
         this.fasilitass = JSON.parse(JSON.stringify(data.data))

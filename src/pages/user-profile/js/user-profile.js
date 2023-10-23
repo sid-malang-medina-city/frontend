@@ -5,60 +5,50 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 
-import {
-  CircleCheckFilled,
-  WarningFilled
-} from '@element-plus/icons-vue'
+import keyIcon from '/key.svg'
+import userIcon from '/user.svg'
+
+import { WarningFilled } from '@element-plus/icons-vue'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default {
-  name: 'manajemen-user-edit',
+  name: 'user-profile',
 
   mixins: [RouterHandler, ToastHandler],
 
   components: {
-    CircleCheckFilled,
-    WarningFilled,
-    PageHeader
+    PageHeader,
+    WarningFilled
   },
 
   data () {
     return {
       formData: {
         name: '',
-        division_id: '',
-        role_id: '',
-        email: ''
+        role_id: null,
+        division_id: null
       },
       error: {
         email: ''
       },
+      roles: [],
       divisions: [],
-      roles: []
+      visibleLoading: false,
+      keyIcon,
+      userIcon
     }
   },
 
   created () {
     this.getRoles()
     this.getDivisions()
-    this.initData()
-  },
-
-  computed: {
-    id () {
-      return this.$route.params.id
-    },
-
-    isAllRequiredFieldsFilled () {
-      const requiredFields = Object.keys(this.formData)
-      return requiredFields.every(field => !!this.formData[field])
-    }
+    this.getMyProfile()
   },
 
   methods: {
     ...mapActions(userStore, [
-      'fetchUser',
+      'fetchMyProfile',
       'editUser',
       'fetchDivisions',
       'fetchRoles',
@@ -82,23 +72,27 @@ export default {
       }
     },
 
-    async initData () {
+    async getMyProfile () {
       try {
-        const { data } = await this.fetchUser(this.id)
-        const userData = JSON.parse(JSON.stringify(data)) 
-        this.formData = {
-          name: userData.name,
-          division_id: userData.division.id,
-          role_id: userData.role.id,
-          email: userData.email
-        }
-      } catch (error) {
-        this.showErrorResponse(error)
+        const { data } = await this.fetchMyProfile()
+        this.initFormData(JSON.parse(JSON.stringify(data)))        
+      } catch (e) {
+        this.showErrorResponse(e)
       }
     },
 
-    goToManajemenUser () {
-      this.redirectTo('ManajemenUser')
+    initFormData (data) {
+      const {
+        division,
+        role,
+        ...formData
+      } = data
+
+      this.formData = {
+        ...formData,
+        division_id: division.id,
+        role_id: role.id
+      }
     },
 
     validateEmail () {
@@ -115,15 +109,23 @@ export default {
       if (this.validateEmail()) {
         this.visibleLoading = true
         try {
-          await this.editUser(this.id, this.formData)
-          this.redirectTo('ManajemenUser')
-          this.showToast('Data user berhasil diperbaharui!')
+          await this.editUser(this.formData.id, this.formData)
+          this.getMyProfile()
+          this.showToast('Data diri berhasil diperbaharui!')
         } catch (e) {
           this.showErrorResponse(e)
         } finally {
           this.visibleLoading = false
         }
       }
-    }
+    },
+
+    goToDashboard () {
+      this.redirectTo('Dashboard')
+    },
+    
+    goToChangePassword () {
+      this.redirectTo('ChangePassword')
+    },
   }
 }

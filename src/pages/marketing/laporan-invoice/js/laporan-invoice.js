@@ -1,4 +1,3 @@
-import html2pdf from "html2pdf.js";
 import jsPDF from "jspdf";
 
 import { mapActions } from 'pinia'
@@ -7,6 +6,7 @@ import { laporanInvoiceStore } from '~/store/marketing/laporan-invoice'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import DebounceHandler from '~/mixins/debounce-handler'
 
 import helpers from '~/utils/helpers'
 
@@ -23,7 +23,7 @@ import {
 export default {
   name: 'laporan-invoice',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, DebounceHandler],
 
   components: {
     PageHeader,
@@ -75,6 +75,7 @@ export default {
   },
 
   created () {
+    this.visibleFilter = !!this.filters.search
     this.getLaporanInvoices()
   },
 
@@ -100,7 +101,7 @@ export default {
     },
 
     handleFilterChange () {
-      this.setRouteParam('LaporanInvoice', { ...this.query, ...this.filters })
+      this.setRouteParam('LaporanMarketingInvoice', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

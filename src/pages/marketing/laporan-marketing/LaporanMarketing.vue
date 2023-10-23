@@ -4,17 +4,31 @@
     <div class="laporan-marketing__wrapper page-content">
       <div class="laporan-marketing__actions-wrapper">
         <div class="laporan-marketing__actions actions">
-          <el-button
-            type="secondary"
-            class="actions__filter-btn"
-            @click="toggleFilter"
-          >
-            Filter
-            <el-icon class="el-icon--right">
-              <ArrowDown v-if="!visibleFilter" />
-              <ArrowUp v-else />
-            </el-icon>
-          </el-button>
+          <div class="actions-filters">
+            <el-button
+              type="secondary"
+              class="actions__filter-btn"
+              @click="toggleFilter"
+            >
+              Filter
+              <el-icon class="el-icon--right">
+                <ArrowDown v-if="!visibleFilter" />
+                <ArrowUp v-else />
+              </el-icon>
+            </el-button>
+            <el-button
+              v-if="isAnyFilterApplied"
+              class="actions__clear-filter-btn"
+              link
+              @click="clearFilters"
+            >
+              <img
+                :src="icons.arrowCounterClockwise"
+                alt=""
+              >
+              Hapus Semua Filter
+            </el-button>
+          </div>
         </div>
         <div
           v-if="visibleFilter"
@@ -28,7 +42,7 @@
               v-model="filters.search"
               placeholder="Cari berdasarkan nama"
               class="filters__input"
-              @keyup.enter="handleFilterChange()"
+              @keyup="debounceDelay(() => handleFilterChange())"
             >
               <template #suffix>
                 <el-icon class="el-input__icon"><Search /></el-icon>
@@ -44,6 +58,7 @@
               v-model="filters.status_fee"
               placeholder="Pilih status"
               class="filters__input"
+              clearable
               @change="handleFilterChange()"
             >
               <el-option
@@ -179,6 +194,15 @@
     .actions {
       display: flex;
       justify-content: space-between;
+
+      &__filters {
+        display: flex;
+        gap: 8px;
+      }
+
+      :deep(.actions__clear-filter-btn span) {
+        gap: 4px;
+      }
 
       &__filter-btn {
         width: 100px;

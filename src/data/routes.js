@@ -3,7 +3,8 @@ import { defineAsyncComponent } from 'vue'
 const Dashboard = defineAsyncComponent(() => import(/* webpackChunkName: "p-dashboard" */ '~/pages/dashboard/Dashboard.vue'))
 const NoAccess = defineAsyncComponent(() => import(/* webpackChunkName: "p-no-access" */ '~/pages/NoAccess.vue'))
 const Login = defineAsyncComponent(() => import(/* webpackChunkName: "p-login" */ '~/pages/login/Login.vue'))
-// const UserProfile = defineAsyncComponent(() => import(/* webpackChunkName: "p-user-profile" */ '~/pages/user-profile/UserProfile.vue'))
+const UserProfile = defineAsyncComponent(() => import(/* webpackChunkName: "p-user-profile" */ '~/pages/user-profile/UserProfile.vue'))
+const ChangePassword = defineAsyncComponent(() => import(/* webpackChunkName: "p-change-password" */ '~/pages/user-profile/change-password/ChangePassword.vue'))
 const ManajemenUser = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user" */ '~/pages/manajemen-user/ManajemenUser.vue'))
 const ManajemenUserDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-detail" */ '~/pages/manajemen-user/ManajemenUserDetail.vue'))
 const ManajemenUserCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-create" */ '~/pages/manajemen-user/create/ManajemenUserCreate.vue'))
@@ -57,11 +58,20 @@ export default [
     }
   },
   {
-    path: '',
+    path: '/edit-profile',
     name: 'UserProfile',
-    // component: UserProfile,
+    component: UserProfile,
     meta: {
       title: 'User Profile',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/edit-profile/change-password',
+    name: 'ChangePassword',
+    component: ChangePassword,
+    meta: {
+      title: 'Ubah Kata Sandi',
       requireLogin: true
     }
   },
@@ -390,7 +400,7 @@ export default [
     component: ManajemenDokumenKonsumenDetail,
     meta: {
       title: 'Dokumen Konsumen',
-      action: 'READ_FILEVIEW_DOKUMEN_KONSUMEN',
+      action: 'READ_DOKUMEN_KONSUMEN',
       requireLogin: true
     }
   },

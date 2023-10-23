@@ -4,16 +4,30 @@
     <div class="manajemen-unit__wrapper page-content">
       <div class="manajemen-unit__actions-wrapper">
         <div class="manajemen-unit__actions actions">
-          <el-button
-            class="actions__filter-btn"
-            @click="toggleFilter"
-          >
-            Filter
-            <el-icon class="el-icon--right">
-              <ArrowDown v-if="!visibleFilter" />
-              <ArrowUp v-else />
-            </el-icon>
-          </el-button>
+          <div class="actions-filters">
+            <el-button
+              class="actions__filter-btn"
+              @click="toggleFilter"
+            >
+              Filter
+              <el-icon class="el-icon--right">
+                <ArrowDown v-if="!visibleFilter" />
+                <ArrowUp v-else />
+              </el-icon>
+            </el-button>
+            <el-button
+              v-if="isAnyFilterApplied"
+              class="actions__clear-filter-btn"
+              link
+              @click="clearFilters"
+            >
+              <img
+                :src="icons.arrowCounterClockwise"
+                alt=""
+              >
+              Hapus Semua Filter
+            </el-button>
+          </div>
           <el-button
             v-if="hasAccess('CREATE_UNIT')"
             type="primary"
@@ -32,13 +46,33 @@
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
+              Cluster
+            </div>
+            <el-select
+              v-model="filters.cluster"
+              placeholder="Pilih cluster"
+              class="filters__input"
+              clearable
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="cluster in clusters"
+                :key="cluster.code"
+                :label="cluster.nama"
+                :value="cluster.code"
+              />
+            </el-select>
+          </div>
+
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
               Nomor Kavling
             </div>
             <el-input
               v-model="filters.search"
               placeholder="Cari berdasarkan nomor kavling"
               class="filters__input"
-              @keyup.enter="handleFilterChange()"
+              @keyup="debounceDelay(() => handleFilterChange())"
             >
               <template #suffix>
                 <el-icon class="el-input__icon"><Search /></el-icon>
@@ -69,6 +103,7 @@
               v-model="filters.status"
               placeholder="Pilih status"
               class="filters__input"
+              clearable
               @change="handleFilterChange()"
             >
               <el-option
@@ -197,6 +232,15 @@
     .actions {
       display: flex;
       justify-content: space-between;
+
+      &__filters {
+        display: flex;
+        gap: 8px;
+      }
+
+      :deep(.actions__clear-filter-btn span) {
+        gap: 4px;
+      }
 
       &__filter-btn {
         width: 100px;

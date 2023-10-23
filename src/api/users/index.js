@@ -17,6 +17,9 @@ export default {
   fetchUser (id) {
     return api.getRequest(apiUrls.users.detail(id))
   },
+  fetchMyProfile () {
+    return api.getRequest(apiUrls.users.me)
+  },
   createUser (body) {
     return api.postRequest(apiUrls.users.create, body)
   },

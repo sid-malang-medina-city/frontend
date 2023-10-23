@@ -15,6 +15,9 @@ export const userStore = defineStore('UserStore', {
     async fetchUser (id) {
       return api.fetchUser(id)
     },
+    async fetchMyProfile () {
+      return api.fetchMyProfile()
+    },
     async createUser (body) {
       return api.createUser(body)
     },

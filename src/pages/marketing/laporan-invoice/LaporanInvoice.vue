@@ -28,7 +28,7 @@
               v-model="filters.search"
               placeholder="Cari berdasarkan nomor invoice"
               class="filters__input"
-              @keyup.enter="handleFilterChange()"
+              @keyup="debounceDelay(() => handleFilterChange())"
             >
               <template #suffix>
                 <el-icon class="el-input__icon"><Search /></el-icon>
