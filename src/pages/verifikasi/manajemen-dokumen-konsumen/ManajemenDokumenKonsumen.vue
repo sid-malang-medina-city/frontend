@@ -163,7 +163,7 @@
                 class="table__link"
                 @click.stop="goToUnitDetailPage(scope.row.unit_id)"
               >
-                <u>{{ scope.row.unit_nomor_kavling }}</u>
+                <u>{{ scope.row.unit_cluster_nama }} - {{ scope.row.unit_nomor_kavling }}</u>
               </div>
             </template>
           </el-table-column>

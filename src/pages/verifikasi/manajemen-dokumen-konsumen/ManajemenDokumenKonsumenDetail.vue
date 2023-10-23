@@ -428,7 +428,7 @@
         &__header {
           margin-bottom: 4px;
           color: #434343;
-          font-size: 12px;
+          font-size: 14px;
           font-weight: 600;
           display: flex;
           gap: 4px;
@@ -437,7 +437,7 @@
 
         &__content {
           color: #696969;
-          font-size: 12px;
+          font-size: 14px;
           font-weight: 400;
         }
       }

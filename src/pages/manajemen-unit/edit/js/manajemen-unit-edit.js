@@ -13,6 +13,8 @@ import uploadImageIcon from '/upload-image.svg'
 import signatureIcon from '/signature.svg'
 import newspaperClippingIcon from '/newspaper-clipping.svg'
 
+import { STATUS_MAPPINGS } from '~/data/unit'
+
 import {
   Plus,
   Delete,
@@ -87,6 +89,7 @@ export default {
       tipeUnits: [],
       clusters: [],
       fasilitass: [],
+      statuses: STATUS_MAPPINGS,
       visibleLoading: false,
     }
   },
@@ -190,8 +193,8 @@ export default {
         cluster_id: cluster.id,
         tipe_id: tipe.id
       }
-
       this.formData.fasilitas_ids = fasilitas.map(item => item.id)
+      this.currentStatus = this.formData.status
 
       if (foto_1_access_url) {
         this.uploadedImages[0].visible = true

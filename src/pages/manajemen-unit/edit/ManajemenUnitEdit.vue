@@ -290,6 +290,28 @@
               </el-select>
             </div>
           </div>
+          <div
+            v-if="currentStatus === 'TERJUAL' || currentStatus === 'IN_PROGRESS_PEMBANGUNAN'"
+            class="input-section__rows rows"
+          >
+            <div class="rows__row row">
+              <div class="row__label required">
+                Status
+              </div>
+              <el-select
+                v-model="formData.status"
+                placeholder="Pilih tipe unit"
+                class="row__input"
+              >
+                <el-option
+                  v-for="status in statuses[this.currentStatus]"
+                  :key="status.code"
+                  :label="status.name"
+                  :value="status.code"
+                />
+              </el-select>
+            </div>
+          </div>
           <div class="input-section__header header header--bordered">
             <div class="header__title-wrapper">
               <img
