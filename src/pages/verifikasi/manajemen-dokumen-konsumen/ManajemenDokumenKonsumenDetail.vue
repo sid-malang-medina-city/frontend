@@ -100,7 +100,10 @@
             </div>
           </div>
 
-          <div class="content__image-upload image-upload">
+          <div
+            v-if="hasAccess('READ_FILEVIEW_DOKUMEN_KONSUMEN')"
+            class="content__image-upload image-upload"
+          >
             <div
               v-for="(identifier, index) in fileIdentifiers"
               class="image-upload__wrapper"
@@ -216,6 +219,37 @@
             </div>
           </div>
 
+          <div
+            v-else-if="hasAccess('READ_CHECKBOX_DOKUMEN_KONSUMEN')"
+            class="content__checkbox-wrapper checkbox-wrapper"
+          >
+            <div
+              v-for="(identifier, index) in checkboxIdentifiers"
+              class="checkbox-wrapper__card card"
+            >
+              <div class="card__title">
+                {{ fileLabels[index] }}
+              </div>
+              <div class="card__checkbox">
+                <el-icon
+                  v-if="!!dokumenKonsumen[identifier]"
+                  color="#74C627"
+                >
+                  <CircleCheckFilled />
+                </el-icon>
+                <el-icon
+                  v-else
+                  color="#FF613A"
+                >
+                  <CircleCloseFilled />
+                </el-icon>
+                <div class="card__info">
+                  {{ !!dokumenKonsumen[identifier] ? 'Tersedia' : 'Tidak Tersedia' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="content__informasi-pendukung-wrapper">
             <div class="content__header">
               <img
@@ -233,7 +267,12 @@
                   Nama Konsumen
                 </div>
                 <div class="row__value">
-                  {{ dokumenKonsumen.konsumen_nama }}
+                  <u
+                    class="row__link"
+                    @click="goToKonsumenDetailPage"
+                  >
+                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.konsumen_nama) }}
+                  </u>
                 </div>
               </div>
               <div class="rows__row">
@@ -241,7 +280,12 @@
                   Nama Marketer
                 </div>
                 <div class="row__value">
-                  {{ dokumenKonsumen.marketer_nama }}
+                  <u
+                    class="row__link"
+                    @click="goToMarketerDetailPage"
+                  >
+                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.marketer_nama) }}
+                  </u>
                 </div>
               </div>
             </div>
@@ -260,7 +304,12 @@
                   Unit
                 </div>
                 <div class="row__value">
-                  {{ dokumenKonsumen.unit_nomor_kavling }}
+                  <u
+                    class="row__link"
+                    @click="goToUnitDetailPage"
+                  >
+                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.unit_nomor_kavling) }}
+                  </u>
                 </div>
               </div>
             </div>
@@ -454,6 +503,11 @@
             font-weight: 600;
             width: 400px;
           }
+
+          &__link {
+            cursor: pointer;
+            width: fit-content;
+          }
     
           &__value {
             color: #696969;
@@ -481,6 +535,37 @@
             border: 1px solid var(--neutral-gray-200, #D9D9D9);
             background: var(--neutral-gray-100, #E9E9E9);
             box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
+          }
+        }
+      }
+
+      .checkbox-wrapper {
+        display: flex;
+        gap: 24px;
+        padding: 20px;
+        flex-wrap: wrap;
+
+        &__title {
+          color: #434343;
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .card {
+          width: 270px;
+
+          &__checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 10px;
+          }
+
+          &__info {
+            color: #696969;
+            font-size: 14px;
+            font-weight: 400;
           }
         }
       }

@@ -257,7 +257,8 @@
       border: 1px solid #E3EADC;
       background: #F6F8F4;
       display: flex;
-      gap: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
       margin-top: 16px;
 
       &__label {
@@ -270,6 +271,10 @@
 
       &__input, &__slider {
         width: 265px;
+      }
+
+      &__slider {
+        padding: 0 10px;
       }
     }
 

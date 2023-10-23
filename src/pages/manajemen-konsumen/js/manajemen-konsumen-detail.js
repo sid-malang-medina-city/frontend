@@ -14,7 +14,7 @@ import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 
-import { STATUS_KONSUMEN } from '~/data/konsumen'
+import { STATUS_KONSUMEN, STATUS_VERIFIKASI, STATUS_PEMBAYARAN } from '~/data/konsumen'
 
 export default {
   name: 'manajemen-konsumen-detail',
@@ -32,6 +32,8 @@ export default {
     return {
       konsumen: {},
       statuses: STATUS_KONSUMEN,
+      verificationStatuses: STATUS_VERIFIKASI,
+      paymentStatuses: STATUS_PEMBAYARAN,
       icons: {
         delete: Delete
       },
@@ -100,6 +102,30 @@ export default {
 
     goToManajemenKonsumen () {
       this.redirectTo('ManajemenKonsumen')
+    },
+    
+    goToMarketerDetailPage () {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: this.konsumen.dokumen_konsumen_marketer_id
+        }
+      })
+    },
+
+    goToUnitDetailPage () {
+      this.redirectTo('ManajemenUnitDetail', {
+        params: {
+          id: this.konsumen.dokumen_konsumen_unit_id
+        }
+      })
+    },
+
+    goToDokumenKonsumenDetailPage () {
+      this.redirectTo('ManajemenDokumenKonsumenDetail', {
+        params: {
+          id: this.konsumen.dokumen_konsumen_id
+        }
+      })
     }
   }
 }

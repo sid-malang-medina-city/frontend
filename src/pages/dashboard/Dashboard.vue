@@ -63,9 +63,10 @@
     .general-info {
       display: flex;
       flex-wrap: wrap;
-      gap: 24px;
+      justify-content: space-between;
 
       .card {
+        margin-bottom: 16px;
         padding: 20px;
         border-radius: 12px;
         border: 1px solid #EAEAEA;
@@ -97,12 +98,12 @@
     &__charts {
       margin-top: 36px;
       display: flex;
-      gap: 30px;
+      justify-content: space-between;
     }
 
     .bar-chart {
       background-color: white;
-      width: 47%;
+      width: 49%;
       border-radius: 12px;
       box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
       border: 1px solid #EAEAEA;

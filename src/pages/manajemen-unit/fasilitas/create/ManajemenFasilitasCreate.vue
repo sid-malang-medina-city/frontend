@@ -26,6 +26,7 @@
         <div class="manajemen-fasilitas-create__submit-section">
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
+            :loading="visibleLoading"
             type="primary"
             class="manajemen-fasilitas-create__submit-btn"
             @click="submit"

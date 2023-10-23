@@ -7,7 +7,7 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
 
-import { STATUS_KONSUMEN } from '~/data/konsumen'
+import { STATUS_KONSUMEN, STATUS_VERIFIKASI, STATUS_PEMBAYARAN } from '~/data/konsumen'
 
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
@@ -44,6 +44,8 @@ export default {
         size: 10
       },
       statuses: STATUS_KONSUMEN,
+      verificationStatuses: STATUS_VERIFIKASI,
+      paymentStatuses: STATUS_PEMBAYARAN,
       konsumens: [],
       totalKonsumens: 0,
       visibleFilter: false,
@@ -166,6 +168,22 @@ export default {
 
     goToEditPage (id) {
       this.redirectTo('ManajemenKonsumenEdit', {
+        params: {
+          id: id
+        }
+      })
+    },
+
+    goToMarketerDetailPage (id) {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+
+    goToUnitDetailPage (id) {
+      this.redirectTo('ManajemenUnitDetail', {
         params: {
           id: id
         }

@@ -55,7 +55,16 @@
             prop="laporan_marketing.id"
             label="Laporan Marketing"
             min-width="210"
-          />
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToLaporanMarketingDetailPage(scope.row.laporan_marketing?.id)"
+              >
+                <u>{{ scope.row.laporan_marketing?.id }}</u>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="created_at"
             label="Tanggal Dibuat"
@@ -169,6 +178,11 @@
 
     .table {
       margin-bottom: 24px;
+
+      &__link {
+        cursor: pointer;
+        width: fit-content;
+      }
 
       &__actions {
         display: flex;

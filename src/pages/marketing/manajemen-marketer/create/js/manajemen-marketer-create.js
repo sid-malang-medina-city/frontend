@@ -46,6 +46,7 @@ export default {
         nomor_rekening: '',
         nama_rekening: '',
       },
+      visibleLoading: false,
       statuses: STATUS_MARKETER
     }
   },

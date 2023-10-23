@@ -11,20 +11,10 @@ import {
   CircleCheckFilled,
   WarningFilled
 } from '@element-plus/icons-vue'
+import { STATUS_KONSUMEN } from '~/data/konsumen'
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE_NUMBER_REGEX = /^\d+$/
-
-const STATUS_KONSUMEN = {
-  'PROSPECT': {
-    code: 'PROSPECT',
-    nama: 'Prospect'
-  },
-  'BOOKING': {
-    code: 'BOOKING',
-    nama: 'Booking'
-  },
-}
 
 export default {
   name: 'manajemen-konsumen-edit',
@@ -66,7 +56,8 @@ export default {
       marketers: [],
       units: [],
       statuses: STATUS_KONSUMEN,
-      requiredFields: ['nama', 'nomor_telepon', 'alamat', 'marketer_id', 'unit_id', 'status']
+      requiredFields: ['nama', 'nomor_telepon', 'alamat', 'marketer_id', 'unit_id', 'status'],
+      visibleLoading: false
     }
   },
 
@@ -94,11 +85,18 @@ export default {
     async getKonsumen () {
       try {
         const { data } = await this.fetchKonsumen(this.id)
-        this.formData = JSON.parse(JSON.stringify(data))
-        this.currentData = JSON.parse(JSON.stringify(data))
+        this.initFormData(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
       }
+    },
+
+    initFormData (data) {
+      this.formData = data
+      this.formData.marketer_id = data.dokumen_konsumen_marketer_id
+      this.formData.dokumen_konsumen_tanggal_booking = data.tanggal_booking
+      this.formData.unit_id = data.dokumen_konsumen_unit_id
+      this.currentData = JSON.parse(JSON.stringify(data))
     },
     
     async getMarketers () {
@@ -121,6 +119,16 @@ export default {
 
     goToManajemenKonsumen () {
       this.redirectTo('ManajemenKonsumen')
+    },
+
+    handleStatusChange (status) {
+      if (this.currentData.status === 'PROSPECT' && status == 'BOOKING') {
+        const currentDate = new Date()
+        this.formData.dokumen_konsumen_tanggal_booking = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
+        return
+      }
+
+      this.formData.dokumen_konsumen_tanggal_booking = ''
     },
 
     validateEmail () {

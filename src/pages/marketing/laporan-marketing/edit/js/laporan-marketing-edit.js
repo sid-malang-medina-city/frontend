@@ -31,6 +31,7 @@ export default {
         status_fee: ''
       },
       laporanMarketing: {},
+      visibleLoading: false,
       statuses: STATUS_MARKETING
     }
   },

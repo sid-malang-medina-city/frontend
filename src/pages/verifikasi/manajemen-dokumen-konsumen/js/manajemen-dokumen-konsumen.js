@@ -167,6 +167,30 @@ export default {
           id: id
         }
       })
+    },
+
+    goToKonsumenDetailPage (id) {
+      this.redirectTo('ManajemenKonsumenDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+    
+    goToLaporanMarketingDetailPage (id) {
+      this.redirectTo('LaporanMarketingDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+
+    goToUnitDetailPage (id) {
+      this.redirectTo('ManajemenUnitDetail', {
+        params: {
+          id: id
+        }
+      })
     }
   }
 }

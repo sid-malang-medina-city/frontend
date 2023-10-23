@@ -402,6 +402,7 @@
         <div class="manajemen-unit-create__submit-section">
           <el-button
             :disabled="!isSubmitButtonDisabled"
+            :loading="visibleLoading"
             type="primary"
             class="manajemen-unit-create__submit-btn"
             @click="submit"

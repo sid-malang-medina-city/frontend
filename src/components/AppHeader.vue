@@ -36,7 +36,10 @@
             @click="markAsRead(notification)"
           >
             <div class="notification-content__row-title">
-              <div class="notification-content__row-title-text">
+              <div
+                :class="{ 'notification-content__row-title-text--read': notification.is_read }"
+                class="notification-content__row-title-text"
+              >
                 {{ notification.title }}
               </div>
               <div
@@ -159,6 +162,10 @@
           font-size: 12px;
           font-weight: 700;
           line-height: 20px;
+
+          &--read {
+            max-width: 100%;
+          }
         }
 
         &-circle {
@@ -173,6 +180,7 @@
         color: #7B7B7B;
         font-size: 12px;
         line-height: 20px;
+        word-break: break-word;
       }
 
       &-date {

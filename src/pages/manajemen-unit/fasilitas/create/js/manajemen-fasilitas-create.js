@@ -19,7 +19,8 @@ export default {
       formData: {
         nama: '',
         code: ''
-      }
+      },
+      visibleLoading: false
     }
   },
 

@@ -72,8 +72,13 @@
               </div>
               <el-input
                 v-model="formData.alamat"
+                :rows="3"
+                maxlength="130"
+                resize="none"
                 placeholder="Masukkan alamat"
+                type="textarea"
                 class="row__input"
+                show-word-limit
               />
             </div>
           </div>
@@ -87,6 +92,7 @@
                 :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih status"
                 class="row__input"
+                @change="handleStatusChange"
               >
                 <el-option
                   v-for="status in statuses"
@@ -141,16 +147,22 @@
                 Unit
               </div>
               <el-select
-                v-model="formData.dokumen_konsumen_unit_id"
+                v-model="formData.unit_id"
                 :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih unit"
                 class="row__input"
               >
                 <el-option
+                  v-if="currentData.status === 'PROSPECT'"
                   v-for="unit in units"
                   :key="unit.id"
                   :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
                   :value="unit.id"
+                />
+                <el-option
+                  v-else
+                  :label="`${currentData.unit_cluster_nama} - ${currentData.unit_nomor_kavling}`"
+                  :value="currentData.dokumen_konsumen_unit_id"
                 />
               </el-select>
             </div>
@@ -166,6 +178,7 @@
           </el-button>
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
+            :loading="visibleLoading"
             type="primary"
             class="manajemen-konsumen-edit__submit-btn"
             @click="submit"

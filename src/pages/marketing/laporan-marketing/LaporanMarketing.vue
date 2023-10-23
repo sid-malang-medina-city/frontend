@@ -90,12 +90,30 @@
             prop="marketer_nama"
             label="Nama"
             min-width="210"
-          />
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToMarketerDetailPage(scope.row.marketer_id)"
+              >
+                <u>{{ scope.row.marketer_nama }}</u>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="dokumen_konsumen_id"
             label="Dokumen Konsumen"
             min-width="150"
-          />
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToDokumenKonsumenDetailPage(scope.row.dokumen_konsumen_id)"
+              >
+                <u>{{ scope.row.dokumen_konsumen_id }}</u>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="status_fee"
             label="Status Pembayaran"
@@ -246,6 +264,11 @@
 
     .table {
       margin-bottom: 24px;
+
+      &__link {
+        cursor: pointer;
+        width: fit-content;
+      }
 
       &__actions {
         display: flex;

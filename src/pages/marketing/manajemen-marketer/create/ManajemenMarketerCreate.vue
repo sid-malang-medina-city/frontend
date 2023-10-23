@@ -115,12 +115,13 @@
               </div>
               <el-input
                 v-model="formData.alamat"
-                :class="{ 'row__input--error': !!error.alamat }"
-                :rows="5"
+                :rows="3"
+                maxlength="130"
                 resize="none"
                 placeholder="Masukkan alamat"
                 type="textarea"
                 class="row__input"
+                show-word-limit
               />
             </div>
           </div>

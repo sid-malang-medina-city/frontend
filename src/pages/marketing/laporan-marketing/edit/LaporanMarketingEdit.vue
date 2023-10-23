@@ -93,6 +93,7 @@
           </el-button>
           <el-button
             :disabled="!isRequiredFieldsFilled"
+            :loading="visibleLoading"
             type="primary"
             class="laporan-marketing-edit__submit-btn"
             @click="submit"

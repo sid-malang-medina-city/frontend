@@ -114,9 +114,57 @@
           >
             <template #default="scope">
               <status-badge
+                v-if="scope.row.status === 'BOOKING'"
+                :color="verificationStatuses[scope.row.status_verifikasi].color"
+                :text="verificationStatuses[scope.row.status_verifikasi].name"
+              />
+              <status-badge
+                v-else
                 :color="statuses[scope.row.status].color"
                 :text="statuses[scope.row.status].name"
               />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="status_pembayaran"
+            label="Status Pembayaran"
+            min-width="210"
+          >
+            <template #default="scope">
+              <status-badge
+                v-if="scope.row.status === 'BOOKING'"
+                :color="paymentStatuses[scope.row.status_pembayaran].color"
+                :text="paymentStatuses[scope.row.status_pembayaran].name"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="marketer_nama"
+            label="Marketer"
+            min-width="120"
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToMarketerDetailPage(scope.row.dokumen_konsumen_marketer_id)"
+              >
+                <u>{{ scope.row.marketer_nama }}</u>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="unit_cluster_nama"
+            label="Unit"
+            min-width="120"
+          >
+            <template #default="scope">
+              <div
+                v-if="!!scope.row.dokumen_konsumen_unit_id"
+                class="table__link"
+                @click.stop="goToUnitDetailPage(scope.row.dokumen_konsumen_unit_id)"
+              >
+                <u>{{ scope.row.unit_cluster_nama }} - {{ scope.row.unit_nomor_kavling }}</u>
+              </div>
             </template>
           </el-table-column>
           <el-table-column
@@ -239,6 +287,11 @@
 
     .table {
       margin-bottom: 24px;
+
+      &__link {
+        cursor: pointer;
+        width: fit-content;
+      }
 
       &__actions {
         display: flex;

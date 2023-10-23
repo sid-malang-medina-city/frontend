@@ -120,7 +120,7 @@ export default {
       tipeUnits: [],
       clusters: [],
       fasilitass: [],
-      visibleLoading: false,
+      visibleLoading: false
     }
   },
 

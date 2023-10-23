@@ -66,14 +66,19 @@
                 </div>
               </div>
             </div>
-            <div class="rows__row row">
+            <div class="rows__row">
               <div class="row__label required">
                 Alamat
               </div>
               <el-input
                 v-model="formData.alamat"
+                :rows="3"
+                maxlength="130"
+                resize="none"
                 placeholder="Masukkan alamat"
+                type="textarea"
                 class="row__input"
+                show-word-limit
               />
             </div>
           </div>

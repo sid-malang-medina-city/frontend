@@ -145,6 +145,22 @@ export default {
           id: id
         }
       })
-    }
+    },
+
+    goToMarketerDetailPage (id) {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+
+    goToDokumenKonsumenDetailPage (id) {
+      this.redirectTo('ManajemenDokumenKonsumenDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
   }
 }

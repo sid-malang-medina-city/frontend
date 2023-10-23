@@ -211,8 +211,10 @@ export default {
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
                 return value + ' unit';
-              }
-            }
+              },
+              stepSize: 1
+            },
+            min: 0
           }
         }
       }
@@ -284,8 +286,10 @@ export default {
               // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
                 return value + ' unit';
-              }
-            }
+              },
+              stepSize: 1
+            },
+            min: 0
           }
         }
       }

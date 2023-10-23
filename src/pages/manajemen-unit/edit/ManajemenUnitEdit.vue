@@ -409,6 +409,7 @@
           </el-button>
           <el-button
             :disabled="!isSubmitButtonDisabled"
+            :loading="visibleLoading"
             type="primary"
             class="manajemen-unit-edit__submit-btn"
             @click="submit"

@@ -99,7 +99,7 @@
               v-model="tanggalBookingValue"
               :clearable="false"
               type="daterange"
-              range-separator="sampai"
+              range-separator="-"
               start-placeholder="Tanggal awal"
               end-placeholder="Tanggal akhir"
               format="DD-MM-YYYY"
@@ -129,17 +129,44 @@
             prop="konsumen_nama"
             label="Nama Konsumen"
             min-width="220"
-          />
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToKonsumenDetailPage(scope.row.konsumen_id)"
+              >
+                <u>{{ scope.row.konsumen_nama }}</u>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="laporan_marketing_id"
             label="ID Laporan Marketing"
             min-width="210"
-          />
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToLaporanMarketingDetailPage(scope.row.laporan_marketing_id)"
+              >
+                <u>{{ scope.row.laporan_marketing_id }}</u>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="unit_nomor_kavling"
             label="Unit"
             min-width="180"
-          />
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToUnitDetailPage(scope.row.unit_id)"
+              >
+                <u>{{ scope.row.unit_nomor_kavling }}</u>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             prop="status_verifikasi"
             label="Status Verifikasi"
@@ -369,7 +396,8 @@
       border: 1px solid #E3EADC;
       background: #F6F8F4;
       display: flex;
-      gap: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
       margin-top: 16px;
 
       &__label {
@@ -400,6 +428,11 @@
 
     .table {
       margin-bottom: 24px;
+
+      &__link {
+        cursor: pointer;
+        width: fit-content;
+      }
 
       &__img {
         width: 40px;
@@ -444,6 +477,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    :deep(.el-range-editor) {
+      width: 265px;
+      box-sizing: border-box;
     }
   }
 </style>

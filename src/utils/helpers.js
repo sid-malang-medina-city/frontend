@@ -1,6 +1,6 @@
 export default {
   convertPriceToRupiah (price) {
-    if (!price) {
+    if (price === null || price === undefined) {
       return
     }
     return 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')

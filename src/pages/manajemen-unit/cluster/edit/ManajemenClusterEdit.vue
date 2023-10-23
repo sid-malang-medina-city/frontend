@@ -33,6 +33,7 @@
           </el-button>
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
+            :loading="visibleLoading"
             type="primary"
             class="manajemen-cluster-edit__submit-btn"
             @click="submit"

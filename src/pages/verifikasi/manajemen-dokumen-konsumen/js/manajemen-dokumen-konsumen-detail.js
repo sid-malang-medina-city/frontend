@@ -7,6 +7,7 @@ import {
   View,
   Hide,
   CircleCheckFilled,
+  CircleCloseFilled,
   Document
 } from '@element-plus/icons-vue'
 
@@ -35,6 +36,7 @@ export default {
     View,
     Hide,
     CircleCheckFilled,
+    CircleCloseFilled,
     Document,
     StatusBadge
   },
@@ -51,7 +53,9 @@ export default {
         megaphone: megaphoneIcon,
       },
       fileIdentifiers: ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'akta_perkawinan_access_url'],
+      checkboxIdentifiers: ['e_ktp', 'slip_gaji', 'kartu_keluarga', 'mutasi_tabungan', 'akta_perkawinan'],
       fileLabels: ['e-KTP', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Akta Perkawinan'],
+      checkboxLabels: ['e-KTP', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Akta Perkawinan'],
       verificationStatuses: STATUS_VERIFIKASI,
       paymentStatuses: STATUS_PEMBAYARAN,
       visiblePassword: false,
@@ -110,6 +114,30 @@ export default {
 
     goToManajemenDokumenKonsumen () {
       this.redirectTo('ManajemenDokumenKonsumen')
+    },
+
+    goToMarketerDetailPage () {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: this.dokumenKonsumen.marketer_id
+        }
+      })
+    },
+
+    goToKonsumenDetailPage () {
+      this.redirectTo('ManajemenKonsumenDetail', {
+        params: {
+          id: this.dokumenKonsumen.konsumen_id
+        }
+      })
+    },
+    
+    goToUnitDetailPage () {
+      this.redirectTo('ManajemenUnitDetail', {
+        params: {
+          id: this.dokumenKonsumen.unit_id
+        }
+      })
     },
 
     getFilesUrl (identifier) {

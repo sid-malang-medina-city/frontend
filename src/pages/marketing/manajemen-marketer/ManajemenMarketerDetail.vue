@@ -70,22 +70,12 @@
             <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
-                  Email
-                </div>
-                <div class="content__value">
-                  {{ helpers.convertEmptyValueWithDash(marketer.email) }}
-                </div>
-              </div>
-              <div class="content__data">
-                <div class="content__label">
                   Nomor Telepon
                 </div>
                 <div class="content__value">
                   {{ helpers.convertEmptyValueWithDash(marketer.nomor_telepon) }}
                 </div>
               </div>
-            </div>
-            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   Alamat
@@ -94,6 +84,8 @@
                   {{ helpers.convertEmptyValueWithDash(marketer.alamat) }}
                 </div>
               </div>
+            </div>
+            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   Nama Bank
@@ -102,8 +94,6 @@
                   {{ helpers.convertEmptyValueWithDash(marketer.rekening_bank) }}
                 </div>
               </div>
-            </div>
-            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   Nomor Rekening Bank
@@ -112,6 +102,8 @@
                   {{ helpers.convertEmptyValueWithDash(marketer.nomor_rekening) }}
                 </div>
               </div>
+            </div>
+            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   Nama Rekening Bank
@@ -120,8 +112,6 @@
                   {{ helpers.convertEmptyValueWithDash(marketer.nama_rekening) }}
                 </div>
               </div>
-            </div>
-            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   Total Penjualan Unit
@@ -130,6 +120,8 @@
                   {{ helpers.convertEmptyValueWithDash(marketer.total_penjualan) }}
                 </div>
               </div>
+            </div>
+            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   NPWP
@@ -191,7 +183,7 @@
         border-left: 6px solid #C4C4C4;
         border-radius: 8px;
         display: flex;
-        gap: 305px;
+        gap: 280px;
       }
 
       .header-section {

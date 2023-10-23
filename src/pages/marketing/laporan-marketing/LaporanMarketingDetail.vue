@@ -64,7 +64,12 @@
                   Nama Marketer
                 </div>
                 <div class="content__value">
-                  {{ helpers.convertEmptyValueWithDash(laporanMarketing.marketer?.nama) }}
+                  <u
+                    class="content__link"
+                    @click="goToMarketerDetailPage"
+                  >
+                    {{ helpers.convertEmptyValueWithDash(laporanMarketing.marketer?.nama) }}
+                  </u>
                 </div>
               </div>
               <div class="content__data">
@@ -72,7 +77,12 @@
                   Dokumen Konsumen
                 </div>
                 <div class="content__value">
-                  {{ helpers.convertEmptyValueWithDash(laporanMarketing.dokumen_konsumen_id) }}
+                  <u
+                    class="content__link"
+                    @click="goToDokumenKonsumenDetailPage"
+                  >
+                    {{ helpers.convertEmptyValueWithDash(laporanMarketing.dokumen_konsumen_id) }}
+                  </u>
                 </div>
               </div>
             </div>
@@ -185,6 +195,10 @@
         color: #696969;
         font-size: 14px;
         font-weight: 400;
+      }
+
+      &__link {
+        cursor: pointer;
       }
     }
   }

@@ -21,13 +21,6 @@ export default {
 
     /* display errors list from api response */
     showErrorResponse (error, duration = 3000) {
-      console.log(error)
-      if (error.response.data.detail) {
-        let message = error.response.data.detail
-        this.showToast(message, 'error', duration)
-        return
-      }
-
       if (error.response.status === 401) {
         let message = error.response.data[Object.keys(error.response.data)[0]].join()
         this.showToast(message, 'error', duration)
@@ -44,7 +37,6 @@ export default {
       console.log('msk')
 
       for (const key in errors) {
-        console.log('msk dlm', errors)
         const errorMessages = errors[key]
         console.log(errorMessages)
         message += `
@@ -62,8 +54,7 @@ export default {
       }
       message += '</div>'
 
-      // const message = error.response.data[Object.keys(error.response.data)[0]].join()
-      this.showToast(message, 'error', 20000, true)
+      this.showToast(message, 'error', 5000, true)
     }
   }
 }

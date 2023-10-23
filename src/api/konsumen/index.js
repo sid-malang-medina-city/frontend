@@ -13,5 +13,8 @@ export default {
   },
   createKonsumen (body) {
     return api.postRequest(apiUrls.konsumen.list, body)
-  }
+  },
+  editKonsumen (id, body) {
+    return api.putRequest(apiUrls.konsumen.detail(id), body)
+  },
 }

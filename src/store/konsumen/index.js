@@ -14,6 +14,9 @@ export const konsumenStore = defineStore('KonsumenStore', {
     },
     async createKonsumen (body) {
       return api.createKonsumen(body)
+    },
+    async editKonsumen (id, body) {
+      return api.editKonsumen(id, body)
     }
   }
 })

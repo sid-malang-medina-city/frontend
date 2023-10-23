@@ -70,6 +70,22 @@ export default {
 
     goToLaporanMarketing () {
       this.redirectTo('LaporanMarketing')
+    },
+
+    goToMarketerDetailPage () {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: this.laporanMarketing.marketer_id
+        }
+      })
+    },
+
+    goToDokumenKonsumenDetailPage () {
+      this.redirectTo('ManajemenDokumenKonsumenDetail', {
+        params: {
+          id: this.laporanMarketing.dokumen_konsumen_id
+        }
+      })
     }
   }
 }
