@@ -22,7 +22,7 @@
             </div>
             <div class="rows__row row">
               <div class="row__label required">
-                Status
+                Status Fee
               </div>
               <el-select
                 v-model="formData.status_fee"
