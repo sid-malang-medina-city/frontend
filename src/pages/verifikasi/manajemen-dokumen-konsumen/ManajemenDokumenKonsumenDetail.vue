@@ -293,14 +293,6 @@
             <div class="content__rows rows last-row">
               <div class="rows__row">
                 <div class="row__label required">
-                  Cluster
-                </div>
-                <div class="row__value">
-                  {{ dokumenKonsumen.unit_cluster_nama }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
                   Unit
                 </div>
                 <div class="row__value">
@@ -308,7 +300,7 @@
                     class="row__link"
                     @click="goToUnitDetailPage"
                   >
-                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.unit_nomor_kavling) }}
+                    {{ dokumenKonsumen.unit_cluster_nama }} - {{ dokumenKonsumen.unit_nomor_kavling }}
                   </u>
                 </div>
               </div>
