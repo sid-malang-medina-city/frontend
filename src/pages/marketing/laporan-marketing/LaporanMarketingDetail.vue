@@ -19,7 +19,7 @@
           </div>
           <div class="header__actions actions">
             <el-button
-              v-if="hasAccess('UPDATE_KONSUMEN')"
+              v-if="hasAccess('UPDATE_LAPORAN_MARKETING')"
               type="primary"
               class="actions__edit-btn"
               plain
