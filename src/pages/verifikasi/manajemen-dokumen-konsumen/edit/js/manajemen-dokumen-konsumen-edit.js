@@ -12,7 +12,8 @@ import newspaperClippingIcon from '/newspaper-clipping.svg'
 
 import {
   STATUS_VERIFIKASI_EDIT,
-  STATUS_PEMBAYARAN_EDIT
+  STATUS_PEMBAYARAN_EDIT,
+  STATUS_PEMBAYARAN_EDIT_FAILED_BOOKING
 } from '~/data/konsumen'
 
 import {
@@ -99,6 +100,7 @@ export default {
           message: 'Image must be in JPG and at least 800 x 800 pixels. Max. size: 2 MB.'
         }
       },
+      currentData: {},
       icons: {
         image: imageIcon,
         uploadImage: uploadImageIcon,
@@ -115,7 +117,8 @@ export default {
         document_pendukung_file: false
       },
       verificationStatuses: {},
-      paymentStatuses: {},
+      paymentBookingStatuses: {},
+      paymentFailedBookingStatuses: {},
       selectedImageUrl: '',
       tipeUnits: [],
       clusters: [],
@@ -142,9 +145,17 @@ export default {
       return this.$route.params.id
     },
     
-    isEndVerificationStatus () {
-      return this.status_verifikasi === 'CANCEL' || this.status_verifikasi === 'TIDAK_LOLOS'
+    isCurrentEndVerificationStatus () {
+      return this.currentData.status_verifikasi === 'CANCEL' || this.currentData.status_verifikasi === 'TIDAK_LOLOS'
     },
+    
+    isEndVerificationStatus () {
+      return this.formData.status_verifikasi === 'CANCEL' || this.formData.status_verifikasi === 'TIDAK_LOLOS' || this.isCurrentEndVerificationStatus
+    },
+
+    paymentStatuses () {
+      return this.isEndVerificationStatus ? this.paymentFailedBookingStatuses : this.paymentBookingStatuses
+    }
   },
 
   created () {
@@ -169,6 +180,7 @@ export default {
 
     initFormData (data) {
       this.formData = data
+      this.currentData = JSON.parse(JSON.stringify(data))
       const imagesIdentifier = ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'surat_pernikahan_access_url']
       imagesIdentifier.forEach(identifier => {
         this.uploadedImages[identifier].visible = !!this.formData[identifier]
@@ -181,7 +193,8 @@ export default {
 
     initStatuses () {
       this.verificationStatuses = STATUS_VERIFIKASI_EDIT[this.formData.status_verifikasi]
-      this.paymentStatuses = STATUS_PEMBAYARAN_EDIT[this.formData.status_pembayaran]
+      this.paymentBookingStatuses = STATUS_PEMBAYARAN_EDIT[this.formData.status_pembayaran]
+      this.paymentFailedBookingStatuses = STATUS_PEMBAYARAN_EDIT_FAILED_BOOKING[this.formData.status_pembayaran]
     },
 
     goToManajemenDokumenKonsumen () {

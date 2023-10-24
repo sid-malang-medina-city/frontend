@@ -7,7 +7,8 @@ import ToastHandler from '~/mixins/toast-handler'
 
 import {
   WarningFilled,
-  CircleCheckFilled
+  CircleCheckFilled,
+  CircleCloseFilled
 } from '@element-plus/icons-vue'
 
 export default {
@@ -18,7 +19,8 @@ export default {
   components: {
     PageHeader,
     WarningFilled,
-    CircleCheckFilled
+    CircleCheckFilled,
+    CircleCloseFilled
   },
 
   data () {

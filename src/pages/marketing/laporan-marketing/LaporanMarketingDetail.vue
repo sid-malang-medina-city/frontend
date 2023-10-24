@@ -45,12 +45,24 @@
             </div>
             <div class="content__header-section header-section">
               <div class="header-section__label">
-                Status
+                Status Fee
               </div>
               <div class="header-section__value">
                 <status-badge
                   :text="statuses[laporanMarketing.status_fee] ? statuses[laporanMarketing.status_fee].name: ''"
                   :color="statuses[laporanMarketing.status_fee] ? statuses[laporanMarketing.status_fee].color: ''"
+                  type="detail"
+                />
+              </div>
+            </div>
+            <div class="content__header-section header-section">
+              <div class="header-section__label">
+                Status Verifikasi
+              </div>
+              <div class="header-section__value">
+                <status-badge
+                  :text="verificationStatuses[laporanMarketing.status_verifikasi] ? verificationStatuses[laporanMarketing.status_verifikasi].name: ''"
+                  :color="verificationStatuses[laporanMarketing.status_verifikasi] ? verificationStatuses[laporanMarketing.status_verifikasi].color: ''"
                   type="detail"
                 />
               </div>

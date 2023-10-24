@@ -54,14 +54,23 @@
                 show-password
               />
               <div class="row__confirm-password">
-                <el-icon :color="isPasswordSame ? '#74C627' : '#7B7B7B'">
+                <el-icon
+                  v-if="isPasswordSame"
+                  color="#74C627"
+                >
                   <CircleCheckFilled />
+                </el-icon>
+                <el-icon
+                  v-else
+                  color="#7B7B7B"
+                >
+                  <CircleCloseFilled />
                 </el-icon>
                 <div
                   :class="{ 'row__confirm-password-msg--success': isPasswordSame }"
                   class="row__confirm-password-msg"
                 >
-                  Kata sandi sama
+                  {{ isPasswordSame ? 'Kata sandi sama' : 'Kata sandi tidak sama'}}
                 </div>
               </div>
             </div>

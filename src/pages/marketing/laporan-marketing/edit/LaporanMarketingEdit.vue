@@ -26,6 +26,7 @@
               </div>
               <el-select
                 v-model="formData.status_fee"
+                :disabled="laporanMarketing.status_verifikasi === 'CANCEL' || laporanMarketing.status_verifikasi === 'TIDAK_LOLOS'"
                 placeholder="Pilih status fee"
                 class="row__input"
               >

@@ -9,6 +9,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 import {
   CircleCheckFilled,
+  CircleCloseFilled,
   WarningFilled
 } from '@element-plus/icons-vue'
 
@@ -19,6 +20,7 @@ export default {
 
   components: {
     CircleCheckFilled,
+    CircleCloseFilled,
     WarningFilled,
     PageHeader
   },

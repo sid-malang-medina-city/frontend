@@ -487,7 +487,7 @@
               </div>
               <el-select
                 v-model="formData.status_verifikasi"
-                :disabled="isEndVerificationStatus"
+                :disabled="isCurrentEndVerificationStatus"
                 placeholder="Pilih status verifikasi"
                 class="row__input"
               >
@@ -502,7 +502,7 @@
           </div>
           <div class="input-section__rows rows">
             <div
-              v-if="formData.status_verifikasi === 'TERVERIFIKASI'"
+              v-if="formData.status_verifikasi === 'TERVERIFIKASI' || isEndVerificationStatus"
               class="rows__row"
             >
               <div class="row__label">
@@ -510,7 +510,6 @@
               </div>
               <el-select
                 v-model="formData.status_pembayaran"
-                :disabled="isEndPaymentStatus"
                 placeholder="Pilih status pembayaran"
                 class="row__input"
               >

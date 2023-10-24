@@ -115,8 +115,20 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="status_verifikasi"
+            label="Status Verfikasi"
+            min-width="180"
+          >
+            <template #default="scope">
+              <status-badge
+                :color="verificationStatuses[scope.row.status_verifikasi].color"
+                :text="verificationStatuses[scope.row.status_verifikasi].name"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="status_fee"
-            label="Status Pembayaran"
+            label="Status Fee"
             min-width="180"
           >
             <template #default="scope">

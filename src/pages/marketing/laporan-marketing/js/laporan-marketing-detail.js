@@ -15,6 +15,7 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 
 import { STATUS_MARKETING } from '~/data/marketing'
+import { STATUS_VERIFIKASI } from '~/data/konsumen'
 
 export default {
   name: 'laporan-marketing-detail',
@@ -31,6 +32,7 @@ export default {
     return {
       laporanMarketing: {},
       statuses: STATUS_MARKETING,
+      verificationStatuses: STATUS_VERIFIKASI,
       icons: {
         delete: Delete
       },

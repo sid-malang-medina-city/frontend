@@ -9,6 +9,7 @@ import DebounceHandler from '~/mixins/debounce-handler'
 import helpers from '~/utils/helpers'
 
 import { STATUS_MARKETING } from '~/data/marketing'
+import { STATUS_VERIFIKASI } from '~/data/konsumen'
 
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
@@ -45,6 +46,7 @@ export default {
         size: 10
       },
       statuses: STATUS_MARKETING,
+      verificationStatuses: STATUS_VERIFIKASI,
       laporanMarketings: [],
       totalLaporanMarketings: 0,
       visibleFilter: false,
