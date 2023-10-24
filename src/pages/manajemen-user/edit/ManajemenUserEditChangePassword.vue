@@ -1,88 +1,67 @@
 <template>
-  <div class="manajemen-user-edit">
+  <div class="manajemen-user-edit-change-password">
     <page-header
-      title="Edit User"
+      title="Ubah Kata Sandi"
       show-back-icon
-      @back="goToManajemenUser"
+      @back="goToManajemenUserEdit"
     />
-    <div class="manajemen-user-edit__wrapper page-content">
-      <div class="manajemen-user-edit__my-profile my-profile">
-        <div class="my-profile__header header">
-          <img
-            :src="userIcon"
-            alt=""
-          >
-          <div class="header__title">
-            Profil User
-          </div>
-        </div>
+    <div class="manajemen-user-edit-change-password__wrapper page-content">
+      <div class="manajemen-user-edit-change-password__my-profile my-profile">
         <div class="my-profile__input-section input-section">
           <div class="input-section__rows rows">
             <div class="rows__row">
-              <div class="row__label required">
-                Nama
-              </div>
-              <el-input
-                v-model="formData.name"
-                placeholder="Masukkan nama"
-                class="row__input"
-              />
-            </div>
-            <div class="rows__row">
-              <div class="row__label required">
-                Role
-              </div>
-              <el-select
-                v-model="formData.role_id"
-                placeholder="Pilih role"
-                class="row__input"
-              >
-                <el-option
-                  v-for="role in roles"
-                  :key="role.id"
-                  :label="role.name"
-                  :value="role.id"
-                />
-              </el-select>
-            </div>
-          </div>
-          <div class="input-section__rows rows">
-            <div class="rows__row">
-              <div class="row__label required">
-                Divisi
-              </div>
-              <el-select
-                v-model="formData.division_id"
-                placeholder="Pilih divisi"
-                class="row__input"
-              >
-                <el-option
-                  v-for="division in divisions"
-                  :key="division.id"
-                  :label="division.name"
-                  :value="division.id"
-                />
-              </el-select>
-            </div>
-            <div class="rows__row">
               <div class="row__label">
-                Email
+                Kata sandi
               </div>
               <el-input
-                v-model="formData.email"
-                :class="{ 'row__input--error': !!error.email }"
-                placeholder="Masukkan email"
+                v-model="formData.password"
+                :class="{ 'row__input--error': !!error.password }"
+                placeholder="Masukkan kata sandi"
                 class="row__input"
+                type="password"
+                show-password
               />
-              <div class="row__email">
+              <div class="row__password">
                 <el-icon
-                  v-if="!!error.email"
+                  v-if="!!error.password"
                   color="#CC4E2E"
                 >
                   <WarningFilled />
                 </el-icon>
-                <div class="row__email-msg">
-                  {{ error.email }}
+                <div class="row__password-msg">
+                  {{ error.password }}
+                </div>
+              </div>
+            </div>
+            <div class="rows__row row">
+              <div class="row__label">
+                Ulangi Kata Sandi
+              </div>
+              <el-input
+                v-model="confirmPassword"
+                placeholder="Masukkan kembali kata sandi"
+                class="row__input"
+                type="password"
+                show-password
+              />
+              <div class="row__confirm-password">
+                <el-icon
+                  v-if="isPasswordSame"
+                  color="#74C627"
+                >
+                  <CircleCheckFilled />
+                </el-icon>
+                <el-icon
+                  v-else
+                  color="#7B7B7B"
+                >
+                  <CircleCloseFilled />
+                </el-icon>
+                <div
+                  :class="{ 'row__confirm-password-msg--success': isPasswordSame }"
+                  class="row__confirm-password-msg"
+                >
+                  {{ isPasswordSame ? 'Kata sandi sama' : 'Kata sandi tidak sama'}}
                 </div>
               </div>
             </div>
@@ -91,6 +70,7 @@
         <div class="my-profile__submit-section">
           <el-button
             :loading="visibleLoading"
+            :disabled="!isPasswordSame"
             type="primary"
             class="my-profile__submit-btn"
             @click="submit"
@@ -99,33 +79,11 @@
           </el-button>
         </div>
       </div>
-      
-      <div
-        v-if="hasAccess('UPDATE_USER_PASSWORD')"
-        class="manajemen-user-edit__reset-password reset-password"
-      >
-        <div class="reset-password__wrapper">
-          <img
-            :src="keyIcon"
-            alt=""
-          >
-          <div class="reset-password__title">
-            Ubah Kata Sandi
-          </div>
-        </div>
-        <el-button
-          type="secondary"
-          class="reset-password__btn"
-          @click="goToManajemenUserEditChangePassword"
-        >
-          Ubah
-        </el-button>
-      </div>
     </div>
   </div>
 </template>
 
-<script src="./js/manajemen-user-edit.js"></script>
+<script src="./js/manajemen-user-edit-change-password.js"></script>
 
 <style lang="scss" scoped>
   @import "~/assets/scss/main.scss";
@@ -188,6 +146,22 @@
           &--error {
             :deep(.el-input__wrapper) {
               border: 1px solid #FF613A;
+            }
+          }
+        }
+
+        &__confirm-password {
+          margin-top: 8px;
+          display: flex;
+          gap: 4px;
+
+          &-msg {
+            color: #7B7B7B;
+            font-size: 12px;
+            font-weight: 400;
+
+            &--success {
+              color: #5D9E1F;
             }
           }
         }

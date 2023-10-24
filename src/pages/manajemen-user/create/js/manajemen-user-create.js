@@ -74,7 +74,7 @@ export default {
     async getRoles () {
       try {
         const { data } = await this.fetchRoles()
-        this.roles = JSON.parse(JSON.stringify(data))
+        this.roles = JSON.parse(JSON.stringify(data.filter(role => role.code !== 'ADMINISTRATOR')))
       } catch (error) {
         this.showErrorResponse(error)
       }

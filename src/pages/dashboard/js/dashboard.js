@@ -71,6 +71,12 @@ const RINGKASAN_PENJUALAN_CHART_COLORS = [
   '#EAE7B1',
   '#E7B10A',
   '#FF613A',
+  '#74C627',
+  '#0BB1C4',
+  '#FF613A',
+  '#898121',
+  '#3C6255',
+  '#74C627'
 ]
 
 export default {

@@ -217,6 +217,27 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="e_ktp"
+            label="e-KTP"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.e_ktp"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
+            </template>
+          </el-table-column>
+          <el-table-column
             v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="kartu_keluarga_access_url"
             label="Kartu Keluarga"
@@ -239,6 +260,27 @@
                   class="table__img-empty-state"
                 >
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="kartu_keluarga"
+            label="Kartu Keluarga"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.kartu_keluarga"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
             </template>
           </el-table-column>
           <el-table-column
@@ -267,6 +309,27 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="slip_gaji"
+            label="Slip Gaji"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.slip_gaji"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
+            </template>
+          </el-table-column>
+          <el-table-column
             v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="mutasi_tabungan_access_url"
             label="Mutasi Tabungan"
@@ -292,6 +355,27 @@
             </template>
           </el-table-column>
           <el-table-column
+            v-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="mutasi_tabungan"
+            label="Mutasi Tabungan"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.mutasi_tabungan"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
+            </template>
+          </el-table-column>
+          <el-table-column
             v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="surat_pernikahan_access_url"
             label="Surat Pernikahan"
@@ -314,6 +398,66 @@
                   class="table__img-empty-state"
                 >
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="surat_pernikahan"
+            label="Surat Pernikahan"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.surat_pernikahan"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
+            prop="dokumen_pendukung"
+            label="Dokumen Pendukung"
+            min-width="170"
+          >
+            <template #default="scope">
+              <div
+                v-if="scope.row.dokumen_pendukung_access_url"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.dokumen_pendukung_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="dokumen_pendukung"
+            label="Dokumen Pendukung"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.dokumen_pendukung"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
             </template>
           </el-table-column>
           <el-table-column

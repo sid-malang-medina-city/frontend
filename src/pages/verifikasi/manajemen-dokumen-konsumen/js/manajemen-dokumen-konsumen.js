@@ -21,7 +21,9 @@ import {
   Plus,
   Search,
   Edit,
-  Delete
+  Delete,
+  CircleCheckFilled,
+  CircleCloseFilled
 } from '@element-plus/icons-vue'
 
 
@@ -35,7 +37,9 @@ export default {
     ArrowDown,
     ArrowUp,
     Plus,
-    Search
+    Search,
+    CircleCheckFilled,
+    CircleCloseFilled
   },
 
   data () {
@@ -151,6 +155,10 @@ export default {
       })
       this.tanggalBookingValue = null
       this.handleFilterChange()
+    },
+
+    openDocumentInNewTab (accessUrl) {
+      window.open(accessUrl, '_blank');
     },
 
     goToEditPage (id) {

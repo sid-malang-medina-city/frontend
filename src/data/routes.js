@@ -9,6 +9,7 @@ const ManajemenUser = defineAsyncComponent(() => import(/* webpackChunkName: "p-
 const ManajemenUserDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-detail" */ '~/pages/manajemen-user/ManajemenUserDetail.vue'))
 const ManajemenUserCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-create" */ '~/pages/manajemen-user/create/ManajemenUserCreate.vue'))
 const ManajemenUserEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-edit" */ '~/pages/manajemen-user/edit/ManajemenUserEdit.vue'))
+const ManajemenUserEditChangePassword = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-user-edit-change-password" */ '~/pages/manajemen-user/edit/ManajemenUserEditChangePassword.vue'))
 const ManajemenUnit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-unit" */ '~/pages/manajemen-unit/ManajemenUnit.vue'))
 const ManajemenUnitCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-unit-create" */ '~/pages/manajemen-unit/create/ManajemenUnitCreate.vue'))
 const ManajemenUnitDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-unit-detail" */ '~/pages/manajemen-unit/ManajemenUnitDetail.vue'))
@@ -39,6 +40,14 @@ const ManajemenDokumenKonsumenDetail = defineAsyncComponent(() => import(/* webp
 const ManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-edit" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/edit/ManajemenDokumenKonsumenEdit.vue'))
 
 export default [
+  {
+    path: '/:catchAll(.*)*',
+    name: 'NotFound',
+    component: NoAccess,
+    meta: {
+      title: 'Page Not Found'
+    }
+  },
   {
     path: '/login',
     name: 'Login',
@@ -121,6 +130,16 @@ export default [
     meta: {
       title: 'Manajemen User Edit',
       action: 'UPDATE_USER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/manajemen-user/edit/change-password/:id',
+    name: 'ManajemenUserEditChangePassword',
+    component: ManajemenUserEditChangePassword,
+    meta: {
+      title: 'Manajemen User Ubah Kata Sandi',
+      action: 'UPDATE_USER_PASSWORD',
       requireLogin: true
     }
   },
