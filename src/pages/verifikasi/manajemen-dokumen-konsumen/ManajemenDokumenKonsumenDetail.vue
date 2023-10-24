@@ -228,7 +228,7 @@
               class="checkbox-wrapper__card card"
             >
               <div class="card__title">
-                {{ fileLabels[index] }}
+                {{ checkboxLabels[index] }}
               </div>
               <div class="card__checkbox">
                 <el-icon
