@@ -178,6 +178,31 @@
             </div>
           </div>
         </div>
+
+        <div class="manajemen-konsumen-detail__author-info author-info">
+          <div class="author-info__label">
+            Dibuat oleh
+          </div>
+          <div class="author-info__value">
+            <div class="author-info__author">
+              {{ konsumen.created_by_name }}
+            </div>
+            <div class="author-info__date-time">
+              {{ helpers.convertDateTimeZoneToDateTimeString(konsumen.created_at) }}
+            </div>
+          </div>
+          <div class="author-info__label">
+            Dimodifikasi oleh
+          </div>
+          <div class="author-info__value">
+            <div class="author-info__author">
+              {{ konsumen.updated_by_name }}
+            </div>
+            <div class="author-info__date-time">
+              {{ helpers.convertDateTimeZoneToDateTimeString(konsumen.updated_at) }}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -272,6 +297,26 @@
       
       &__link {
         cursor: pointer;
+      }
+    }
+
+    .author-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-top: 1px solid #E9E9E9;
+
+      &__label {
+        color: #434343;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      &__value {
+        color: #696969;
+        font-size: 14px;
+        font-weight: 400;
       }
     }
   }
