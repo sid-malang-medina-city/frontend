@@ -182,7 +182,6 @@ export default {
       doc.setFontSize(12).text(':', 84, currentY)
       splitAlamat = doc.splitTextToSize(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.alamat), 100)
       doc.setFontSize(12).text(splitAlamat, 90, currentY)
-      console.log(splitAlamat.length)
       currentY += this.getCalculatedYBasedOnAddress(splitAlamat.length)
       doc.setFontSize(12).text('No. Telp/HP', 44, currentY)
       doc.setFontSize(12).text(':', 84, currentY)

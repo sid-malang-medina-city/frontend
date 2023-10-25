@@ -34,11 +34,9 @@ export default {
 
       let errors = error.response.data.errors
       let message = `<div class="alert-list" style="display: flex; flex-direction: column; justify-content: center; gap: 5px;">`
-      console.log('msk')
 
       for (const key in errors) {
         const errorMessages = errors[key]
-        console.log(errorMessages)
         message += `
           <div class="alert-list__item item">
         `

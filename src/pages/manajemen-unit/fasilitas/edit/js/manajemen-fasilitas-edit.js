@@ -46,7 +46,6 @@ export default {
 
     async initData () {
       try {
-        console.log('msk init', this.id)
         const { data } = await this.fetchFasilitas(this.id)
         const { code, nama } = JSON.parse(JSON.stringify(data))
         this.formData = {
@@ -63,7 +62,6 @@ export default {
     },
 
     generateCode (val) {
-      console.log(val, val.trim().toUpperCase().replace(/[^a-zA-Z 0-9]+/g, '').replaceAll(' ', '_'))
       this.formData.code = val.trim().toUpperCase().replace(/[^a-zA-Z 0-9]+/g, '').replaceAll(' ', '_')
     },
 

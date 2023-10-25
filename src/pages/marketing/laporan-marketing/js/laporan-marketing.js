@@ -97,11 +97,9 @@ export default {
       this.visibleLoadingTable = true
       try {
         const { data } = await this.fetchLaporanMarketings(this.generateFilters)
-        console.log('data', data)
         this.laporanMarketings = JSON.parse(JSON.stringify(data.data))
         this.totalLaporanMarketings = data.pagination.total_items
       } catch (error) {
-        console.log(error)
         this.showErrorResponse(error)
       } finally {
         this.visibleLoadingTable = false

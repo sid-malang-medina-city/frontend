@@ -92,7 +92,6 @@ export default {
 
     async getDokumenKonsumen () {
       try {
-        console.log('masuk')
         const { data } = await this.fetchDokumenKonsumen(this.id)
         this.dokumenKonsumen = JSON.parse(JSON.stringify(data))
       } catch (error) {

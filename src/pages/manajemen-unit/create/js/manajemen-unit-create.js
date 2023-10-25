@@ -167,7 +167,6 @@ export default {
     },
 
     validateUpload1 (file) {
-      console.log(file)
       const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
 
       if (!isFileFormatPicture) {
@@ -182,7 +181,6 @@ export default {
     },
 
     validateUpload2 (file) {
-      console.log(file)
       const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
 
       if (!isFileFormatPicture) {
@@ -196,7 +194,6 @@ export default {
       this.generateImage(file, 1)
     },
     validateUpload3 (file) {
-      console.log(file)
       const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
 
       if (!isFileFormatPicture) {
@@ -211,7 +208,6 @@ export default {
     },
 
     generateImage (file, index) {
-      console.log('masuk gen image', file)
       const url = URL.createObjectURL(file)
       this.uploadedImages[index] = {
         ...this.uploadedImage,
@@ -231,7 +227,6 @@ export default {
         img.onload = this.setImageData3
       }
       img.src = url
-      console.log('img', img)
     },
 
     // validateImageDimensions1 (event) {
@@ -247,22 +242,16 @@ export default {
     // },
 
     async setImageData1 (event) {
-      // console.log('masuk set img data', file)
       this.uploadedImages[0].visible = true
       // this.formData.images.push(await helpers.fileToByteArray(file))
-      console.log('selesai set img data')
     },
     async setImageData2 (event) {
-      // console.log('masuk set img data', file)
       this.uploadedImages[1].visible = true
       // this.formData.images.push(await helpers.fileToByteArray(file))
-      console.log('selesai set img data')
     },
     async setImageData3 (event) {
-      // console.log('masuk set img data', file)
       this.uploadedImages[2].visible = true
       // this.formData.images.push(await helpers.fileToByteArray(file))
-      console.log('selesai set img data')
     },
 
     toggleImagePreview () {
@@ -270,7 +259,6 @@ export default {
     },
 
     handlePictureCardPreview (index) {
-      // console.log('preview', file)
       this.selectedImageUrl = this.uploadedImages[index].url
       this.visibleImagePreviewDialog = true
     },
@@ -299,12 +287,10 @@ export default {
 
     addVisibleImageActionIcons (index) {
       this.visibleImageActionIcons[index] = true
-      // console.log(this.visibleImageActionIcons)
     },
     
     removeVisibleImageActionIcons (index) {
       this.visibleImageActionIcons[index] = false
-      // console.log(this.visibleImageActionIcons)
     },
 
     async submit () {

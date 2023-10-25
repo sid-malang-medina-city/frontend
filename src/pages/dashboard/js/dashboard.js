@@ -157,9 +157,7 @@ export default {
       let chartData = {}
       chartData.labels = data.labels
       chartData.datasets = []
-      console.log(data.values)
       data.values.forEach((value, index) => {
-        console.log(value, index)
         let dataset = {}
         dataset.label = value.type
         dataset.backgroundColor = RINGKASAN_PENJUALAN_CHART_COLORS[index]
@@ -231,9 +229,7 @@ export default {
       let chartData = {}
       chartData.labels = data.labels
       chartData.datasets = []
-      console.log(data.values)
       data.values.forEach((value, index) => {
-        console.log(value, index)
         let dataset = {}
         dataset.label = value.type
         dataset.backgroundColor = RINGKASAN_PENJUALAN_CHART_COLORS[index]

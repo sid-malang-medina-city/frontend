@@ -75,7 +75,6 @@ export default {
 
     async getUnit () {
       try {
-        console.log('masuk')
         const { data } = await this.fetchUnit(this.id)
         this.unit = JSON.parse(JSON.stringify(data))
       } catch (error) {

@@ -171,7 +171,6 @@ export default {
     async getDokumenKonsumen () {
       try {
         const { data } = await this.fetchDokumenKonsumen(this.id)
-        console.log(data)
         this.initFormData(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
@@ -237,7 +236,6 @@ export default {
     },
 
     generateImage (file, identifier) {
-      console.log('masuk gen image', file)
       const url = URL.createObjectURL(file)
       this.uploadedImages[identifier] = {
         ...this.uploadedImage,
@@ -286,23 +284,17 @@ export default {
     },
 
     addVisibleImageActionIcons (identifier) {
-      console.log(this.visibleImageActionIcons[identifier])
       this.visibleImageActionIcons[identifier] = true
-      console.log(this.visibleImageActionIcons[identifier])
-      // console.log(this.visibleImageActionIcons)
     },
     
     removeVisibleImageActionIcons (identifier) {
       this.visibleImageActionIcons[identifier] = false
-      console.log(this.visibleImageActionIcons)
     },
 
     async submit () {
       this.visibleLoading = true
       try {
-        console.log('coba')
         await this.editDokumenKonsumen(this.id, this.formData)
-        console.log('berhasil')
         this.redirectTo('ManajemenDokumenKonsumen')
         this.showToast('Data dokumen konsumen berhasil diperbarui!')
       } catch (e) {
