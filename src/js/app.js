@@ -11,6 +11,10 @@ export default {
     AppNavigation,
   },
 
+  created () {
+    console.log('env', process.env.NODE_ENV)
+  },
+
   data () {
     return {
       innerHeight: window.innerHeight,
