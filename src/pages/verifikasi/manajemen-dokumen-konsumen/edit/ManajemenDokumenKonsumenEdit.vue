@@ -27,6 +27,7 @@
               :show-file-list="false"
               :before-upload="(...args) => validateUpload(...args, 'e_ktp_access_url')"
               :class="{ error: uploadedImages.e_ktp_access_url.error }"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
               accept=".jpg, .jpeg, .png"
               action=""
               class="image-upload__uploader"
@@ -46,7 +47,7 @@
                     class="content__img"
                   />
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.e_ktp_access_url }"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.e_ktp_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
                     class="content__item-actions item-actions"
                   >
                     <div
@@ -58,6 +59,7 @@
                       </el-icon>
                     </div>
                     <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
                       @click="handleRemove('e_ktp_access_url')"
                     >
@@ -77,10 +79,16 @@
                   alt="Upload Image"
                   class="empty-state__upload-image-icon"
                 />
-                <div class="empty-state__desc">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
                   Letakkan gambar disini atau telusuri gambar dari PC Anda
                 </div>
-                <div class="empty-state__format">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
                   Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
                 </div>
               </div>
@@ -95,6 +103,7 @@
               :show-file-list="false"
               :before-upload="(...args) => validateUpload(...args, 'slip_gaji_access_url')"
               :class="{ error: uploadedImages.slip_gaji_access_url.error }"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
               accept=".jpg, .jpeg, .png"
               action=""
               class="image-upload__uploader"
@@ -114,7 +123,7 @@
                     class="content__img"
                   />
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.slip_gaji_access_url }"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.slip_gaji_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
                     class="content__item-actions item-actions"
                   >
                     <div
@@ -126,6 +135,7 @@
                       </el-icon>
                     </div>
                     <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
                       @click="handleRemove('slip_gaji_access_url')"
                     >
@@ -145,10 +155,16 @@
                   alt="Upload Image"
                   class="empty-state__upload-image-icon"
                 />
-                <div class="empty-state__desc">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
                   Letakkan gambar disini atau telusuri gambar dari PC Anda
                 </div>
-                <div class="empty-state__format">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
                   Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
                 </div>
               </div>
@@ -163,6 +179,7 @@
               :show-file-list="false"
               :before-upload="(...args) => validateUpload(...args, 'kartu_keluarga_access_url')"
               :class="{ error: uploadedImages.kartu_keluarga_access_url.error }"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
               accept=".jpg, .jpeg, .png"
               action=""
               class="image-upload__uploader"
@@ -182,7 +199,7 @@
                     class="content__img"
                   />
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.kartu_keluarga_access_url }"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.kartu_keluarga_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
                     class="content__item-actions item-actions"
                   >
                     <div
@@ -194,6 +211,7 @@
                       </el-icon>
                     </div>
                     <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
                       @click="handleRemove('kartu_keluarga_access_url')"
                     >
@@ -213,10 +231,16 @@
                   alt="Upload Image"
                   class="empty-state__upload-image-icon"
                 />
-                <div class="empty-state__desc">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
                   Letakkan gambar disini atau telusuri gambar dari PC Anda
                 </div>
-                <div class="empty-state__format">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
                   Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
                 </div>
               </div>
@@ -231,6 +255,7 @@
               :show-file-list="false"
               :before-upload="(...args) => validateUpload(...args, 'mutasi_tabungan_access_url')"
               :class="{ error: uploadedImages.mutasi_tabungan_access_url.error }"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
               accept=".jpg, .jpeg, .png"
               action=""
               class="image-upload__uploader"
@@ -250,7 +275,7 @@
                     class="content__img"
                   />
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.mutasi_tabungan_access_url }"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.mutasi_tabungan_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
                     class="content__item-actions item-actions"
                   >
                     <div
@@ -262,6 +287,7 @@
                       </el-icon>
                     </div>
                     <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
                       @click="handleRemove('mutasi_tabungan_access_url')"
                     >
@@ -281,10 +307,16 @@
                   alt="Upload Image"
                   class="empty-state__upload-image-icon"
                 />
-                <div class="empty-state__desc">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
                   Letakkan gambar disini atau telusuri gambar dari PC Anda
                 </div>
-                <div class="empty-state__format">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
                   Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
                 </div>
               </div>
@@ -299,6 +331,7 @@
               :show-file-list="false"
               :before-upload="(...args) => validateUpload(...args, 'surat_pernikahan_access_url')"
               :class="{ error: uploadedImages.surat_pernikahan_access_url.error }"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
               accept=".jpg, .jpeg, .png"
               action=""
               class="image-upload__uploader"
@@ -318,7 +351,7 @@
                     class="content__img"
                   />
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.surat_pernikahan_access_url }"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.surat_pernikahan_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
                     class="content__item-actions item-actions"
                   >
                     <div
@@ -330,6 +363,7 @@
                       </el-icon>
                     </div>
                     <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
                       @click="handleRemove('surat_pernikahan_access_url')"
                     >
@@ -349,10 +383,16 @@
                   alt="Upload Image"
                   class="empty-state__upload-image-icon"
                 />
-                <div class="empty-state__desc">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
                   Letakkan gambar disini atau telusuri gambar dari PC Anda
                 </div>
-                <div class="empty-state__format">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
                   Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
                 </div>
               </div>
@@ -366,6 +406,7 @@
               :http-request="() => {}"
               :show-file-list="false"
               :before-upload="uploadDocument"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
               action=""
               class="image-upload__uploader"
             >
@@ -388,7 +429,7 @@
                     Dokumen berhasil di-upload
                   </div>
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.document_pendukung_file }"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.document_pendukung_file, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
                     class="content__item-actions item-actions"
                   >
                     <div
@@ -400,6 +441,7 @@
                       </el-icon>
                     </div>
                     <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
                       @click="handleRemoveDocument('dokumen_pendukung_file')"
                     >
@@ -421,10 +463,16 @@
                 >
                   <Document />
                 </el-icon>
-                <div class="empty-state__desc">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
                   Letakkan dokumen disini atau telusuri dokumen dari PC Anda
                 </div>
-                <div class="empty-state__format">
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
                   Ukuran maksimum: 2mb
                 </div>
               </div>
@@ -712,11 +760,15 @@
           .item-actions {
             display: flex;
             gap: 8px;
-            bottom: 125px;
+            bottom: 115px;
             left: calc((100% - 80px) / 2);
             position: absolute;
             opacity: 0;
             transition: 0.3s;
+
+            &--view-only {
+              left: calc((100% - 40px) / 2);
+            }
 
             &--visible {
               opacity: 1;

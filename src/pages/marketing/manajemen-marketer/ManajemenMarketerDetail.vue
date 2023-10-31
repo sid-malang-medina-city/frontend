@@ -124,7 +124,7 @@
             <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
-                  NPWP
+                  NIK/NPWP
                 </div>
                 <div class="content__value">
                   {{ helpers.convertEmptyValueWithDash(marketer.npwp) }}

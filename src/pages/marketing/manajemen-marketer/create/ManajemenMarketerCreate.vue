@@ -101,11 +101,11 @@
           <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
-                NPWP
+                NIK/NPWP
               </div>
               <el-input
                 v-model="formData.npwp"
-                placeholder="Masukkan nomor NPWP"
+                placeholder="Masukkan nomor NIK/NPWP"
                 class="row__input"
               />
             </div>
