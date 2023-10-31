@@ -4,6 +4,7 @@ import { dokumenKonsumenStore } from '~/store/verifikasi/dokumen-konsumen'
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
+import AclHandler from '~/mixins/acl-handler'
 
 import imageIcon from '/image.svg'
 import uploadImageIcon from '/upload-image.svg'
@@ -27,7 +28,7 @@ import {
 export default {
   name: 'manajemen-dokumen-konsumen-edit',
 
-  mixins: [RouterHandler, ToastHandler],
+  mixins: [RouterHandler, ToastHandler, AclHandler],
 
   components: {
     PageHeader,

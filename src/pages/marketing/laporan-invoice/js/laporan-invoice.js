@@ -192,7 +192,7 @@ export default {
       doc.setFontSize(12).text(':', 84, currentY)
       doc.setFontSize(12).text(helpers.convertPriceToRupiah(this.getPDFValue(laporanInvoice.laporan_marketing.jumlah_fee)), 90, currentY)
       currentY += 7
-      doc.setFontSize(12).text('NPWP', 44, currentY)
+      doc.setFontSize(12).text('NIK/NPWP', 44, currentY)
       doc.setFontSize(12).text(':', 84, currentY)
       doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.npwp), 90, currentY)
       currentY += 7

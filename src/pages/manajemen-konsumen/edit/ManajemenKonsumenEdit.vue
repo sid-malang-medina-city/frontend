@@ -97,7 +97,7 @@
                 <el-option
                   v-for="status in statuses"
                   :key="status.code"
-                  :label="status.nama"
+                  :label="status.name"
                   :value="status.code"
                 />
               </el-select>
