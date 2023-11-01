@@ -8,7 +8,7 @@
           class="login__logo"
         />
         <div class="login__title">
-          Selamat datang ke Sistem Informasi Developer
+          Selamat datang di Sistem Informasi Developer
         </div>
         <div class="login__subtitle">
           Sistem informasi developer adalah platform untuk memfasilitasi operasional bisnis Malang Medina City secara daring
