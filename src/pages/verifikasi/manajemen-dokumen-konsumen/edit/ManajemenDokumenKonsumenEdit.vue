@@ -602,6 +602,134 @@
             </div>
           </div>
         </div>
+        <div class="manajemen-dokumen-konsumen-edit__input-section input-section">
+          <div class="input-section__header header">
+            <div class="header__title-wrapper">
+              <img
+                :src="icons.newspaperClipping"
+                alt="Image Icon"
+              />
+              <div class="header__title">
+                Rincian Deal
+              </div>
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Deal Awal
+              </div>
+              <el-input
+                v-model="formData.harga_deal_awal"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan harga deal awal"
+                class="row__input"
+                @input="validateDiskon"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Diskon
+              </div>
+              <el-input
+                v-model="formData.nominal_diskon"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                :class="{ 'row__input--error': !!error.diskon }"
+                placeholder="Masukkan diskon"
+                class="row__input"
+                @input="validateDiskon"
+              />
+              <div class="row__email">
+                <el-icon
+                  v-if="!!error.diskon"
+                  color="#CC4E2E"
+                >
+                  <WarningFilled />
+                </el-icon>
+                <div class="row__email-msg">
+                  {{ error.diskon }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Cash Setelah Diskon
+              </div>
+              <el-input
+                v-model="formData.harga_cash_setelah_diskon"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan diskon terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Deal Akhir
+              </div>
+              <el-input
+                v-model="formData.harga_deal_akhir"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan harga deal awal dan diskon terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Kategori Diskon
+              </div>
+              <el-input
+                v-model="formData.kategori_diskon"
+                placeholder="Masukkan kategori diskon"
+                class="row__input"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Skema Pembayaran
+              </div>
+              <el-input
+                v-model="formData.skema_bayar"
+                placeholder="Masukkan skema pembayaran"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Tanggal PPJB
+              </div>
+              <el-date-picker
+                v-model="formData.tanggal_ppjb"
+                type="date"
+                placeholder="Pilih tanggal PPJB"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Keterangan Deal
+              </div>
+              <el-input
+                v-model="formData.keterangan_deal"
+                placeholder="Masukkan keterangan deal"
+                class="row__input"
+              />
+            </div>
+          </div>
+        </div>
         <div class="manajemen-dokumen-konsumen-edit__submit-section">
           <el-button
             type="secondary"

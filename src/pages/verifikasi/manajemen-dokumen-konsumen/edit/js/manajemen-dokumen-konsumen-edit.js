@@ -22,7 +22,8 @@ import {
   Delete,
   View,
   Document,
-  CircleCheckFilled
+  CircleCheckFilled,
+  WarningFilled
 } from '@element-plus/icons-vue'
 
 export default {
@@ -36,7 +37,8 @@ export default {
     Delete,
     View,
     Document,
-    CircleCheckFilled
+    CircleCheckFilled,
+    WarningFilled
   },
 
   data () {
@@ -47,6 +49,14 @@ export default {
         tanggal_verifikasi: '',
         tanggal_booking: '',
         keterangan: '',
+        harga_deal_awal: '',
+        nominal_diskon: '',
+        kategori_diskon: '',
+        harga_cash_setelah_diskon: '',
+        harga_deal_akhir: '',
+        skema_bayar: '',
+        tanggal_ppjb: '',
+        keterangan_deal: '',
         e_ktp_file_delete: '',
         slip_gaji_file_delete: '',
         mutasi_tabungan_file_delete: '',
@@ -56,6 +66,7 @@ export default {
       error: {
         nomor_kavling: '',
         harga: '',
+        nominal_diskon: '',
         tipe: '',
       },
       uploadedDocument: {
@@ -292,16 +303,33 @@ export default {
       this.visibleImageActionIcons[identifier] = false
     },
 
+    validateDiskon () {
+      if (+this.formData.nominal_diskon > +this.formData.harga_deal_awal || +this.formData.nominal_diskon > +this.formData.unit_harga) {
+        this.error.diskon = 'Harga Diskon tidak boleh melebihi harga deal awal atau harga unit'
+        return false
+      }
+      this.calculateHargaAkhir()
+      this.error.diskon = ''
+      return true
+    },
+
+    calculateHargaAkhir () {
+      this.formData.harga_cash_setelah_diskon = (this.formData.unit_harga - +this.formData.nominal_diskon).toString()
+      this.formData.harga_deal_akhir = (this.formData.harga_deal_awal - +this.formData.nominal_diskon).toString()
+    },
+
     async submit () {
-      this.visibleLoading = true
-      try {
-        await this.editDokumenKonsumen(this.id, this.formData)
-        this.redirectTo('ManajemenDokumenKonsumen')
-        this.showToast('Data dokumen konsumen berhasil diperbarui!')
-      } catch (e) {
-        this.showErrorResponse(e)
-      } finally {
-        this.visibleLoading = false
+      if (Object.values(this.error).every(value => value === '')) {
+        this.visibleLoading = true
+        try {
+          await this.editDokumenKonsumen(this.id, this.formData)
+          this.redirectTo('ManajemenDokumenKonsumen')
+          this.showToast('Data dokumen konsumen berhasil diperbarui!')
+        } catch (e) {
+          this.showErrorResponse(e)
+        } finally {
+          this.visibleLoading = false
+        }
       }
     }
   }

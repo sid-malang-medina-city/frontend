@@ -262,13 +262,13 @@
           <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
-                Harga Unit
+                Harga Cash
               </div>
               <el-input
                 v-model="formData.harga"
                 :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
                 :parser="(value) => value.replace(/[^\d]/g, '')"
-                placeholder="Masukkan harga unit"
+                placeholder="Masukkan harga cash"
                 class="row__input"
               />
             </div>
