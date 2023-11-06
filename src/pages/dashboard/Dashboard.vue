@@ -10,6 +10,12 @@
           <div class="card__info">
             <div class="card__title">
               {{ card.title }}
+              <el-tooltip
+                :content="card.description"
+                placement="top"
+              >
+                <el-icon><InfoFilled /></el-icon>
+              </el-tooltip>
             </div>
             <div class="card__value">
               {{ dashboardInfo[card.code] }}
@@ -80,6 +86,9 @@
           color: #9D9D9D;
           font-size: 12px;
           font-weight: 500;
+          display: flex;
+          gap: 5px;
+          align-items: center;
         }
 
         &__value {

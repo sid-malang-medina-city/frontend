@@ -150,7 +150,7 @@
           </el-table-column>
           <el-table-column
             prop="harga"
-            label="Harga Unit"
+            label="Harga Cash"
             min-width="180"
           >
             <template #default="scope">

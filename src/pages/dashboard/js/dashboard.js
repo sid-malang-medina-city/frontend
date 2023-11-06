@@ -32,37 +32,52 @@ import coinsIcon from '/coins.svg'
 import trucksIcon from '/trucks.svg'
 import clockCountdownIcon from '/clock-countdown.svg'
 import usersThreeIcon from '/users-three.svg'
+import buildingIcon from '/building.svg'
+
+import { InfoFilled } from '@element-plus/icons-vue'
 
 const DASHBOARD_CARDS = {
+  total_unit_tersedia: {
+    icon: buildingIcon,
+    title: 'Unit Tersedia',
+    code: 'total_unit_tersedia',
+    description: 'Jumlah unit tersedia'
+  },
   total_unit_booking: {
     icon: packageIcon,
     title: 'Unit Booking',
-    code: 'total_unit_booking'
+    code: 'total_unit_booking',
+    description: 'Jumlah unit terbooking'
   },
   total_unit_terjual: {
     icon: coinsIcon,
     title: 'Unit Terjual',
-    code: 'total_unit_terjual'
+    code: 'total_unit_terjual',
+    description: 'Jumlah unit terbooking'
   },
   total_unit_stb: {
     icon: trucksIcon,
     title: 'Unit STB',
-    code: 'total_unit_stb'
+    code: 'total_unit_stb',
+    description: 'Jumlah unit yang sudah diserahkan'
   },
   total_unit_in_progress_pembangunan: {
     icon: clockCountdownIcon,
     title: 'Unit Progress',
-    code: 'total_unit_in_progress_pembangunan'
+    code: 'total_unit_in_progress_pembangunan',
+    description: 'Jumlah unit dalam proses pembangunan'
   },
   total_dokumen_konsumen_progress_verifikasi: {
     icon: fileTextIcon,
     title: 'Progress Verifikasi Konsumen',
-    code: 'total_dokumen_konsumen_progress_verifikasi'
+    code: 'total_dokumen_konsumen_progress_verifikasi',
+    description: 'Jumlah konsumen yang perlu diverifikasi'
   },
   total_dokumen_konsumen_ppjb: {
     icon: usersThreeIcon,
     title: 'Konsumen PPJB',
-    code: 'total_dokumen_konsumen_ppjb'
+    code: 'total_dokumen_konsumen_ppjb',
+    description: 'Jumlah konsumen yang telah membayar PPJB'
   }
 }
 
@@ -85,15 +100,14 @@ export default {
   components: {
     PageHeader,
     Bar,
-    Line
+    Line,
+    InfoFilled
   },
 
   data () {
     return {
       dashboardInfo: {},
       cards: DASHBOARD_CARDS,
-      // chartData: {},
-      // chartOptions: {}
       barChartData: {
         labels: [],
         datasets: []
@@ -106,15 +120,13 @@ export default {
         datasets: [],
       },
       lineChartOptions: {
-        responsive: true,
-        // maintainAspectRatio: false,
+        responsive: true
       }
     }
   },
 
   created () {
     this.getDashboard()
-    // this.initChart()
     this.getRingkasanPenjualan()
     this.getRingkasanPembangunan()
   },
@@ -162,7 +174,6 @@ export default {
         dataset.label = value.type
         dataset.backgroundColor = RINGKASAN_PENJUALAN_CHART_COLORS[index]
         dataset.borderColor = RINGKASAN_PENJUALAN_CHART_COLORS[index]
-        // temporary data
         dataset.data = value.numbers
         chartData.datasets.push(dataset)
       })
@@ -191,17 +202,8 @@ export default {
         drawOnChartArea: false,
         drawTicks: false
       }
-      // this.chartData = {
-      //   labels,
-      //   datasets: [{
-      //     backgroundColor: 'rgba(100, 119, 206, 0.5)',
-      //     data: dataSetsData,
-      //     barThickness: 30
-      //   }]
-      // }
       this.barChartOptions = {
         responsive: true,
-        // maintainAspectRatio: false,
         legend: {
           display: false
         },
@@ -212,7 +214,6 @@ export default {
         scales: {
           y: {
             ticks: {
-              // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
                 return value + ' unit';
               },
@@ -234,47 +235,12 @@ export default {
         dataset.label = value.type
         dataset.backgroundColor = RINGKASAN_PENJUALAN_CHART_COLORS[index]
         dataset.borderColor = RINGKASAN_PENJUALAN_CHART_COLORS[index]
-        // temporary data
-        // dataset.data = [90,20,10,40,50,30,100]
         dataset.data = value.numbers
         chartData.datasets.push(dataset)
       })
       this.lineChartData = chartData
-
-      // const ticks = {
-      //   min: 0,
-      //   fontSize: 14,
-      //   padding: 8,
-      //   maxRotation: 0,
-      //   minRotation: 0,
-      //   callback: (label) => {
-      //     if (/\s/.test(label)) {
-      //       return label.split(' ')
-      //     } else {
-      //       return label
-      //     }
-      //   }
-      // }
-      // const scaleLabel = {
-      //   display: true,
-      //   fontColor: 'rgba(0, 0, 0, 0.38)',
-      //   fontSize: 14
-      // }
-      // const gridLines = {
-      //   drawOnChartArea: false,
-      //   drawTicks: false
-      // }
-      // this.chartData = {
-      //   labels,
-      //   datasets: [{
-      //     backgroundColor: 'rgba(100, 119, 206, 0.5)',
-      //     data: dataSetsData,
-      //     barThickness: 30
-      //   }]
-      // }
       this.lineChartOptions = {
         responsive: true,
-        // maintainAspectRatio: false,
         legend: {
           display: false
         },
@@ -285,7 +251,6 @@ export default {
         scales: {
           y: {
             ticks: {
-              // Include a dollar sign in the ticks
               callback: function(value, index, ticks) {
                 return value + ' unit';
               },

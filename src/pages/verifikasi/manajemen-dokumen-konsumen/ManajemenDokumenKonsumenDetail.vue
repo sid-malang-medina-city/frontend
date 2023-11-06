@@ -306,6 +306,105 @@
               </div>
             </div>
           </div>
+          
+          <div class="content__informasi-pendukung-wrapper">
+            <div class="content__header">
+              <img
+                :src="icons.newspaperClipping"
+                alt="Image Icon"
+              />
+              <div class="content__header-title">
+                Rincian Deal
+              </div>
+            </div>
+  
+            <div class="content__rows rows">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Harga Deal Awal
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga_deal_awal) }}
+                </div>
+              </div>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Harga Cash
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.unit_harga) }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="content__rows rows">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Diskon
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.nominal_diskon) }}
+                </div>
+              </div>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Harga Cash Setelah Diskon
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga_cash_setelah_diskon) }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="content__rows rows">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Harga Deal Akhir
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga_deal_akhir) }}
+                </div>
+              </div>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Kategori Diskon
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.kategori_diskon) }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="content__rows rows">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Skema Pembayaran
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.skema_bayar) }}
+                </div>
+              </div>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Tanggal PPJB
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.tanggal_ppjb) }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="content__rows rows last-row">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Keterangan Deal
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.keterangan_deal) }}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="manajemen-dokumen-konsumen-detail__author-info author-info">
