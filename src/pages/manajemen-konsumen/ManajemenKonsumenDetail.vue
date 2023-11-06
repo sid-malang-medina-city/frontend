@@ -121,6 +121,19 @@
                 class="content__data"
               >
                 <div class="content__label">
+                  Tanggal Booking
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertEmptyValueWithDash(konsumen.tanggal_booking) }}
+                </div>
+              </div>
+            </div>
+            <div class="content__row">
+              <div
+                v-if="konsumen.status === 'BOOKING'"
+                class="content__data"
+              >
+                <div class="content__label">
                   Marketer
                 </div>
                 <div
@@ -141,8 +154,6 @@
                   {{ helpers.convertEmptyValueWithDash(konsumen.marketer_nama) }}
                 </div>
               </div>
-            </div>
-            <div class="content__row">
               <div
                 v-if="konsumen.status === 'BOOKING'"
                 class="content__data"
@@ -159,6 +170,8 @@
                   </u>
                 </div>
               </div>
+            </div>
+            <div class="content__row">
               <div
                 v-if="konsumen.status === 'BOOKING'"
                 class="content__data"
