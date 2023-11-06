@@ -630,6 +630,49 @@
             </div>
             <div class="rows__row">
               <div class="row__label">
+                Harga Cash
+              </div>
+              <el-input
+                v-model="formData.unit_harga"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan diskon terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Deal Akhir
+              </div>
+              <el-input
+                v-model="formData.harga_deal_akhir"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan harga deal awal dan diskon terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Cash Setelah Diskon
+              </div>
+              <el-input
+                v-model="formData.harga_cash_setelah_diskon"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan diskon terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
                 Diskon
               </div>
               <el-input
@@ -653,36 +696,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="input-section__rows rows">
-            <div class="rows__row">
-              <div class="row__label">
-                Harga Cash Setelah Diskon
-              </div>
-              <el-input
-                v-model="formData.harga_cash_setelah_diskon"
-                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
-                :parser="(value) => value.replace(/[^\d]/g, '')"
-                placeholder="Masukkan diskon terlebih dahulu"
-                class="row__input"
-                disabled
-              />
-            </div>
-            <div class="rows__row">
-              <div class="row__label">
-                Harga Deal Akhir
-              </div>
-              <el-input
-                v-model="formData.harga_deal_akhir"
-                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
-                :parser="(value) => value.replace(/[^\d]/g, '')"
-                placeholder="Masukkan harga deal awal dan diskon terlebih dahulu"
-                class="row__input"
-                disabled
-              />
-            </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Kategori Diskon
@@ -693,6 +706,8 @@
                 class="row__input"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Skema Pembayaran
@@ -703,8 +718,6 @@
                 class="row__input"
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Tanggal PPJB
@@ -718,6 +731,8 @@
                 class="row__input"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Keterangan Deal
