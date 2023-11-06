@@ -199,6 +199,7 @@ export default {
       })
       this.uploadedDocument.visible = !!this.formData['dokumen_pendukung_access_url']
       this.uploadedDocument.file = !!this.formData['dokumen_pendukung_access_url'] ? this.formData['dokumen_pendukung_access_url'] : ''
+      this.calculateHargaAkhir()
       this.initStatuses()
     },
 
