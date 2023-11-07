@@ -208,7 +208,7 @@
         border-left: 6px solid #C4C4C4;
         border-radius: 8px;
         display: flex;
-        gap: 280px;
+        gap: 315px;
       }
 
       .header-section {

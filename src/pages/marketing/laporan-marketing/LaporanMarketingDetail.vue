@@ -193,7 +193,7 @@
         border-left: 6px solid #C4C4C4;
         border-radius: 8px;
         display: flex;
-        gap: 305px;
+        justify-content: space-between;
       }
 
       .header-section {
