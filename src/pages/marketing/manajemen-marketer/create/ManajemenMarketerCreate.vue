@@ -21,7 +21,7 @@
               />
             </div>
             <div class="rows__row">
-              <div class="row__label required">
+              <div class="row__label">
                 Nomor Telepon
               </div>
               <el-input
@@ -63,7 +63,7 @@
               </el-select>
             </div>
             <div class="rows__row row">
-              <div class="row__label required">
+              <div class="row__label">
                 Nama Bank
               </div>
               <el-input
@@ -76,7 +76,7 @@
           </div>
           <div class="input-section__rows rows">
             <div class="rows__row">
-              <div class="row__label required">
+              <div class="row__label">
                 Nomor Rekening Bank
               </div>
               <el-input
@@ -87,7 +87,7 @@
               />
             </div>
             <div class="rows__row row">
-              <div class="row__label required">
+              <div class="row__label">
                 Nama Rekening Bank
               </div>
               <el-input
@@ -100,7 +100,7 @@
           </div>
           <div class="input-section__rows rows">
             <div class="rows__row row">
-              <div class="row__label required">
+              <div class="row__label">
                 NIK/NPWP
               </div>
               <el-input
@@ -110,7 +110,7 @@
               />
             </div>
             <div class="rows__row">
-              <div class="row__label required">
+              <div class="row__label">
                 Alamat
               </div>
               <el-input

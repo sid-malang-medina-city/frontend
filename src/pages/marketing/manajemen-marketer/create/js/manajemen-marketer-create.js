@@ -39,12 +39,7 @@ export default {
       },
       error: {
         nama: '',
-        nomor_telepon: '',
-        alamat: '',
-        status: '',
-        rekening_bank: '',
-        nomor_rekening: '',
-        nama_rekening: '',
+        status: ''
       },
       visibleLoading: false,
       statuses: STATUS_MARKETER
@@ -53,7 +48,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = Object.keys(this.formData)
+      const requiredFields = Object.keys(this.error)
       return requiredFields.every(field => !!this.formData[field])
     }
   },
@@ -66,6 +61,9 @@ export default {
     },
 
     validatePhoneNumber () {
+      if (!this.formData.nomor_telepon) {
+        return true
+      }
       if (!PHONE_NUMBER_REGEX.test(this.formData.nomor_telepon)) {
         this.error.nomor_telepon = 'Gunakan format yang sesuai (contoh: 08219382819)'
         return false
