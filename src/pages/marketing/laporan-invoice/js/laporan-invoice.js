@@ -148,7 +148,7 @@ export default {
       let splitNama = doc.splitTextToSize(this.getPDFValue(laporanInvoice.konsumen_nama), 60)
       doc.setFontSize(12).text('Nama User', 30, currentY)
       doc.setFontSize(12).text(':', 65, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.konsumen_nama), 75, currentY)
+      doc.setFontSize(12).text(splitNama, 75, currentY)
       if (splitNama.length === 1) {
         currentY += 7
       } else if (splitNama.length === 2) {
