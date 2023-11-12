@@ -119,11 +119,11 @@ export default {
 
     getCalculatedYBasedOnKategori (arrayLength) {
       if (arrayLength === 1) {
-        return 20
+        return 14
       } else if (arrayLength === 2) {
-        return 25
+        return 19
       }
-      return 30
+      return 24
     },
 
     getPDFValue (text) {
@@ -145,10 +145,17 @@ export default {
       let currentY = 62
       doc.setFontSize(12).text('Permohonan fee atas penjualan unit rumah dengan informasi:', 14, currentY)
       currentY += 8
+      let splitNama = doc.splitTextToSize(this.getPDFValue(laporanInvoice.konsumen_nama), 60)
       doc.setFontSize(12).text('Nama User', 30, currentY)
       doc.setFontSize(12).text(':', 65, currentY)
       doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.konsumen_nama), 75, currentY)
-      currentY += 7
+      if (splitNama.length === 1) {
+        currentY += 7
+      } else if (splitNama.length === 2) {
+        currentY += 12
+      } else {
+        currentY += 17
+      }
       doc.setFontSize(12).text('Cluster Unit', 30, currentY)
       doc.setFontSize(12).text(':', 65, currentY)
       doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_cluster_nama), 75, currentY)
@@ -173,7 +180,7 @@ export default {
       doc.setFontSize(12).text('Kategori', 30, currentY)
       doc.setFontSize(12).text(':', 65, currentY)
       doc.setFontSize(12).text(splitKategori, 75, currentY)
-      currentY += 14
+      currentY += this.getCalculatedYBasedOnKategori(splitKategori.length)
       doc.setFontSize(10).text('*Fee belum dipotong PPh 21', 14, currentY)
       currentY = 160
       doc.setFontSize(12).text(`Malang, ${helpers.getCurrentDate()}`, 80, currentY)
