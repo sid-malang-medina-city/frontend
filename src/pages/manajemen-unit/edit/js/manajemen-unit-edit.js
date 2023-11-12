@@ -43,6 +43,7 @@ export default {
         luas_tanah: '',
         fasilitas_ids: [],
         daya_listrik: '',
+        jadwal_bangun: '',
         jumlah_kamar_tidur: null,
         jumlah_kamar_mandi: null,
         foto_1_file: null,

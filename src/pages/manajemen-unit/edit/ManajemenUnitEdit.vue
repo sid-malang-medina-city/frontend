@@ -420,6 +420,21 @@
               />
             </div>
           </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Jadwal Bangun
+              </div>
+              <el-date-picker
+                v-model="formData.jadwal_bangun"
+                type="date"
+                placeholder="Pilih jadwal bangun"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+          </div>
         </div>
         <div class="manajemen-unit-edit__submit-section">
           <el-button
@@ -729,6 +744,10 @@
     .required::after {
       content: "*";
       color: #FF613A;
+    }
+    
+    :deep(.el-date-editor) {
+      width: 400px;
     }
   }
 </style>

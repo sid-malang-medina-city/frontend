@@ -124,7 +124,7 @@
                   Tanggal Booking
                 </div>
                 <div class="content__value">
-                  {{ helpers.convertEmptyValueWithDash(konsumen.tanggal_booking) }}
+                  {{ helpers.convertEmptyValueWithDash(helpers.convertDateTimeZoneToDateString(konsumen.tanggal_booking)) }}
                 </div>
               </div>
             </div>

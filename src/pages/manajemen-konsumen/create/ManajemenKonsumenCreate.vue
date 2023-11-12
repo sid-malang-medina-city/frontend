@@ -20,30 +20,6 @@
                 class="row__input"
               />
             </div>
-            <div class="rows__row row">
-              <div class="row__label">
-                Email
-              </div>
-              <el-input
-                v-model="formData.email"
-                :class="{ 'row__input--error': !!error.email }"
-                placeholder="Masukkan email"
-                class="row__input"
-              />
-              <div class="row__email">
-                <el-icon
-                  v-if="!!error.email"
-                  color="#CC4E2E"
-                >
-                  <WarningFilled />
-                </el-icon>
-                <div class="row__email-msg">
-                  {{ error.email }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Nomor Telepon
@@ -66,6 +42,8 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Alamat
@@ -81,8 +59,6 @@
                 show-word-limit
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Status
@@ -100,10 +76,12 @@
                 />
               </el-select>
             </div>
-            <div
-              v-if="formData.status === 'BOOKING'"
-              class="rows__row"
-            >
+          </div>
+          <div
+            v-if="formData.status === 'BOOKING'"
+            class="input-section__rows rows"
+          >
+            <div class="rows__row">
               <div class="row__label">
                 Tanggal Booking
               </div>
@@ -116,11 +94,6 @@
                 class="row__input"
               />
             </div>
-          </div>
-          <div
-            v-if="formData.status === 'BOOKING'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row row">
               <div class="row__label required">
                 Marketer
@@ -138,6 +111,11 @@
                 />
               </el-select>
             </div>
+          </div>
+          <div
+            v-if="formData.status === 'BOOKING'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label required">
                 Unit
