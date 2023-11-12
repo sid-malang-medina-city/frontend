@@ -47,11 +47,11 @@
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Nama/Email
+              Nama
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari konsumen berdasarkan nama/email"
+              placeholder="Cari konsumen berdasarkan nama"
               class="filters__input"
               @keyup="debounceDelay(() => handleFilterChange())"
             >
@@ -98,11 +98,6 @@
             min-width="120"
           />
           <el-table-column
-            prop="email"
-            label="Email"
-            min-width="210"
-          />
-          <el-table-column
             prop="alamat"
             label="Alamat"
             min-width="250"
@@ -136,6 +131,15 @@
                 :color="paymentStatuses[scope.row.status_pembayaran].color"
                 :text="paymentStatuses[scope.row.status_pembayaran].name"
               />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="tanggal_booking"
+            label="Tanggal Booking"
+            min-width="150"
+          >
+            <template #default="scope">
+              {{ helpers.convertDateTimeZoneToDateString(scope.row.tanggal_booking) }}
             </template>
           </el-table-column>
           <el-table-column
@@ -183,14 +187,6 @@
                   class="table__actions-edit"
                   text
                   @click.stop="goToEditPage(scope.row.id)"
-                />
-                <el-button
-                  v-if="hasAccess('DELETE_KONSUMEN')"
-                  :icon="icons.delete"
-                  type="primary"
-                  class="table__actions-delete"
-                  text
-                  @click.stop="openModalConfirmation(scope.row.id)"
                 />
               </div>
             </template>

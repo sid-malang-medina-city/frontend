@@ -185,6 +185,14 @@ export default {
       })
     },
     
+    goToMarketerDetailPage (id) {
+      this.redirectTo('ManajemenMarketerDetail', {
+        params: {
+          id: id
+        }
+      })
+    },
+    
     goToLaporanMarketingDetailPage (id) {
       this.redirectTo('LaporanMarketingDetail', {
         params: {

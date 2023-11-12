@@ -220,7 +220,7 @@
               </div>
             </div>
             
-            <div class="content__rows rows last-row">
+            <div class="content__rows rows">
               <div class="rows__row">
                 <div class="row__label required">
                   Jumlah Kamar Tidur
@@ -235,6 +235,17 @@
                 </div>
                 <div class="row__value">
                   {{ helpers.convertEmptyValueWithDash(unit.jumlah_kamar_mandi) }}
+                </div>
+              </div>
+            </div>
+            
+            <div class="content__rows rows last-row">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Jadwal Bangun
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(helpers.convertDateTimeZoneToDateString(unit.jadwal_bangun)) }}
                 </div>
               </div>
             </div>

@@ -6,6 +6,7 @@ import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
+import helpers from '~/utils/helpers'
 
 import { STATUS_KONSUMEN, STATUS_VERIFIKASI, STATUS_PEMBAYARAN } from '~/data/konsumen'
 
@@ -54,7 +55,8 @@ export default {
         delete: Delete,
         edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
-      }
+      },
+      helpers
     }
   },
 
@@ -127,31 +129,6 @@ export default {
         this.filters[filter] = null
       })
       this.handleFilterChange()
-    },
-
-    async openModalConfirmation (id) {
-      try {
-        await this.$confirm(
-          'Apakah anda yakin ingin menghapus konsumen ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus konsumen berarti menghilangkan progress data dan akses mereka',
-          'Hapus Konsumen',
-          {
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal',
-            type: 'warning',
-            showClose: true
-          }
-        )
-        await this.handleDeleteKonsumen(id)
-        this.showToast('Konsumen berhasil dihapus!')
-      } catch (e) {}
-    },
-
-    async handleDeleteKonsumen(id) {
-      try {
-        await this.deleteKonsumen(id)
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
     },
 
     goToCreatePage () {

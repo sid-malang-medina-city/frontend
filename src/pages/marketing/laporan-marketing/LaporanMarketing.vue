@@ -230,7 +230,7 @@
         gap: 8px;
       }
 
-      :deep(.actions__clear-filter-btn span) {
+      ::v-deep(.actions__clear-filter-btn span) {
         gap: 4px;
       }
 

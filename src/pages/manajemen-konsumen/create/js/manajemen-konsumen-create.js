@@ -12,7 +12,6 @@ import {
   WarningFilled
 } from '@element-plus/icons-vue'
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const PHONE_NUMBER_REGEX = /^\d+$/
 
 const STATUS_KONSUMEN = {
@@ -41,7 +40,6 @@ export default {
     return {
       formData: {
         nama: '',
-        email: '',
         nomor_telepon: '',
         alamat: '',
         marketer_id: '',
@@ -50,7 +48,6 @@ export default {
         status: ''
       },
       error: {
-        email: '',
         nomor_telepon: ''
       },
       marketers: [],
@@ -105,20 +102,6 @@ export default {
       this.redirectTo('ManajemenKonsumen')
     },
 
-    validateEmail () {
-      if (!this.formData.email) {
-        return true
-      }
-
-      if (!EMAIL_REGEX.test(String(this.formData.email).toLowerCase())) {
-        this.error.email = 'Gunakan format yang sesuai (contoh: konsumen@gmail.com)'
-        return false
-      }
-
-      this.error.email = ''
-      return true
-    },
-
     validatePhoneNumber () {
       if (!PHONE_NUMBER_REGEX.test(this.formData.nomor_telepon)) {
         this.error.nomor_telepon = 'Gunakan format yang sesuai (contoh: 08219382819)'
@@ -130,7 +113,7 @@ export default {
     },
 
     async submit () {
-      if (this.validateEmail() && this.validatePhoneNumber()) {
+      if (this.validatePhoneNumber()) {
         this.visibleLoading = true
         try {
           await this.createKonsumen(this.formData)

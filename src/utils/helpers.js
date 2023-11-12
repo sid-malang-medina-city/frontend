@@ -1,9 +1,9 @@
 export default {
-  convertPriceToRupiah (price) {
+  convertPriceToRupiah (price, withPrefix = true) {
     if (price === null || price === undefined) {
       return
     }
-    return 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    return withPrefix ? 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   },
 
   convertEmptyValueWithDash (str) {

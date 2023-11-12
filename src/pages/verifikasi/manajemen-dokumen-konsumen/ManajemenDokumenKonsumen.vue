@@ -140,6 +140,20 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="marketer_nama"
+            label="Nama Marketer"
+            min-width="220"
+          >
+            <template #default="scope">
+              <div
+                class="table__link"
+                @click.stop="goToMarketerDetailPage(scope.row.marketer_id)"
+              >
+                <u>{{ scope.row.marketer_nama }}</u>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="laporan_marketing_id"
             label="ID Laporan Marketing"
             min-width="210"

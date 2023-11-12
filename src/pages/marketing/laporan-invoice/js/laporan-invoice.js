@@ -117,13 +117,13 @@ export default {
       })
     },
 
-    getCalculatedYBasedOnAddress (arrayLength) {
+    getCalculatedYBasedOnKategori (arrayLength) {
       if (arrayLength === 1) {
-        return 7
+        return 20
       } else if (arrayLength === 2) {
-        return 12
+        return 25
       }
-      return 17
+      return 30
     },
 
     getPDFValue (text) {
@@ -135,88 +135,54 @@ export default {
     },
 
     async generatePDF(laporanInvoice) {
-      var doc = new jsPDF();
+      var doc = new jsPDF('p', 'mm', [148.5, 210]);
       var img = new Image()
       img.src = '/logo.png'
-      doc.addImage(img, 'png', 80, 18, 42, 23)
-      doc.text('LAPORAN MARKETING INVOICE', 58, 50)
-      doc.line(58, 51, 145, 51)
-      doc.text('LAPORAN MARKETING INVOICE', 58, 50)
-      doc.setFontSize(12).text(`No: ${laporanInvoice.code}`, 64, 60)
-      let currentY = 72
-      doc.setFontSize(12).text('Permohonan komisi untuk marketer untuk penjualan unit rumah dengan informasi:', 24, 72)
+      doc.addImage(img, 'png', 53, 9, 42, 23)
+      doc.text('FORM PENGAJUAN FEE MARKETING', 26, 40)
+      doc.line(26, 41, 126, 41)
+      doc.setFontSize(12).text(`No: ${laporanInvoice.code}`, 37, 47)
+      let currentY = 62
+      doc.setFontSize(12).text('Permohonan fee atas penjualan unit rumah dengan informasi:', 14, currentY)
       currentY += 8
-      doc.setFontSize(12).text('Nama User', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.konsumen_nama), 90, currentY)
+      doc.setFontSize(12).text('Nama User', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.konsumen_nama), 75, currentY)
       currentY += 7
-      doc.setFontSize(12).text('Alamat Rumah', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      let splitAlamat = doc.splitTextToSize(this.getPDFValue(laporanInvoice.konsumen_alamat), 100)
-      doc.setFontSize(12).text(splitAlamat, 90, currentY)
-      currentY += this.getCalculatedYBasedOnAddress(splitAlamat.length)
-      doc.setFontSize(12).text('No. Telp/HP', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.konsumen_nomor_telepon), 90, currentY)
+      doc.setFontSize(12).text('Cluster Unit', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_cluster_nama), 75, currentY)
       currentY += 7
-      doc.setFontSize(12).text('Cluster Unit', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_cluster_nama), 90, currentY)
+      doc.setFontSize(12).text('Nomor Kavling', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_nomor_kavling), 75, currentY)
       currentY += 7
-      doc.setFontSize(12).text('Nomor Kavling', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_nomor_kavling), 90, currentY)
+      doc.setFontSize(12).text('LB/LT	', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(`${this.getPDFValue(laporanInvoice.unit_luas_bangunan)}/${this.getPDFValue(laporanInvoice.unit_luas_tanah)}`, 75, currentY)
       currentY += 7
-      doc.setFontSize(12).text('Bangunan', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_tipe), 90, currentY)
-      currentY += 12
-      doc.setFontSize(12).text('Ditujukan untuk marketer dengan informasi:', 24, currentY)
-      currentY += 8
-      doc.setFontSize(12).text('Nama Marketer', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.nama), 90, currentY)
+      doc.setFontSize(12).text('Bangunan', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.unit_tipe), 75, currentY)
       currentY += 7
-      doc.setFontSize(12).text('Alamat Rumah', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      splitAlamat = doc.splitTextToSize(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.alamat), 100)
-      doc.setFontSize(12).text(splitAlamat, 90, currentY)
-      currentY += this.getCalculatedYBasedOnAddress(splitAlamat.length)
-      doc.setFontSize(12).text('No. Telp/HP', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.nomor_telepon), 90, currentY)
-      currentY += 12
-      doc.setFontSize(12).text('Dengan informasi komisi di bawah ini:', 24, currentY)
-      currentY += 8
-      doc.setFontSize(12).text('Jumlah Komisi', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(helpers.convertPriceToRupiah(this.getPDFValue(laporanInvoice.laporan_marketing.jumlah_fee)), 90, currentY)
+      doc.setFontSize(12).text('Jumlah Komisi', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(`Rp. ${this.helpers.convertPriceToRupiah(laporanInvoice.laporan_marketing.jumlah_fee, false)}*`, 75, currentY)
       currentY += 7
-      doc.setFontSize(12).text('NIK/NPWP', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.npwp), 90, currentY)
-      currentY += 7
-      doc.setFontSize(12).text('Nomor Rekening', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.nomor_rekening), 90, currentY)
-      currentY += 7
-      doc.setFontSize(12).text('Nama Bank', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.rekening_bank), 90, currentY)
-      currentY += 7
-      doc.setFontSize(12).text('Atas Nama', 44, currentY)
-      doc.setFontSize(12).text(':', 84, currentY)
-      doc.setFontSize(12).text(this.getPDFValue(laporanInvoice.laporan_marketing.marketer.nama_rekening), 90, currentY)
-      currentY += 10
-      doc.setFontSize(12).text('· Jumlah komisi akan dipotong PPh (pajak penghasilan)', 24, currentY)
-      currentY += 20
-      doc.setFontSize(12).text(`Malang, ${helpers.getCurrentDate()}`, 130, currentY)
+      let splitKategori = doc.splitTextToSize(this.getPDFValue(laporanInvoice.laporan_marketing.keterangan), 60)
+      doc.setFontSize(12).text('Kategori', 30, currentY)
+      doc.setFontSize(12).text(':', 65, currentY)
+      doc.setFontSize(12).text(splitKategori, 75, currentY)
+      currentY += 14
+      doc.setFontSize(10).text('*Fee belum dipotong PPh 21', 14, currentY)
+      currentY = 160
+      doc.setFontSize(12).text(`Malang, ${helpers.getCurrentDate()}`, 80, currentY)
       currentY += 6
-      doc.setFontSize(12).text('Disetujui/Pihak', 140, currentY)
+      doc.setFontSize(12).text('Disetujui/Pihak', 91, currentY)
       currentY += 22
-      doc.setFontSize(12).text('Henny Trisnowati', 153 - doc.getTextWidth('Henny Trisnowati')/2, currentY)
+      doc.setFontSize(12).text('Aida Noviasari', 91, currentY)
       currentY += 6
-      doc.setFontSize(12).text('Manager Divisi Marketing', 129, currentY)
+      doc.setFontSize(12).text('Manager Divisi Marketing', 81, currentY)
       doc.output('dataurlnewwindow');
     }
   }
