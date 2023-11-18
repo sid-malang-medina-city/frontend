@@ -141,7 +141,8 @@ export default {
       doc.addImage(img, 'png', 53, 9, 42, 23)
       doc.text('FORM PENGAJUAN FEE MARKETING', 26, 40)
       doc.line(26, 41, 126, 41)
-      doc.setFontSize(12).text(`No: ${laporanInvoice.code}`, 37, 47)
+      doc.setFontSize(12).text(`No: ${laporanInvoice.code}`, (148.5/2)-(doc.getTextWidth(`No: ${laporanInvoice.code}`)/2), 47)
+      console.log('width', doc.getTextWidth(`No: ${laporanInvoice.code}`))
       let currentY = 62
       doc.setFontSize(12).text('Permohonan fee atas penjualan unit rumah dengan informasi:', 14, currentY)
       currentY += 8
