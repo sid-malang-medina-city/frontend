@@ -100,9 +100,7 @@ export default {
     },
 
     getAlasansRepresentation (alasans) {
-      return alasans.reduce(function (prev, next) {
-        return prev.nama + ", " + next.nama
-      });
+      return alasans.map(alasan => alasan.nama).join(', ')
     },
 
     toggleVisiblePassword () {
