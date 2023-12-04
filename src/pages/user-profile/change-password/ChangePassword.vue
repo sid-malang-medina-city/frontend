@@ -3,19 +3,10 @@
     <page-header
       title="Ubah Kata Sandi"
       show-back-icon
-      @back="goToDashboard"
+      @back="goToUserProfile"
     />
     <div class="change-password__wrapper page-content">
       <div class="change-password__my-profile my-profile">
-        <!-- <div class="my-profile__header header">
-          <img
-            :src="userIcon"
-            alt=""
-          >
-          <div class="header__title">
-            Profil Anda
-          </div>
-        </div> -->
         <div class="my-profile__input-section input-section">
           <div class="input-section__rows rows">
             <div class="rows__row">

@@ -123,10 +123,14 @@
             min-width="210"
           />
           <el-table-column
-            prop="division.name"
+            prop="divisions"
             label="Divisi"
             min-width="180"
-          />
+          >
+            <template #default="scope">
+              {{ scope.row.divisions.map(division => division.name).join(', ') }}
+            </template>
+          </el-table-column>
           <el-table-column
             prop="role.name"
             label="Role"

@@ -22,6 +22,7 @@ import {
   Search,
   Edit,
   Delete,
+  Document,
   CircleCheckFilled,
   CircleCloseFilled
 } from '@element-plus/icons-vue'
@@ -38,6 +39,7 @@ export default {
     ArrowUp,
     Plus,
     Search,
+    Document,
     CircleCheckFilled,
     CircleCloseFilled
   },

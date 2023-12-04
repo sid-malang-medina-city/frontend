@@ -28,7 +28,7 @@ export default {
       formData: {
         name: '',
         role_id: null,
-        division_id: null
+        division_ids: []
       },
       error: {
         email: ''
@@ -90,14 +90,14 @@ export default {
 
     initFormData (data) {
       const {
-        division,
+        divisions,
         role,
         ...formData
       } = data
 
       this.formData = {
         ...formData,
-        division_id: division.id,
+        division_ids: divisions.map(division => division.id),
         role_id: role.id
       }
     },

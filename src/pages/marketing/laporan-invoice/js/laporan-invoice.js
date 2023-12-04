@@ -188,7 +188,7 @@ export default {
       currentY += 6
       doc.setFontSize(12).text('Disetujui/Pihak', 91, currentY)
       currentY += 22
-      doc.setFontSize(12).text('Aida Noviasari', 91, currentY)
+      doc.setFontSize(12).text('Henny Trisnowati', 91, currentY)
       currentY += 6
       doc.setFontSize(12).text('Manager Divisi Marketing', 81, currentY)
       doc.output('dataurlnewwindow');

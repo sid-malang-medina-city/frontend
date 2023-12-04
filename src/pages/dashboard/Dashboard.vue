@@ -28,7 +28,6 @@
           >
         </div>
       </div>
-
       <div class="dashboard__charts">
         <div class="dashboard__bar-chart bar-chart">
           <div class="bar-chart__header">
@@ -56,6 +55,43 @@
           </div>
         </div>
       </div>
+
+      <!-- <div class="dashboard__charts">
+        <div class="dashboard__bar-chart bar-chart">
+          <div class="bar-chart__header">
+            Penjualan dalam 6 Bulan Terakhir
+          </div>
+          <div class="bar-chart__content">
+            <Bar
+              :data="barChartData"
+              :options="barChartOptions"
+              id="bar-chart-id"
+            />
+          </div>
+        </div>
+        
+        <div class="dashboard__bar-chart bar-chart">
+          <div class="bar-chart__header">
+            Progress Pembangunan Unit Per 6 Bulan
+          </div>
+          <div class="bar-chart__content">
+            <Line
+              :data="lineChartData"
+              :options="lineChartOptions"
+              id="line-chart-id"
+            />
+          </div>
+        </div>
+
+        <div class="dashboard__bar-chart bar-chart">
+          <div class="bar-chart__header">
+            Statistik Konsumen Berdasarkan Daerah
+          </div>
+          <div class="bar-chart__content">
+            <Pie :data="usiaChart" :options="usiaChartOptions" />
+          </div>
+        </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -108,11 +144,14 @@
       margin-top: 36px;
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      
     }
 
     .bar-chart {
       background-color: white;
-      width: 49%;
+      width: calc((100% - 25px) / 2);
       border-radius: 12px;
       box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
       border: 1px solid #EAEAEA;

@@ -52,7 +52,7 @@ export default {
       }
       message += '</div>'
 
-      this.showToast(message, 'error', 20000, true)
+      this.showToast(message, 'error', 3000, true)
     }
   }
 }

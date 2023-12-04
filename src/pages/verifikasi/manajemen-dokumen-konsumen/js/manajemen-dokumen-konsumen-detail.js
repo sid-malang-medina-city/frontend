@@ -99,6 +99,12 @@ export default {
       }
     },
 
+    getAlasansRepresentation (alasans) {
+      return alasans.reduce(function (prev, next) {
+        return prev.nama + ", " + next.nama
+      });
+    },
+
     toggleVisiblePassword () {
       this.visiblePassword = !this.visiblePassword
     },
