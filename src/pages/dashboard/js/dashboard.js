@@ -2,7 +2,7 @@ import { mapActions } from 'pinia'
 import { dashboardStore } from '~/store/dashboard'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
-import { Bar, Line } from 'vue-chartjs'
+import { Bar, Line, Pie } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +12,8 @@ import {
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 } from 'chart.js'
 
 ChartJS.register(
@@ -23,7 +24,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 )
 
 import fileTextIcon from '/file-text.svg'
@@ -101,7 +103,8 @@ export default {
     PageHeader,
     Bar,
     Line,
-    InfoFilled
+    InfoFilled,
+    Pie
   },
 
   data () {
@@ -121,7 +124,21 @@ export default {
       },
       lineChartOptions: {
         responsive: true
-      }
+      },
+      // usiaChart: {
+      //   labels: ['Malang', 'Probolinggo', 'Jakarta Selatan', 'Bandung'],
+      //   datasets: [
+      //     {
+      //       backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+      //       data: [40, 20, 80, 10]
+      //     }
+      //   ]
+      // },
+      // usiaChartOptions: {
+      //   responsive: true,
+      //   maintainAspectRatio: false
+      // },
+      // activeName: 'tab1'
     }
   },
 

@@ -49,7 +49,7 @@ export default {
         const { data } = await this.fetchACL()
         localStorage.setItem('acls', JSON.parse(JSON.stringify(data.access_constants)))
         localStorage.setItem('role', JSON.parse(JSON.stringify(data.role.code)))
-        localStorage.setItem('division', JSON.parse(JSON.stringify(data.division.code)))
+        localStorage.setItem('division', JSON.parse(JSON.stringify(data.divisions)))
       } catch (error) {
         this.showErrorResponse(error)
       }

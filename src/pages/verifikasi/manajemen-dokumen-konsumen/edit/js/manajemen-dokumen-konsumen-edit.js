@@ -1,5 +1,8 @@
 import { mapActions } from 'pinia'
 import { dokumenKonsumenStore } from '~/store/verifikasi/dokumen-konsumen'
+import { wilayahStore } from '~/store/verifikasi/wilayah'
+import { pekerjaanStore } from '~/store/verifikasi/pekerjaan'
+import { alasanStore } from '~/store/verifikasi/alasan'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -61,7 +64,12 @@ export default {
         slip_gaji_file_delete: '',
         mutasi_tabungan_file_delete: '',
         surat_pernikahan_file_delete: '',
-        dokumen_pendukung_file_delete: ''
+        dokumen_pendukung_file_delete: '',
+        provinsi_id: '',
+        kota_id: '',
+        pekerjaan_id: '',
+        gaji_per_bulan: '',
+        alasan_ids: []
       },
       error: {
         nomor_kavling: '',
@@ -135,6 +143,16 @@ export default {
       tipeUnits: [],
       clusters: [],
       fasilitass: [],
+      cities: [],
+      provinces: [],
+      filteredProvinces: [],
+      filteredCities: [],
+      pekerjaans: [],
+      alasans: [],
+      loading: {
+        city: true,
+        province: true
+      },
       visibleLoading: false
     }
   },
@@ -171,6 +189,9 @@ export default {
   },
 
   created () {
+    this.getPekerjaans()
+    this.getAlasans()
+    this.getProvinces()
     this.getDokumenKonsumen()
   },
 
@@ -179,6 +200,75 @@ export default {
       'editDokumenKonsumen',
       'fetchDokumenKonsumen'
     ]),
+    ...mapActions(wilayahStore, [
+      'fetchProvinces',
+      'fetchCities'
+    ]),
+    ...mapActions(pekerjaanStore, [
+      'fetchPekerjaans'
+    ]),
+    ...mapActions(alasanStore, [
+      'fetchAlasans'
+    ]),
+
+    async getProvinces () {
+      const payload = {
+        page: 1,
+        page_size: 9999
+      }
+      try {
+        const { data } = await this.fetchProvinces(payload)
+        this.provinces = JSON.parse(JSON.stringify(data.data))
+        this.filteredProvinces = JSON.parse(JSON.stringify(data.data))
+        this.loading.province = false
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getCities () {
+      const payload = {
+        page: 1,
+        page_size: 9999,
+        provinsi_id: this.formData.provinsi_id
+      }
+      try {
+        const { data } = await this.fetchCities(payload)
+        this.cities = JSON.parse(JSON.stringify(data.data))
+        this.filteredCities = JSON.parse(JSON.stringify(data.data))
+        this.loading.city = false
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    reGetCities () {
+      this.loading.city = true
+      this.formData.kota_id = ''
+      this.getCities()
+    },
+
+    async getPekerjaans () {
+      try {
+        const { data } = await this.fetchPekerjaans({
+          skip_pagination: true
+        })
+        this.pekerjaans = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+    
+    async getAlasans () {
+      try {
+        const { data } = await this.fetchAlasans({
+          skip_pagination: true
+        })
+        this.alasans = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
 
     async getDokumenKonsumen () {
       try {
@@ -190,7 +280,11 @@ export default {
     },
 
     initFormData (data) {
-      this.formData = data
+      this.formData = JSON.parse(JSON.stringify(data))
+      this.formData.alasan_ids = JSON.parse(JSON.stringify(this.formData.alasans)).map(alasan => alasan.id)
+      this.formData.pekerjaan_id = this.formData.pekerjaan ? this.formData.pekerjaan.id : ''
+      this.formData.provinsi_id = this.formData.provinsi ? this.formData.provinsi.id : ''
+      this.formData.kota_id = this.formData.kota ? this.formData.kota.id : ''
       this.currentData = JSON.parse(JSON.stringify(data))
       const imagesIdentifier = ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'surat_pernikahan_access_url']
       imagesIdentifier.forEach(identifier => {
@@ -199,6 +293,10 @@ export default {
       })
       this.uploadedDocument.visible = !!this.formData['dokumen_pendukung_access_url']
       this.uploadedDocument.file = !!this.formData['dokumen_pendukung_access_url'] ? this.formData['dokumen_pendukung_access_url'] : ''
+      
+      if (this.formData.provinsi_id) {
+        this.getCities()
+      }
       this.calculateHargaAkhir()
       this.initStatuses()
     },

@@ -59,7 +59,7 @@
                   Divisi
                 </div>
                 <div class="content__value">
-                  {{ helpers.convertEmptyValueWithDash(user.division?.name) }}
+                  {{ helpers.convertEmptyValueWithDash(user.divisions?.map(division => division.name).join(', ')) }}
                 </div>
               </div>
               <div class="content__data">

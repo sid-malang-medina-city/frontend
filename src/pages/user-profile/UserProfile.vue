@@ -53,9 +53,10 @@
                 Divisi
               </div>
               <el-select
-                v-model="formData.division_id"
+                v-model="formData.division_ids"
                 placeholder="Pilih divisi"
                 class="row__input"
+                multiple
                 disabled
               >
                 <el-option

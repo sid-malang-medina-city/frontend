@@ -4,6 +4,7 @@ import verifikasiIcon from '/verifikasi.svg'
 import manajemenUnitIcon from '/manajemen-unit.svg'
 import manajemenKonsumenIcon from '/manajemen-konsumen.svg'
 import manajemenUserIcon from '/manajemen-user.svg'
+import keuanganIcon from '/keuangan.svg'
 
 export const NAVIGATION_ITEMS = [
   {
@@ -67,6 +68,61 @@ export const NAVIGATION_ITEMS = [
         routeName: 'ManajemenDokumenKonsumen',
         menuCode: 'LIST_DOKUMEN_KONSUMEN',
         labelIndex: 1,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen Pekerjaan',
+        path: '/verifikasi/manajemen-pekerjaan',
+        routeName: 'ManajemenPekerjaan',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        labelIndex: 2,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen Alasan',
+        path: '/verifikasi/manajemen-alasan',
+        routeName: 'ManajemenAlasan',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        labelIndex: 3,
+        childRoutes: [],
+        iconPath: null
+      }
+    ]
+  },
+  {
+    label: 'Keuangan',
+    iconPath: keuanganIcon,
+    type: 'root',
+    path: '',
+    routeName: '',
+    labelIndex: 4,
+    children: [
+      {
+        label: 'Manajemen Dokumen Konsumen',
+        path: '/keuangan/manajemen-dokumen-konsumen',
+        routeName: 'KeuanganManajemenDokumenKonsumen',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        labelIndex: 1,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Laporan Marketing',
+        path: '/keuangan/laporan-marketing',
+        routeName: 'KeuanganLaporanMarketing',
+        menuCode: 'LIST_LAPORAN_MARKETING',
+        labelIndex: 2,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Laporan Invoice',
+        path: '/keuangan/laporan-invoice',
+        routeName: 'KeuanganLaporanMarketingInvoice',
+        menuCode: 'LIST_LAPORAN_MARKETING_INVOICE',
+        labelIndex: 3,
         childRoutes: [],
         iconPath: null
       }

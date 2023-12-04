@@ -38,6 +38,19 @@ const LaporanInvoiceMarketing = defineAsyncComponent(() => import(/* webpackChun
 const ManajemenDokumenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/ManajemenDokumenKonsumen.vue'))
 const ManajemenDokumenKonsumenDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-detail" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/ManajemenDokumenKonsumenDetail.vue'))
 const ManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-dokumen-konsumen-edit" */ '~/pages/verifikasi/manajemen-dokumen-konsumen/edit/ManajemenDokumenKonsumenEdit.vue'))
+const ManajemenPekerjaan = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-pekerjaan" */ '~/pages/verifikasi/pekerjaan/ManajemenPekerjaan.vue'))
+const ManajemenPekerjaanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-pekerjaan-create" */ '~/pages/verifikasi/pekerjaan/create/ManajemenPekerjaanCreate.vue'))
+const ManajemenPekerjaanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-pekerjaan-edit" */ '~/pages/verifikasi/pekerjaan/edit/ManajemenPekerjaanEdit.vue'))
+const ManajemenAlasan = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-alasan" */ '~/pages/verifikasi/alasan/ManajemenAlasan.vue'))
+const ManajemenAlasanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-alasan-create" */ '~/pages/verifikasi/alasan/create/ManajemenAlasanCreate.vue'))
+const ManajemenAlasanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-alasan-edit" */ '~/pages/verifikasi/alasan/edit/ManajemenAlasanEdit.vue'))
+const KeuanganLaporanMarketing = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-laporan-marketing" */ '~/pages/keuangan/LaporanMarketing.vue'))
+const KeuanganLaporanMarketingDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-laporan-marketing-detail" */ '~/pages/keuangan/LaporanMarketingDetail.vue'))
+const KeuanganLaporanMarketingEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-laporan-marketing-edit" */ '~/pages/keuangan/edit/LaporanMarketingEdit.vue'))
+const KeuanganLaporanInvoiceMarketing = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-laporan-invoice-marketing" */ '~/pages/keuangan/LaporanInvoice.vue'))
+const KeuanganManajemenDokumenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-manajemen-dokumen-konsumen" */ '~/pages/keuangan/ManajemenDokumenKonsumen.vue'))
+const KeuanganManajemenDokumenKonsumenDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-manajemen-dokumen-konsumen-detail" */ '~/pages/keuangan/ManajemenDokumenKonsumenDetail.vue'))
+const KeuanganManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-manajemen-dokumen-konsumen-edit" */ '~/pages/keuangan/edit/ManajemenDokumenKonsumenEdit.vue'))
 
 export default [
   {
@@ -384,16 +397,6 @@ export default [
     }
   },
   {
-    path: '/marketing/laporan-marketing/:id',
-    name: 'LaporanMarketingDetail',
-    component: LaporanMarketingDetail,
-    meta: {
-      title: 'Laporan Marketing Detail',
-      action: 'READ_LAPORAN_MARKETING',
-      requireLogin: true
-    }
-  },
-  {
     path: '/marketing/laporan-invoice',
     name: 'LaporanMarketingInvoice',
     component: LaporanInvoiceMarketing,
@@ -430,6 +433,136 @@ export default [
     meta: {
       title: 'Dokumen Konsumen Edit',
       action: 'UPDATE_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-pekerjaan',
+    name: 'ManajemenPekerjaan',
+    component: ManajemenPekerjaan,
+    meta: {
+      title: 'Manajemen Pekerjaan',
+      action: 'LIST_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-pekerjaan/create',
+    name: 'ManajemenPekerjaanCreate',
+    component: ManajemenPekerjaanCreate,
+    meta: {
+      title: 'Manajemen Pekerjaan Create',
+      action: 'UPDATE_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-pekerjaan/edit/:id',
+    name: 'ManajemenPekerjaanEdit',
+    component: ManajemenPekerjaanEdit,
+    meta: {
+      title: 'Manajemen Pekerjaan Edit',
+      action: 'UPDATE_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-alasan',
+    name: 'ManajemenAlasan',
+    component: ManajemenAlasan,
+    meta: {
+      title: 'Manajemen Alasan',
+      action: 'LIST_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-alasan/create',
+    name: 'ManajemenAlasanCreate',
+    component: ManajemenAlasanCreate,
+    meta: {
+      title: 'Manajemen Alasan Create',
+      action: 'UPDATE_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/verifikasi/manajemen-alasan/edit/:id',
+    name: 'ManajemenAlasanEdit',
+    component: ManajemenAlasanEdit,
+    meta: {
+      title: 'Manajemen Alasan Edit',
+      action: 'UPDATE_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/manajemen-dokumen-konsumen',
+    name: 'KeuanganManajemenDokumenKonsumen',
+    component: KeuanganManajemenDokumenKonsumen,
+    meta: {
+      title: 'Dokumen Konsumen',
+      action: 'LIST_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/manajemen-dokumen-konsumen/:id',
+    name: 'KeuanganManajemenDokumenKonsumenDetail',
+    component: KeuanganManajemenDokumenKonsumenDetail,
+    meta: {
+      title: 'Dokumen Konsumen',
+      action: 'READ_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/manajemen-dokumen-konsumen/edit/:id',
+    name: 'KeuanganManajemenDokumenKonsumenEdit',
+    component: KeuanganManajemenDokumenKonsumenEdit,
+    meta: {
+      title: 'Dokumen Konsumen Edit',
+      action: 'UPDATE_DOKUMEN_KONSUMEN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/laporan-marketing',
+    name: 'KeuanganLaporanMarketing',
+    component: KeuanganLaporanMarketing,
+    meta: {
+      title: 'Laporan Marketing',
+      action: 'LIST_LAPORAN_MARKETING',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/laporan-marketing/:id',
+    name: 'KeuanganLaporanMarketingDetail',
+    component: KeuanganLaporanMarketingDetail,
+    meta: {
+      title: 'Laporan Marketing Detail',
+      action: 'READ_LAPORAN_MARKETING',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/laporan-marketing/edit/:id',
+    name: 'KeuanganLaporanMarketingEdit',
+    component: KeuanganLaporanMarketingEdit,
+    meta: {
+      title: 'Laporan Marketing Edit',
+      action: 'UPDATE_LAPORAN_MARKETING',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/keuangan/laporan-invoice',
+    name: 'KeuanganLaporanMarketingInvoice',
+    component: KeuanganLaporanInvoiceMarketing,
+    meta: {
+      title: 'Laporan Invoice Marketing',
+      action: 'LIST_LAPORAN_MARKETING_INVOICE',
       requireLogin: true
     }
   },

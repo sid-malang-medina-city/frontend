@@ -105,7 +105,7 @@ export default {
       localStorage.removeItem('refreshToken')
       localStorage.removeItem('acls')
       localStorage.removeItem('role')
-      localStorage.removeItem('division')
+      localStorage.removeItem('divisions')
       this.redirectTo('Login')
     }
   }

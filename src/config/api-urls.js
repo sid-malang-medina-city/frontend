@@ -58,6 +58,18 @@ export default {
       list: '/verifikasi/dokumen-konsumen',
       detail: id => `/verifikasi/dokumen-konsumen/${encodeURIComponent(id)}`,
       triggerNotifications: '/verifikasi/trigger-notifikasi'
+    },
+    pekerjaan: {
+      list: '/verifikasi/dokumen-konsumen-pekerjaan',
+      detail: id => `/verifikasi/dokumen-konsumen-pekerjaan/${encodeURIComponent(id)}`,
+    },
+    alasan: {
+      list: '/verifikasi/dokumen-konsumen-alasan',
+      detail: id => `/verifikasi/dokumen-konsumen-alasan/${encodeURIComponent(id)}`,
+    },
+    wilayah: {
+      province: '/wilayah/provinsi',
+      city: '/wilayah/kota',
     }
   }
 }

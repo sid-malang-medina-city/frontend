@@ -8,6 +8,144 @@
 
     <div class="page-content">
       <div class="manajemen-dokumen-konsumen-edit__input-image-wrapper input-image-wrapper">
+        <div
+          v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
+          class="manajemen-dokumen-konsumen-edit__input-section input-section input-section--top"
+        >
+          <div class="input-section__header header">
+            <div class="header__title-wrapper">
+              <img
+                :src="icons.newspaperClipping"
+                alt="Image Icon"
+              />
+              <div class="header__title">
+                Data Diri
+              </div>
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Nama Konsumen
+              </div>
+              <el-input
+                v-model="formData.konsumen_nama"
+                placeholder="Masukkan jumlah kamar tidur"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Tanggal Lahir
+              </div>
+              <el-date-picker
+                v-model="formData.tanggal_lahir"
+                type="date"
+                placeholder="Pilih tanggal lahir"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Provinsi
+              </div>
+              <el-select
+                v-model="formData.provinsi_id"
+                :loading="loading.province"
+                placeholder="Pilih provinsi"
+                class="row__input"
+                filterable
+                @change="reGetCities"
+              >
+                <el-option
+                  v-for="province in filteredProvinces"
+                  :key="province.id"
+                  :label="province.name"
+                  :value="province.id"
+                />
+              </el-select>
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Kabupaten/Kota
+              </div>
+              <el-select
+                v-model="formData.kota_id"
+                :loading="loading.city"
+                :disabled="!formData.provinsi_id"
+                placeholder="Pilih kota"
+                class="row__input"
+                filterable
+              >
+                <el-option
+                  v-for="city in cities"
+                  :key="city.id"
+                  :label="city.name"
+                  :value="city.id"
+                />
+              </el-select>
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Pekerjaan
+              </div>
+              <el-select
+                v-model="formData.pekerjaan_id"
+                placeholder="Pilih pekerjaan"
+                class="row__input"
+              >
+                <el-option
+                  v-for="pekerjaan in pekerjaans"
+                  :key="pekerjaan.id"
+                  :label="pekerjaan.nama"
+                  :value="pekerjaan.id"
+                />
+              </el-select>
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Gaji per Bulan
+              </div>
+              <el-input
+                v-model="formData.gaji_per_bulan"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan gaji"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Alasan
+              </div>
+              <el-select
+                v-model="formData.alasan_ids"
+                :loading="visibleLoading"
+                placeholder="Masukkan alasan"
+                class="row__input"
+                multiple
+                filterable
+              >
+                <el-option
+                  v-for="alasan in alasans"
+                  :key="alasan.id"
+                  :label="alasan.nama"
+                  :value="alasan.id"
+                />
+              </el-select>
+            </div>
+          </div>
+        </div>
+
         <div class="input-image-wrapper__header header">
           <div class="header__title-wrapper">
             <img
@@ -498,17 +636,6 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
-                Nama Konsumen
-              </div>
-              <el-input
-                v-model="formData.konsumen_nama"
-                placeholder="Masukkan jumlah kamar tidur"
-                class="row__input"
-                disabled
-              />
-            </div>
-            <div class="rows__row">
-              <div class="row__label">
                 Nama Marketer
               </div>
               <el-input
@@ -517,8 +644,6 @@
                 disabled
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Unit
@@ -529,6 +654,8 @@
                 disabled
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Status Verifikasi
@@ -547,8 +674,6 @@
                 />
               </el-select>
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div
               v-if="formData.status_verifikasi === 'TERVERIFIKASI' || isEndVerificationStatus"
               class="rows__row"
@@ -585,6 +710,27 @@
                 class="row__input"
               />
             </div>
+            <div
+              v-else
+              class="rows__row"
+            >
+              <div class="row__label">
+                Keterangan
+              </div>
+              <el-input
+                v-model="formData.keterangan"
+                :rows="3"
+                resize="none"
+                placeholder="Masukkan keterangan"
+                type="textarea"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div
+            v-if="formData.status_verifikasi === 'TERVERIFIKASI' || formData.status_verifikasi === 'TERJADWAL_VERIFIKASI' || isEndVerificationStatus"
+            class="input-section__rows rows"
+          >
             <div
               class="rows__row"
             >
@@ -975,6 +1121,12 @@
     .input-section {
       margin-top: 20px;
       border-top: 1px solid #E9E9E9;
+
+      &--top {
+        margin-top: 0;
+        border-top: none;
+        border-bottom: 1px solid #E9E9E9;
+      }
 
       .header {
         display: flex;
