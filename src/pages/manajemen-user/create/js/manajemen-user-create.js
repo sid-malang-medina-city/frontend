@@ -30,7 +30,6 @@ export default {
       formData: {
         name: '',
         division_ids: [],
-        division_id: '2',
         role_id: '',
         email: '',
         password: '',
@@ -51,7 +50,7 @@ export default {
     },
 
     isAllRequiredFieldsFilled () {
-      const requiredFields = Object.keys(this.formData)
+      const requiredFields = ['name', 'role_id', 'email', 'password', 'confirmPassword']
       return requiredFields.every(field => !!this.formData[field])
     },
 
