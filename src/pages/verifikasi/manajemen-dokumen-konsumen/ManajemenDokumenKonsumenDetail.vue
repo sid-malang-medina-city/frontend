@@ -601,6 +601,7 @@
       }
 
       .informasi-umum-keterangan {
+        margin-top: 16px;
         padding: 16px 22px;
         border: 1px solid #E9E9E9;
         background: #F5F5F5;
