@@ -111,6 +111,24 @@ export default {
     return {
       dashboardInfo: {},
       cards: DASHBOARD_CARDS,
+      charts: [
+        'Penjualan 6 Bulan Terakhir',
+        'Progress Pembangunan Unit',
+        'Demografi Usia',
+        'Demografi Kota',
+        'Demografi Gaji',
+        'Demografi Pekerjaan',
+        'Demografi Alasan'
+      ],
+      visibleCharts: [
+        'Penjualan 6 Bulan Terakhir',
+        'Progress Pembangunan Unit',
+        'Demografi Usia',
+        'Demografi Kota',
+        'Demografi Gaji',
+        'Demografi Pekerjaan',
+        'Demografi Alasan'
+      ],
       barChartData: {
         labels: [],
         datasets: []
@@ -125,20 +143,30 @@ export default {
       lineChartOptions: {
         responsive: true
       },
-      // usiaChart: {
-      //   labels: ['Malang', 'Probolinggo', 'Jakarta Selatan', 'Bandung'],
-      //   datasets: [
-      //     {
-      //       backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-      //       data: [40, 20, 80, 10]
-      //     }
-      //   ]
-      // },
-      // usiaChartOptions: {
-      //   responsive: true,
-      //   maintainAspectRatio: false
-      // },
-      // activeName: 'tab1'
+      usiaChart: {
+        labels: [],
+        datasets: []
+      },
+      gajiChart: {
+        labels: [],
+        datasets: []
+      },
+      kotaChart: {
+        labels: [],
+        datasets: []
+      },
+      alasanChart: {
+        labels: [],
+        datasets: []
+      },
+      pekerjaanChart: {
+        labels: [],
+        datasets: []
+      },
+      pieChartOptions: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     }
   },
 
@@ -146,13 +174,19 @@ export default {
     this.getDashboard()
     this.getRingkasanPenjualan()
     this.getRingkasanPembangunan()
+    this.getDemografiUsia()
+    this.getDemografiGaji()
+    this.getDemografiKota()
+    this.getDemografiAlasan()
+    this.getDemografiPekerjaan()
   },
 
   methods: {
     ...mapActions(dashboardStore, [
       'fetchDashboard',
       'fetchRingkasanPenjualan',
-      'fetchRingkasanPembangunan'
+      'fetchRingkasanPembangunan',
+      'fetchDemografi'
     ]),
 
     async getDashboard () {
@@ -179,6 +213,101 @@ export default {
         this.initLineChart(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
+      }
+    },
+    
+    async getDemografiUsia () {
+      try {
+        const { data } = await this.fetchDemografi({ type: 'USIA'} )
+        this.initDemografiUsia(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initDemografiUsia (data) {
+      this.usiaChart = {
+        labels: data.labels,
+        datasets: [{
+          backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#0BB1C4'],
+          data: data.values
+        }]
+      }
+    },
+    
+    async getDemografiGaji () {
+      try {
+        const { data } = await this.fetchDemografi({ type: 'GAJI'} )
+        this.initDemografiGaji(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initDemografiGaji (data) {
+      this.gajiChart = {
+        labels: data.labels,
+        datasets: [{
+          backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16', '#0BB1C4', '#FF613A'],
+          data: data.values
+        }]
+      }
+    },
+    
+    async getDemografiKota () {
+      try {
+        const { data } = await this.fetchDemografi({ type: 'KOTA'} )
+        this.initDemografiKota(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initDemografiKota (data) {
+      this.kotaChart = {
+        labels: data.labels,
+        datasets: [{
+          backgroundColor: RINGKASAN_PENJUALAN_CHART_COLORS,
+          data: data.values
+        }]
+      }
+    },
+  
+    async getDemografiAlasan () {
+      try {
+        const { data } = await this.fetchDemografi({ type: 'ALASAN'} )
+        this.initDemografiAlasan(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initDemografiAlasan (data) {
+      this.alasanChart = {
+        labels: data.labels,
+        datasets: [{
+          backgroundColor: RINGKASAN_PENJUALAN_CHART_COLORS,
+          data: data.values
+        }]
+      }
+    },
+    
+    async getDemografiPekerjaan () {
+      try {
+        const { data } = await this.fetchDemografi({ type: 'PEKERJAAN'} )
+        this.initDemografiPekerjaan(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initDemografiPekerjaan (data) {
+      this.pekerjaanChart = {
+        labels: data.labels,
+        datasets: [{
+          backgroundColor: RINGKASAN_PENJUALAN_CHART_COLORS,
+          data: data.values
+        }]
       }
     },
 

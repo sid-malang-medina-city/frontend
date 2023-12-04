@@ -28,34 +28,6 @@
           >
         </div>
       </div>
-      <div class="dashboard__charts">
-        <div class="dashboard__bar-chart bar-chart">
-          <div class="bar-chart__header">
-            Penjualan dalam 6 Bulan Terakhir
-          </div>
-          <div class="bar-chart__content">
-            <Bar
-              :data="barChartData"
-              :options="barChartOptions"
-              id="bar-chart-id"
-            />
-          </div>
-        </div>
-        
-        <div class="dashboard__bar-chart bar-chart">
-          <div class="bar-chart__header">
-            Progress Pembangunan Unit Per 6 Bulan
-          </div>
-          <div class="bar-chart__content">
-            <Line
-              :data="lineChartData"
-              :options="lineChartOptions"
-              id="line-chart-id"
-            />
-          </div>
-        </div>
-      </div>
-
       <!-- <div class="dashboard__charts">
         <div class="dashboard__bar-chart bar-chart">
           <div class="bar-chart__header">
@@ -82,16 +54,120 @@
             />
           </div>
         </div>
+      </div> -->
 
-        <div class="dashboard__bar-chart bar-chart">
+      <div class="dashboard__filter-chart-title">
+        Filter Widget
+      </div>
+      <div class="dashboard__filter-chart-wrapper">
+        <el-select
+          v-model="visibleCharts"
+          placeholder="Filter Widget"
+          class="dashboard__filter-chart"
+          position="bottom-left"
+          multiple
+        >
+          <el-option
+            v-for="chart in charts"
+            :key="chart"
+            :label="chart"
+            :value="chart"
+          />
+        </el-select>
+      </div>
+      <div class="dashboard__charts">
+        <div
+          v-if="visibleCharts.includes('Penjualan 6 Bulan Terakhir')"
+          class="dashboard__bar-chart bar-chart"
+        >
           <div class="bar-chart__header">
-            Statistik Konsumen Berdasarkan Daerah
+            Penjualan dalam 6 Bulan Terakhir
           </div>
           <div class="bar-chart__content">
-            <Pie :data="usiaChart" :options="usiaChartOptions" />
+            <Bar
+              :data="barChartData"
+              :options="barChartOptions"
+              id="bar-chart-id"
+            />
           </div>
         </div>
-      </div> -->
+        
+        <div
+          v-if="visibleCharts.includes('Progress Pembangunan Unit')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Progress Pembangunan Unit Per 6 Bulan
+          </div>
+          <div class="bar-chart__content">
+            <Line
+              :data="lineChartData"
+              :options="lineChartOptions"
+              id="line-chart-id"
+            />
+          </div>
+        </div>
+
+        <div
+          v-if="visibleCharts.includes('Demografi Usia')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Usia
+          </div>
+          <div class="bar-chart__content">
+            <Pie :data="usiaChart" :options="pieChartOptions" />
+          </div>
+        </div>
+        
+        <div
+          v-if="visibleCharts.includes('Demografi Gaji')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Gaji
+          </div>
+          <div class="bar-chart__content">
+            <Pie :data="gajiChart" :options="pieChartOptions" />
+          </div>
+        </div>
+        
+        <div
+          v-if="visibleCharts.includes('Demografi Kota')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Kota
+          </div>
+          <div class="bar-chart__content">
+            <Pie :data="kotaChart" :options="pieChartOptions" />
+          </div>
+        </div>
+
+        <div
+          v-if="visibleCharts.includes('Demografi Alasan')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Alasan
+          </div>
+          <div class="bar-chart__content">
+            <Pie :data="alasanChart" :options="pieChartOptions" />
+          </div>
+        </div>
+
+        <div
+          v-if="visibleCharts.includes('Demografi Pekerjaan')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Pekerjaan
+          </div>
+          <div class="bar-chart__content">
+            <Pie :data="pekerjaanChart" :options="pieChartOptions" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,6 +178,21 @@
   @import "~/assets/scss/main.scss";
 
   .dashboard {
+    &__filter-chart-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    &__filter-chart-wrapper {
+      display: flex;
+      justify-content: end;
+    }
+    
+    &__filter-chart {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
     .general-info {
       display: flex;
       flex-wrap: wrap;
@@ -141,7 +232,6 @@
     }
 
     &__charts {
-      margin-top: 36px;
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;

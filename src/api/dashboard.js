@@ -10,5 +10,8 @@ export default {
   },
   fetchRingkasanPembangunan () {
     return api.getRequest(apiUrls.dashboard.ringkasanPembangunan)
+  },
+  fetchDemografi (params) {
+    return api.getRequest(apiUrls.dashboard.demografi, params)
   }
 }
