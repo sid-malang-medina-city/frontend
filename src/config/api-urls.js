@@ -13,7 +13,8 @@ export default {
   dashboard: {
     info: '/dashboard',
     ringkasanPenjualan: '/dashboard/ringkasan-penjualan',
-    ringkasanPembangunan: '/dashboard/ringkasan-pembangunan'
+    ringkasanPembangunan: '/dashboard/ringkasan-pembangunan',
+    demografi: '/dashboard/demografi-konsumen'
   },
   notification: {
     list: '/notifikasi',

@@ -11,6 +11,9 @@ export const dashboardStore = defineStore('DashboardStore', {
     },
     async fetchRingkasanPembangunan () {
       return api.fetchRingkasanPembangunan()
+    },
+    async fetchDemografi (params) {
+      return api.fetchDemografi(params)
     }
   }
 })
