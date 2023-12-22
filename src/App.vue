@@ -67,7 +67,7 @@
       left: 0;
       transition: .3s;
       background-color: #fff;
-      z-index: 6;
+      z-index: 1001;
       border-right: 1px solid #EAEAEA;
       box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
 

@@ -50,6 +50,11 @@ export default {
         page: 1,
         size: 10
       },
+      state: {
+        // 是否添加排序样式(Whether to add a sort style)
+        mark: false,
+        order: [],
+      },
       minPrice: 0,
       maxPrice: 0,
       priceRange: [0, 0],
@@ -138,9 +143,41 @@ export default {
       this.priceRange = [this.minPrice, this.maxPrice]
     },
 
+    handleHeaderClass ({ column }) {
+      console.log(column.multiOrder, column.property, this.state.mark)
+      column.order = this.state.mark ? column.multiOrder : null
+    },
+
     handlePageChange (page) {
       this.pagination.page = page
       this.getUnits()
+    },
+
+    handleSortChange ({ column, prop, order }) {
+      if (!column.multiOrder) {
+        column.multiOrder = 'ascending'
+      } else if (column.multiOrder === 'ascending') {
+        column.multiOrder = 'descending'
+      } else {
+        column.multiOrder = null
+      }
+      this.handleOrderChange(column)
+    },
+
+    handleOrderChange ({ multiOrder, property, index }) {
+      const tmp = multiOrder === 'descending' ? 'DESC' : 'ASC'
+      this.state.order = this.state.order.filter((item) => !item.includes(property))
+      // 删除为null的排序
+      // prop:["revenue ASC","day DESC"] ascending descending
+      this.state.order.push(`${property} ${tmp}`)
+      // 不排序则删除 (not sorted)
+      if (!multiOrder) {
+        this.state.order.pop()
+      }
+    
+      console.log(this.state.order, property)
+      this.state.mark = true
+      // getTableData()
     },
 
     handleFilterChange () {

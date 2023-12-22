@@ -98,7 +98,7 @@ export default {
         try {
           await this.editMarketer(this.id, this.formData)
           this.redirectTo('ManajemenMarketer')
-          this.showToast('Marketer baru berhasil ditambahkan!')
+          this.showToast('Marketer berhasil diubah!')
         } catch (e) {
           this.showErrorResponse(e)
         } finally {

@@ -5,11 +5,11 @@ export default {
   fetchDashboard () {
     return api.getRequest(apiUrls.dashboard.info)
   },
-  fetchRingkasanPenjualan () {
-    return api.getRequest(apiUrls.dashboard.ringkasanPenjualan)
+  fetchRingkasanPenjualan (params) {
+    return api.getRequest(apiUrls.dashboard.ringkasanPenjualan, params)
   },
-  fetchRingkasanPembangunan () {
-    return api.getRequest(apiUrls.dashboard.ringkasanPembangunan)
+  fetchRingkasanPembangunan (params) {
+    return api.getRequest(apiUrls.dashboard.ringkasanPembangunan, params)
   },
   fetchDemografi (params) {
     return api.getRequest(apiUrls.dashboard.demografi, params)

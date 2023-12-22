@@ -108,7 +108,7 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus tipe unit ini? Tindakan yang sudah dilakukan tidak dapat diubah.',
+          'Apakah anda yakin ingin menghapus tipe unit ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus tipe unit berarti akan menghapus semua unit-unit yang mempunyai tipe unit ini.',
           'Hapus Tipe Unit',
           {
             confirmButtonText: 'Hapus',

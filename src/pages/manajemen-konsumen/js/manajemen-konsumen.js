@@ -38,7 +38,7 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        status: this.$route.query.status || null
+        status_verifikasi: this.$route.query.status_verifikasi || null
       },
       pagination: {
         page: 1,
@@ -112,8 +112,8 @@ export default {
     },
 
     handleFilterChange () {
-      if (this.filters.status === '') {
-        this.filters.status = null
+      if (this.filters.status_verifikasi === '') {
+        this.filters.status_verifikasi = null
       }
 
       this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })

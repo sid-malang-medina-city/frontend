@@ -124,11 +124,13 @@
             prop="id"
             label="ID"
             min-width="100"
+            fixed="left"
           />
           <el-table-column
             prop="konsumen_nama"
             label="Nama Konsumen"
             min-width="220"
+            fixed="left"
           >
             <template #default="scope">
               <div
@@ -203,6 +205,15 @@
                 :color="paymentStatuses[scope.row.status_pembayaran].color"
                 :text="paymentStatuses[scope.row.status_pembayaran].name"
               />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="tanggal_booking"
+            label="Tanggal Booking"
+            min-width="150"
+          >
+            <template #default="scope">
+              {{ helpers.convertDateTimeZoneToDateString(scope.row.tanggal_booking) }}
             </template>
           </el-table-column>
           <el-table-column

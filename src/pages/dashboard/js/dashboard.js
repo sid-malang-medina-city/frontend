@@ -2,6 +2,8 @@ import { mapActions } from 'pinia'
 import { dashboardStore } from '~/store/dashboard'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
+import ToastHandler from '~/mixins/toast-handler'
+
 import { Bar, Line, Pie } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -55,7 +57,7 @@ const DASHBOARD_CARDS = {
     icon: coinsIcon,
     title: 'Unit Terjual',
     code: 'total_unit_terjual',
-    description: 'Jumlah unit terbooking'
+    description: 'Jumlah unit terjual'
   },
   total_unit_stb: {
     icon: trucksIcon,
@@ -98,6 +100,8 @@ const RINGKASAN_PENJUALAN_CHART_COLORS = [
 
 export default {
   name: 'dashboard',
+  
+  mixins: [ToastHandler],
 
   components: {
     PageHeader,
@@ -110,7 +114,57 @@ export default {
   data () {
     return {
       dashboardInfo: {},
+      filterPenjualan: '',
+      filterPembangunan: '',
+      visibleFilterModal: false,
       cards: DASHBOARD_CARDS,
+      checkAll: true,
+      isIndeterminate: true,
+      shortcuts: [
+        {
+          text: 'Tahun ini',
+          value: () => {
+            const end = new Date()
+            const start = new Date(new Date().getFullYear(), 0)
+            return [start, end]
+          },
+        },
+        {
+          text: 'Tahun lalu',
+          value: () => {
+            const end = new Date(new Date().getFullYear()-1, 11)
+            const start = new Date(new Date().getFullYear()-1, 0)
+            return [start, end]
+          },
+        },
+        {
+          text: 'Bulan ini',
+          value: () => {
+            const end = new Date()
+            const start = new Date()
+            return [start, end]
+          },
+        },
+        {
+          text: 'Bulan lalu',
+          value: () => {
+            const end = new Date()
+            const start = new Date()
+            start.setMonth(start.getMonth() - 1)
+            end.setMonth(end.getMonth() - 1)
+            return [start, end]
+          },
+        },
+        {
+          text: '6 bulan terakhir',
+          value: () => {
+            const end = new Date()
+            const start = new Date()
+            start.setMonth(start.getMonth() - 6)
+            return [start, end]
+          },
+        },
+      ],
       charts: [
         'Penjualan 6 Bulan Terakhir',
         'Progress Pembangunan Unit',
@@ -121,6 +175,15 @@ export default {
         'Demografi Alasan'
       ],
       visibleCharts: [
+        'Penjualan 6 Bulan Terakhir',
+        'Progress Pembangunan Unit',
+        'Demografi Usia',
+        'Demografi Kota',
+        'Demografi Gaji',
+        'Demografi Pekerjaan',
+        'Demografi Alasan'
+      ],
+      checkedCharts: [
         'Penjualan 6 Bulan Terakhir',
         'Progress Pembangunan Unit',
         'Demografi Usia',
@@ -171,6 +234,7 @@ export default {
   },
 
   created () {
+    this.initDefaultFilter()
     this.getDashboard()
     this.getRingkasanPenjualan()
     this.getRingkasanPembangunan()
@@ -198,18 +262,18 @@ export default {
       }
     },
 
-    async getRingkasanPenjualan () {
+    async getRingkasanPenjualan (params = this.getDefaultFilter()) {
       try {
-        const { data } = await this.fetchRingkasanPenjualan()
+        const { data } = await this.fetchRingkasanPenjualan(params)
         this.initBarChart(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
     
-    async getRingkasanPembangunan () {
+    async getRingkasanPembangunan (params = this.getDefaultFilter()) {
       try {
-        const { data } = await this.fetchRingkasanPembangunan()
+        const { data } = await this.fetchRingkasanPembangunan(params)
         this.initLineChart(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
@@ -256,7 +320,7 @@ export default {
     
     async getDemografiKota () {
       try {
-        const { data } = await this.fetchDemografi({ type: 'KOTA'} )
+        const { data } = await this.fetchDemografi({ type: 'WILAYAH' } )
         this.initDemografiKota(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
@@ -407,5 +471,67 @@ export default {
         }
       }
     },
+
+    initDefaultFilter () {
+      const defaultFilter = this.getDefaultFilter()
+      this.filterPenjualan = [
+        defaultFilter.start_month,
+        defaultFilter.end_month
+      ]
+      this.filterPembangunan = [
+        defaultFilter.start_month,
+        defaultFilter.end_month
+      ]
+    },
+
+    getDefaultFilter () {
+      const end = new Date()
+      const start = new Date(new Date().getFullYear(), 1)
+      return {
+        start_month: `${start.getFullYear()}-${(start.getMonth()).toString().padStart(2, '0')}`,
+        end_month: `${end.getFullYear()}-${(end.getMonth() + 1).toString().padStart(2, '0')}`
+      }
+    },
+
+    handleFilterPenjualanChange () {
+      this.getRingkasanPenjualan({
+        start_month: this.filterPenjualan[0],
+        end_month: this.filterPenjualan[1]
+      })
+    },
+
+    handleFilterPembangunanChange () {
+      this.getRingkasanPembangunan({
+        start_month: this.filterPembangunan[0],
+        end_month: this.filterPembangunan[1]
+      })
+    },
+
+    toggleFilterModal () {
+      this.checkedCharts = [...this.visibleCharts]
+      this.visibleFilterModal = !this.visibleFilterModal
+    },
+
+    handleCheckAllChange (val) {
+      this.checkedCharts = val ? this.charts : []
+      this.isIndeterminate = false
+    },
+    
+    handleCheckedChartsChange (value) {
+      console.log('value', value)
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.charts.length
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.charts.length
+    },
+
+    resetFilterChart () {
+      this.visibleCharts = [...this.charts]
+      this.toggleFilterModal()
+    },
+
+    updateFilterChart () {
+      this.visibleCharts = [...this.checkedCharts]
+      this.toggleFilterModal()
+    }
   }
 }

@@ -20,30 +20,6 @@
                 class="row__input"
               />
             </div>
-            <div class="rows__row row">
-              <div class="row__label">
-                Email
-              </div>
-              <el-input
-                v-model="formData.email"
-                :class="{ 'row__input--error': !!error.email }"
-                placeholder="Masukkan email"
-                class="row__input"
-              />
-              <div class="row__email">
-                <el-icon
-                  v-if="!!error.email"
-                  color="#CC4E2E"
-                >
-                  <WarningFilled />
-                </el-icon>
-                <div class="row__email-msg">
-                  {{ error.email }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Nomor Telepon
@@ -66,6 +42,8 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Alamat
@@ -81,58 +59,31 @@
                 show-word-limit
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
-            <div class="rows__row row">
-              <div class="row__label required">
-                Status
-              </div>
-              <el-select
-                v-model="formData.status"
-                :disabled="currentData.status === 'BOOKING'"
-                placeholder="Pilih status"
-                class="row__input"
-                @change="handleStatusChange"
-              >
-                <el-option
-                  v-for="status in statuses"
-                  :key="status.code"
-                  :label="status.name"
-                  :value="status.code"
-                />
-              </el-select>
-            </div>
-            <div
-              v-if="formData.status === 'BOOKING'"
-              class="rows__row"
-            >
+            <div class="rows__row">
               <div class="row__label">
                 Tanggal Booking
               </div>
               <el-date-picker
                 v-model="formData.dokumen_konsumen_tanggal_booking"
-                :disabled="currentData.status === 'BOOKING'"
                 type="date"
                 placeholder="Pilih tanggal booking"
                 format="DD-MM-YYYY"
                 value-format="YYYY-MM-DD"
                 class="row__input"
+                disabled
               />
             </div>
           </div>
-          <div
-            v-if="formData.status === 'BOOKING'"
-            class="input-section__rows rows"
-          >
+          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Marketer
               </div>
               <el-select
                 v-model="formData.marketer_id"
-                :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih marketer"
                 class="row__input"
+                disabled
               >
                 <el-option
                   v-for="marketer in marketers"
@@ -148,19 +99,11 @@
               </div>
               <el-select
                 v-model="formData.unit_id"
-                :disabled="currentData.status === 'BOOKING'"
                 placeholder="Pilih unit"
                 class="row__input"
+                disabled
               >
                 <el-option
-                  v-if="currentData.status === 'PROSPECT'"
-                  v-for="unit in units"
-                  :key="unit.id"
-                  :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
-                  :value="unit.id"
-                />
-                <el-option
-                  v-else
                   :label="`${currentData.unit_cluster_nama} - ${currentData.unit_nomor_kavling}`"
                   :value="currentData.dokumen_konsumen_unit_id"
                 />

@@ -108,7 +108,7 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus cluster ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus cluster berarti menghilangkan progress data dan akses mereka',
+          'Apakah anda yakin ingin menghapus cluster ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus cluster berarti akan menghapus semua unit-unit yang berada di cluster ini.',
           'Hapus Cluster',
           {
             confirmButtonText: 'Hapus',

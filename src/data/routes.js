@@ -51,6 +51,11 @@ const KeuanganLaporanInvoiceMarketing = defineAsyncComponent(() => import(/* web
 const KeuanganManajemenDokumenKonsumen = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-manajemen-dokumen-konsumen" */ '~/pages/keuangan/ManajemenDokumenKonsumen.vue'))
 const KeuanganManajemenDokumenKonsumenDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-manajemen-dokumen-konsumen-detail" */ '~/pages/keuangan/ManajemenDokumenKonsumenDetail.vue'))
 const KeuanganManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-keuangan-manajemen-dokumen-konsumen-edit" */ '~/pages/keuangan/edit/ManajemenDokumenKonsumenEdit.vue'))
+const ManajemenVendor = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor" */ '~/pages/teknik/manajemen-vendor/ManajemenVendor.vue'))
+const ManajemenVendorCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor-create" */ '~/pages/teknik/manajemen-vendor/create/ManajemenVendorCreate.vue'))
+const ManajemenVendorEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor-edit" */ '~/pages/teknik/manajemen-vendor/edit/ManajemenVendorEdit.vue'))
+const ManajemenTemplateSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk" */ '~/pages/teknik/manajemen-template-spk/ManajemenTemplateSPK.vue'))
+const ManajemenTemplateSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk-create" */ '~/pages/teknik/manajemen-template-spk/create/ManajemenTemplateSPKCreate.vue'))
 
 export default [
   {
@@ -563,6 +568,56 @@ export default [
     meta: {
       title: 'Laporan Invoice Marketing',
       action: 'LIST_LAPORAN_MARKETING_INVOICE',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-vendor',
+    name: 'ManajemenVendor',
+    component: ManajemenVendor,
+    meta: {
+      title: 'Manajemen Vendor',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-vendor/create',
+    name: 'ManajemenVendorCreate',
+    component: ManajemenVendorCreate,
+    meta: {
+      title: 'Manajemen Vendor Create',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-vendor/edit/:id',
+    name: 'ManajemenVendorEdit',
+    component: ManajemenVendorEdit,
+    meta: {
+      title: 'Manajemen Vendor Edit',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-template-spk',
+    name: 'ManajemenTemplateSPK',
+    component: ManajemenTemplateSPK,
+    meta: {
+      title: 'Manajemen Template SPK',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-template-spk/create',
+    name: 'ManajemenTemplateSPKCreate',
+    component: ManajemenTemplateSPKCreate,
+    meta: {
+      title: 'Manajemen Template SPK Create',
+      action: 'LIST_MARKETER',
       requireLogin: true
     }
   },

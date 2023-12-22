@@ -7,6 +7,8 @@ import ToastHandler from '~/mixins/toast-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
 import AclHandler from '~/mixins/acl-handler'
 
+import helpers from '~/utils/helpers'
+
 import {
   STATUS_VERIFIKASI,
   STATUS_PEMBAYARAN
@@ -69,7 +71,8 @@ export default {
         edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
       },
-      imagesIcon
+      imagesIcon,
+      helpers
     }
   },
 

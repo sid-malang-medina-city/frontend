@@ -1,6 +1,10 @@
 <template>
   <div class="dashboard">
-    <page-header title="Dashboard" />
+    <page-header
+      title="Dashboard"
+      filter
+      @filter-click="toggleFilterModal"
+    />
     <div class="dashboard__wrapper page-content">
       <div class="dashboard__general-info general-info">
         <div
@@ -56,7 +60,7 @@
         </div>
       </div> -->
 
-      <div class="dashboard__filter-chart-title">
+      <!-- <div class="dashboard__filter-chart-title">
         Filter Widget
       </div>
       <div class="dashboard__filter-chart-wrapper">
@@ -74,14 +78,32 @@
             :value="chart"
           />
         </el-select>
-      </div>
+      </div> -->
       <div class="dashboard__charts">
         <div
           v-if="visibleCharts.includes('Penjualan 6 Bulan Terakhir')"
           class="dashboard__bar-chart bar-chart"
         >
           <div class="bar-chart__header">
-            Penjualan dalam 6 Bulan Terakhir
+            <div class="bar-chart__header-text">
+              Penjualan Unit
+            </div>
+            <div class="bar-chart__filter-wrapper">
+              <el-date-picker
+                v-model="filterPenjualan"
+                :clearable="false"
+                :shortcuts="shortcuts"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="Start month"
+                end-placeholder="End month"
+                format="MM-YYYY"
+                value-format="YYYY-MM"
+                class="bar-chart__filter"
+                unlink-panels
+                @change="handleFilterPenjualanChange"
+              />
+            </div>          
           </div>
           <div class="bar-chart__content">
             <Bar
@@ -97,7 +119,25 @@
           class="dashboard__bar-chart bar-chart"
         >
           <div class="bar-chart__header">
-            Progress Pembangunan Unit Per 6 Bulan
+            <div class="bar-chart__header-text">
+              Progress Pembangunan Unit
+            </div>
+            <div class="bar-chart__filter-wrapper">
+              <el-date-picker
+                v-model="filterPembangunan"
+                :clearable="false"
+                :shortcuts="shortcuts"
+                type="monthrange"
+                range-separator="-"
+                start-placeholder="Start month"
+                end-placeholder="End month"
+                format="MM-YYYY"
+                value-format="YYYY-MM"
+                class="bar-chart__filter"
+                unlink-panels
+                @change="handleFilterPembangunanChange"
+              />
+            </div>
           </div>
           <div class="bar-chart__content">
             <Line
@@ -137,7 +177,7 @@
           class="dashboard__bar-chart bar-chart"
         >
           <div class="bar-chart__header">
-            Demografi Kota
+            Demografi Wilayah
           </div>
           <div class="bar-chart__content">
             <Pie :data="kotaChart" :options="pieChartOptions" />
@@ -169,6 +209,48 @@
         </div>
       </div>
     </div>
+
+    <el-dialog
+      v-model="visibleFilterModal"
+      title="Filter Bagan"
+      width="20%"
+    >
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="resetFilterChart">
+            Reset
+          </el-button>
+          <el-button
+            type="primary"
+            @click="updateFilterChart"
+          >
+            Simpan
+          </el-button>
+        </span>
+      </template>
+      <el-checkbox
+        v-model="checkAll"
+        :indeterminate="isIndeterminate"
+        class="dashboard__check-all"
+        @change="handleCheckAllChange"
+      >
+        Pilih semua
+      </el-checkbox
+      >
+      <el-checkbox-group
+        v-model="checkedCharts"
+        class="dashboard__check-group"
+        @change="handleCheckedChartsChange"
+      >
+        <el-checkbox
+          v-for="chart in charts"
+          :key="chart"
+          :label="chart"
+        >
+          {{ chart }}
+        </el-checkbox>
+      </el-checkbox-group>
+    </el-dialog>
   </div>
 </template>
 
@@ -236,7 +318,6 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 20px;
-      
     }
 
     .bar-chart {
@@ -247,6 +328,9 @@
       border: 1px solid #EAEAEA;
     
       &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 14px;
         color: #434343;
         font-size: 20px;
@@ -259,6 +343,25 @@
         display: flex;
         justify-content: center;
       }
+
+      &__filter-wrapper {
+        width: 180px;
+      }
+    }
+
+    &__check-all {
+      width: 100%;
+      border-bottom: 1px solid #E9E9E9;
+    }
+
+    &__check-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    :deep(.el-range-editor) {
+      box-sizing: border-box;
+      width: 180px;
     }
   }
 </style>
