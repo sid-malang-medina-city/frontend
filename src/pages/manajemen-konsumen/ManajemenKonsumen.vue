@@ -63,17 +63,17 @@
 
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Status
+              Status Verifikasi
             </div>
             <el-select
-              v-model="filters.status"
-              placeholder="Pilih status konsumen"
+              v-model="filters.status_verifikasi"
+              placeholder="Pilih status verifikasi"
               class="filters__input"
               clearable
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="status in statuses"
+                v-for="status in verificationStatuses"
                 :key="status.code"
                 :label="status.name"
                 :value="status.code"
@@ -103,20 +103,14 @@
             min-width="250"
           />
           <el-table-column
-            prop="status"
-            label="Status"
+            prop="status_verifikasi"
+            label="Status Verifikasi"
             min-width="210"
           >
             <template #default="scope">
               <status-badge
-                v-if="scope.row.status === 'BOOKING'"
                 :color="verificationStatuses[scope.row.status_verifikasi].color"
                 :text="verificationStatuses[scope.row.status_verifikasi].name"
-              />
-              <status-badge
-                v-else
-                :color="statuses[scope.row.status].color"
-                :text="statuses[scope.row.status].name"
               />
             </template>
           </el-table-column>
@@ -127,7 +121,6 @@
           >
             <template #default="scope">
               <status-badge
-                v-if="scope.row.status === 'BOOKING'"
                 :color="paymentStatuses[scope.row.status_pembayaran].color"
                 :text="paymentStatuses[scope.row.status_pembayaran].name"
               />
@@ -256,6 +249,7 @@
       border: 1px solid #E3EADC;
       background: #F6F8F4;
       display: flex;
+      flex-wrap: wrap;
       gap: 24px;
       margin-top: 16px;
 

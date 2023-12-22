@@ -67,6 +67,8 @@ export default {
         dokumen_pendukung_file_delete: '',
         provinsi_id: '',
         kota_id: '',
+        provinsi: '',
+        kota: '',
         pekerjaan_id: '',
         gaji_per_bulan: '',
         alasan_ids: []
@@ -305,6 +307,10 @@ export default {
       this.verificationStatuses = STATUS_VERIFIKASI_EDIT[this.formData.status_verifikasi]
       this.paymentBookingStatuses = STATUS_PEMBAYARAN_EDIT[this.formData.status_pembayaran]
       this.paymentFailedBookingStatuses = STATUS_PEMBAYARAN_EDIT_FAILED_BOOKING[this.formData.status_pembayaran]
+    },
+
+    handleSelectProvince (province) {
+      this.formData.provinsi = province.name
     },
 
     goToManajemenDokumenKonsumen () {

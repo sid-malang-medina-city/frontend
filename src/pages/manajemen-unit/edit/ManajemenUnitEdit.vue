@@ -434,6 +434,40 @@
                 class="row__input"
               />
             </div>
+            <div
+              v-if="currentStatus === 'TERJUAL' || currentStatus === 'IN_PROGRESS_PEMBANGUNAN' || currentStatus === 'STB'"
+              class="rows__row"
+            >
+              <div class="row__label">
+                Tanggal Bangun
+              </div>
+              <el-date-picker
+                v-model="formData.in_progress_pembangunan_time"
+                type="date"
+                placeholder="Pilih tanggal bangun"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div
+            v-if="currentStatus === 'TERJUAL' || currentStatus === 'IN_PROGRESS_PEMBANGUNAN' || currentStatus === 'STB'"
+            class="input-section__rows rows"
+          >
+            <div class="rows__row">
+              <div class="row__label">
+                Tanggal Terjual
+              </div>
+              <el-date-picker
+                v-model="formData.terjual_time"
+                type="date"
+                placeholder="Pilih tanggal terjual"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
           </div>
         </div>
         <div class="manajemen-unit-edit__submit-section">

@@ -70,7 +70,10 @@
                 :route="{ name: subMenu.routeName }"
                 :index="subMenu.routeName"
               >
-                {{ subMenu.label }}
+                <div class="navigation__sub-menu">
+                  {{ subMenu.label }}
+                </div>
+                <!-- {{ subMenu.label }} -->
               </el-menu-item>
             </el-sub-menu>
 
@@ -377,6 +380,12 @@
       &.active {
         position: static;
       }
+    }
+
+    &__sub-menu {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     &__main-menu-title {

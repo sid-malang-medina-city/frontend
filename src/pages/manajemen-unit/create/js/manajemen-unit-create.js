@@ -18,8 +18,11 @@ import helpers from '~/utils/helpers'
 import {
   Plus,
   Delete,
-  View
+  View,
+  WarningFilled
 } from '@element-plus/icons-vue'
+
+const NOMOR_KAVLING_REGEX = /^[A-Z]\d+$/
 
 export default {
   name: 'manajemen-unit-create',
@@ -30,12 +33,14 @@ export default {
     PageHeader,
     Plus,
     Delete,
-    View
+    View,
+    WarningFilled
   },
 
   data () {
     return {
       formData: {
+        cluster_id: '',
         nomor_kavling: '',
         harga: '',
         tipe_id: '',
@@ -51,6 +56,7 @@ export default {
         foto_3_file: null
       },
       error: {
+        cluster_id: '',
         nomor_kavling: '',
         harga: '',
         tipe_id: '',
@@ -99,7 +105,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['nomor_kavling', 'harga', 'tipe_id']
+      const requiredFields = ['cluster_id', 'nomor_kavling', 'harga', 'tipe_id']
       return requiredFields.every(field => !!this.formData[field])
     },
 
@@ -294,17 +300,29 @@ export default {
       this.visibleImageActionIcons[index] = false
     },
 
-    async submit () {
-      this.visibleLoading = true
-      try {
-        await this.createUnit(this.formData)
-        this.redirectTo('ManajemenUnit')
-        this.showToast('Unit baru berhasil ditambahkan!')
-      } catch (e) {
-        this.showErrorResponse(e)
-      } finally {
-        this.visibleLoading = false
+    validateNomorKavling () {
+      if (!NOMOR_KAVLING_REGEX.test(this.formData.nomor_kavling)) {
+        this.error.nomor_kavling = 'Gunakan format yang sesuai (contoh: A1, B12, C123)'
+        return false
       }
-    }
+
+      this.error.nomor_kavling = ''
+      return true
+    },
+
+    async submit () {
+      if (this.validateNomorKavling()) {
+        this.visibleLoading = true
+        try {
+          await this.createUnit(this.formData)
+          this.redirectTo('ManajemenUnit')
+          this.showToast('Unit baru berhasil ditambahkan!')
+        } catch (e) {
+          this.showErrorResponse(e)
+        } finally {
+          this.visibleLoading = false
+        }
+      }
+      }
   }
 }

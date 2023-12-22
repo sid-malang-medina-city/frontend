@@ -72,5 +72,15 @@ export default {
       province: '/wilayah/provinsi',
       city: '/wilayah/kota',
     }
+  },
+  teknik: {
+    vendor: {
+      list: '/teknik/vendor',
+      detail: id => `/teknik/vendor/${encodeURIComponent(id)}`
+    },
+    templateSPK: {
+      list: '/teknik/template-spk',
+      detail: id => `/teknik/template-spk/${encodeURIComponent(id)}`
+    }
   }
 }

@@ -59,28 +59,6 @@
                 show-word-limit
               />
             </div>
-            <div class="rows__row row">
-              <div class="row__label required">
-                Status
-              </div>
-              <el-select
-                v-model="formData.status"
-                placeholder="Pilih status"
-                class="row__input"
-              >
-                <el-option
-                  v-for="status in statuses"
-                  :key="status.code"
-                  :label="status.nama"
-                  :value="status.code"
-                />
-              </el-select>
-            </div>
-          </div>
-          <div
-            v-if="formData.status === 'BOOKING'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row">
               <div class="row__label">
                 Tanggal Booking
@@ -94,14 +72,22 @@
                 class="row__input"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Marketer
               </div>
               <el-select
                 v-model="formData.marketer_id"
+                :remote-method="remoteMethod"
+                :loading="loading"
                 placeholder="Pilih marketer"
                 class="row__input"
+                remote-show-suffix
+                filterable
+                remote
+                reserve-keyword
               >
                 <el-option
                   v-for="marketer in marketers"
@@ -111,19 +97,20 @@
                 />
               </el-select>
             </div>
-          </div>
-          <div
-            v-if="formData.status === 'BOOKING'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row">
               <div class="row__label required">
                 Unit
               </div>
               <el-select
                 v-model="formData.unit_id"
+                :remote-method="remoteMethod"
+                :loading="loading"
                 placeholder="Pilih unit"
                 class="row__input"
+                remote-show-suffix
+                filterable
+                remote
+                reserve-keyword
               >
                 <el-option
                   v-for="unit in units"
@@ -138,6 +125,7 @@
         <div class="manajemen-konsumen-create__submit-section">
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
+            :loading="visibleLoading"
             type="primary"
             class="manajemen-konsumen-create__submit-btn"
             @click="submit"

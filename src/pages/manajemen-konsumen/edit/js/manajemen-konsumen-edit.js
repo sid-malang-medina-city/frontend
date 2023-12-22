@@ -121,16 +121,6 @@ export default {
       this.redirectTo('ManajemenKonsumen')
     },
 
-    handleStatusChange (status) {
-      if (this.currentData.status === 'PROSPECT' && status == 'BOOKING') {
-        const currentDate = new Date()
-        this.formData.dokumen_konsumen_tanggal_booking = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
-        return
-      }
-
-      this.formData.dokumen_konsumen_tanggal_booking = ''
-    },
-
     validateEmail () {
       if (!this.formData.email) {
         return true
@@ -168,19 +158,6 @@ export default {
           this.visibleLoading = false
         }
       }
-    }
-  },
-
-  watch: {
-    'formData.status' (value) {
-      if (value === 'PROSPECT') {
-        this.formData.dokumen_konsumen_tanggal_booking = ''
-        this.formData.marketer_id = ''
-        this.formData.unit_id = ''
-        this.requiredFields = ['nama', 'nomor_telepon', 'alamat', 'status']
-        return
-      }
-      this.requiredFields = ['nama', 'nomor_telepon', 'alamat', 'marketer_id', 'unit_id', 'status']
     }
   }
 }

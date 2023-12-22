@@ -254,9 +254,21 @@
               </div>
               <el-input
                 v-model="formData.nomor_kavling"
+                :class="{ 'row__input--error': !!error.nomor_kavling }"
                 placeholder="Masukkan nomor kavling"
                 class="row__input"
               />
+              <div class="row__email">
+                <el-icon
+                  v-if="!!error.nomor_kavling"
+                  color="#CC4E2E"
+                >
+                  <WarningFilled />
+                </el-icon>
+                <div class="row__email-msg">
+                  {{ error.nomor_kavling }}
+                </div>
+              </div>
             </div>
           </div>
           <div class="input-section__rows rows">
@@ -407,6 +419,34 @@
                 v-model="formData.jadwal_bangun"
                 type="date"
                 placeholder="Pilih jadwal bangun"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Tanggal Bangun
+              </div>
+              <el-date-picker
+                v-model="formData.in_progress_pembangunan_time"
+                type="date"
+                placeholder="Pilih tanggal bangun"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Tanggal Terjual
+              </div>
+              <el-date-picker
+                v-model="formData.terjual_time"
+                type="date"
+                placeholder="Pilih tanggal terjual"
                 format="DD-MM-YYYY"
                 value-format="YYYY-MM-DD"
                 class="row__input"

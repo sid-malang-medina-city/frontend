@@ -3,12 +3,7 @@ export const STATUS_KONSUMEN = {
     name: 'Booking',
     code: 'BOOKING',
     color: '#1DC4F9'
-  },
-  PROSPECT: {
-    name: 'Prospect',
-    code: 'PROSPECT',
-    color: '#F91DBB'
-  },
+  }
 }
 
 export const STATUS_VERIFIKASI = {

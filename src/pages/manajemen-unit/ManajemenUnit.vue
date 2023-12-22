@@ -121,20 +121,24 @@
         <el-table
           v-loading="visibleLoadingTable"
           :data="units"
+          :header-cell-class-name="handleHeaderClass"
           class="manajemen-unit__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
           @row-click="goToDetailPage"
+          @sort-change="handleSortChange"
         >
           <el-table-column
             prop="cluster.nama"
             label="Cluster"
             min-width="220"
+            sortable
           />
           <el-table-column
             prop="nomor_kavling"
             label="Nomor Kavling"
             min-width="220"
+            sortable
           />
           <el-table-column
             prop="status"

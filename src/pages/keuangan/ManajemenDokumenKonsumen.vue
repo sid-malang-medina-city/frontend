@@ -206,6 +206,15 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="tanggal_booking"
+            label="Tanggal Booking"
+            min-width="150"
+          >
+            <template #default="scope">
+              {{ helpers.convertDateTimeZoneToDateString(scope.row.tanggal_booking) }}
+            </template>
+          </el-table-column>
+          <el-table-column
             v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="e_ktp_access_url"
             label="e-KTP"

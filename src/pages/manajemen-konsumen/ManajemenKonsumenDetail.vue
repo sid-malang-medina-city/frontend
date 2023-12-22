@@ -58,23 +58,13 @@
               </div>
               <div class="header-section__value">
                 <status-badge
-                  v-if="konsumen.status === 'BOOKING'"
                   :text="verificationStatuses[konsumen.status_verifikasi] ? verificationStatuses[konsumen.status_verifikasi].name: ''"
                   :color="verificationStatuses[konsumen.status_verifikasi] ? verificationStatuses[konsumen.status_verifikasi].color: ''"
                   type="detail"
                 />
-                <status-badge
-                  v-else
-                  :text="statuses[konsumen.status] ? statuses[konsumen.status].name: ''"
-                  :color="statuses[konsumen.status] ? statuses[konsumen.status].color: ''"
-                  type="detail"
-                />
               </div>
             </div>
-            <div
-              v-if="konsumen.status === 'BOOKING'"
-              class="content__header-section header-section"
-            >
+            <div class="content__header-section header-section">
               <div class="header-section__label">
                 Status Pembayaran
               </div>
@@ -116,10 +106,7 @@
                   {{ helpers.convertEmptyValueWithDash(konsumen.alamat) }}
                 </div>
               </div>
-              <div
-                v-if="konsumen.status === 'BOOKING'"
-                class="content__data"
-              >
+              <div class="content__data">
                 <div class="content__label">
                   Tanggal Booking
                 </div>
@@ -129,10 +116,7 @@
               </div>
             </div>
             <div class="content__row">
-              <div
-                v-if="konsumen.status === 'BOOKING'"
-                class="content__data"
-              >
+              <div class="content__data">
                 <div class="content__label">
                   Marketer
                 </div>
@@ -154,10 +138,7 @@
                   {{ helpers.convertEmptyValueWithDash(konsumen.marketer_nama) }}
                 </div>
               </div>
-              <div
-                v-if="konsumen.status === 'BOOKING'"
-                class="content__data"
-              >
+              <div class="content__data">
                 <div class="content__label">
                   Unit
                 </div>
@@ -172,10 +153,7 @@
               </div>
             </div>
             <div class="content__row">
-              <div
-                v-if="konsumen.status === 'BOOKING'"
-                class="content__data"
-              >
+              <div class="content__data">
                 <div class="content__label">
                   Dokumen Konsumen
                 </div>

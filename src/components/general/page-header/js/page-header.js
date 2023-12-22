@@ -1,4 +1,5 @@
 import { Back } from '@element-plus/icons-vue'
+import gearIcon from '/gear.svg'
 
 export default {
   name: 'page-header',
@@ -14,6 +15,11 @@ export default {
       type: Boolean,
       required: false,
       default: false
+    },
+    filter: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
 
@@ -21,9 +27,18 @@ export default {
     Back
   },
 
+  data () {
+    return {
+      gearIcon
+    }
+  },
+
   methods: {
     back () {
       this.$emit('back')
+    },
+    handleFilterClick () {
+      this.$emit('filter-click')
     }
   }
 }

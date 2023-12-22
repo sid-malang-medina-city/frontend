@@ -67,6 +67,7 @@
                   :key="province.id"
                   :label="province.name"
                   :value="province.id"
+                  @click="handleSelectProvince(province)"
                 />
               </el-select>
             </div>
