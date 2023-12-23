@@ -104,6 +104,7 @@
                 placeholder="Pilih pekerjaan"
                 class="row__input"
                 disabled
+                filterable
               >
                 <el-option
                   v-for="pekerjaan in pekerjaans"
