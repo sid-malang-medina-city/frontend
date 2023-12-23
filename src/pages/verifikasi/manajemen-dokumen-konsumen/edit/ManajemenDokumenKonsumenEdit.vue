@@ -101,6 +101,7 @@
                 v-model="formData.pekerjaan_id"
                 placeholder="Pilih pekerjaan"
                 class="row__input"
+                filterable
               >
                 <el-option
                   v-for="pekerjaan in pekerjaans"
