@@ -400,6 +400,7 @@
     &__logout-btn-wrapper {
       padding: 0 20px;
       margin-top: 32px;
+      margin-bottom: 60px;
 
       &--collapse {
         padding: 8px 0;
