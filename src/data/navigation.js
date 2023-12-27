@@ -129,61 +129,61 @@ export const NAVIGATION_ITEMS = [
       }
     ]
   },
-  // {
-  //   label: 'Teknik',
-  //   iconPath: teknikIcon,
-  //   type: 'root',
-  //   path: '',
-  //   routeName: '',
-  //   labelIndex: 5,
-  //   children: [
-  //     {
-  //       label: 'Manajemen Vendor',
-  //       path: '/teknik/manajemen-vendor',
-  //       routeName: 'ManajemenVendor',
-  //       menuCode: 'LIST_DOKUMEN_KONSUMEN',
-  //       labelIndex: 1,
-  //       childRoutes: [],
-  //       iconPath: null
-  //     },
-  //     {
-  //       label: 'Manajemen Template SPK',
-  //       path: '/teknik/manajemen-template-spk',
-  //       routeName: 'ManajemenTemplateSPK',
-  //       menuCode: 'LIST_DOKUMEN_KONSUMEN',
-  //       labelIndex: 2,
-  //       childRoutes: [],
-  //       iconPath: null
-  //     },
-  //     {
-  //       label: 'Manajemen SPK',
-  //       path: '/teknik/manajemen-spk',
-  //       routeName: 'ManajemenSPK',
-  //       menuCode: 'LIST_DOKUMEN_KONSUMEN',
-  //       labelIndex: 3,
-  //       childRoutes: [],
-  //       iconPath: null
-  //     },
-  //     {
-  //       label: 'Manajemen Laporan Progress Pembangunan',
-  //       path: '/teknik/manajemen-laporan-progress-pembangunan',
-  //       routeName: 'ManajemenLaporanProgressPembangunan',
-  //       menuCode: 'LIST_DOKUMEN_KONSUMEN',
-  //       labelIndex: 4,
-  //       childRoutes: [],
-  //       iconPath: null
-  //     },
-  //     {
-  //       label: 'Laporan Invoice Progress Pembangunan',
-  //       path: '/teknik/laporan-invoice-progress-pembangunan',
-  //       routeName: 'LaporanInvoiceProgressPembangunan',
-  //       menuCode: 'LIST_DOKUMEN_KONSUMEN',
-  //       labelIndex: 5,
-  //       childRoutes: [],
-  //       iconPath: null
-  //     }
-  //   ]
-  // }
+  {
+    label: 'Teknik',
+    iconPath: teknikIcon,
+    type: 'root',
+    path: '',
+    routeName: '',
+    labelIndex: 5,
+    children: [
+      {
+        label: 'Manajemen Vendor',
+        path: '/teknik/manajemen-vendor',
+        routeName: 'ManajemenVendor',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        labelIndex: 1,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen Template SPK',
+        path: '/teknik/manajemen-template-spk',
+        routeName: 'ManajemenTemplateSPK',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        labelIndex: 2,
+        childRoutes: [],
+        iconPath: null
+      },
+      // {
+      //   label: 'Manajemen SPK',
+      //   path: '/teknik/manajemen-spk',
+      //   routeName: 'ManajemenSPK',
+      //   menuCode: 'LIST_DOKUMEN_KONSUMEN',
+      //   labelIndex: 3,
+      //   childRoutes: [],
+      //   iconPath: null
+      // },
+      // {
+      //   label: 'Manajemen Laporan Progress Pembangunan',
+      //   path: '/teknik/manajemen-laporan-progress-pembangunan',
+      //   routeName: 'ManajemenLaporanProgressPembangunan',
+      //   menuCode: 'LIST_DOKUMEN_KONSUMEN',
+      //   labelIndex: 4,
+      //   childRoutes: [],
+      //   iconPath: null
+      // },
+      // {
+      //   label: 'Laporan Invoice Progress Pembangunan',
+      //   path: '/teknik/laporan-invoice-progress-pembangunan',
+      //   routeName: 'LaporanInvoiceProgressPembangunan',
+      //   menuCode: 'LIST_DOKUMEN_KONSUMEN',
+      //   labelIndex: 5,
+      //   childRoutes: [],
+      //   iconPath: null
+      // }
+    ]
+  }
 ]
 
 export const ADMIN_NAVIGATION_ITEMS = [

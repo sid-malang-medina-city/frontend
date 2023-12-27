@@ -93,7 +93,7 @@
                 v-model="filterPenjualan"
                 :clearable="false"
                 :shortcuts="shortcuts"
-                type="daterange"
+                type="monthrange"
                 range-separator="-"
                 start-placeholder="Start month"
                 end-placeholder="End month"
