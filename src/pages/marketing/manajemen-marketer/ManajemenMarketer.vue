@@ -141,21 +141,21 @@
                   text
                   @click.stop="goToEditPage(scope.row.id)"
                 />
-                <!-- <el-button
+                <el-button
                   v-if="hasAccess('DELETE_MARKETER')"
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"
                   text
                   @click.stop="openModalConfirmation(scope.row.id)"
-                /> -->
+                />
               </div>
             </template>
           </el-table-column>
         </el-table>
         <div class="manajemen-marketer__footer">
           <div class="manajemen-marketer__total-marketers font-grey">
-            Showing {{ totalShownMarketers }} of {{ totalMarketers }} marketer
+            Menampilkan {{ totalShownMarketers }} dari {{ totalMarketers }} marketer
           </div>
           <div class="manajemen-marketer__pagination">
             <el-pagination

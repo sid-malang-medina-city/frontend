@@ -59,6 +59,21 @@ export default {
     return output
   },
 
+  convertDateToAge (date) {
+    if (!date) {
+      return
+    }
+
+    let today = new Date()
+    let birthDate = new Date(date)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    let monthDifference = today.getMonth() - birthDate.getMonth()
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+        age--
+    }
+    return `(${age} tahun)`
+  },
+
   fileToByteArray (file) {
     return new Promise((resolve, reject) => {
       try {

@@ -94,7 +94,7 @@
         </el-table>
         <div class="manajemen-tipe-unit__footer">
           <div class="manajemen-tipe-unit__total-tipe-units font-grey">
-            Showing {{ totalShownTipeUnits }} of {{ totalTipeUnits }} tipe unit
+            Menampilkan {{ totalShownTipeUnits }} dari {{ totalTipeUnits }} tipe unit
           </div>
           <div class="manajemen-tipe-unit__pagination">
             <el-pagination

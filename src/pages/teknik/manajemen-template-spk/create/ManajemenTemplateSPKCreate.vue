@@ -87,6 +87,7 @@
               prop="nama"
               label="Nama Pekerjaan" 
               fixed="left"
+              width="500"
             >
               <template #default="scope">
                 {{ scope.row.nama }}

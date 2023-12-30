@@ -61,6 +61,7 @@ export default {
         tanggal_ppjb: '',
         keterangan_deal: '',
         e_ktp_file_delete: '',
+        e_ktp_partner_file_delete: '',
         slip_gaji_file_delete: '',
         mutasi_tabungan_file_delete: '',
         surat_pernikahan_file_delete: '',
@@ -79,14 +80,85 @@ export default {
         nominal_diskon: '',
         tipe: '',
       },
-      uploadedDocument: {
-        file: null,
-        visible: false,
-        error: false,
-        message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+      uploadFields: [
+        {
+          accessUrl: 'e_ktp_access_url',
+          label: 'e-KTP'
+        },
+        {
+          accessUrl: 'e_ktp_partner_access_url',
+          label: 'e-KTP Pasangan'
+        },
+        {
+          accessUrl: 'slip_gaji_access_url',
+          label: 'Slip Gaji'
+        },
+        {
+          accessUrl: 'kartu_keluarga_access_url',
+          label: 'Kartu Keluarga'
+        },
+        {
+          accessUrl: 'mutasi_tabungan_access_url',
+          label: 'Mutasi Tabungan'
+        },
+        {
+          accessUrl: 'surat_pernikahan_access_url',
+          label: 'Surat Pernikahan'
+        },
+      ],
+      uploadedDocuments: {
+        e_ktp_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        },
+        e_ktp_partner_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        },
+        slip_gaji_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        },
+        kartu_keluarga_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        },
+        mutasi_tabungan_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        },
+        surat_pernikahan_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        },
+        dokumen_pendukung_access_url: {
+          file: null,
+          visible: false,
+          error: false,
+          message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
+        }
       },
       uploadedImages: {
         e_ktp_access_url: {
+          file: null,
+          url: '',
+          visible: false,
+          error: false,
+          message: 'Image must be in JPG and at least 800 x 800 pixels. Max. size: 2 MB.'
+        },
+        e_ktp_partner_access_url: {
           file: null,
           url: '',
           visible: false,
@@ -136,7 +208,7 @@ export default {
         kartu_keluarga_access_url: false,
         mutasi_tabungan_access_url: false,
         surat_pernikahan_access_url: false,
-        document_pendukung_file: false
+        dokumen_pendukung_access_url: false
       },
       verificationStatuses: {},
       paymentBookingStatuses: {},
@@ -288,13 +360,24 @@ export default {
       this.formData.provinsi_id = this.formData.provinsi ? this.formData.provinsi.id : ''
       this.formData.kota_id = this.formData.kota ? this.formData.kota.id : ''
       this.currentData = JSON.parse(JSON.stringify(data))
-      const imagesIdentifier = ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'surat_pernikahan_access_url']
-      imagesIdentifier.forEach(identifier => {
-        this.uploadedImages[identifier].visible = !!this.formData[identifier]
-        this.uploadedImages[identifier].url = !!this.formData[identifier] ? this.formData[identifier] : ''
+      const identifiers = [
+        { accessUrl: 'e_ktp_access_url', file: 'e_ktp' },
+        { accessUrl: 'e_ktp_partner_access_url', file: 'e_ktp_partner' },
+        { accessUrl: 'slip_gaji_access_url', file: 'slip_gaji' },
+        { accessUrl: 'kartu_keluarga_access_url', file: 'kartu_keluarga' },
+        { accessUrl: 'mutasi_tabungan_access_url', file: 'mutasi_tabungan' },
+        { accessUrl: 'surat_pernikahan_access_url', file: 'surat_pernikahan' },
+        { accessUrl: 'dokumen_pendukung_access_url', file: 'dokumen_pendukung' },
+      ]
+      identifiers.forEach(identifier => {
+        if (this.formData[identifier.accessUrl] && this.formData[identifier.file].substring(this.formData[identifier.file].length-4, this.formData[identifier.file].length) === '.pdf') {
+          this.uploadedDocuments[identifier.accessUrl].visible = !!this.formData[identifier.accessUrl]
+          this.uploadedDocuments[identifier.accessUrl].file = !!this.formData[identifier.accessUrl] ? this.formData[identifier.accessUrl] : ''  
+        } else {
+          this.uploadedImages[identifier.accessUrl].visible = !!this.formData[identifier.accessUrl]
+          this.uploadedImages[identifier.accessUrl].url = !!this.formData[identifier.accessUrl] ? this.formData[identifier.accessUrl] : ''
+        }
       })
-      this.uploadedDocument.visible = !!this.formData['dokumen_pendukung_access_url']
-      this.uploadedDocument.file = !!this.formData['dokumen_pendukung_access_url'] ? this.formData['dokumen_pendukung_access_url'] : ''
       
       if (this.formData.provinsi_id) {
         this.getCities()
@@ -317,38 +400,32 @@ export default {
       this.redirectTo('KeuanganManajemenDokumenKonsumen')
     },
 
-    openDocumentInNewTab () {
-      window.open(this.uploadedDocument.file, '_blank');
+    openDocumentInNewTab (identifier) {
+      window.open(this.uploadedDocuments[identifier].file, '_blank');
     },
 
-    uploadDocument (file) {
-      this.formData.dokumen_pendukung_file = file
+    uploadDocument (file, identifier) {
+      this.formData[identifier.replace('_access_url', '_file')] = file
       var blob = new Blob([file], { type: 'application/pdf' });
       var url = URL.createObjectURL(blob);
-      this.uploadedDocument.file = url
-      this.uploadedDocument.visible = true
-      // const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
-      // if (!isFileFormatPicture) {
-      //   // this.uploadedImages[identifier].message = 'Format foto harus JPG/PNG. Max. size: 2 MB.'
-      //   // this.uploadedImages[identifier].error = true
-      //   this.showToast('Gagal upload')
-      //   return false
-      // }
-
-      // this.formData[identifier.replace('_access_url', '_file')] = file
-      // this.generateImage(file, identifier)
+      this.uploadedDocuments[identifier].file = url
+      this.uploadedDocuments[identifier].visible = true
     },
 
     validateUpload (file, identifier) {
-      const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
-      if (!isFileFormatPicture) {
+      const isFileFormatValid = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'].includes(file.type)
+      if (!isFileFormatValid) {
         // this.uploadedImages[identifier].message = 'Format foto harus JPG/PNG. Max. size: 2 MB.'
         // this.uploadedImages[identifier].error = true
-        this.showToast('Gagal upload')
+        this.showToast('Gagal upload', 'error')
         return false
       }
 
       this.formData[identifier.replace('_access_url', '_file')] = file
+      if (file.type === 'application/pdf') {
+        this.uploadDocument(file, identifier)
+        return
+      }
       this.generateImage(file, identifier)
     },
 
@@ -388,16 +465,16 @@ export default {
       this.formData[identifier.replace('_access_url', '_file_delete')] = true
     },
 
-    handleRemoveDocument () {
-      this.uploadedDocument = {
+    handleRemoveDocument (identifier) {
+      this.uploadedDocuments[identifier] = {
         file: null,
         visible: false,
         error: false,
         message: 'Ukuran dokumen yang di-upload terlalu besar. Ukuran maksimum 2mb.'
       }
 
-      this.formData.dokumen_pendukung_file = ''
-      this.formData.dokumen_pendukung_file_delete = true
+      this.formData[identifier.replace('_access_url', '_file')] = ''
+      this.formData[identifier.replace('_access_url', '_file_delete')] = true
     },
 
     addVisibleImageActionIcons (identifier) {

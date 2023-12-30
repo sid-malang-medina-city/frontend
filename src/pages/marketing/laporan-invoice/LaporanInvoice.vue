@@ -98,7 +98,7 @@
         </el-table>
         <div class="laporan-invoice__footer">
           <div class="laporan-invoice__total-laporan-invoice font-grey">
-            Showing {{ totalShownLaporanInvoices }} of {{ totalLaporanInvoices }} laporan invoice
+            Menampilkan {{ totalShownLaporanInvoices }} dari {{ totalLaporanInvoices }} laporan invoice
           </div>
           <div class="laporan-invoice__pagination">
             <el-pagination

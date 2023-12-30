@@ -130,7 +130,7 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus marketer ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus marketer berarti menghilangkan progress data dan akses mereka',
+          'Apakah anda yakin ingin menghapus marketer ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus marketer berarti menghilangkan dokumen konsumen (jika ada), laporan marketing (jika ada), dan progress data',
           'Hapus Marketer',
           {
             confirmButtonText: 'Hapus',

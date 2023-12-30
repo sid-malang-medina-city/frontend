@@ -94,7 +94,7 @@
         </el-table>
         <div class="manajemen-fasilitas__footer">
           <div class="manajemen-fasilitas__total-fasilitass font-grey">
-            Showing {{ totalShownFasilitass }} of {{ totalFasilitass }} fasilitas
+            Menampilkan {{ totalShownFasilitass }} dari {{ totalFasilitass }} fasilitas
           </div>
           <div class="manajemen-fasilitas__pagination">
             <el-pagination

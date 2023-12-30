@@ -1,32 +1,73 @@
 export const STATUSES = {
   'BOOKING': {
-    label: 'Booking',
-    value: 'BOOKING',
+    name: 'Booking',
+    code: 'BOOKING',
     color: '#0BB1C4'
   },
+  'HOLD': {
+    name: 'Hold',
+    code: 'HOLD',
+    color: '#C4C4C4'
+  },
   'TERJUAL': {
-    label: 'Terjual',
-    value: 'TERJUAL',
+    name: 'Terjual',
+    code: 'TERJUAL',
     color: '#9D27C6'
   },
   'TERSEDIA': {
-    label: 'Tersedia',
-    value: 'TERSEDIA',
+    name: 'Tersedia',
+    code: 'TERSEDIA',
     color: '#74C627'
   },
   'IN_PROGRESS_PEMBANGUNAN': {
-    label: 'In progress pembangunan',
-    value: 'IN_PROGRESS_PEMBANGUNAN',
+    name: 'In progress pembangunan',
+    code: 'IN_PROGRESS_PEMBANGUNAN',
     color: '#F91DBB'
   },
   'STB': {
-    label: 'Serah terima bangunan',
-    value: 'STB',
+    name: 'Serah terima bangunan',
+    code: 'STB',
     color: '#0B6BC4'
   }
 }
 
 export const STATUS_MAPPINGS = {
+  'TERSEDIA': {
+    'TERSEDIA': {
+      name: 'Tersedia',
+      code: 'TERSEDIA',
+      color: '#74C627'
+    },
+    'HOLD': {
+      name: 'Hold',
+      code: 'HOLD',
+      color: '#C4C4C4'
+    },
+  },
+  'HOLD': {
+    'TERSEDIA': {
+      name: 'Tersedia',
+      code: 'TERSEDIA',
+      color: '#74C627'
+    },
+    'HOLD': {
+      name: 'Hold',
+      code: 'HOLD',
+      color: '#C4C4C4'
+    },
+  },
+  'TERJUAL': {
+    'TERJUAL': {
+      name: 'Terjual',
+      code: 'TERJUAL',
+      color: '#9D27C6'
+    },
+    'IN_PROGRESS_PEMBANGUNAN': {
+      name: 'In progress pembangunan',
+      code: 'IN_PROGRESS_PEMBANGUNAN',
+      color: '#F91DBB'
+    }
+  },
   'TERJUAL': {
     'TERJUAL': {
       name: 'Terjual',

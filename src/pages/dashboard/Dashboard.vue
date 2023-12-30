@@ -10,6 +10,7 @@
         <div
           v-for="card in cards"
           class="general-info__card card"
+          @click="goToListPage(card.code)"
         >
           <div class="card__info">
             <div class="card__title">
@@ -81,7 +82,7 @@
       </div> -->
       <div class="dashboard__charts">
         <div
-          v-if="visibleCharts.includes('Penjualan 6 Bulan Terakhir')"
+          v-if="visibleCharts.includes('Penjualan Unit')"
           class="dashboard__bar-chart bar-chart"
         >
           <div class="bar-chart__header">
@@ -93,7 +94,7 @@
                 v-model="filterPenjualan"
                 :clearable="false"
                 :shortcuts="shortcuts"
-                type="daterange"
+                type="monthrange"
                 range-separator="-"
                 start-placeholder="Start month"
                 end-placeholder="End month"
@@ -281,13 +282,14 @@
       justify-content: space-between;
 
       .card {
+        cursor: pointer;
         margin-bottom: 16px;
         padding: 20px;
         border-radius: 12px;
         border: 1px solid #EAEAEA;
         background: #FFF;
         box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
-        width: calc((100% - 190px) / 3);
+        width: calc((100% - 190px) / 4);
         display: flex;
         justify-content: space-between;
 
@@ -315,14 +317,16 @@
 
     &__charts {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      // justify-content: space-between;
       flex-wrap: wrap;
       gap: 20px;
     }
 
     .bar-chart {
       background-color: white;
-      width: calc((100% - 25px) / 2);
+      width: 100%;
+      // width: calc((100% - 25px) / 2);
       border-radius: 12px;
       box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
       border: 1px solid #EAEAEA;
@@ -342,6 +346,7 @@
         padding: 14px;
         display: flex;
         justify-content: center;
+        max-height: calc(100vh - 150px);
       }
 
       &__filter-wrapper {

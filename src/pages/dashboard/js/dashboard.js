@@ -3,6 +3,7 @@ import { dashboardStore } from '~/store/dashboard'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import ToastHandler from '~/mixins/toast-handler'
+import RouterHandler from '~/mixins/router-handler'
 
 import { Bar, Line, Pie } from 'vue-chartjs'
 import {
@@ -37,45 +38,78 @@ import trucksIcon from '/trucks.svg'
 import clockCountdownIcon from '/clock-countdown.svg'
 import usersThreeIcon from '/users-three.svg'
 import buildingIcon from '/building.svg'
+import buildingBlueIcon from '/building-blue.svg'
 
 import { InfoFilled } from '@element-plus/icons-vue'
 
 const DASHBOARD_CARDS = {
-  total_unit_tersedia: {
-    icon: buildingIcon,
-    title: 'Unit Tersedia',
-    code: 'total_unit_tersedia',
-    description: 'Jumlah unit tersedia'
-  },
-  total_unit_booking: {
-    icon: packageIcon,
-    title: 'Unit Booking',
-    code: 'total_unit_booking',
-    description: 'Jumlah unit terbooking'
+  total_unit: {
+    icon: buildingBlueIcon,
+    title: 'Total Unit',
+    code: 'total_unit',
+    description: 'Jumlah keseluruhan unit',
+    routeName: 'ManajemenUnit',
+    params: {}
   },
   total_unit_terjual: {
     icon: coinsIcon,
     title: 'Unit Terjual',
     code: 'total_unit_terjual',
-    description: 'Jumlah unit terjual'
+    description: 'Jumlah unit terjual',
+    routeName: 'ManajemenUnit',
+    params: {
+      status: 'TERJUAL'
+    }
+  },
+  total_unit_booking: {
+    icon: packageIcon,
+    title: 'Unit Booking',
+    code: 'total_unit_booking',
+    description: 'Jumlah unit terbooking',
+    routeName: 'ManajemenUnit',
+    params: {
+      status: 'BOOKING'
+    }
+  },
+  total_unit_tersedia: {
+    icon: buildingIcon,
+    title: 'Unit Tersedia',
+    code: 'total_unit_tersedia',
+    description: 'Jumlah unit tersedia',
+    routeName: 'ManajemenUnit',
+    params: {
+      status: 'TERSEDIA'
+    }
   },
   total_unit_stb: {
     icon: trucksIcon,
     title: 'Unit STB',
     code: 'total_unit_stb',
-    description: 'Jumlah unit yang sudah diserahkan'
+    description: 'Jumlah unit yang sudah diserahkan',
+    routeName: 'ManajemenUnit',
+    params: {
+      status: 'STB'
+    }
   },
   total_unit_in_progress_pembangunan: {
     icon: clockCountdownIcon,
     title: 'Unit Progress',
     code: 'total_unit_in_progress_pembangunan',
-    description: 'Jumlah unit dalam proses pembangunan'
+    description: 'Jumlah unit dalam proses pembangunan',
+    routeName: 'ManajemenUnit',
+    params: {
+      status: 'IN_PROGRESS_PEMBANGUNAN'
+    }
   },
   total_dokumen_konsumen_progress_verifikasi: {
     icon: fileTextIcon,
     title: 'Progress Verifikasi Konsumen',
     code: 'total_dokumen_konsumen_progress_verifikasi',
-    description: 'Jumlah konsumen yang perlu diverifikasi'
+    description: 'Jumlah konsumen yang perlu diverifikasi',
+    routeName: 'ManajemenDokumenKonsumen',
+    params: {
+      status_verifikasi: 'IN_PROGRESS'
+    }
   },
   total_dokumen_konsumen_ppjb: {
     icon: usersThreeIcon,
@@ -101,7 +135,7 @@ const RINGKASAN_PENJUALAN_CHART_COLORS = [
 export default {
   name: 'dashboard',
   
-  mixins: [ToastHandler],
+  mixins: [ToastHandler, RouterHandler],
 
   components: {
     PageHeader,
@@ -166,7 +200,7 @@ export default {
         },
       ],
       charts: [
-        'Penjualan 6 Bulan Terakhir',
+        'Penjualan Unit',
         'Progress Pembangunan Unit',
         'Demografi Usia',
         'Demografi Kota',
@@ -175,7 +209,7 @@ export default {
         'Demografi Alasan'
       ],
       visibleCharts: [
-        'Penjualan 6 Bulan Terakhir',
+        'Penjualan Unit',
         'Progress Pembangunan Unit',
         'Demografi Usia',
         'Demografi Kota',
@@ -184,7 +218,7 @@ export default {
         'Demografi Alasan'
       ],
       checkedCharts: [
-        'Penjualan 6 Bulan Terakhir',
+        'Penjualan Unit',
         'Progress Pembangunan Unit',
         'Demografi Usia',
         'Demografi Kota',
@@ -518,7 +552,6 @@ export default {
     },
     
     handleCheckedChartsChange (value) {
-      console.log('value', value)
       const checkedCount = value.length
       this.checkAll = checkedCount === this.charts.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.charts.length
@@ -532,6 +565,10 @@ export default {
     updateFilterChart () {
       this.visibleCharts = [...this.checkedCharts]
       this.toggleFilterModal()
+    },
+
+    goToListPage (identifier) {
+      this.redirectTo(this.cards[identifier].routeName, { query: this.cards[identifier].params })
     }
   }
 }

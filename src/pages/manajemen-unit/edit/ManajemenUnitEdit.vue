@@ -291,7 +291,7 @@
             </div>
           </div>
           <div
-            v-if="currentStatus === 'TERJUAL' || currentStatus === 'IN_PROGRESS_PEMBANGUNAN'"
+            v-if="currentStatus === 'TERSEDIA' || currentStatus === 'HOLD' || currentStatus === 'TERJUAL' || currentStatus === 'IN_PROGRESS_PEMBANGUNAN'"
             class="input-section__rows rows"
           >
             <div class="rows__row row">

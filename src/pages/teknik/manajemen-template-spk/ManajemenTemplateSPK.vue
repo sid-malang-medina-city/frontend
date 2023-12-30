@@ -122,7 +122,7 @@
         </el-table>
         <div class="manajemen-template-spk__footer">
           <div class="manajemen-template-spk__total-template-spks font-grey">
-            Showing {{ totalShownTemplateSPKs }} of {{ totalTemplateSPKs }} template SPK
+            Menampilkan {{ totalShownTemplateSPKs }} dari {{ totalTemplateSPKs }} template SPK
           </div>
           <div class="manajemen-template-spk__pagination">
             <el-pagination

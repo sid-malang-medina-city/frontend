@@ -92,6 +92,7 @@ export default {
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: [false, false, false],
       selectedImageUrl: '',
+      currentStatus: '',
       tipeUnits: [],
       clusters: [],
       fasilitass: [],
