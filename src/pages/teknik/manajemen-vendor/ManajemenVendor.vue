@@ -118,7 +118,7 @@
         </el-table>
         <div class="manajemen-vendor__footer">
           <div class="manajemen-vendor__total-vendors font-grey">
-            Showing {{ totalShownVendors }} of {{ totalVendors }} vendor
+            Menampilkan {{ totalShownVendors }} dari {{ totalVendors }} vendor
           </div>
           <div class="manajemen-vendor__pagination">
             <el-pagination

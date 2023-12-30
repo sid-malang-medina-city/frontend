@@ -187,7 +187,7 @@
         </el-table>
         <div class="laporan-marketing__footer">
           <div class="laporan-marketing__total-laporan-marketing font-grey">
-            Showing {{ totalShownLaporanMarketings }} of {{ totalLaporanMarketings }} laporan marketing
+            Menampilkan {{ totalShownLaporanMarketings }} dari {{ totalLaporanMarketings }} laporan marketing
           </div>
           <div class="laporan-marketing__pagination">
             <el-pagination

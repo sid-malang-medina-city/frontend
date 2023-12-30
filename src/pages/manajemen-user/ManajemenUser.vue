@@ -165,7 +165,7 @@
         </el-table>
         <div class="manajemen-user__footer">
           <div class="manajemen-user__total-users font-grey">
-            Showing {{ totalShownUsers }} of {{ totalUsers }} user
+            Menampilkan {{ totalShownUsers }} dari {{ totalUsers }} user
           </div>
           <div class="manajemen-user__pagination">
             <el-pagination

@@ -92,7 +92,7 @@
         </el-table>
         <div class="manajemen-pekerjaan__footer">
           <div class="manajemen-pekerjaan__total-pekerjaans font-grey">
-            Showing {{ totalShownPekerjaans }} of {{ totalPekerjaans }} pekerjaan
+            Menampilkan {{ totalShownPekerjaans }} dari {{ totalPekerjaans }} pekerjaan
           </div>
           <div class="manajemen-pekerjaan__pagination">
             <el-pagination

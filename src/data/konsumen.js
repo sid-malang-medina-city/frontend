@@ -301,3 +301,26 @@ export const STATUS_PEMBAYARAN_EDIT_FAILED_BOOKING = {
     }
   }
 }
+
+export const AGES = {
+  '0 - 20': {
+    label: '0 - 20',
+    value: [0, 20]
+  },
+  '21 - 30': {
+    label: '21 - 30',
+    value: [21, 30]
+  },
+  '31 - 40': {
+    label: '31 - 40',
+    value: [31, 40]
+  },
+  '41 - 50': {
+    label: '41 - 50',
+    value: [41, 50]
+  },
+  '>= 61': {
+    label: '>= 61',
+    value: [61, 200]
+  },
+}

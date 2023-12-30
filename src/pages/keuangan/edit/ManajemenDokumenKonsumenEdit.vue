@@ -166,402 +166,66 @@
         </div>
 
         <div class="input-image-wrapper__image-upload image-upload">
-          <div class="image-upload__wrapper">
+          <div
+            v-for="uploadField in uploadFields"
+            class="image-upload__wrapper"
+          >
             <el-upload
               :http-request="() => {}"
               :show-file-list="false"
-              :before-upload="(...args) => validateUpload(...args, 'e_ktp_access_url')"
-              :class="{ error: uploadedImages.e_ktp_access_url.error }"
-              accept=".jpg, .jpeg, .png"
+              :before-upload="(...args) => validateUpload(...args, uploadField.accessUrl)"
+              :class="{ error: uploadedImages[uploadField.accessUrl].error }"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+              accept=".jpg, .jpeg, .png, .pdf"
               action=""
               class="image-upload__uploader"
               disabled
             >
-              <template v-if="uploadedImages.e_ktp_access_url.visible">
+              <template v-if="uploadedImages[uploadField.accessUrl].visible">
                 <div
                   class="image-upload__content content"
-                  :class="{ 'content--w-auto': uploadedImages.e_ktp_access_url.visible }"
+                  :class="{ 'content--w-auto': uploadedImages[uploadField.accessUrl].visible }"
                   @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('e_ktp_access_url')"
-                  @mouseleave="removeVisibleImageActionIcons('e_ktp_access_url')"
+                  @mouseenter="addVisibleImageActionIcons(uploadField.accessUrl)"
+                  @mouseleave="removeVisibleImageActionIcons(uploadField.accessUrl)"
                 >
                   <img
-                    :src="uploadedImages.e_ktp_access_url.url"
-                    :class="{ 'content__img--hovered': visibleImageActionIcons.e_ktp_access_url }"
+                    :src="uploadedImages[uploadField.accessUrl].url"
+                    :class="{ 'content__img--hovered': visibleImageActionIcons[uploadField.accessUrl] }"
                     alt=""
                     class="content__img"
                   />
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.e_ktp_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
-                    class="content__item-actions item-actions"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons[uploadField.accessUrl], 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
+                    class="content__item-actions item-actions item-actions--view-only"
                   >
                     <div
                       class="item-actions__wrapper"
-                      @click="handlePictureCardPreview('e_ktp_access_url')"
+                      @click="handlePictureCardPreview(uploadField.accessUrl)"
                     >
                       <el-icon color="#434343">
                         <View />
                       </el-icon>
                     </div>
-                    <div
+                    <!-- <div
                       v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
-                      @click="handleRemove('e_ktp_access_url')"
+                      @click="handleRemove(uploadField.accessUrl)"
                     >
                       <el-icon color="#FF613A">
                         <Delete />
                       </el-icon>
-                    </div>
+                    </div> -->
                   </span>
                 </div>
               </template>
-              <div
-                v-else
-                class="image-upload__empty-state empty-state"
-              >
-                <img
-                  :src="icons.uploadImage"
-                  alt="Upload Image"
-                  class="empty-state__upload-image-icon"
-                />
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__desc"
-                >
-                  Letakkan gambar disini atau telusuri gambar dari PC Anda
-                </div>
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__format"
-                >
-                  Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
-                </div>
-              </div>
-            </el-upload>
-            <div class="image-upload__label">
-              e-KTP
-            </div>
-          </div>
-          <div class="image-upload__wrapper">
-            <el-upload
-              :http-request="() => {}"
-              :show-file-list="false"
-              :before-upload="(...args) => validateUpload(...args, 'slip_gaji_access_url')"
-              :class="{ error: uploadedImages.slip_gaji_access_url.error }"
-              accept=".jpg, .jpeg, .png"
-              action=""
-              class="image-upload__uploader"
-              disabled
-            >
-              <template v-if="uploadedImages.slip_gaji_access_url.visible">
-                <div
-                  class="image-upload__content content"
-                  :class="{ 'content--w-auto': uploadedImages.slip_gaji_access_url.visible }"
-                  @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('slip_gaji_access_url')"
-                  @mouseleave="removeVisibleImageActionIcons('slip_gaji_access_url')"
-                >
-                  <img
-                    :src="uploadedImages.slip_gaji_access_url.url"
-                    :class="{ 'content__img--hovered': visibleImageActionIcons.slip_gaji_access_url }"
-                    alt=""
-                    class="content__img"
-                  />
-                  <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.slip_gaji_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
-                    class="content__item-actions item-actions"
-                  >
-                    <div
-                      class="item-actions__wrapper"
-                      @click="handlePictureCardPreview('slip_gaji_access_url')"
-                    >
-                      <el-icon color="#434343">
-                        <View />
-                      </el-icon>
-                    </div>
-                    <div
-                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                      class="item-actions__wrapper"
-                      @click="handleRemove('slip_gaji_access_url')"
-                    >
-                      <el-icon color="#FF613A">
-                        <Delete />
-                      </el-icon>
-                    </div>
-                  </span>
-                </div>
-              </template>
-              <div
-                v-else
-                class="image-upload__empty-state empty-state"
-              >
-                <img
-                  :src="icons.uploadImage"
-                  alt="Upload Image"
-                  class="empty-state__upload-image-icon"
-                />
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__desc"
-                >
-                  Letakkan gambar disini atau telusuri gambar dari PC Anda
-                </div>
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__format"
-                >
-                  Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
-                </div>
-              </div>
-            </el-upload>
-            <div class="image-upload__label">
-              Slip Gaji
-            </div>
-          </div>
-          <div class="image-upload__wrapper">
-            <el-upload
-              :http-request="() => {}"
-              :show-file-list="false"
-              :before-upload="(...args) => validateUpload(...args, 'kartu_keluarga_access_url')"
-              :class="{ error: uploadedImages.kartu_keluarga_access_url.error }"
-              accept=".jpg, .jpeg, .png"
-              action=""
-              class="image-upload__uploader"
-              disabled
-            >
-              <template v-if="uploadedImages.kartu_keluarga_access_url.visible">
-                <div
-                  class="image-upload__content content"
-                  :class="{ 'content--w-auto': uploadedImages.kartu_keluarga_access_url.visible }"
-                  @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('kartu_keluarga_access_url')"
-                  @mouseleave="removeVisibleImageActionIcons('kartu_keluarga_access_url')"
-                >
-                  <img
-                    :src="uploadedImages.kartu_keluarga_access_url.url"
-                    :class="{ 'content__img--hovered': visibleImageActionIcons.kartu_keluarga_access_url }"
-                    alt=""
-                    class="content__img"
-                  />
-                  <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.kartu_keluarga_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
-                    class="content__item-actions item-actions"
-                  >
-                    <div
-                      class="item-actions__wrapper"
-                      @click="handlePictureCardPreview('kartu_keluarga_access_url')"
-                    >
-                      <el-icon color="#434343">
-                        <View />
-                      </el-icon>
-                    </div>
-                    <div
-                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                      class="item-actions__wrapper"
-                      @click="handleRemove('kartu_keluarga_access_url')"
-                    >
-                      <el-icon color="#FF613A">
-                        <Delete />
-                      </el-icon>
-                    </div>
-                  </span>
-                </div>
-              </template>
-              <div
-                v-else
-                class="image-upload__empty-state empty-state"
-              >
-                <img
-                  :src="icons.uploadImage"
-                  alt="Upload Image"
-                  class="empty-state__upload-image-icon"
-                />
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__desc"
-                >
-                  Letakkan gambar disini atau telusuri gambar dari PC Anda
-                </div>
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__format"
-                >
-                  Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
-                </div>
-              </div>
-            </el-upload>
-            <div class="image-upload__label">
-              Kartu Keluarga
-            </div>
-          </div>
-          <div class="image-upload__wrapper">
-            <el-upload
-              :http-request="() => {}"
-              :show-file-list="false"
-              :before-upload="(...args) => validateUpload(...args, 'mutasi_tabungan_access_url')"
-              :class="{ error: uploadedImages.mutasi_tabungan_access_url.error }"
-              accept=".jpg, .jpeg, .png"
-              action=""
-              class="image-upload__uploader"
-              disabled
-            >
-              <template v-if="uploadedImages.mutasi_tabungan_access_url.visible">
-                <div
-                  class="image-upload__content content"
-                  :class="{ 'content--w-auto': uploadedImages.mutasi_tabungan_access_url.visible }"
-                  @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('mutasi_tabungan_access_url')"
-                  @mouseleave="removeVisibleImageActionIcons('mutasi_tabungan_access_url')"
-                >
-                  <img
-                    :src="uploadedImages.mutasi_tabungan_access_url.url"
-                    :class="{ 'content__img--hovered': visibleImageActionIcons.mutasi_tabungan_access_url }"
-                    alt=""
-                    class="content__img"
-                  />
-                  <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.mutasi_tabungan_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
-                    class="content__item-actions item-actions"
-                  >
-                    <div
-                      class="item-actions__wrapper"
-                      @click="handlePictureCardPreview('mutasi_tabungan_access_url')"
-                    >
-                      <el-icon color="#434343">
-                        <View />
-                      </el-icon>
-                    </div>
-                    <div
-                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                      class="item-actions__wrapper"
-                      @click="handleRemove('mutasi_tabungan_access_url')"
-                    >
-                      <el-icon color="#FF613A">
-                        <Delete />
-                      </el-icon>
-                    </div>
-                  </span>
-                </div>
-              </template>
-              <div
-                v-else
-                class="image-upload__empty-state empty-state"
-              >
-                <img
-                  :src="icons.uploadImage"
-                  alt="Upload Image"
-                  class="empty-state__upload-image-icon"
-                />
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__desc"
-                >
-                  Letakkan gambar disini atau telusuri gambar dari PC Anda
-                </div>
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__format"
-                >
-                  Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
-                </div>
-              </div>
-            </el-upload>
-            <div class="image-upload__label">
-              Mutasi Tabungan
-            </div>
-          </div>
-          <div class="image-upload__wrapper">
-            <el-upload
-              :http-request="() => {}"
-              :show-file-list="false"
-              :before-upload="(...args) => validateUpload(...args, 'surat_pernikahan_access_url')"
-              :class="{ error: uploadedImages.surat_pernikahan_access_url.error }"
-              accept=".jpg, .jpeg, .png"
-              action=""
-              class="image-upload__uploader"
-              disabled
-            >
-              <template v-if="uploadedImages.surat_pernikahan_access_url.visible">
-                <div
-                  class="image-upload__content content"
-                  :class="{ 'content--w-auto': uploadedImages.surat_pernikahan_access_url.visible }"
-                  @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('surat_pernikahan_access_url')"
-                  @mouseleave="removeVisibleImageActionIcons('surat_pernikahan_access_url')"
-                >
-                  <img
-                    :src="uploadedImages.surat_pernikahan_access_url.url"
-                    :class="{ 'content__img--hovered': visibleImageActionIcons.surat_pernikahan_access_url }"
-                    alt=""
-                    class="content__img"
-                  />
-                  <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.surat_pernikahan_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
-                    class="content__item-actions item-actions"
-                  >
-                    <div
-                      class="item-actions__wrapper"
-                      @click="handlePictureCardPreview('surat_pernikahan_access_url')"
-                    >
-                      <el-icon color="#434343">
-                        <View />
-                      </el-icon>
-                    </div>
-                    <div
-                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                      class="item-actions__wrapper"
-                      @click="handleRemove('surat_pernikahan_access_url')"
-                    >
-                      <el-icon color="#FF613A">
-                        <Delete />
-                      </el-icon>
-                    </div>
-                  </span>
-                </div>
-              </template>
-              <div
-                v-else
-                class="image-upload__empty-state empty-state"
-              >
-                <img
-                  :src="icons.uploadImage"
-                  alt="Upload Image"
-                  class="empty-state__upload-image-icon"
-                />
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__desc"
-                >
-                  Letakkan gambar disini atau telusuri gambar dari PC Anda
-                </div>
-                <div
-                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
-                  class="empty-state__format"
-                >
-                  Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
-                </div>
-              </div>
-            </el-upload>
-            <div class="image-upload__label">
-              Surat Pernikahan
-            </div>
-          </div>
-          <div class="image-upload__wrapper">
-            <el-upload
-              :http-request="() => {}"
-              :show-file-list="false"
-              :before-upload="uploadDocument"
-              action=""
-              class="image-upload__uploader"
-              disabled
-            >
-              <template v-if="uploadedDocument.visible">
+              <template v-else-if="uploadedDocuments[uploadField.accessUrl].visible">
                 <div
                   class="image-upload__content content content--bg-success"
-                  :class="{ 'content--w-auto': uploadedDocument.visible }"
+                  :class="{ 'content--w-auto': uploadedDocuments[uploadField.accessUrl].visible }"
                   @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('document_pendukung_file')"
-                  @mouseleave="removeVisibleImageActionIcons('document_pendukung_file')"
+                  @mouseenter="addVisibleImageActionIcons(uploadField.accessUrl)"
+                  @mouseleave="removeVisibleImageActionIcons(uploadField.accessUrl)"
                 >
                   <el-icon
                     size="77"
@@ -574,26 +238,105 @@
                     Dokumen berhasil di-upload
                   </div>
                   <span
-                    :class="{ 'item-actions--visible': visibleImageActionIcons.document_pendukung_file, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
-                    class="content__item-actions item-actions"
+                    :class="{ 'item-actions--visible': visibleImageActionIcons[uploadField.accessUrl], 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
+                    class="content__item-actions item-actions item-actions--view-only"
                   >
                     <div
                       class="item-actions__wrapper"
-                      @click="openDocumentInNewTab()"
+                      @click="openDocumentInNewTab(uploadField.accessUrl)"
                     >
                       <el-icon color="#434343">
                         <View />
                       </el-icon>
                     </div>
-                    <div
+                    <!-- <div
                       v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                       class="item-actions__wrapper"
-                      @click="handleRemoveDocument('dokumen_pendukung_file')"
+                      @click="handleRemoveDocument(uploadField.accessUrl)"
                     >
                       <el-icon color="#FF613A">
                         <Delete />
                       </el-icon>
+                    </div> -->
+                  </span>
+                </div>
+              </template>
+              <div
+                v-else
+                class="image-upload__empty-state empty-state"
+              >
+                <img
+                  :src="icons.uploadImage"
+                  alt="Upload Image"
+                  class="empty-state__upload-image-icon"
+                />
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__desc"
+                >
+                  Letakkan file disini atau telusuri file dari PC Anda
+                </div>
+                <div
+                  v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                  class="empty-state__format"
+                >
+                  Format yang didukung: .jpg, .png, .pdf ukuran maksimum: 2mb
+                </div>
+              </div>
+            </el-upload>
+            <div class="image-upload__label">
+              {{ uploadField.label }}
+            </div>
+          </div>
+          <div class="image-upload__wrapper">
+            <el-upload
+              :http-request="() => {}"
+              :show-file-list="false"
+              :before-upload="(...args) => uploadDocument(...args, 'dokumen_pendukung_access_url')"
+              :disabled="!hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+              action=""
+              class="image-upload__uploader"
+              disabled
+            >
+              <template v-if="uploadedDocuments.dokumen_pendukung_access_url.visible">
+                <div
+                  class="image-upload__content content content--bg-success"
+                  :class="{ 'content--w-auto': uploadedDocuments.dokumen_pendukung_access_url.visible }"
+                  @click.stop=""
+                  @mouseenter="addVisibleImageActionIcons('dokumen_pendukung_access_url')"
+                  @mouseleave="removeVisibleImageActionIcons('dokumen_pendukung_access_url')"
+                >
+                  <el-icon
+                    size="77"
+                    color="#89AE8B"
+                    class="empty-state__upload-image-icon"
+                  >
+                    <CircleCheckFilled />
+                  </el-icon>
+                  <div class="empty-state__desc">
+                    Dokumen berhasil di-upload
+                  </div>
+                  <span
+                    :class="{ 'item-actions--visible': visibleImageActionIcons.dokumen_pendukung_access_url, 'item-actions--view-only': !hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE') }"
+                    class="content__item-actions item-actions item-actions--view-only"
+                  >
+                    <div
+                      class="item-actions__wrapper"
+                      @click="openDocumentInNewTab('dokumen_pendukung_access_url')"
+                    >
+                      <el-icon color="#434343">
+                        <View />
+                      </el-icon>
                     </div>
+                    <!-- <div
+                      v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
+                      class="item-actions__wrapper"
+                      @click="handleRemoveDocument('dokumen_pendukung_access_url')"
+                    >
+                      <el-icon color="#FF613A">
+                        <Delete />
+                      </el-icon>
+                    </div> -->
                   </span>
                 </div>
               </template>
@@ -618,7 +361,7 @@
                   v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                   class="empty-state__format"
                 >
-                  Ukuran maksimum: 2mb
+                  Format yang didukung: .pdf ukuran maksimum: 2mb
                 </div>
               </div>
             </el-upload>
@@ -669,9 +412,9 @@
               </div>
               <el-select
                 v-model="formData.status_verifikasi"
+                :disabled="isCurrentEndVerificationStatus"
                 placeholder="Pilih status verifikasi"
                 class="row__input"
-                disabled
               >
                 <el-option
                   v-for="status in verificationStatuses"
@@ -715,7 +458,6 @@
                 format="DD-MM-YYYY"
                 value-format="YYYY-MM-DD"
                 class="row__input"
-                disabled
               />
             </div>
             <div
@@ -732,7 +474,6 @@
                 placeholder="Masukkan keterangan"
                 type="textarea"
                 class="row__input"
-                disabled
               />
             </div>
           </div>

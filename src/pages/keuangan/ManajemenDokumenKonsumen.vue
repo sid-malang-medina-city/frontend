@@ -31,7 +31,7 @@
           </div>
         </div>
         <div
-          v-if="visibleFilter"
+          v-show="visibleFilter"
           class="manajemen-dokumen-konsumen__filters filters"
         >
           <div class="filters__input-wrapper">
@@ -107,6 +107,42 @@
               @change="handleDateRangeChange"
             />
           </div>
+
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Usia
+            </div>
+            <el-select
+              v-model="usiaFilter"
+              placeholder="Pilih jangkauan usia"
+              class="filters__input"
+              clearable
+              @change="handleFilterUsiaChange()"
+            >
+              <el-option
+                v-for="age in ages"
+                :key="age.label"
+                :label="age.label"
+                :value="age.label"
+              />
+            </el-select>
+          </div>
+
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Pekerjaan
+            </div>
+            <el-input
+              v-model="filters.pekerjaan"
+              placeholder="Cari berdasarkan pekerjaan"
+              class="filters__input"
+              @keyup="debounceDelay(() => handleFilterChange())"
+            >
+              <template #suffix>
+                <el-icon class="el-input__icon"><Search /></el-icon>
+              </template>
+            </el-input>
+          </div>
         </div>
       </div>
 
@@ -124,11 +160,13 @@
             prop="id"
             label="ID"
             min-width="100"
+            fixed="left"
           />
           <el-table-column
             prop="konsumen_nama"
             label="Nama Konsumen"
             min-width="220"
+            fixed="left"
           >
             <template #default="scope">
               <div
@@ -215,14 +253,37 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="tanggal_lahir"
+            label="Tanggal Lahir (Usia)"
+            min-width="180"
+          >
+            <template #default="scope">
+              {{ helpers.convertDateTimeZoneToDateString(scope.row.tanggal_lahir) }} {{ helpers.convertDateToAge(scope.row.tanggal_lahir) }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="pekerjaan.nama"
+            label="Pekerjaan"
+            min-width="180"
+          />
+          <el-table-column
             v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="e_ktp_access_url"
             label="e-KTP"
             min-width="170"
           >
             <template #default="scope">
+              <div
+                v-if="scope.row.e_ktp_access_url && isFileTypePDF(scope.row, 'e_ktp_access_url')"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.e_ktp_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
               <img
-                v-if="scope.row.e_ktp_access_url"
+                v-else-if="scope.row.e_ktp_access_url && !isFileTypePDF(scope.row, 'e_ktp_access_url')"
                 :src="scope.row.e_ktp_access_url"
                 alt="e-KTP"
                 class="table__img"
@@ -262,13 +323,77 @@
           </el-table-column>
           <el-table-column
             v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
+            prop="e_ktp_partner_access_url"
+            label="e-KTP Pasangan"
+            min-width="170"
+          >
+            <template #default="scope">
+              <div
+                v-if="scope.row.e_ktp_partner_access_url && isFileTypePDF(scope.row, 'e_ktp_partner_access_url')"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.e_ktp_partner_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
+              <img
+                v-else-if="scope.row.e_ktp_partner_access_url && !isFileTypePDF(scope.row, 'e_ktp_partner_access_url')"
+                :src="scope.row.e_ktp_partner_access_url"
+                alt="e-KTP Pasangan"
+                class="table__img"
+              >
+              <div
+                v-else
+                class="table__img-empty-state-wrapper"
+              >
+                <img
+                  :src="imagesIcon"
+                  alt="e-KTP Pasangan"
+                  class="table__img-empty-state"
+                >
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-else-if="hasAccess('LIST_CHECKBOX_DOKUMEN_KONSUMEN')"
+            prop="e_ktp_partner"
+            label="e-KTP Pasangan"
+            min-width="170"
+          >
+            <template #default="scope">
+              <el-icon
+                v-if="!!scope.row.e_ktp_partner"
+                color="#74C627"
+              >
+                <CircleCheckFilled />
+              </el-icon>
+              <el-icon
+                v-else
+                color="#FF613A"
+              >
+                <CircleCloseFilled />
+              </el-icon>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="hasAccess('LIST_FILEVIEW_DOKUMEN_KONSUMEN')"
             prop="kartu_keluarga_access_url"
             label="Kartu Keluarga"
             min-width="170"
           >
             <template #default="scope">
+              <div
+                v-if="scope.row.kartu_keluarga_access_url && isFileTypePDF(scope.row, 'kartu_keluarga_access_url')"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.kartu_keluarga_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
               <img
-                v-if="scope.row.kartu_keluarga_access_url"
+                v-else-if="scope.row.kartu_keluarga_access_url && !isFileTypePDF(scope.row, 'kartu_keluarga_access_url')"
                 :src="scope.row.kartu_keluarga_access_url"
                 alt="Kartu Keluarga"
                 class="table__img"
@@ -313,8 +438,17 @@
             min-width="170"
           >
             <template #default="scope">
+              <div
+                v-if="scope.row.slip_gaji_access_url && isFileTypePDF(scope.row, 'slip_gaji_access_url')"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.slip_gaji_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
               <img
-                v-if="scope.row.slip_gaji_access_url"
+                v-else-if="scope.row.slip_gaji_access_url && !isFileTypePDF(scope.row, 'slip_gaji_access_url')"
                 :src="scope.row.slip_gaji_access_url"
                 alt="Slip Gaji"
                 class="table__img"
@@ -359,8 +493,17 @@
             min-width="170"
           >
             <template #default="scope">
+              <div
+                v-if="scope.row.mutasi_tabungan_access_url && isFileTypePDF(scope.row, 'mutasi_tabungan_access_url')"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.mutasi_tabungan_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
               <img
-                v-if="scope.row.mutasi_tabungan_access_url"
+                v-else-if="scope.row.mutasi_tabungan_access_url && !isFileTypePDF(scope.row, 'mutasi_tabungan_access_url')"
                 :src="scope.row.mutasi_tabungan_access_url"
                 alt="Mutasi Tabungan"
                 class="table__img"
@@ -405,8 +548,17 @@
             min-width="170"
           >
             <template #default="scope">
+              <div
+                v-if="scope.row.surat_pernikahan_access_url && isFileTypePDF(scope.row, 'surat_pernikahan_access_url')"
+                class="table__link"
+                @click.stop="openDocumentInNewTab(scope.row.surat_pernikahan_access_url)"
+              >
+                <u>
+                  View
+                </u>
+              </div>
               <img
-                v-if="scope.row.surat_pernikahan_access_url"
+                v-else-if="scope.row.surat_pernikahan_access_url && !isFileTypePDF(scope.row, 'surat_pernikahan_access_url')"
                 :src="scope.row.surat_pernikahan_access_url"
                 alt="Surat Pernikahan"
                 class="table__img"
@@ -517,7 +669,7 @@
         </el-table>
         <div class="manajemen-dokumen-konsumen__footer">
           <div class="manajemen-dokumen-konsumen__total-dokumen-konsumens font-grey">
-            Showing {{ totalShownDokumenKonsumens }} of {{ totalDokumenKonsumens }} dokumen konsumen
+            Menampilkan {{ totalShownDokumenKonsumens }} dari {{ totalDokumenKonsumens }} dokumen konsumen
           </div>
           <div class="manajemen-dokumen-konsumen__pagination">
             <el-pagination

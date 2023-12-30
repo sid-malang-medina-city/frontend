@@ -4,6 +4,11 @@ export const STATUS_MARKETER = {
     code: 'INHOUSE',
     color: '#1DC4F9'
   },
+  INTERNAL: {
+    name: 'Internal',
+    code: 'INTERNAL',
+    color: '#74C627'
+  },
   EXTERNAL: {
     name: 'Eksternal',
     code: 'EXTERNAL',

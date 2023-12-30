@@ -187,7 +187,7 @@
         </el-table>
         <div class="manajemen-konsumen__footer">
           <div class="manajemen-konsumen__total-konsumens font-grey">
-            Showing {{ totalShownKonsumens }} of {{ totalKonsumens }} konsumen
+            Menampilkan {{ totalShownKonsumens }} dari {{ totalKonsumens }} konsumen
           </div>
           <div class="manajemen-konsumen__pagination">
             <el-pagination

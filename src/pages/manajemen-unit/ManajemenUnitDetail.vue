@@ -93,7 +93,7 @@
                 </div>
                 <div class="column__value">
                   <status-badge
-                    :text="statuses[unit.status] ? statuses[unit.status].label: ''"
+                    :text="statuses[unit.status] ? statuses[unit.status].name: ''"
                     :color="statuses[unit.status] ? statuses[unit.status].color: ''"
                     type="detail"
                   />

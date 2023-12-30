@@ -194,7 +194,7 @@
               class="image-upload__wrapper"
             >
               <div
-                v-if="!!getFilesUrl(identifier)"
+                v-if="!!getFilesUrl(identifier) & !isFileTypePDF(identifier)"
                 class="image-upload__container"
               >
                 <div
@@ -229,32 +229,15 @@
                 </div>
               </div>
               <div
-                v-else
-                class="image-upload__empty-state-wrapper"
-              >
-                <div class="image-upload__empty-state empty-state">
-                  <img
-                    :src="icons.uploadImage"
-                    alt="Upload Image"
-                    class="empty-state__upload-image-icon"
-                  />
-                </div>
-                <div class="empty-state__label">
-                  {{ fileLabels[index] }}
-                </div>
-              </div>
-            </div>
-            <div class="image-upload__wrapper">
-              <div
-                v-if="!!getFilesUrl('dokumen_pendukung_access_url')"
+                v-else-if="!!getFilesUrl(identifier) && isFileTypePDF(identifier)"
                 class="image-upload__container"
               >
                 <div
                   class="image-upload__image-content image-content image-content--bg-success empty-state"
-                  :class="{ 'image-content--w-auto': !!getFilesUrl('dokumen_pendukung_access_url') }"
+                  :class="{ 'image-content--w-auto': !!getFilesUrl(identifier) }"
                   @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons('dokumen_pendukung_access_url')"
-                  @mouseleave="removeVisibleImageActionIcons('dokumen_pendukung_access_url')"
+                  @mouseenter="addVisibleImageActionIcons(identifier)"
+                  @mouseleave="removeVisibleImageActionIcons(identifier)"
                 >
                   <el-icon
                     size="77"
@@ -267,12 +250,12 @@
                     Dokumen Tersedia
                   </div>
                   <span
-                    v-if="visibleImageActionIcons['dokumen_pendukung_access_url']"
+                    v-if="visibleImageActionIcons[identifier]"
                     class="image-content__item-actions item-actions"
                   >
                     <div
                       class="item-actions__wrapper"
-                      @click="openDocumentInNewTab"
+                      @click="openDocumentInNewTab(identifier)"
                     >
                       <el-icon color="#434343">
                         <View />
@@ -281,7 +264,7 @@
                   </span>
                 </div>
                 <div class="image-upload__label">
-                  Dokumen Pendukung
+                  {{ fileLabels[index] }}
                 </div>
               </div>
               <div
@@ -289,16 +272,14 @@
                 class="image-upload__empty-state-wrapper"
               >
                 <div class="image-upload__empty-state empty-state">
-                  <el-icon
-                    size="77"
-                    color="#9D9D9D"
+                  <img
+                    :src="icons.uploadImage"
+                    alt="Upload Image"
                     class="empty-state__upload-image-icon"
-                  >
-                    <Document />
-                  </el-icon>
+                  />
                 </div>
                 <div class="empty-state__label">
-                  Dokumen Pendukung
+                  {{ fileLabels[index] }}
                 </div>
               </div>
             </div>

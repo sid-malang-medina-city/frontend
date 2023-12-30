@@ -108,9 +108,9 @@
             >
               <el-option
                 v-for="status in statuses"
-                :key="status.value"
-                :label="status.label"
-                :value="status.value"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
               />
             </el-select>
           </div>
@@ -148,7 +148,7 @@
             <template #default="scope">
               <status-badge
                 :color="statuses[scope.row.status].color"
-                :text="statuses[scope.row.status].label"
+                :text="statuses[scope.row.status].name"
               />
             </template>
           </el-table-column>
@@ -199,7 +199,7 @@
         </el-table>
         <div class="manajemen-unit__footer">
           <div class="manajemen-unit__total-units font-grey">
-            Showing {{ totalShownUnits }} of {{ totalUnits }} unit
+            Menampilkan {{ totalShownUnits }} dari {{ totalUnits }} unit
           </div>
           <div class="manajemen-unit__pagination">
             <el-pagination

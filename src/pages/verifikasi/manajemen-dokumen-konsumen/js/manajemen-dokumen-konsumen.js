@@ -11,7 +11,8 @@ import helpers from '~/utils/helpers'
 
 import {
   STATUS_VERIFIKASI,
-  STATUS_PEMBAYARAN
+  STATUS_PEMBAYARAN,
+  AGES
 } from '~/data/konsumen'
 
 import imagesIcon from '/images.svg'
@@ -28,7 +29,6 @@ import {
   CircleCheckFilled,
   CircleCloseFilled
 } from '@element-plus/icons-vue'
-
 
 export default {
   name: 'manajemen-dokumen-konsumen',
@@ -53,7 +53,10 @@ export default {
         status_verifikasi: this.$route.query.status_verifikasi || null,
         status_pembayaran: this.$route.query.status_pembayaran || null,
         tanggal_booking_dari: this.$route.query.tanggal_booking_dari || null,
-        tanggal_booking_sampai: this.$route.query.tanggal_booking_sampai || null
+        tanggal_booking_sampai: this.$route.query.tanggal_booking_sampai || null,
+        usia_dari: this.$route.query.usia_dari || null,
+        usia_sampai: this.$route.query.usia_sampai || null,
+        pekerjaan: this.$route.query.pekerjaan || null,
       },
       pagination: {
         page: 1,
@@ -61,11 +64,13 @@ export default {
       },
       tanggalBookingValue: null,
       dokumenKonsumens: [],
+      usiaFilter: '',
       totalDokumenKonsumens: 0,
       verificationStatuses: STATUS_VERIFIKASI,
       paymentStatuses: STATUS_PEMBAYARAN,
       visibleFilter: false,
       visibleLoadingTable: false,
+      ages: AGES,
       icons: {
         delete: Delete,
         edit: Edit,
@@ -124,6 +129,10 @@ export default {
 
     initFilters () {
       this.tanggalBookingValue = [this.filters.tanggal_booking_dari, this.filters.tanggal_booking_sampai]
+      const ageFilter = Object.values(this.ages).find(age => age.value[0] === parseInt(this.filters.usia_dari) && age.value[1] === parseInt(this.filters.usia_sampai))
+      if (ageFilter) {
+        this.usiaFilter = ageFilter.label
+      }
     },
 
     handlePageChange (page) {
@@ -134,6 +143,12 @@ export default {
     handleDateRangeChange () {
       this.filters.tanggal_booking_dari = this.tanggalBookingValue[0]
       this.filters.tanggal_booking_sampai = this.tanggalBookingValue[1]
+      this.handleFilterChange()
+    },
+
+    handleFilterUsiaChange () {
+      this.filters.usia_dari = this.usiaFilter ? this.ages[this.usiaFilter].value[0] : null
+      this.filters.usia_sampai = this.usiaFilter ? this.ages[this.usiaFilter].value[1] : null
       this.handleFilterChange()
     },
 
@@ -160,6 +175,11 @@ export default {
       })
       this.tanggalBookingValue = null
       this.handleFilterChange()
+    },
+
+    isFileTypePDF (dokumenKonsumen, identifier) {
+      const fileIdentifier = identifier.substring(0, identifier.length - 11)
+      return dokumenKonsumen[fileIdentifier]?.substring(dokumenKonsumen[fileIdentifier].length-4, dokumenKonsumen[fileIdentifier].length) === '.pdf'
     },
 
     openDocumentInNewTab (accessUrl) {

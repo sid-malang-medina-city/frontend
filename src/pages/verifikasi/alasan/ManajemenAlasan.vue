@@ -92,7 +92,7 @@
         </el-table>
         <div class="manajemen-alasan__footer">
           <div class="manajemen-alasan__total-alasans font-grey">
-            Showing {{ totalShownAlasans }} of {{ totalAlasans }} alasan
+            Menampilkan {{ totalShownAlasans }} dari {{ totalAlasans }} alasan
           </div>
           <div class="manajemen-alasan__pagination">
             <el-pagination

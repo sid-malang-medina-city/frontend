@@ -94,7 +94,7 @@
         </el-table>
         <div class="manajemen-cluster__footer">
           <div class="manajemen-cluster__total-clusters font-grey">
-            Showing {{ totalShownClusters }} of {{ totalClusters }} cluster
+            Menampilkan {{ totalShownClusters }} dari {{ totalClusters }} cluster
           </div>
           <div class="manajemen-cluster__pagination">
             <el-pagination

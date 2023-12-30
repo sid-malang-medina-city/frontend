@@ -52,10 +52,10 @@ export default {
         newspaperClipping: newspaperClippingIcon,
         megaphone: megaphoneIcon,
       },
-      fileIdentifiers: ['e_ktp_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'akta_perkawinan_access_url'],
-      checkboxIdentifiers: ['e_ktp', 'slip_gaji', 'kartu_keluarga', 'mutasi_tabungan', 'akta_perkawinan', 'dokumen_pendukung'],
-      fileLabels: ['e-KTP', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Akta Perkawinan'],
-      checkboxLabels: ['e-KTP', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Akta Perkawinan', 'Dokumen Pendukung'],
+      fileIdentifiers: ['e_ktp_access_url', 'e_ktp_partner_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'surat_pernikahan_access_url', 'dokumen_pendukung_access_url'],
+      checkboxIdentifiers: ['e_ktp', 'e_ktp_partner', 'slip_gaji', 'kartu_keluarga', 'mutasi_tabungan', 'surat_pernikahan', 'dokumen_pendukung'],
+      fileLabels: ['e-KTP', 'e-KTP Pasangan', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Surat Pernikahan', 'Dokumen Pendukung'],
+      checkboxLabels: ['e-KTP', 'e-KTP Pasangan', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Surat Pernikahan', 'Dokumen Pendukung'],
       verificationStatuses: STATUS_VERIFIKASI,
       paymentStatuses: STATUS_PEMBAYARAN,
       visiblePassword: false,
@@ -147,6 +147,11 @@ export default {
       return this.dokumenKonsumen[identifier]
     },
 
+    isFileTypePDF (identifier) {
+      const fileIdentifier = identifier.substring(0, identifier.length - 11)
+      return this.dokumenKonsumen[fileIdentifier]?.substring(this.dokumenKonsumen[fileIdentifier].length-4, this.dokumenKonsumen[fileIdentifier].length) === '.pdf'
+    },
+
     addVisibleImageActionIcons (identifier) {
       this.visibleImageActionIcons[identifier] = true
     },
@@ -160,8 +165,8 @@ export default {
       this.visibleImagePreviewDialog = true
     },
 
-    openDocumentInNewTab () {
-      window.open(this.dokumenKonsumen.dokumen_pendukung_access_url, '_blank');
+    openDocumentInNewTab (identifier) {
+      window.open(this.dokumenKonsumen[identifier], '_blank');
     }
   }
 }

@@ -17,8 +17,8 @@ export default async function beforeHandler (to, from, next) {
     const dokKonsumenStore = dokumenKonsumenStore()
     const notifStore = notificationStore()
     try {
-      await dokKonsumenStore.triggerNotifications()
-      await notifStore.fetchNotifications({
+      dokKonsumenStore.triggerNotifications()
+      notifStore.fetchNotifications({
         skip_pagination: true,
         days_back: 10
       })
