@@ -13,6 +13,8 @@ import uploadImageIcon from '/upload-image.svg'
 import signatureIcon from '/signature.svg'
 import newspaperClippingIcon from '/newspaper-clipping.svg'
 
+import fileHelpers from '~/utils/file'
+
 import { STATUS_MAPPINGS } from '~/data/unit'
 
 import {
@@ -222,48 +224,61 @@ export default {
       this.redirectTo('ManajemenUnit')
     },
 
-    validateUpload1 (file) {
+    async validateUpload1 (file) {
       const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
+      const isValidSize = file.size / 1024 / 1024 <= 1
 
       if (!isFileFormatPicture) {
-        // this.uploadedImages[index-1].message = 'Format foto harus JPG/PNG. Max. size: 2 MB.'
-        // this.uploadedImages[index-1].error = true
-        this.showToast('Failed to upload')
+        this.showToast('Gagal upload')
         return false
       }
 
-      this.formData.foto_1_file = file
-      this.formData.foto_1_file_delete = false
-      this.generateImage(file, 0)
+      let compressedFile = file
+
+      if (!isValidSize) {
+        compressedFile = await fileHelpers.compressImage(compressedFile, 1)
+      }
+
+      this.formData.foto_1_file = compressedFile
+      this.generateImage(compressedFile, 0)
     },
 
-    validateUpload2 (file) {
+    async validateUpload2 (file) {
       const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
+      const isValidSize = file.size / 1024 / 1024 <= 1
 
       if (!isFileFormatPicture) {
-        // this.uploadedImages[index-1].message = 'Format foto harus JPG/PNG. Max. size: 2 MB.'
-        // this.uploadedImages[index-1].error = true
-        this.showToast('Failed to upload')
+        this.showToast('Gagal upload')
         return false
       }
 
-      this.formData.foto_2_file = file
-      this.formData.foto_2_file_delete = false
-      this.generateImage(file, 1)
+      let compressedFile = file
+
+      if (!isValidSize) {
+        compressedFile = await fileHelpers.compressImage(compressedFile, 1)
+      }
+
+      this.formData.foto_2_file = compressedFile
+      this.generateImage(compressedFile, 1)
     },
-    validateUpload3 (file) {
+
+    async validateUpload3 (file) {
       const isFileFormatPicture = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
+      const isValidSize = file.size / 1024 / 1024 <= 1
 
       if (!isFileFormatPicture) {
-        // this.uploadedImages[index-1].message = 'Format foto harus JPG/PNG. Max. size: 2 MB.'
-        // this.uploadedImages[index-1].error = true
-        this.showToast('Failed to upload')
+        this.showToast('Gagal upload')
         return false
       }
 
-      this.formData.foto_3_file = file
-      this.formData.foto_3_file_delete = false
-      this.generateImage(file, 2)
+      let compressedFile = file
+
+      if (!isValidSize) {
+        compressedFile = await fileHelpers.compressImage(compressedFile, 1)
+      }
+
+      this.formData.foto_3_file = compressedFile
+      this.generateImage(compressedFile, 2)
     },
 
     generateImage (file, index) {

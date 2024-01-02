@@ -84,7 +84,7 @@
                 Letakkan gambar unit disini atau telusuri gambar dari PC Anda
               </div>
               <div class="empty-state__format">
-                Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
+                Format yang didukung: .jpg, .png
               </div>
             </div>
           </el-upload>
@@ -147,7 +147,7 @@
                 Letakkan gambar unit disini atau telusuri gambar dari PC Anda
               </div>
               <div class="empty-state__format">
-                Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
+                Format yang didukung: .jpg, .png
               </div>
             </div>
           </el-upload>
@@ -210,7 +210,7 @@
                 Letakkan gambar unit disini atau telusuri gambar dari PC Anda
               </div>
               <div class="empty-state__format">
-                Format yang didukung: .jpg, .png, ukuran maksimum: 2mb
+                Format yang didukung: .jpg, .png
               </div>
             </div>
           </el-upload>
