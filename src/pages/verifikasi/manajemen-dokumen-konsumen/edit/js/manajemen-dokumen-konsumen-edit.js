@@ -373,7 +373,7 @@ export default {
         if (this.formData[identifier.accessUrl] && this.formData[identifier.file].substring(this.formData[identifier.file].length-4, this.formData[identifier.file].length) === '.pdf') {
           this.uploadedDocuments[identifier.accessUrl].visible = !!this.formData[identifier.accessUrl]
           this.uploadedDocuments[identifier.accessUrl].file = !!this.formData[identifier.accessUrl] ? this.formData[identifier.accessUrl] : ''  
-        } else {
+        } else if (identifier.accessUrl !== 'dokumen_pendukung_access_url') {
           this.uploadedImages[identifier.accessUrl].visible = !!this.formData[identifier.accessUrl]
           this.uploadedImages[identifier.accessUrl].url = !!this.formData[identifier.accessUrl] ? this.formData[identifier.accessUrl] : ''
         }
