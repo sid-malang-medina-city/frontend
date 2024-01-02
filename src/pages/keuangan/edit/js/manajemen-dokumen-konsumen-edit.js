@@ -20,6 +20,8 @@ import {
   STATUS_PEMBAYARAN_EDIT_FAILED_BOOKING
 } from '~/data/konsumen'
 
+import fileHelpers from '~/utils/file'
+
 import {
   Plus,
   Delete,
@@ -412,21 +414,34 @@ export default {
       this.uploadedDocuments[identifier].visible = true
     },
 
-    validateUpload (file, identifier) {
+    async validateUpload (file, identifier) {
+      const isFileFormatImage = ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)
+      const isFileFormatPDF = file.type === 'application/pdf'
       const isFileFormatValid = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'].includes(file.type)
+      const isPDFValidSize = file.size / 1024 / 1024 <= 2
+      const isValidSize = file.size / 1024 / 1024 <= 1
       if (!isFileFormatValid) {
-        // this.uploadedImages[identifier].message = 'Format foto harus JPG/PNG. Max. size: 2 MB.'
-        // this.uploadedImages[identifier].error = true
         this.showToast('Gagal upload', 'error')
         return false
       }
 
-      this.formData[identifier.replace('_access_url', '_file')] = file
-      if (file.type === 'application/pdf') {
-        this.uploadDocument(file, identifier)
+      let compressedFile = file
+
+      if (!isValidSize && isFileFormatImage) {
+        compressedFile = await fileHelpers.compressImage(compressedFile, 1)
+      }
+
+      if (!isPDFValidSize && isFileFormatPDF) {
+        this.showToast('Gagal upload, file PDF terlalu besar (max. 2mb)', 'error')
         return
       }
-      this.generateImage(file, identifier)
+
+      this.formData[identifier.replace('_access_url', '_file')] = compressedFile
+      if (compressedFile.type === 'application/pdf') {
+        this.uploadDocument(compressedFile, identifier)
+        return
+      }
+      this.generateImage(compressedFile, identifier)
     },
 
     generateImage (file, identifier) {
