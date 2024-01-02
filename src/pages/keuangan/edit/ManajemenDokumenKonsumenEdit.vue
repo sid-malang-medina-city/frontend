@@ -280,7 +280,7 @@
                   v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                   class="empty-state__format"
                 >
-                  Format yang didukung: .jpg, .png, .pdf ukuran maksimum: 2mb
+                  Format yang didukung: .jpg, .png, .pdf, ukuran maksimum PDF: 2mb
                 </div>
               </div>
             </el-upload>
@@ -361,7 +361,7 @@
                   v-if="hasAccess('UPLOAD_DOKUMEN_KONSUMEN_FILE')"
                   class="empty-state__format"
                 >
-                  Format yang didukung: .pdf ukuran maksimum: 2mb
+                  Format yang didukung: .pdf, ukuran maksimum: 2mb
                 </div>
               </div>
             </el-upload>
