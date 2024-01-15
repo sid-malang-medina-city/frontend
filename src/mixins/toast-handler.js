@@ -33,6 +33,7 @@ export default {
       }
 
       let errors = error.response.data.errors
+      console.log(errors)
       let message = `<div class="alert-list" style="display: flex; flex-direction: column; justify-content: center; gap: 5px;">`
 
       for (const key in errors) {

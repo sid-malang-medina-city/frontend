@@ -56,6 +56,10 @@ const ManajemenVendorCreate = defineAsyncComponent(() => import(/* webpackChunkN
 const ManajemenVendorEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor-edit" */ '~/pages/teknik/manajemen-vendor/edit/ManajemenVendorEdit.vue'))
 const ManajemenTemplateSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk" */ '~/pages/teknik/manajemen-template-spk/ManajemenTemplateSPK.vue'))
 const ManajemenTemplateSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk-create" */ '~/pages/teknik/manajemen-template-spk/create/ManajemenTemplateSPKCreate.vue'))
+const ManajemenTemplateSPKEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk-edit" */ '~/pages/teknik/manajemen-template-spk/edit/ManajemenTemplateSPKEdit.vue'))
+const ManajemenSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk" */ '~/pages/teknik/manajemen-spk/ManajemenSPK.vue'))
+const ManajemenSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-create" */ '~/pages/teknik/manajemen-spk/create/ManajemenSPKCreate.vue'))
+const ManajemenSPKEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-edit" */ '~/pages/teknik/manajemen-spk/edit/ManajemenSPKEdit.vue'))
 
 export default [
   {
@@ -617,6 +621,46 @@ export default [
     component: ManajemenTemplateSPKCreate,
     meta: {
       title: 'Manajemen Template SPK Create',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-template-spk/edit/:id',
+    name: 'ManajemenTemplateSPKEdit',
+    component: ManajemenTemplateSPKEdit,
+    meta: {
+      title: 'Manajemen Template SPK Edit',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk',
+    name: 'ManajemenSPK',
+    component: ManajemenSPK,
+    meta: {
+      title: 'Manajemen SPK',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk/create',
+    name: 'ManajemenSPKCreate',
+    component: ManajemenSPKCreate,
+    meta: {
+      title: 'Manajemen SPK Create',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk/edit/:id',
+    name: 'ManajemenSPKEdit',
+    component: ManajemenSPKEdit,
+    meta: {
+      title: 'Manajemen SPK Edit',
       action: 'LIST_MARKETER',
       requireLogin: true
     }

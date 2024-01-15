@@ -42,7 +42,7 @@
           </el-button>
         </div>
         <div
-          v-if="visibleFilter"
+          v-show="visibleFilter"
           class="manajemen-template-spk__filters filters"
         >
           <div class="filters__input-wrapper">
@@ -87,8 +87,8 @@
             min-width="150"
           />
           <el-table-column
-            prop="total_harga"
-            label="Total Harga"
+            prop="harga_total"
+            label="Harga Total"
             min-width="150"
           />
           <el-table-column
@@ -108,14 +108,14 @@
                   text
                   @click.stop="goToEditPage(scope.row.id)"
                 />
-                <!-- <el-button
+                <el-button
                   v-if="hasAccess('DELETE_MARKETER')"
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"
                   text
                   @click.stop="openModalConfirmation(scope.row.id)"
-                /> -->
+                />
               </div>
             </template>
           </el-table-column>

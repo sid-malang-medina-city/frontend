@@ -1,13 +1,14 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
-
 import { mapActions } from 'pinia'
+import { SPKStore } from '~/store/teknik/spk'
 import { templateSPKStore } from '~/store/teknik/template-spk'
-import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { unitStore } from '~/store/unit'
+import { vendorStore } from '~/store/teknik/vendor'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import helpers from '~/utils/helpers'
+import { STATUSES } from '~/data/spk'
 
 import receiptIcon from '/receipt.svg'
 import briefcaseIcon from '/briefcase.svg'
@@ -17,6 +18,7 @@ import {
   WarningFilled,
   Plus,
   Delete,
+  Download,
   Edit
 } from '@element-plus/icons-vue'
 
@@ -31,7 +33,7 @@ const SATUAN_UKURANS = [
 ]
 
 export default {
-  name: 'manajemen-template-spk-create',
+  name: 'manajemen-spk-create',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -39,6 +41,7 @@ export default {
     CircleCheckFilled,
     WarningFilled,
     Plus,
+    Download,
     PageHeader,
   },
 
@@ -46,7 +49,13 @@ export default {
     return {
       formData: {
         nama: '',
-        tipe_unit: '',
+        unit: '',
+        awal_periode: '',
+        akhir_periode: '',
+        vendor: '',
+        keterangan: '',
+        status: 'DRAFT',
+        harga_total: null,
         jenis_pekerjaans: []
       },
       form: {
@@ -57,8 +66,13 @@ export default {
       satuanUkuran: '',
       volume: '',
       hargaSatuan: '',
+      templateSPKId: null,
+      templateSPKs: [],
+      periodeValue: null,
       satuanUkurans: SATUAN_UKURANS,
-      tipeUnits: [],
+      statuses: STATUSES,
+      units: [],
+      vendors: [],
       icons: {
         receipt: receiptIcon,
         briefcase: briefcaseIcon,
@@ -66,6 +80,7 @@ export default {
         edit: Edit
       },
       visibleDrawer: false,
+      visibleDialog: false,
       visibleLoading: false,
       isEditMode: false,
       helpers
@@ -74,7 +89,8 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      return !!this.formData.nama && !!this.formData.tipe_unit && this.formData.jenis_pekerjaans.length > 0
+      const requiredFields = ['unit', 'awal_periode', 'akhir_periode', 'status']
+      return requiredFields.every(field => !!this.formData[field]) && this.formData.jenis_pekerjaans.length > 0
     },
     isAddPekerjaanFormIsFilled () {
       return !!this.form.jenisPekerjaan && this.form.pekerjaans.length > 0
@@ -91,28 +107,84 @@ export default {
   },
 
   created () {
-    this.getTipeUnits()
+    this.getUnits()
+    this.getVendors()
+    this.getTemplateSPKs()
   },
 
   methods: {
-    ...mapActions(templateSPKStore, ['createTemplateSPK']),
-    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
+    ...mapActions(SPKStore, ['createSPK']),
+    ...mapActions(templateSPKStore, ['fetchTemplateSPK', 'fetchTemplateSPKs']),
+    ...mapActions(unitStore, ['fetchUnits']),
+    ...mapActions(vendorStore, ['fetchVendors']),
 
-    async getTipeUnits () {
+    async getTemplateSPKs () {
       try {
-        const { data } = await this.fetchTipeUnits({
+        const { data } = await this.fetchTemplateSPKs({
           skip_pagination: true
         })
-        this.tipeUnits = JSON.parse(JSON.stringify(data))
+        this.templateSPKs = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
-      } finally {
-        this.visibleLoadingTable = false
       }
     },
 
-    goToManajemenTemplateSPK () {
-      this.redirectTo('ManajemenTemplateSPK')
+    async getUnits () {
+      try {
+        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERSEDIA' })
+        this.units = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    async getVendors () {
+      try {
+        const { data } = await this.fetchVendors({
+          skip_pagination: true
+        })
+        this.vendors = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    goToManajemenSPK () {
+      this.redirectTo('ManajemenSPK')
+    },
+
+    async importTemplate () {
+      try {
+        const { data } = await this.fetchTemplateSPK(this.templateSPKId)
+        console.log(data)
+        this.initFormData(JSON.parse(JSON.stringify(data)))
+        this.templateSPKId = null
+        this.toggleDialog()
+        this.showToast('Import template SPK berhasil!')
+      } catch (e) {
+        this.showErrorResponse(e)
+      }
+    },
+
+    initFormData (data) {
+      this.formData = {
+        ...this.formData,
+        ...data
+      }
+      delete this.formData.id
+      this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
+        delete jenisPekerjaan.id
+        jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
+        jenisPekerjaan.actions = true
+        jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
+          delete pekerjaan.id
+          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
+        })
+        jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
+        jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
+      })
+      this.calculatePersentasePekerjaan()
     },
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
@@ -181,6 +253,7 @@ export default {
 
     updateJenisPekerjaan () {
       if (!this.formData.jenis_pekerjaans.some(jenisPekerjaan => jenisPekerjaan.nama === this.form.jenisPekerjaan) || this.form.jenisPekerjaan === this.form.currentJenisPekerjaan) {
+        console.log('msk')
         const updateIndex = this.formData.jenis_pekerjaans.findIndex(jenisPekerjaan => jenisPekerjaan.nama === this.form.currentJenisPekerjaan)
         this.formData.jenis_pekerjaans.splice(updateIndex, 1, {
           ...this.formData.jenis_pekerjaans[updateIndex],
@@ -213,12 +286,18 @@ export default {
       this.showToast('Pekerjaan berhasil dihapus!')
     },
 
+    handleDateRangeChange () {
+      this.formData.awal_periode = this.periodeValue[0]
+      this.formData.akhir_periode = this.periodeValue[1]
+    },
+
     async submit () {
       this.visibleLoading = true
+      this.calculatePersentasePekerjaan()
       try {
-        await this.createTemplateSPK(this.generatePayload())
-        this.redirectTo('ManajemenTemplateSPK')
-        this.showToast('Template SPK baru berhasil ditambahkan!')
+        await this.createSPK(this.generatePayload())
+        this.redirectTo('ManajemenSPK')
+        this.showToast('SPK baru berhasil ditambahkan!')
       } catch (e) {
         this.showErrorResponse(e)
       } finally {
@@ -227,7 +306,7 @@ export default {
     },
 
     generatePayload () {
-      const formData = JSON.parse(JSON.stringify(this.formData))
+      const { created_at, ...formData} = JSON.parse(JSON.stringify(this.formData))
       formData.jenis_pekerjaans.forEach(data => {
         data.pekerjaans = [...data.children]
       })
@@ -246,6 +325,10 @@ export default {
         this.isEditMode = false
       }
       this.visibleDrawer = !this.visibleDrawer
+    },
+
+    toggleDialog () {
+      this.visibleDialog = !this.visibleDialog
     }
   }
 }

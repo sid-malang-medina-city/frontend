@@ -1,6 +1,7 @@
 import { mapActions } from 'pinia'
-import { templateSPKStore } from '~/store/teknik/template-spk'
+import { SPKStore } from '~/store/teknik/spk'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { STATUSES } from '~/data/spk'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -8,7 +9,11 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
 
+import helpers from '~/utils/helpers'
+
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
+
+import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 
 import {
   ArrowDown,
@@ -20,12 +25,13 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-template-spk',
+  name: 'manajemen-spk',
 
   mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
+    StatusBadge,
     ArrowDown,
     ArrowUp,
     Plus,
@@ -35,6 +41,7 @@ export default {
   data () {
     return {
       filters: {
+        search: this.$route.query.search || null,
         tipe_unit: this.$route.query.tipe_unit || null
       },
       pagination: {
@@ -42,21 +49,23 @@ export default {
         size: 10
       },
       tipeUnits: [],
-      templateSPKs: [],
-      totalTemplateSPKs: 0,
+      SPKs: [],
+      statuses: STATUSES,
+      totalSPKs: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
         edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
-      }
+      },
+      helpers
     }
   },
 
   computed: {
-    totalShownTemplateSPKs () {
-      const totalItems = this.totalTemplateSPKs
+    totalShownSPKs () {
+      const totalItems = this.totalSPKs
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -78,23 +87,23 @@ export default {
 
   created () {
     this.visibleFilter = this.isAnyFilterApplied
-    this.getTemplateSPKs()
+    this.getSPKs()
     this.getTipeUnits()
   },
 
   methods: {
-    ...mapActions(templateSPKStore, [
-      'fetchTemplateSPKs',
-      'deleteTemplateSPK'
+    ...mapActions(SPKStore, [
+      'fetchSPKs',
+      'deleteSPK'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
     
-    async getTemplateSPKs () {
+    async getSPKs () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchTemplateSPKs(this.generateFilters)
-        this.templateSPKs = JSON.parse(JSON.stringify(data.data))
-        this.totalTemplateSPKs = data.pagination.total_items
+        const { data } = await this.fetchSPKs(this.generateFilters)
+        this.SPKs = JSON.parse(JSON.stringify(data.data))
+        this.totalSPKs = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -117,7 +126,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getTemplateSPKs()
+      this.getSPKs()
     },
 
     handleFilterChange () {
@@ -125,7 +134,7 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenTemplateSPK', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -143,8 +152,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus template SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus template SPK berarti menghilangkan progress data dan akses mereka',
-          'Hapus TemplateSPK',
+          'Apakah anda yakin ingin menghapus  SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus  SPK berarti menghilangkan progress data dan akses mereka',
+          'Hapus SPK',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -152,26 +161,26 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteTemplateSPK(id)
-        this.showToast('TemplateSPK berhasil dihapus!')
+        await this.handleDeleteSPK(id)
+        this.showToast('SPK berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteTemplateSPK(id) {
+    async handleDeleteSPK(id) {
       try {
-        await this.deleteTemplateSPK(id)
-        this.getTemplateSPKs()
+        await this.deleteSPK(id)
+        this.getSPKs()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenTemplateSPKCreate')
+      this.redirectTo('ManajemenSPKCreate')
     },
 
     goToDetailPage ({ id }) {
-      // this.redirectTo('ManajemenTemplateSPKDetail', {
+      // this.redirectTo('ManajemenSPKDetail', {
       //   params: {
       //     id: id
       //   }
@@ -179,7 +188,7 @@ export default {
     },
 
     goToEditPage (id) {
-      this.redirectTo('ManajemenTemplateSPKEdit', {
+      this.redirectTo('ManajemenSPKEdit', {
         params: {
           id: id
         }

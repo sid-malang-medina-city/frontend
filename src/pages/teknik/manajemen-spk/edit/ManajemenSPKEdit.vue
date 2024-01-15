@@ -1,14 +1,14 @@
 <template>
-  <div class="manajemen-template-spk-create">
+  <div class="manajemen-spk-edit">
     <page-header
-      title="Buat Template SPK Baru"
+      title="Edit SPK"
       show-back-icon
-      @back="goToManajemenTemplateSPK"
+      @back="goToManajemenSPK"
     />
 
     <div class="page-content">
-      <div class="manajemen-template-spk-create__wrapper">
-        <div class="manajemen-template-spk-create__input-section input-section">
+      <div class="manajemen-spk-edit__wrapper">
+        <div class="manajemen-spk-edit__input-section input-section">
           <div class="input-section__header">
             <img
               :src="icons.receipt"
@@ -22,29 +22,93 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
-                Nama Template
+                Unit
               </div>
-              <el-input
-                v-model="formData.nama"
-                placeholder="Masukkan nama template"
+              <el-select
+                v-model="formData.unit"
+                placeholder="Pilih unit"
                 class="row__input"
-              />
+                remote-show-suffix
+                filterable
+                remote
+                reserve-keyword
+              >
+                <el-option
+                  v-for="unit in units"
+                  :key="unit.id"
+                  :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
+                  :value="unit.id"
+                />
+              </el-select>
             </div>
             <div class="rows__row">
               <div class="row__label required">
-                Tipe Unit
+                Periode
+              </div>
+              <el-date-picker
+                v-model="periodeValue"
+                :clearable="false"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="Tanggal awal"
+                end-placeholder="Tanggal akhir"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                @change="handleDateRangeChange"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
+                Vendor
               </div>
               <el-select
-                v-model="formData.tipe_unit"
-                placeholder="Pilih tipe unit"
+                v-model="formData.vendor"
+                placeholder="Pilih unit"
                 class="row__input"
-                clearable
+                remote-show-suffix
+                filterable
+                remote
+                reserve-keyword
               >
                 <el-option
-                  v-for="tipe_unit in tipeUnits"
-                  :key="tipe_unit.id"
-                  :label="tipe_unit.name"
-                  :value="tipe_unit.id"
+                  v-for="vendor in vendors"
+                  :key="vendor.id"
+                  :label="vendor.nama"
+                  :value="vendor.id"
+                />
+              </el-select>
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Keterangan
+              </div>
+              <el-input
+                v-model="formData.keterangan"
+                :rows="3"
+                resize="none"
+                placeholder="Masukkan keterangan"
+                type="textarea"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
+                Status
+              </div>
+              <el-select
+                v-model="formData.status"
+                placeholder="Pilih status"
+                class="row__input"
+              >
+                <el-option
+                  v-for="status in statuses"
+                  :key="status.code"
+                  :label="status.name"
+                  :value="status.code"
                 />
               </el-select>
             </div>
@@ -60,15 +124,28 @@
                 Pekerjaan
               </div>
             </div>
-            <el-button
-              type="primary"
-              @click="toggleDrawer()"
-            >
-              Tambah Pekerjaan
-              <el-icon class="el-icon--right">
-                <Plus />
-              </el-icon>
-            </el-button>
+            <div>
+              <el-button
+                type="primary"
+                class="input-section__import-template"
+                @click="toggleDialog()"
+              >
+                Import Template
+                <el-icon class="el-icon--right">
+                  <Download />
+                </el-icon>
+              </el-button>
+              <el-button
+                type="primary"
+                @click="toggleDrawer()"
+              >
+                Tambah Pekerjaan
+                
+                <el-icon class="el-icon--right">
+                  <Plus />
+                </el-icon>
+              </el-button>
+            </div>
           </div>
           <el-empty
             v-if="!formData.jenis_pekerjaans.length"
@@ -152,15 +229,22 @@
             </el-table-column>
           </el-table>
         </div>
-        <div class="manajemen-template-spk-create__submit-section">
+        <div class="manajemen-spk-edit__submit-section">
+          <el-button
+            type="secondary"
+            class="manajemen-spk-edit__cancel-btn"
+            @click="goToManajemenSPK"
+          >
+            Cancel
+          </el-button>
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
             :loading="visibleLoading"
             type="primary"
-            class="manajemen-template-spk-create__submit-btn"
+            class="manajemen-spk-edit__submit-btn"
             @click="submit"
           >
-            Buat Template SPK
+            Simpan Template SPK
           </el-button>
         </div>
       </div>
@@ -169,7 +253,7 @@
     <el-drawer
       v-model="visibleDrawer"
       :size="800"
-      class="manajemen-template-spk-create__drawer drawer"
+      class="manajemen-spk-edit__drawer drawer"
     >
       <template #header>
         <div class="drawer__header">
@@ -338,16 +422,64 @@
         </div>
       </el-scrollbar>
     </el-drawer>
+
+    <el-dialog
+      v-model="visibleDialog"
+      :width="480"
+      class="manajemen-spk-edit__dialog dialog"
+    >
+      <template #header>
+        <div class="dialog__header header">
+          <el-icon color="#E7B10A">
+            <Download />
+          </el-icon>
+          Import Template SPK
+        </div>
+      </template>
+      <div class="dialog__label">
+        Template SPK
+      </div>
+      <el-select
+        v-model="templateSPKId"
+        placeholder="Pilih template SPK"
+        class="dialog__input"
+        remote-show-suffix
+        filterable
+        remote
+        reserve-keyword
+      >
+        <el-option
+          v-for="templateSPK in templateSPKs"
+          :key="templateSPK.id"
+          :label="templateSPK.nama"
+          :value="templateSPK.id"
+        />
+      </el-select>
+      <template #footer>
+        <el-button
+          type="secondary"
+          @click="toggleDialog()"
+        >
+          Cancel
+        </el-button>
+        <el-button
+          type="primary"
+          @click="importTemplate()"
+        >
+          Confirm
+        </el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
-<script src="./js/manajemen-template-spk-create.js"></script>
+<script src="./js/manajemen-spk-edit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-template-spk-create {
+  .manajemen-spk-edit {
     &__wrapper {
       background: white;
       border-radius: 12px;
@@ -383,6 +515,11 @@
           font-size: 16px;
           font-weight: 600;
         }
+      }
+
+      &__import-template {
+        border-color: #E7B10A;
+        background-color: #E7B10A;
       }
 
       .table {
@@ -545,6 +682,20 @@
           // width: 45%;
           width: 150px;
         }
+      }
+    }
+
+    .dialog {
+      &__label {
+        color: #434343;
+        font-family: Plus Jakarta Sans;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      &__input {
+        width: 100%;
       }
     }
     

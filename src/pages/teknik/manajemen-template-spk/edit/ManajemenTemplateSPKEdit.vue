@@ -1,14 +1,14 @@
 <template>
-  <div class="manajemen-template-spk-create">
+  <div class="manajemen-template-spk-edit">
     <page-header
-      title="Buat Template SPK Baru"
+      title="Edit Template SPK"
       show-back-icon
       @back="goToManajemenTemplateSPK"
     />
 
     <div class="page-content">
-      <div class="manajemen-template-spk-create__wrapper">
-        <div class="manajemen-template-spk-create__input-section input-section">
+      <div class="manajemen-template-spk-edit__wrapper">
+        <div class="manajemen-template-spk-edit__input-section input-section">
           <div class="input-section__header">
             <img
               :src="icons.receipt"
@@ -79,7 +79,7 @@
             :data="formData.jenis_pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
-            row-key="id_table"
+            row-key="id"
             stripe
             default-expand-all
           >
@@ -152,15 +152,22 @@
             </el-table-column>
           </el-table>
         </div>
-        <div class="manajemen-template-spk-create__submit-section">
+        <div class="manajemen-template-spk-edit__submit-section">
+          <el-button
+            type="secondary"
+            class="manajemen-template-spk-edit__cancel-btn"
+            @click="goToManajemenTemplateSPK"
+          >
+            Cancel
+          </el-button>
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
             :loading="visibleLoading"
             type="primary"
-            class="manajemen-template-spk-create__submit-btn"
+            class="manajemen-template-spk-edit__submit-btn"
             @click="submit"
           >
-            Buat Template SPK
+            Simpan Template SPK
           </el-button>
         </div>
       </div>
@@ -169,7 +176,7 @@
     <el-drawer
       v-model="visibleDrawer"
       :size="800"
-      class="manajemen-template-spk-create__drawer drawer"
+      class="manajemen-template-spk-edit__drawer drawer"
     >
       <template #header>
         <div class="drawer__header">
@@ -341,13 +348,13 @@
   </div>
 </template>
 
-<script src="./js/manajemen-template-spk-create.js"></script>
+<script src="./js/manajemen-template-spk-edit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-template-spk-create {
+  .manajemen-template-spk-edit {
     &__wrapper {
       background: white;
       border-radius: 12px;

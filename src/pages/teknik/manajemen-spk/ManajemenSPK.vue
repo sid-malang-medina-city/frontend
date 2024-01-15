@@ -1,9 +1,9 @@
 <template>
-  <div class="laporan-marketing">
-    <page-header title="Laporan Marketing" />
-    <div class="laporan-marketing__wrapper page-content">
-      <div class="laporan-marketing__actions-wrapper">
-        <div class="laporan-marketing__actions actions">
+  <div class="manajemen-spk">
+    <page-header title="Manajemen SPK" />
+    <div class="manajemen-spk__wrapper page-content">
+      <div class="manajemen-spk__actions-wrapper">
+        <div class="manajemen-spk__actions actions">
           <div class="actions-filters">
             <el-button
               type="secondary"
@@ -29,18 +29,29 @@
               Hapus Semua Filter
             </el-button>
           </div>
+          <el-button
+            v-if="hasAccess('CREATE_MARKETER')"
+            type="primary"
+            class="actions__create-btn"
+            @click="goToCreatePage"
+          >
+            Tambah SPK
+            <el-icon class="el-icon--right">
+              <Plus />
+            </el-icon>
+          </el-button>
         </div>
         <div
           v-show="visibleFilter"
-          class="laporan-marketing__filters filters"
+          class="manajemen-spk__filters filters"
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Nama/ID/Dokumen Konsumen
+              No SPK/Unit
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari berdasarkan nama/ID/dokumen konsumen"
+              placeholder="Cari berdasarkan no SPK atau unit"
               class="filters__input"
               @keyup="debounceDelay(() => handleFilterChange())"
             >
@@ -49,124 +60,83 @@
               </template>
             </el-input>
           </div>
-
-          <div class="filters__input-wrapper">
+          <!-- <div class="filters__input-wrapper">
             <div class="filters__label">
-              Status
+              Tipe Unit
             </div>
             <el-select
-              v-model="filters.status_fee"
-              placeholder="Pilih status"
+              v-model="filters.tipe_unit"
+              placeholder="Pilih tipe unit"
               class="filters__input"
               clearable
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="status in statuses"
-                :key="status.code"
-                :label="status.name"
-                :value="status.code"
+                v-for="tipe_unit in tipeUnits"
+                :key="tipe_unit.id"
+                :label="tipe_unit.nama"
+                :value="tipe_unit.id"
               />
             </el-select>
-          </div>
+          </div> -->
         </div>
       </div>
 
-      <div class="laporan-marketing__table-wrapper">
+      <div class="manajemen-spk__table-wrapper">
         <el-table
           v-loading="visibleLoadingTable"
-          :data="laporanMarketings"
-          class="laporan-marketing__table table general-table"
+          :data="SPKs"
+          class="manajemen-spk__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
           @row-click="goToDetailPage"
         >
           <el-table-column
-            prop="id"
-            label="ID"
+            prop="nomor"
+            label="Nomor SPK"
+            min-width="200"
+          />
+          <el-table-column
+            prop="unit_tipe_nama"
+            label="Tipe Unit"
             min-width="100"
           />
           <el-table-column
-            prop="marketer_nama"
-            label="Nama"
-            min-width="210"
-          >
-            <template #default="scope">
-              <div
-                class="table__link"
-                @click.stop="goToMarketerDetailPage(scope.row.marketer_id)"
-              >
-                <u>{{ scope.row.marketer_nama }}</u>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="dokumen_konsumen_id"
-            label="Dokumen Konsumen"
+            label="Unit"
             min-width="150"
           >
             <template #default="scope">
-              <div
-                class="table__link"
-                @click.stop="goToDokumenKonsumenDetailPage(scope.row.dokumen_konsumen_id)"
-              >
-                <u>{{ scope.row.dokumen_konsumen_id }}</u>
-              </div>
+              {{ scope.row.unit_cluster_nama }} - {{ scope.row.unit_nomor_kavling }}
             </template>
           </el-table-column>
           <el-table-column
-            prop="status_verifikasi"
-            label="Status Verfikasi"
-            min-width="180"
+            prop="vendor_nama"
+            label="Vendor"
+            min-width="150"
+          />
+          <el-table-column
+            prop="harga_total"
+            label="Harga Total"
+            min-width="150"
+          >
+            <template #default="scope">
+              {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="status"
+            label="Status"
+            min-width="100"
           >
             <template #default="scope">
               <status-badge
-                :color="verificationStatuses[scope.row.status_verifikasi].color"
-                :text="verificationStatuses[scope.row.status_verifikasi].name"
+                :color="statuses[scope.row.status].color"
+                :text="statuses[scope.row.status].name"
               />
             </template>
           </el-table-column>
           <el-table-column
-            prop="status_fee"
-            label="Status Fee"
-            min-width="180"
-          >
-            <template #default="scope">
-              <status-badge
-                :color="statuses[scope.row.status_fee].color"
-                :text="statuses[scope.row.status_fee].name"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="jumlah_fee"
-            label="Jumlah Fee"
-            min-width="180"
-          >
-            <template #default="scope">
-              {{ helpers.convertPriceToRupiah(scope.row.jumlah_fee) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="updated_at"
-            label="Tanggal Diperbaharui"
-            min-width="180"
-          >
-            <template #default="scope">
-              {{ helpers.convertDateTimeZoneToDateString(scope.row.updated_at) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="created_at"
-            label="Tanggal Dibuat"
-            min-width="180"
-          >
-            <template #default="scope">
-              {{ helpers.convertDateTimeZoneToDateString(scope.row.updated_at) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            v-if="hasAccess('UPDATE_LAPORAN_MARKETING')"
+            v-if="hasAccess('UPDATE_MARKETER') || hasAccess('DELETE_MARKETER')"
             label="Action"
             width="90"
             align="center"
@@ -175,25 +145,34 @@
             <template #default="scope">
               <div class="table__actions">
                 <el-button
+                  v-if="hasAccess('UPDATE_MARKETER') && scope.row.status !== 'FINAL'"
                   :icon="icons.edit"
                   type="primary"
                   class="table__actions-edit"
                   text
                   @click.stop="goToEditPage(scope.row.id)"
                 />
+                <!-- <el-button
+                  v-if="hasAccess('DELETE_MARKETER')"
+                  :icon="icons.delete"
+                  type="primary"
+                  class="table__actions-delete"
+                  text
+                  @click.stop="openModalConfirmation(scope.row.id)"
+                /> -->
               </div>
             </template>
           </el-table-column>
         </el-table>
-        <div class="laporan-marketing__footer">
-          <div class="laporan-marketing__total-laporan-marketing font-grey">
-            Menampilkan {{ totalShownLaporanMarketings }} dari {{ totalLaporanMarketings }} laporan marketing
+        <div class="manajemen-spk__footer">
+          <div class="manajemen-spk__total-spks font-grey">
+            Menampilkan {{ totalShownSPKs }} dari {{ totalSPKs }} SPK
           </div>
-          <div class="laporan-marketing__pagination">
+          <div class="manajemen-spk__pagination">
             <el-pagination
               :current-page="pagination.page"
               :page-size="pagination.size"
-              :total="totalLaporanMarketings"
+              :total="totalSPKs"
               layout="prev, pager, next"
               background
               hide-on-single-page
@@ -206,13 +185,13 @@
   </div>
 </template>
 
-<script src="./js/laporan-marketing.js"></script>
+<script src="./js/manajemen-spk.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .laporan-marketing {
+  .manajemen-spk {
     &__actions-wrapper {
       border-radius: 12px;
       border: 1px solid #EAEAEA;
@@ -230,7 +209,7 @@
         gap: 8px;
       }
 
-      ::v-deep(.actions__clear-filter-btn span) {
+      :deep(.actions__clear-filter-btn span) {
         gap: 4px;
       }
 
@@ -276,11 +255,6 @@
 
     .table {
       margin-bottom: 24px;
-
-      &__link {
-        cursor: pointer;
-        width: fit-content;
-      }
 
       &__actions {
         display: flex;
