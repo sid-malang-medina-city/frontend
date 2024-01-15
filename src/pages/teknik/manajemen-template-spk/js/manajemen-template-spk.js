@@ -8,6 +8,7 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
 
+import helpers from '~/utils/helpers'
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
 import {
@@ -50,7 +51,8 @@ export default {
         delete: Delete,
         edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
-      }
+      },
+      helpers
     }
   },
 

@@ -59,7 +59,7 @@
               <el-option
                 v-for="tipe_unit in tipeUnits"
                 :key="tipe_unit.id"
-                :label="tipe_unit.name"
+                :label="tipe_unit.nama"
                 :value="tipe_unit.id"
               />
             </el-select>
@@ -82,7 +82,7 @@
             min-width="200"
           />
           <el-table-column
-            prop="tipe_unit"
+            prop="unit_tipe_nama"
             label="Tipe Unit"
             min-width="150"
           />
@@ -90,7 +90,11 @@
             prop="harga_total"
             label="Harga Total"
             min-width="150"
-          />
+          >
+            <template #default="scope">
+              {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+            </template>
+          </el-table-column>
           <el-table-column
             v-if="hasAccess('UPDATE_MARKETER') || hasAccess('DELETE_MARKETER')"
             label="Action"
