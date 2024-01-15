@@ -31,7 +31,7 @@
           </div>
         </div>
         <div
-          v-if="visibleFilter"
+          v-show="visibleFilter"
           class="laporan-marketing__filters filters"
         >
           <div class="filters__input-wrapper">

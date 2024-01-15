@@ -81,6 +81,10 @@ export default {
     templateSPK: {
       list: '/teknik/template-spk',
       detail: id => `/teknik/template-spk/${encodeURIComponent(id)}`
+    },
+    SPK: {
+      list: '/teknik/spk',
+      detail: id => `/teknik/spk/${encodeURIComponent(id)}`
     }
   }
 }

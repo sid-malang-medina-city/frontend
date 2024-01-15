@@ -28,7 +28,7 @@
           </el-button>
         </div>
         <div
-          v-if="visibleFilter"
+          v-show="visibleFilter"
           class="manajemen-cluster__filters filters"
         >
           <div class="filters__input-wrapper">

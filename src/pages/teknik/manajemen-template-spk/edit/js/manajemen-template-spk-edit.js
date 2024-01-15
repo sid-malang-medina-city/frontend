@@ -31,7 +31,7 @@ const SATUAN_UKURANS = [
 ]
 
 export default {
-  name: 'manajemen-template-spk-create',
+  name: 'manajemen-template-spk-edit',
 
   mixins: [RouterHandler, ToastHandler],
 
@@ -73,6 +73,9 @@ export default {
   },
 
   computed: {
+    id () {
+      return this.$route.params.id
+    },
     isAllRequiredFieldsFilled () {
       return !!this.formData.nama && !!this.formData.tipe_unit && this.formData.jenis_pekerjaans.length > 0
     },
@@ -91,12 +94,22 @@ export default {
   },
 
   created () {
+    this.getTemplateSPK()
     this.getTipeUnits()
   },
 
   methods: {
-    ...mapActions(templateSPKStore, ['createTemplateSPK']),
+    ...mapActions(templateSPKStore, ['editTemplateSPK','fetchTemplateSPK']),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
+
+    async getTemplateSPK () {
+      try {
+        const { data } = await this.fetchTemplateSPK(this.id)
+        this.initFormData(JSON.parse(JSON.stringify(data)))
+      } catch (e) {
+        this.showErrorResponse(e)
+      }
+    },
 
     async getTipeUnits () {
       try {
@@ -111,14 +124,30 @@ export default {
       }
     },
 
-    goToManajemenTemplateSPK () {
-      this.redirectTo('ManajemenTemplateSPK')
+    initFormData (data) {
+      this.formData = data
+      delete this.formData.id
+      this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
+        jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
+        jenisPekerjaan.actions = true
+        jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
+          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+          pekerjaan.harga_total = parseInt(pekerjaan.volume) * parseInt(pekerjaan.harga_satuan)
+        })
+        jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
+        jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
+      })
+      this.calculatePersentasePekerjaan()
     },
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
         return harga + parseInt(pekerjaan.harga_total)
       }, 0)
+    },
+
+    goToManajemenTemplateSPK () {
+      this.redirectTo('ManajemenTemplateSPK')
     },
 
     addPekerjaan () {
@@ -169,6 +198,7 @@ export default {
           children: this.form.pekerjaans,
           harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans)
         }
+        this.calculateHargaTotalJenisPekerjaan(jenis)
         this.formData.jenis_pekerjaans.push(jenisPekerjaanRow)
         this.calculatePersentasePekerjaan()
         this.showToast('Pekerjaan berhasil ditambahkan!')
@@ -216,9 +246,9 @@ export default {
     async submit () {
       this.visibleLoading = true
       try {
-        await this.createTemplateSPK(this.generatePayload())
+        await this.editTemplateSPK(this.id, this.generatePayload())
         this.redirectTo('ManajemenTemplateSPK')
-        this.showToast('Template SPK baru berhasil ditambahkan!')
+        this.showToast('Template SPK berhasil diubah!')
       } catch (e) {
         this.showErrorResponse(e)
       } finally {
