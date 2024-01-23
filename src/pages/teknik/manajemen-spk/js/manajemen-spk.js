@@ -119,8 +119,6 @@ export default {
         this.tipeUnits = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
-      } finally {
-        this.visibleLoadingTable = false
       }
     },
 

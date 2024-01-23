@@ -62,7 +62,7 @@ export default {
       },
       namaPekerjaan: '',
       satuanUkuran: '',
-      volume: '',
+      volume: null,
       hargaSatuan: '',
       templateSPKId: null,
       templateSPKs: [],
@@ -100,7 +100,7 @@ export default {
       let price = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseInt(pekerjaan.harga_total)
+          return harga + parseFloat(pekerjaan.harga_total)
         }, 0)
       })
       return price
@@ -133,7 +133,7 @@ export default {
 
     async getUnits () {
       try {
-        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERSEDIA' })
+        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERJUAL' })
         this.units = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
@@ -213,7 +213,7 @@ export default {
         jenisPekerjaan.actions = true
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
-          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
+          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan.replace(',','.'))
         })
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
@@ -224,7 +224,7 @@ export default {
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
-        return harga + parseInt(pekerjaan.harga_total)
+        return harga + parseFloat(pekerjaan.harga_total)
       }, 0)
     },
 
@@ -236,7 +236,7 @@ export default {
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
           harga_satuan: this.hargaSatuan,
-          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan),
+          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
         })
         this.clearPekerjaan()
       } else {
@@ -247,7 +247,7 @@ export default {
     clearPekerjaan () {
       this.namaPekerjaan = ''
       this.satuanUkuran = ''
-      this.volume = ''
+      this.volume = null
       this.hargaSatuan = ''
     },
 
@@ -348,6 +348,7 @@ export default {
     },
 
     toggleDrawer (selectedJenisPekerjaan = '') {
+      this.resetFormPekerjaan()
       if (selectedJenisPekerjaan) {
         this.isEditMode = true
         this.form = {

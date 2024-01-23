@@ -47,11 +47,11 @@
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Nama
+              No SPK/Unit
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari laporan progres pembangunan berdasarkan nama"
+              placeholder="Cari berdasarkan no SPK/Unit"
               class="filters__input"
               @keyup="debounceDelay(() => handleFilterChange())"
             >
@@ -59,6 +59,41 @@
                 <el-icon class="el-input__icon"><Search /></el-icon>
               </template>
             </el-input>
+          </div>
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Tipe Unit
+            </div>
+            <el-select
+              v-model="filters.tipe_unit"
+              placeholder="Pilih tipe unit"
+              class="filters__input"
+              clearable
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="tipeUnit in tipeUnits"
+                :key="tipeUnit.id"
+                :label="tipeUnit.nama"
+                :value="tipeUnit.id"
+              />
+            </el-select>
+          </div>
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Bulan
+            </div>
+            <el-date-picker
+              v-model="bulanValue"
+              :clearable="false"
+              type="monthrange"
+              range-separator="-"
+              start-placeholder="Bulan awal"
+              end-placeholder="Bulan akhir"
+              format="MM-YYYY"
+              value-format="YYYY-MM-DD"
+              @change="handleMonthRangeChange"
+            />
           </div>
         </div>
       </div>
@@ -282,6 +317,11 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    :deep(.el-range-editor) {
+      box-sizing: border-box;
+      width: 400px;
     }
   }
 </style>

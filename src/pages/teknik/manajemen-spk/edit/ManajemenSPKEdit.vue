@@ -304,6 +304,7 @@
             v-model="volume"
             placeholder="Masukkan volume"
             class="form__input"
+            type="number"
           />
           
           <div class="form__label required">
@@ -311,8 +312,12 @@
           </div>
           <el-input
             v-model="hargaSatuan"
-            :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
-            :parser="(value) => value.replace(/[^\d]/g, '')"
+            :formatter="(value) => {
+              const parts = value.toString().split(',');
+              parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+              return `Rp ${parts.slice(0,2).join(',')}`;
+            }"
+            :parser="(value) => value.replace(/[^\d,]/g, '')"
             placeholder="Masukkan harga satuan"
             class="form__input"
           />
@@ -548,7 +553,7 @@
     .rows {
       display: flex;
       gap: 24px;
-      margin-bottom: 32px;
+      margin-bottom: 16px;
 
       .row {
         &__label {

@@ -1,5 +1,3 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
-
 import { mapActions } from 'pinia'
 import { templateSPKStore } from '~/store/teknik/template-spk'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
@@ -55,7 +53,7 @@ export default {
       },
       namaPekerjaan: '',
       satuanUkuran: '',
-      volume: '',
+      volume: null,
       hargaSatuan: '',
       satuanUkurans: SATUAN_UKURANS,
       tipeUnits: [],
@@ -86,7 +84,7 @@ export default {
       let price = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseInt(pekerjaan.harga_total)
+          return harga + parseFloat(pekerjaan.harga_total)
         }, 0)
       })
       return price
@@ -120,7 +118,7 @@ export default {
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
-        return harga + parseInt(pekerjaan.harga_total)
+        return harga + parseFloat(pekerjaan.harga_total)
       }, 0)
     },
 
@@ -132,7 +130,7 @@ export default {
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
           harga_satuan: this.hargaSatuan,
-          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan),
+          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
         })
         this.showToast('Pekerjaan berhasil ditambahkan!')
         this.clearPekerjaan()
@@ -144,7 +142,7 @@ export default {
     clearPekerjaan () {
       this.namaPekerjaan = ''
       this.satuanUkuran = ''
-      this.volume = ''
+      this.volume = null
       this.hargaSatuan = ''
     },
 
@@ -241,6 +239,7 @@ export default {
     },
 
     toggleDrawer (selectedJenisPekerjaan = '') {
+      this.resetFormPekerjaan()
       if (selectedJenisPekerjaan) {
         this.isEditMode = true
         this.form = {

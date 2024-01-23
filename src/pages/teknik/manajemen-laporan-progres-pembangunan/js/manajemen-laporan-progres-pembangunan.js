@@ -1,5 +1,6 @@
 import { mapActions } from 'pinia'
 import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
+import { tipeUnitStore } from '~/store/unit/tipe-unit'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -36,13 +37,18 @@ export default {
   data () {
     return {
       filters: {
-        search: this.$route.query.search || null
+        search: this.$route.query.search || null,
+        tipe_unit: this.$route.query.tipe_unit || null,
+        start_tanggal: this.$route.query.start_tanggal || null,
+        end_tanggal: this.$route.query.end_tanggal || null,
       },
       pagination: {
         page: 1,
         size: 10
       },
+      bulanValue: null,
       laporanProgresPembangunans: [],
+      tipeUnits: [],
       totalLaporanProgresPembangunans: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
@@ -79,6 +85,8 @@ export default {
 
   created () {
     this.visibleFilter = this.isAnyFilterApplied
+    this.initFilters()
+    this.getTipeUnits()
     this.getLaporanProgresPembangunans()
   },
 
@@ -87,6 +95,7 @@ export default {
       'fetchLaporanProgresPembangunans',
       'deleteLaporanProgresPembangunan'
     ]),
+    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
 
     async getLaporanProgresPembangunans () {
       this.visibleLoadingTable = true
@@ -101,9 +110,30 @@ export default {
       }
     },
 
+    async getTipeUnits () {
+      try {
+        const { data } = await this.fetchTipeUnits({
+          skip_pagination: true
+        })
+        this.tipeUnits = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initFilters () {
+      this.bulanValue = [this.filters.start_tanggal, this.filters.end_tanggal]
+    },
+
     handlePageChange (page) {
       this.pagination.page = page
       this.getLaporanProgresPembangunans()
+    },
+
+    handleMonthRangeChange () {
+      this.filters.start_tanggal = this.bulanValue[0]
+      this.filters.end_tanggal = this.bulanValue[1]
+      this.handleFilterChange()
     },
 
     handleFilterChange () {
@@ -123,6 +153,7 @@ export default {
       Object.keys(this.filters).forEach(filter => {
         this.filters[filter] = null
       })
+      this.bulanValue = null
       this.handleFilterChange()
     },
 

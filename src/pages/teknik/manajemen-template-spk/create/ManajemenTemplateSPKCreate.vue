@@ -90,7 +90,15 @@
               width="200"
             >
               <template #default="scope">
-                {{ scope.row.nama }}
+                <div
+                  v-if="!scope.row.hasOwnProperty('actions')"
+                  class="table__nama-pekerjaan"
+                >
+                  {{ scope.row.nama }}
+                </div>
+                <template v-else>
+                  {{ scope.row.nama }}
+                </template>
               </template>
             </el-table-column>
             <el-table-column
@@ -231,6 +239,7 @@
                 v-model="volume"
                 placeholder="Masukkan volume"
                 class="form__input"
+                type="number"
               />
             </div>
             <div class="form__input-flex-wrapper">
@@ -239,8 +248,12 @@
               </div>
               <el-input
                 v-model="hargaSatuan"
-                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
-                :parser="(value) => value.replace(/[^\d]/g, '')"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
                 placeholder="Masukkan harga satuan"
                 class="form__input"
               />
@@ -411,6 +424,10 @@
             padding: 0;
           }
         }
+
+        &__nama-pekerjaan {
+          padding-left: 30px;
+        }
       }
     }
 
@@ -578,6 +595,14 @@
       padding-bottom: 12px;
       margin-bottom: 12px;
       border-bottom: 1px solid #E9E9E9;
+    }
+
+    :deep(.el-table__placeholder) {
+      display: none;
+    }
+    
+    :deep(.el-table__indent) {
+      display: none;
     }
     
     .required::after {
