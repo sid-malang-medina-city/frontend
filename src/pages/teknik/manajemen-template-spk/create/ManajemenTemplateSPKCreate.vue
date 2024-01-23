@@ -43,7 +43,7 @@
                 <el-option
                   v-for="tipe_unit in tipeUnits"
                   :key="tipe_unit.id"
-                  :label="tipe_unit.name"
+                  :label="tipe_unit.nama"
                   :value="tipe_unit.id"
                 />
               </el-select>
@@ -116,13 +116,17 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
               prop="persentase_pekerjaan"
               label="Persentase Pekerjaan"
-            />
+            >
+              <template #default="scope">
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+              </template>
+            </el-table-column>
             <el-table-column
               label="Action"
               width="150"
@@ -187,53 +191,64 @@
             class="form__input"
           />
           
-          <div class="form__label required">
-            Nama Pekerjaan
+          <div class="form__input-flex">
+            <div class="form__input-flex-wrapper">
+              <div class="form__label required">
+                Nama Pekerjaan
+              </div>
+              <el-input
+                v-model="namaPekerjaan"
+                placeholder="Masukkan nama pekerjaan"
+                class="form__input"
+              />
+            </div>
+            <div class="form__input-flex-wrapper">
+              <div class="form__label required">
+                Satuan Ukuran
+              </div>
+              <el-select
+                v-model="satuanUkuran"
+                placeholder="Pilih satuan ukuran"
+                class="form__input"
+                clearable
+              >
+                <el-option
+                  v-for="satuanUkuran in satuanUkurans"
+                  :key="satuanUkuran"
+                  :label="satuanUkuran"
+                  :value="satuanUkuran"
+                />
+              </el-select>
+            </div>
           </div>
-          <el-input
-            v-model="namaPekerjaan"
-            placeholder="Masukkan nama pekerjaan"
-            class="form__input"
-          />
           
-          <div class="form__label required">
-            Satuan Ukuran
+          <div class="form__input-flex">
+            <div class="form__input-flex-wrapper">
+              <div class="form__label required">
+                Volume
+              </div>
+              <el-input
+                v-model="volume"
+                placeholder="Masukkan volume"
+                class="form__input"
+              />
+            </div>
+            <div class="form__input-flex-wrapper">
+              <div class="form__label required">
+                Harga Satuan
+              </div>
+              <el-input
+                v-model="hargaSatuan"
+                :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
+                :parser="(value) => value.replace(/[^\d]/g, '')"
+                placeholder="Masukkan harga satuan"
+                class="form__input"
+              />
+            </div>
           </div>
-          <el-select
-            v-model="satuanUkuran"
-            placeholder="Pilih satuan ukuran"
-            class="form__input"
-            clearable
-          >
-            <el-option
-              v-for="satuanUkuran in satuanUkurans"
-              :key="satuanUkuran"
-              :label="satuanUkuran"
-              :value="satuanUkuran"
-            />
-          </el-select>
-          
-          <div class="form__label required">
-            Volume
-          </div>
-          <el-input
-            v-model="volume"
-            placeholder="Masukkan volume"
-            class="form__input"
-          />
-          
-          <div class="form__label required">
-            Harga Satuan
-          </div>
-          <el-input
-            v-model="hargaSatuan"
-            :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
-            :parser="(value) => value.replace(/[^\d]/g, '')"
-            placeholder="Masukkan harga satuan"
-            class="form__input"
-          />
   
           <el-button
+            :disabled="isAddPekerjaanFormIsFilled"
             type="primary"
             class="form__button"
             @click="addPekerjaan"
@@ -246,6 +261,7 @@
               List Pekerjaan
             </div>
             <el-button
+              :disabled="!form.pekerjaans.length"
               type="danger"
               class="drawer__delete-all-btn"
               link
@@ -326,7 +342,7 @@
               Cancel
             </el-button>
             <el-button
-              :disabled="!isAddPekerjaanFormIsFilled"
+              :disabled="!isAddJenisPekerjaanFormIsFilled"
               :loading="visibleLoading"
               type="primary"
               class="actions__submit-btn"
@@ -423,7 +439,8 @@
         }
   
         &__input {
-          width: 400px;
+          // width: 400px;
+          width: 100%;
 
           &--error {
             :deep(.el-input__wrapper) {
@@ -503,6 +520,15 @@
         &__input {
           width: 100%;
           margin-bottom: 20px;
+
+          &-flex {
+            display: flex;
+            gap: 10px;
+
+            &-wrapper {
+              width: 100%;
+            }
+          }
 
           &--error {
             :deep(.el-input__wrapper) {

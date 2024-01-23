@@ -1,6 +1,6 @@
 export default {
-  convertPriceToRupiah (price, withPrefix = true) {
-    if (price === null || price === undefined) {
+  convertPriceToRupiah (price, withPrefix = true, actions = false) {
+    if (price === null || price === undefined || actions) {
       return
     }
     return withPrefix ? 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
@@ -57,6 +57,14 @@ export default {
     
     const output = `${formattedDate}`;
     return output
+  },
+
+  convertDecimalToPercentage (decimal, actions = false) {
+    if (actions) {
+      return
+    }
+
+    return decimal.toFixed(2) + '%'
   },
 
   convertDateToAge (date) {

@@ -160,6 +160,7 @@ export default {
           harga_satuan: this.hargaSatuan,
           harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan),
         })
+        this.showToast('Pekerjaan berhasil ditambahkan!')
         this.clearPekerjaan()
       } else {
         this.showToast('Nama pekerjaan sudah ada', 'error')
@@ -183,10 +184,12 @@ export default {
 
     deleteAllPekerjaan () {
       this.form.pekerjaans = []
+      this.showToast('Semua pekerjaan berhasil dihapus!')
     },
 
     deletePekerjaan (namaPekerjaan) {
       this.form.pekerjaans.splice(this.form.pekerjaans.findIndex(pekerjaan => pekerjaan.nama === namaPekerjaan), 1)
+      this.showToast('Pekerjaan berhasil dihapus!')
     },
 
     addJenisPekerjaan () {
@@ -201,7 +204,7 @@ export default {
         this.calculateHargaTotalJenisPekerjaan(jenis)
         this.formData.jenis_pekerjaans.push(jenisPekerjaanRow)
         this.calculatePersentasePekerjaan()
-        this.showToast('Pekerjaan berhasil ditambahkan!')
+        this.showToast('Jenis pekerjaan berhasil ditambahkan!')
         this.toggleDrawer()
         this.resetFormPekerjaan()
       } else {
@@ -219,7 +222,7 @@ export default {
           harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans)
         })
         this.calculatePersentasePekerjaan()
-        this.showToast('Pekerjaan berhasil diubah!')
+        this.showToast('Jenis pekerjaan berhasil diubah!')
         this.toggleDrawer()
         this.resetFormPekerjaan()
       } else {
@@ -240,7 +243,7 @@ export default {
     deleteJenisPekerjaan (selectedJenisPekerjaan) {
       this.formData.jenis_pekerjaans.splice(this.formData.jenis_pekerjaans.findIndex(jenisPekerjaan => jenisPekerjaan.nama === selectedJenisPekerjaan), 1)
       this.calculatePersentasePekerjaan()
-      this.showToast('Pekerjaan berhasil dihapus!')
+      this.showToast('Jenis pekerjaan berhasil dihapus!')
     },
 
     async submit () {

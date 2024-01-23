@@ -60,6 +60,9 @@ const ManajemenTemplateSPKEdit = defineAsyncComponent(() => import(/* webpackChu
 const ManajemenSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk" */ '~/pages/teknik/manajemen-spk/ManajemenSPK.vue'))
 const ManajemenSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-create" */ '~/pages/teknik/manajemen-spk/create/ManajemenSPKCreate.vue'))
 const ManajemenSPKEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-edit" */ '~/pages/teknik/manajemen-spk/edit/ManajemenSPKEdit.vue'))
+const ManajemenLaporanProgresPembangunan = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/ManajemenLaporanProgresPembangunan.vue'))
+const ManajemenLaporanProgresPembangunanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-create" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/create/ManajemenLaporanProgresPembangunanCreate.vue'))
+const ManajemenLaporanProgresPembangunanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-edit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/edit/ManajemenLaporanProgresPembangunanEdit.vue'))
 
 export default [
   {
@@ -661,6 +664,36 @@ export default [
     component: ManajemenSPKEdit,
     meta: {
       title: 'Manajemen SPK Edit',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan',
+    name: 'ManajemenLaporanProgresPembangunan',
+    component: ManajemenLaporanProgresPembangunan,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan/create',
+    name: 'ManajemenLaporanProgresPembangunanCreate',
+    component: ManajemenLaporanProgresPembangunanCreate,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Create',
+      action: 'LIST_MARKETER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan/edit/:id',
+    name: 'ManajemenLaporanProgresPembangunanEdit',
+    component: ManajemenLaporanProgresPembangunanEdit,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Edit',
       action: 'LIST_MARKETER',
       requireLogin: true
     }

@@ -164,15 +164,15 @@ export const NAVIGATION_ITEMS = [
         childRoutes: [],
         iconPath: null
       },
-      // {
-      //   label: 'Manajemen Laporan Progress Pembangunan',
-      //   path: '/teknik/manajemen-laporan-progress-pembangunan',
-      //   routeName: 'ManajemenLaporanProgressPembangunan',
-      //   menuCode: 'LIST_DOKUMEN_KONSUMEN',
-      //   labelIndex: 4,
-      //   childRoutes: [],
-      //   iconPath: null
-      // },
+      {
+        label: 'Manajemen Laporan Progres Pembangunan',
+        path: '/teknik/manajemen-laporan-progres-pembangunan',
+        routeName: 'ManajemenLaporanProgresPembangunan',
+        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        labelIndex: 4,
+        childRoutes: [],
+        iconPath: null
+      },
       // {
       //   label: 'Laporan Invoice Progress Pembangunan',
       //   path: '/teknik/laporan-invoice-progress-pembangunan',

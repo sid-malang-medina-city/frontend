@@ -48,11 +48,11 @@
               <el-date-picker
                 v-model="periodeValue"
                 :clearable="false"
-                type="daterange"
+                type="monthrange"
                 range-separator="-"
                 start-placeholder="Tanggal awal"
                 end-placeholder="Tanggal akhir"
-                format="DD-MM-YYYY"
+                format="MM-YYYY"
                 value-format="YYYY-MM-DD"
                 @change="handleDateRangeChange"
               />
@@ -193,13 +193,17 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
               prop="persentase_pekerjaan"
               label="Persentase Pekerjaan"
-            />
+            >
+              <template #default="scope">
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+              </template>
+            </el-table-column>
             <el-table-column
               label="Action"
               width="150"
@@ -711,6 +715,11 @@
     .required::after {
       content: "*";
       color: #FF613A;
+    }
+
+    :deep(.el-date-editor--monthrange) {
+      box-sizing: border-box;
+      width: 400px;
     }
   }
 </style>
