@@ -1,7 +1,6 @@
 import { mapActions } from 'pinia'
-import { SPKStore } from '~/store/teknik/spk'
+import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
-import { STATUSES } from '~/data/spk'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -13,8 +12,6 @@ import helpers from '~/utils/helpers'
 
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
-import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
-
 import {
   ArrowDown,
   ArrowUp,
@@ -25,13 +22,12 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-spk',
+  name: 'manajemen-laporan-progres-pembangunan',
 
   mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
-    StatusBadge,
     ArrowDown,
     ArrowUp,
     Plus,
@@ -42,16 +38,18 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        tipe_unit: this.$route.query.tipe_unit || null
+        tipe_unit: this.$route.query.tipe_unit || null,
+        start_tanggal: this.$route.query.start_tanggal || null,
+        end_tanggal: this.$route.query.end_tanggal || null,
       },
       pagination: {
         page: 1,
         size: 10
       },
+      bulanValue: null,
+      laporanProgresPembangunans: [],
       tipeUnits: [],
-      SPKs: [],
-      statuses: STATUSES,
-      totalSPKs: 0,
+      totalLaporanProgresPembangunans: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
@@ -64,8 +62,8 @@ export default {
   },
 
   computed: {
-    totalShownSPKs () {
-      const totalItems = this.totalSPKs
+    totalShownLaporanProgresPembangunans () {
+      const totalItems = this.totalLaporanProgresPembangunans
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -87,23 +85,24 @@ export default {
 
   created () {
     this.visibleFilter = this.isAnyFilterApplied
-    this.getSPKs()
+    this.initFilters()
     this.getTipeUnits()
+    this.getLaporanProgresPembangunans()
   },
 
   methods: {
-    ...mapActions(SPKStore, [
-      'fetchSPKs',
-      'deleteSPK'
+    ...mapActions(laporanProgresPembangunanStore, [
+      'fetchLaporanProgresPembangunans',
+      'deleteLaporanProgresPembangunan'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
-    
-    async getSPKs () {
+
+    async getLaporanProgresPembangunans () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchSPKs(this.generateFilters)
-        this.SPKs = JSON.parse(JSON.stringify(data.data))
-        this.totalSPKs = data.pagination.total_items
+        const { data } = await this.fetchLaporanProgresPembangunans(this.generateFilters)
+        this.laporanProgresPembangunans = JSON.parse(JSON.stringify(data.data))
+        this.totalLaporanProgresPembangunans = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -122,9 +121,19 @@ export default {
       }
     },
 
+    initFilters () {
+      this.bulanValue = [this.filters.start_tanggal, this.filters.end_tanggal]
+    },
+
     handlePageChange (page) {
       this.pagination.page = page
-      this.getSPKs()
+      this.getLaporanProgresPembangunans()
+    },
+
+    handleMonthRangeChange () {
+      this.filters.start_tanggal = this.bulanValue[0]
+      this.filters.end_tanggal = this.bulanValue[1]
+      this.handleFilterChange()
     },
 
     handleFilterChange () {
@@ -132,7 +141,7 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenLaporanProgresPembangunan', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -144,14 +153,15 @@ export default {
       Object.keys(this.filters).forEach(filter => {
         this.filters[filter] = null
       })
+      this.bulanValue = null
       this.handleFilterChange()
     },
 
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus  SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus  SPK berarti menghilangkan progress data dan akses mereka',
-          'Hapus SPK',
+          'Apakah anda yakin ingin menghapus laporan progres pembangunan ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus laporan progres pembangunan berarti menghilangkan progres data dan akses mereka',
+          'Hapus LaporanProgresPembangunan',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -159,26 +169,26 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteSPK(id)
-        this.showToast('SPK berhasil dihapus!')
+        await this.handleDeleteLaporanProgresPembangunan(id)
+        this.showToast('Laporan pembangunan berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteSPK(id) {
+    async handleDeleteLaporanProgresPembangunan(id) {
       try {
-        await this.deleteSPK(id)
-        this.getSPKs()
+        await this.deleteLaporanProgresPembangunan(id)
+        this.getLaporanProgresPembangunans()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenSPKCreate')
+      this.redirectTo('ManajemenLaporanProgresPembangunanCreate')
     },
 
     goToDetailPage ({ id }) {
-      // this.redirectTo('ManajemenSPKDetail', {
+      // this.redirectTo('ManajemenLaporanProgresPembangunanDetail', {
       //   params: {
       //     id: id
       //   }
@@ -186,7 +196,7 @@ export default {
     },
 
     goToEditPage (id) {
-      this.redirectTo('ManajemenSPKEdit', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanEdit', {
         params: {
           id: id
         }

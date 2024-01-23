@@ -140,6 +140,16 @@ export const STATUS_PEMBAYARAN = {
     code: 'DP1_PPJB',
     color: '#F9CA1D'
   },
+  DP2: {
+    name: 'DP2',
+    code: 'DP2',
+    color: '#C62786'
+  },
+  DP3: {
+    name: 'DP3',
+    code: 'DP3',
+    color: '#0B6BC4'
+  },
   CASH_LUNAS: {
     name: 'Cash Lunas',
     code: 'CASH_LUNAS',
@@ -207,6 +217,11 @@ export const STATUS_PEMBAYARAN_EDIT = {
       name: 'DP1 + PPJB',
       code: 'DP1_PPJB',
       color: '#F9CA1D'
+    },
+    DP2: {
+      name: 'DP2',
+      code: 'DP2',
+      color: '#C62786'
     }
   },
   CASH_LUNAS_PPJB: {
@@ -221,6 +236,23 @@ export const STATUS_PEMBAYARAN_EDIT = {
       name: 'DP1 + PPJB',
       code: 'DP1_PPJB',
       color: '#F9CA1D'
+    },
+    DP2: {
+      name: 'DP2',
+      code: 'DP2',
+      color: '#C62786'
+    }
+  },
+  DP2: {
+    DP2: {
+      name: 'DP2',
+      code: 'DP2',
+      color: '#C62786'
+    },
+    DP3: {
+      name: 'DP3',
+      code: 'DP3',
+      color: '#0B6BC4'
     }
   },
   REFUND_TERBAYAR: {
@@ -262,6 +294,30 @@ export const STATUS_PEMBAYARAN_EDIT_FAILED_BOOKING = {
       name: 'DP 1',
       code: 'DP1',
       color: '#F9CA1D'
+    },
+    REFUND_TERBAYAR: {
+      name: 'Refund Terbayar',
+      code: 'REFUND_TERBAYAR',
+      color: '#559816'
+    }
+  },
+  DP2: {
+    DP2: {
+      name: 'DP2',
+      code: 'DP2',
+      color: '#C62786'
+    },
+    REFUND_TERBAYAR: {
+      name: 'Refund Terbayar',
+      code: 'REFUND_TERBAYAR',
+      color: '#559816'
+    }
+  },
+  DP3: {
+    DP3: {
+      name: 'DP3',
+      code: 'DP3',
+      color: '#0B6BC4'
     },
     REFUND_TERBAYAR: {
       name: 'Refund Terbayar',

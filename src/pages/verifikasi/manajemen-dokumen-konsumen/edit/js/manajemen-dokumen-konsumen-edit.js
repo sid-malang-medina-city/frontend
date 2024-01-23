@@ -61,6 +61,7 @@ export default {
         harga_deal_akhir: '',
         skema_bayar: '',
         tanggal_ppjb: '',
+        is_ppjb: false,
         keterangan_deal: '',
         e_ktp_file_delete: '',
         e_ktp_partner_file_delete: '',
@@ -498,6 +499,12 @@ export default {
     
     removeVisibleImageActionIcons (identifier) {
       this.visibleImageActionIcons[identifier] = false
+    },
+
+    handleStatusPembayaranChange () {
+      if (this.formData.status_pembayaran.includes('PPJB')) {
+        this.formData.is_ppjb = true
+      }
     },
 
     validateDiskon () {

@@ -38,6 +38,7 @@
                   :key="unit.id"
                   :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
                   :value="unit.id"
+                  @click="handleUnitChange(unit)"
                 />
               </el-select>
             </div>
@@ -48,11 +49,11 @@
               <el-date-picker
                 v-model="periodeValue"
                 :clearable="false"
-                type="daterange"
+                type="monthrange"
                 range-separator="-"
                 start-placeholder="Tanggal awal"
                 end-placeholder="Tanggal akhir"
-                format="DD-MM-YYYY"
+                format="MM-YYYY"
                 value-format="YYYY-MM-DD"
                 @change="handleDateRangeChange"
               />
@@ -112,6 +113,125 @@
                 />
               </el-select>
             </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Nomor Tipe Unit
+              </div>
+              <el-input
+                v-model="selectedTipeUnitNomor"
+                placeholder="Pilih unit terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Subsidi
+              </div>
+              <el-input
+                v-model="formData.harga_subsidi"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga subsidi"
+                class="row__input"
+                @input="calculateHargaTotal"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Pekerjaan Pembangunan Rumah
+              </div>
+              <el-input
+                v-model="formData.harga_ppr"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah"
+                class="row__input"
+                @input="calculateHargaTotal"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Pekerjaan Pembangunan Rumah dan Subsidi
+              </div>
+              <el-input
+                v-model="formData.harga_total_ppr_subsidi"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah, harga subsidi, dan tipe unit  terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Pekerjaan Pembangunan Rumah
+              </div>
+              <el-input
+                v-model="formData.harga_total_ppr"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah dan tipe unit terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga PPh 21
+              </div>
+              <el-input
+                v-model="formData.harga_pph21"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga PPh 21"
+                class="row__input"
+                @input="calculateHargaTotal"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total SPK
+              </div>
+              <el-input
+                v-model="formData.harga_total_spk"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah, harga subsidi, harga PPh 21, dan tipe unit  terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
           </div>
           <div class="input-section__header input-section__header--flex">
             <div class="input-section__header-left">
@@ -140,7 +260,6 @@
                 @click="toggleDrawer()"
               >
                 Tambah Pekerjaan
-                
                 <el-icon class="el-icon--right">
                   <Plus />
                 </el-icon>
@@ -193,13 +312,17 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
               prop="persentase_pekerjaan"
               label="Persentase Pekerjaan"
-            />
+            >
+              <template #default="scope">
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+              </template>
+            </el-table-column>
             <el-table-column
               label="Action"
               width="150"
@@ -297,6 +420,7 @@
             v-model="volume"
             placeholder="Masukkan volume"
             class="form__input"
+            type="number"
           />
           
           <div class="form__label required">
@@ -304,8 +428,12 @@
           </div>
           <el-input
             v-model="hargaSatuan"
-            :formatter="(value) => `Rp ${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`"
-            :parser="(value) => value.replace(/[^\d]/g, '')"
+            :formatter="(value) => {
+              const parts = value.toString().split(',');
+              parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+              return `Rp ${parts.slice(0,2).join(',')}`;
+            }"
+            :parser="(value) => value.replace(/[^\d,]/g, '')"
             placeholder="Masukkan harga satuan"
             class="form__input"
           />
@@ -551,7 +679,7 @@
     .rows {
       display: flex;
       gap: 24px;
-      margin-bottom: 32px;
+      margin-bottom: 16px;
 
       .row {
         &__label {
@@ -711,6 +839,11 @@
     .required::after {
       content: "*";
       color: #FF613A;
+    }
+
+    :deep(.el-date-editor--monthrange) {
+      box-sizing: border-box;
+      width: 400px;
     }
   }
 </style>

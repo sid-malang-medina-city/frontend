@@ -1,5 +1,3 @@
-import { ElMessage, ElMessageBox } from 'element-plus'
-
 import { mapActions } from 'pinia'
 import { templateSPKStore } from '~/store/teknik/template-spk'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
@@ -55,7 +53,7 @@ export default {
       },
       namaPekerjaan: '',
       satuanUkuran: '',
-      volume: '',
+      volume: null,
       hargaSatuan: '',
       satuanUkurans: SATUAN_UKURANS,
       tipeUnits: [],
@@ -86,7 +84,7 @@ export default {
       let price = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseInt(pekerjaan.harga_total)
+          return harga + parseFloat(pekerjaan.harga_total)
         }, 0)
       })
       return price
@@ -132,7 +130,7 @@ export default {
         jenisPekerjaan.actions = true
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
-          pekerjaan.harga_total = parseInt(pekerjaan.volume) * parseInt(pekerjaan.harga_satuan)
+          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan.replace(',','.'))
         })
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
@@ -142,7 +140,7 @@ export default {
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
-        return harga + parseInt(pekerjaan.harga_total)
+        return harga + parseFloat(pekerjaan.harga_total)
       }, 0)
     },
 
@@ -158,8 +156,9 @@ export default {
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
           harga_satuan: this.hargaSatuan,
-          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan),
+          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
         })
+        this.showToast('Pekerjaan berhasil ditambahkan!')
         this.clearPekerjaan()
       } else {
         this.showToast('Nama pekerjaan sudah ada', 'error')
@@ -169,7 +168,7 @@ export default {
     clearPekerjaan () {
       this.namaPekerjaan = ''
       this.satuanUkuran = ''
-      this.volume = ''
+      this.volume = null
       this.hargaSatuan = ''
     },
 
@@ -183,10 +182,12 @@ export default {
 
     deleteAllPekerjaan () {
       this.form.pekerjaans = []
+      this.showToast('Semua pekerjaan berhasil dihapus!')
     },
 
     deletePekerjaan (namaPekerjaan) {
       this.form.pekerjaans.splice(this.form.pekerjaans.findIndex(pekerjaan => pekerjaan.nama === namaPekerjaan), 1)
+      this.showToast('Pekerjaan berhasil dihapus!')
     },
 
     addJenisPekerjaan () {
@@ -201,7 +202,7 @@ export default {
         this.calculateHargaTotalJenisPekerjaan(jenis)
         this.formData.jenis_pekerjaans.push(jenisPekerjaanRow)
         this.calculatePersentasePekerjaan()
-        this.showToast('Pekerjaan berhasil ditambahkan!')
+        this.showToast('Jenis pekerjaan berhasil ditambahkan!')
         this.toggleDrawer()
         this.resetFormPekerjaan()
       } else {
@@ -219,7 +220,7 @@ export default {
           harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans)
         })
         this.calculatePersentasePekerjaan()
-        this.showToast('Pekerjaan berhasil diubah!')
+        this.showToast('Jenis pekerjaan berhasil diubah!')
         this.toggleDrawer()
         this.resetFormPekerjaan()
       } else {
@@ -240,7 +241,7 @@ export default {
     deleteJenisPekerjaan (selectedJenisPekerjaan) {
       this.formData.jenis_pekerjaans.splice(this.formData.jenis_pekerjaans.findIndex(jenisPekerjaan => jenisPekerjaan.nama === selectedJenisPekerjaan), 1)
       this.calculatePersentasePekerjaan()
-      this.showToast('Pekerjaan berhasil dihapus!')
+      this.showToast('Jenis pekerjaan berhasil dihapus!')
     },
 
     async submit () {
@@ -265,6 +266,7 @@ export default {
     },
 
     toggleDrawer (selectedJenisPekerjaan = '') {
+      this.resetFormPekerjaan()
       if (selectedJenisPekerjaan) {
         this.isEditMode = true
         this.form = {

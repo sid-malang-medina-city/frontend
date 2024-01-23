@@ -56,15 +56,22 @@ export default {
         keterangan: '',
         status: 'DRAFT',
         harga_total: null,
+        harga_total_ppr: null,
+        harga_subsidi: null,
+        harga_pph21: null,
+        harga_total_ppr_subsidi: null,
+        harga_total_spk: null,
         jenis_pekerjaans: []
       },
       form: {
         jenisPekerjaan: '',
         pekerjaans: []
       },
+      selectedUnit: null,
+      selectedTipeUnitNomor: null,
       namaPekerjaan: '',
       satuanUkuran: '',
-      volume: '',
+      volume: null,
       hargaSatuan: '',
       templateSPKId: null,
       templateSPKs: [],
@@ -99,7 +106,7 @@ export default {
       let price = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseInt(pekerjaan.harga_total)
+          return harga + parseFloat(pekerjaan.harga_total)
         }, 0)
       })
       return price
@@ -131,7 +138,7 @@ export default {
 
     async getUnits () {
       try {
-        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERSEDIA' })
+        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERJUAL' })
         this.units = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
@@ -156,7 +163,6 @@ export default {
     async importTemplate () {
       try {
         const { data } = await this.fetchTemplateSPK(this.templateSPKId)
-        console.log(data)
         this.initFormData(JSON.parse(JSON.stringify(data)))
         this.templateSPKId = null
         this.toggleDialog()
@@ -187,10 +193,20 @@ export default {
       this.calculatePersentasePekerjaan()
     },
 
+    // handleHargaPPh21 () {
+
+    // },
+
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
-        return harga + parseInt(pekerjaan.harga_total)
+        return harga + parseFloat(pekerjaan.harga_total)
       }, 0)
+    },
+
+    calculateHargaTotal () {
+      this.formData.harga_total_ppr = parseFloat(this.formData.harga_ppr) * this.selectedTipeUnitNomor
+      this.formData.harga_total_ppr_subsidi = parseFloat(this.formData.harga_total_ppr) + parseFloat(this.formData.harga_subsidi)
+      this.formData.harga_total_spk = parseFloat(this.formData.harga_total_ppr_subsidi) - parseFloat(this.formData.harga_pph21)
     },
 
     addPekerjaan () {
@@ -201,7 +217,7 @@ export default {
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
           harga_satuan: this.hargaSatuan,
-          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan),
+          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
         })
         this.clearPekerjaan()
       } else {
@@ -212,7 +228,7 @@ export default {
     clearPekerjaan () {
       this.namaPekerjaan = ''
       this.satuanUkuran = ''
-      this.volume = ''
+      this.volume = null
       this.hargaSatuan = ''
     },
 
@@ -253,7 +269,6 @@ export default {
 
     updateJenisPekerjaan () {
       if (!this.formData.jenis_pekerjaans.some(jenisPekerjaan => jenisPekerjaan.nama === this.form.jenisPekerjaan) || this.form.jenisPekerjaan === this.form.currentJenisPekerjaan) {
-        console.log('msk')
         const updateIndex = this.formData.jenis_pekerjaans.findIndex(jenisPekerjaan => jenisPekerjaan.nama === this.form.currentJenisPekerjaan)
         this.formData.jenis_pekerjaans.splice(updateIndex, 1, {
           ...this.formData.jenis_pekerjaans[updateIndex],
@@ -274,7 +289,7 @@ export default {
       this.formData.harga_total = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         jenisPekerjaan.children.forEach(pekerjaan => {
-          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice).toFixed(2)
+          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice).toFixed(2)*100
           this.formData.harga_total += pekerjaan.harga_total
         })
       })
@@ -289,6 +304,10 @@ export default {
     handleDateRangeChange () {
       this.formData.awal_periode = this.periodeValue[0]
       this.formData.akhir_periode = this.periodeValue[1]
+    },
+
+    handleUnitChange (unit) {
+      this.selectedTipeUnitNomor = unit.tipe.nomor
     },
 
     async submit () {
@@ -314,6 +333,7 @@ export default {
     },
 
     toggleDrawer (selectedJenisPekerjaan = '') {
+      this.resetFormPekerjaan()
       if (selectedJenisPekerjaan) {
         this.isEditMode = true
         this.form = {

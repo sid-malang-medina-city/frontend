@@ -85,6 +85,10 @@ export default {
     SPK: {
       list: '/teknik/spk',
       detail: id => `/teknik/spk/${encodeURIComponent(id)}`
+    },
+    laporanProgresPembangunan: {
+      list: '/teknik/laporan-progres-pembangunan',
+      detail: id => `/teknik/laporan-progres-pembangunan/${encodeURIComponent(id)}`
     }
   }
 }

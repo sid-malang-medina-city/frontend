@@ -428,6 +428,7 @@
                 v-model="formData.status_pembayaran"
                 placeholder="Pilih status pembayaran"
                 class="row__input"
+                @change="handleStatusPembayaranChange"
               >
                 <el-option
                   v-for="status in paymentStatuses"
