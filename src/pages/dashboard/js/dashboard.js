@@ -39,6 +39,7 @@ import clockCountdownIcon from '/clock-countdown.svg'
 import usersThreeIcon from '/users-three.svg'
 import buildingIcon from '/building.svg'
 import buildingBlueIcon from '/building-blue.svg'
+import buildingOrangeIcon from '/building-orange.svg'
 
 import { InfoFilled } from '@element-plus/icons-vue'
 
@@ -69,6 +70,16 @@ const DASHBOARD_CARDS = {
     routeName: 'ManajemenUnit',
     params: {
       status: 'BOOKING'
+    }
+  },
+  total_unit_hold: {
+    icon: buildingOrangeIcon,
+    title: 'Unit hold',
+    code: 'total_unit_hold',
+    description: 'Jumlah unit terhold',
+    routeName: 'ManajemenUnit',
+    params: {
+      status: 'HOLD'
     }
   },
   total_unit_tersedia: {
