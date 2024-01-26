@@ -28,7 +28,6 @@
                 v-model="formData.status_fee"
                 placeholder="Pilih status fee"
                 class="row__input"
-                disabled
               >
                 <el-option
                   v-for="status in statuses"
