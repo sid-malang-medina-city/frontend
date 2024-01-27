@@ -38,6 +38,7 @@
                   :key="unit.id"
                   :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
                   :value="unit.id"
+                  @click="handleUnitChange(unit)"
                 />
               </el-select>
             </div>
@@ -48,11 +49,11 @@
               <el-date-picker
                 v-model="periodeValue"
                 :clearable="false"
-                type="daterange"
+                type="monthrange"
                 range-separator="-"
                 start-placeholder="Tanggal awal"
                 end-placeholder="Tanggal akhir"
-                format="DD-MM-YYYY"
+                format="MM-YYYY"
                 value-format="YYYY-MM-DD"
                 @change="handleDateRangeChange"
               />
@@ -112,6 +113,125 @@
                 />
               </el-select>
             </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Nomor Tipe Unit
+              </div>
+              <el-input
+                v-model="selectedTipeUnitNomor"
+                placeholder="Pilih unit terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Subsidi
+              </div>
+              <el-input
+                v-model="formData.harga_subsidi"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga subsidi"
+                class="row__input"
+                @input="calculateHargaTotal"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Pekerjaan Pembangunan Rumah
+              </div>
+              <el-input
+                v-model="formData.harga_ppr"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah"
+                class="row__input"
+                @input="calculateHargaTotal"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Pekerjaan Pembangunan Rumah dan Subsidi
+              </div>
+              <el-input
+                v-model="formData.harga_total_ppr_subsidi"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah, harga subsidi, dan tipe unit  terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Pekerjaan Pembangunan Rumah
+              </div>
+              <el-input
+                v-model="formData.harga_total_ppr"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah dan tipe unit terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga PPh 21
+              </div>
+              <el-input
+                v-model="formData.harga_pph21"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga PPh 21"
+                class="row__input"
+                @input="calculateHargaTotal"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total SPK
+              </div>
+              <el-input
+                v-model="formData.harga_total_spk"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga pekerjaan pembangunan rumah, harga subsidi, harga PPh 21, dan tipe unit  terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
           </div>
           <div class="input-section__header input-section__header--flex">
             <div class="input-section__header-left">
@@ -167,7 +287,15 @@
               width="200"
             >
               <template #default="scope">
-                {{ scope.row.nama }}
+                <div
+                  v-if="!scope.row.hasOwnProperty('actions')"
+                  class="table__nama-pekerjaan"
+                >
+                  {{ scope.row.nama }}
+                </div>
+                <template v-else>
+                  {{ scope.row.nama }}
+                </template>
               </template>
             </el-table-column>
             <el-table-column
@@ -541,6 +669,10 @@
             padding: 0;
           }
         }
+
+        &__nama-pekerjaan {
+          padding-left: 30px;
+        }
       }
     }
 
@@ -713,10 +845,23 @@
       margin-bottom: 12px;
       border-bottom: 1px solid #E9E9E9;
     }
+
+    :deep(.el-table__placeholder) {
+      display: none;
+    }
+    
+    :deep(.el-table__indent) {
+      display: none;
+    }
     
     .required::after {
       content: "*";
       color: #FF613A;
+    }
+
+    :deep(.el-date-editor--monthrange) {
+      box-sizing: border-box;
+      width: 400px;
     }
   }
 </style>

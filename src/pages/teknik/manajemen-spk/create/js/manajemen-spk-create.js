@@ -56,18 +56,18 @@ export default {
         keterangan: '',
         status: 'DRAFT',
         harga_total: null,
-        harga_total_ppr: null,
-        harga_subsidi: null,
-        harga_pph21: null,
-        harga_total_ppr_subsidi: null,
-        harga_total_spk: null,
+        harga_total_ppr: 0,
+        harga_ppr: 0,
+        harga_subsidi: 0,
+        harga_pph21: 0,
+        harga_total_ppr_subsidi: 0,
+        harga_total_spk: 0,
         jenis_pekerjaans: []
       },
       form: {
         jenisPekerjaan: '',
         pekerjaans: []
       },
-      selectedUnit: null,
       selectedTipeUnitNomor: null,
       namaPekerjaan: '',
       satuanUkuran: '',
@@ -322,6 +322,7 @@ export default {
 
     handleUnitChange (unit) {
       this.selectedTipeUnitNomor = unit.tipe.nomor
+      this.calculateHargaTotal()
     },
 
     async submit () {

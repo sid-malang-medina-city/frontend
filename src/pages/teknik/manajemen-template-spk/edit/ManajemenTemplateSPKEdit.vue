@@ -90,7 +90,15 @@
               width="200"
             >
               <template #default="scope">
-                {{ scope.row.nama }}
+                <div
+                  v-if="!scope.row.hasOwnProperty('actions')"
+                  class="table__nama-pekerjaan"
+                >
+                  {{ scope.row.nama }}
+                </div>
+                <template v-else>
+                  {{ scope.row.nama }}
+                </template>
               </template>
             </el-table-column>
             <el-table-column
@@ -422,6 +430,10 @@
             padding: 0;
           }
         }
+
+        &__nama-pekerjaan {
+          padding-left: 30px;
+        }
       }
     }
 
@@ -588,6 +600,14 @@
       padding-bottom: 12px;
       margin-bottom: 12px;
       border-bottom: 1px solid #E9E9E9;
+    }
+
+    :deep(.el-table__placeholder) {
+      display: none;
+    }
+    
+    :deep(.el-table__indent) {
+      display: none;
     }
     
     .required::after {
