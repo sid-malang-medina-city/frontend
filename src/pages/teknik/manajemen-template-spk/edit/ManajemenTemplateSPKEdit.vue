@@ -116,13 +116,17 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
               prop="persentase_pekerjaan"
               label="Persentase Pekerjaan"
-            />
+            >
+              <template #default="scope">
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+              </template>
+            </el-table-column>
             <el-table-column
               label="Action"
               width="150"
