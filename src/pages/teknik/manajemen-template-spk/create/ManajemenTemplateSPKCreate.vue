@@ -261,7 +261,7 @@
           </div>
   
           <el-button
-            :disabled="isAddPekerjaanFormIsFilled"
+            :disabled="!isAddPekerjaanFormIsFilled"
             type="primary"
             class="form__button"
             @click="addPekerjaan"
