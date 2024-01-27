@@ -211,7 +211,6 @@ export default {
           pekerjaans: this.form.pekerjaans,
           harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans),
         }
-        this.calculateHargaTotalJenisPekerjaan(jenis)
         this.formData.jenis_pekerjaans.push(jenisPekerjaanRow)
         this.calculatePersentasePekerjaan()
         this.calculatePersentaseJenisPekerjaan()

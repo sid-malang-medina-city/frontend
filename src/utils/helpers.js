@@ -5,7 +5,8 @@ export default {
     }
     const stringPrice = price.toString()
     if (stringPrice.includes('.')) {
-      const splittedPrice = stringPrice.split('.')
+      const formattedPrice = price.toFixed(2)
+      const splittedPrice = formattedPrice.split('.')
       return withPrefix ? 'Rp' + splittedPrice[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + splittedPrice[1] : splittedPrice[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + splittedPrice[1]
     }
 
