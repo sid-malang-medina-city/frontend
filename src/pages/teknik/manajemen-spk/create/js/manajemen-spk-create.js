@@ -203,6 +203,14 @@ export default {
       }, 0)
     },
 
+    calculatePersentaseJenisPekerjaan () {
+      this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
+        jenisPekerjaan.persentase_pekerjaan = jenisPekerjaan.pekerjaans.reduce((persentase, pekerjaan) => {
+          return persentase + pekerjaan.persentase_pekerjaan
+        }, 0)
+      })
+    },
+
     calculateHargaTotal () {
       this.formData.harga_total_ppr = parseFloat(this.formData.harga_ppr) * this.selectedTipeUnitNomor
       this.formData.harga_total_ppr_subsidi = parseFloat(this.formData.harga_total_ppr) + parseFloat(this.formData.harga_subsidi)
@@ -216,6 +224,7 @@ export default {
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
+          harga_satuan: parseFloat(this.hargaSatuan),
           harga_satuan: this.hargaSatuan,
           harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
         })
@@ -255,10 +264,12 @@ export default {
           nama: this.form.jenisPekerjaan,
           actions: true,
           children: this.form.pekerjaans,
-          harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans)
+          pekerjaans: this.form.pekerjaans,
+          harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans),
         }
         this.formData.jenis_pekerjaans.push(jenisPekerjaanRow)
         this.calculatePersentasePekerjaan()
+        this.calculatePersentaseJenisPekerjaan()
         this.showToast('Pekerjaan berhasil ditambahkan!')
         this.toggleDrawer()
         this.resetFormPekerjaan()
@@ -274,9 +285,11 @@ export default {
           ...this.formData.jenis_pekerjaans[updateIndex],
           nama: this.form.jenisPekerjaan,
           children: this.form.pekerjaans,
+          pekerjaans: this.form.pekerjaans,
           harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans)
         })
         this.calculatePersentasePekerjaan()
+        this.calculatePersentaseJenisPekerjaan()
         this.showToast('Pekerjaan berhasil diubah!')
         this.toggleDrawer()
         this.resetFormPekerjaan()
@@ -289,7 +302,7 @@ export default {
       this.formData.harga_total = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         jenisPekerjaan.children.forEach(pekerjaan => {
-          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice).toFixed(2)*100
+          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
           this.formData.harga_total += pekerjaan.harga_total
         })
       })
@@ -298,6 +311,7 @@ export default {
     deleteJenisPekerjaan (selectedJenisPekerjaan) {
       this.formData.jenis_pekerjaans.splice(this.formData.jenis_pekerjaans.findIndex(jenisPekerjaan => jenisPekerjaan.nama === selectedJenisPekerjaan), 1)
       this.calculatePersentasePekerjaan()
+      this.calculatePersentaseJenisPekerjaan()
       this.showToast('Pekerjaan berhasil dihapus!')
     },
 

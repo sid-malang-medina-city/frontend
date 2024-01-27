@@ -245,7 +245,7 @@ export default {
       this.formData.harga_total = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         jenisPekerjaan.children.forEach(pekerjaan => {
-          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice).toFixed(2)*100
+          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
           this.formData.harga_total += pekerjaan.harga_total
         })
       })
