@@ -131,16 +131,11 @@ export default {
       this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
         jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
         jenisPekerjaan.actions = true
-        console.log(1)
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-          console.log(11, pekerjaan.volume, pekerjaan.harga_satuan)
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
-          console.log(12)
           pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
         })
-        console.log(2)
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
-        console.log(3)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
       })
     },
@@ -211,6 +206,7 @@ export default {
           id_table: this.formData.jenis_pekerjaans.length + 1,
           nama: this.form.jenisPekerjaan,
           actions: true,
+          children: this.form.pekerjaans,
           pekerjaans: this.form.pekerjaans,
           harga_total: this.calculateHargaTotalJenisPekerjaan(this.form.pekerjaans),
         }

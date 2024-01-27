@@ -79,7 +79,7 @@
             :data="formData.jenis_pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
-            row-key="id"
+            row-key="id_table"
             stripe
             default-expand-all
           >
