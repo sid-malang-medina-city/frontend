@@ -54,12 +54,19 @@ export default {
         vendor: '',
         keterangan: '',
         harga_total: null,
+        harga_total_ppr: 0,
+        harga_ppr: 0,
+        harga_subsidi: 0,
+        harga_pph21: 0,
+        harga_total_ppr_subsidi: 0,
+        harga_total_spk: 0,
         jenis_pekerjaans: []
       },
       form: {
         jenisPekerjaan: '',
         pekerjaans: []
       },
+      selectedTipeUnitNomor: null,
       namaPekerjaan: '',
       satuanUkuran: '',
       volume: null,
@@ -196,6 +203,7 @@ export default {
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
       })
+      this.selectedTipeUnitNomor = this.formData.unit_tipe_nomor
       this.periodeValue = [this.formData.awal_periode, this.formData.akhir_periode]
       this.calculatePersentasePekerjaan()
     },
@@ -218,6 +226,7 @@ export default {
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
       })
+      this.selectedTipeUnitNomor = this.formData.unit_tipe_nomor
       this.periodeValue = [this.formData.awal_periode, this.formData.akhir_periode]
       this.calculatePersentasePekerjaan()
     },
@@ -234,6 +243,12 @@ export default {
           return persentase + pekerjaan.persentase_pekerjaan
         }, 0)
       })
+    },
+
+    calculateHargaTotal () {
+      this.formData.harga_total_ppr = parseFloat(this.formData.harga_ppr) * this.selectedTipeUnitNomor
+      this.formData.harga_total_ppr_subsidi = parseFloat(this.formData.harga_total_ppr) + parseFloat(this.formData.harga_subsidi)
+      this.formData.harga_total_spk = parseFloat(this.formData.harga_total_ppr_subsidi) - parseFloat(this.formData.harga_pph21)
     },
 
     addPekerjaan () {
@@ -335,6 +350,11 @@ export default {
     handleDateRangeChange () {
       this.formData.awal_periode = this.periodeValue[0]
       this.formData.akhir_periode = this.periodeValue[1]
+    },
+
+    handleUnitChange (unit) {
+      this.selectedTipeUnitNomor = unit.tipe.nomor
+      this.calculateHargaTotal()
     },
 
     async submit () {
