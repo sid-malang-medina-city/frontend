@@ -101,6 +101,9 @@ export default {
       return requiredFields.every(field => !!this.formData[field]) && this.formData.jenis_pekerjaans.length > 0
     },
     isAddPekerjaanFormIsFilled () {
+      return !!this.namaPekerjaan && !!this.satuanUkuran && !!this.volume && !!this.hargaSatuan
+    },
+    isAddJenisPekerjaanFormIsFilled () {
       return !!this.form.jenisPekerjaan && this.form.pekerjaans.length > 0
     },
     totalPrice () {
