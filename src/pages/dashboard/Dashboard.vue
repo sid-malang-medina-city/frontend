@@ -174,14 +174,34 @@
         </div>
         
         <div
-          v-if="visibleCharts.includes('Demografi Kota')"
+          v-if="visibleCharts.includes('Demografi Kota di Jawa Timur')"
           class="dashboard__bar-chart bar-chart"
         >
           <div class="bar-chart__header">
-            Demografi Wilayah
+            Demografi Kota di Jawa Timur
           </div>
           <div class="bar-chart__content">
-            <Pie :data="kotaChart" :options="pieChartOptions" />
+            <Bar
+              :data="kotaChart"
+              :options="wilayahChartOptions"
+              id="bar-chart-id"
+            />
+          </div>
+        </div>
+        
+        <div
+          v-if="visibleCharts.includes('Demografi Provinsi')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Provinsi
+          </div>
+          <div class="bar-chart__content">
+            <Bar
+              :data="provinsiChart"
+              :options="wilayahChartOptions"
+              id="bar-chart-id"
+            />
           </div>
         </div>
 

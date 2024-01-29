@@ -115,7 +115,7 @@
             </div>
             <div class="rows__row">
               <div class="row__label">
-                Nomor Tipe Unit
+                Tipe Unit
               </div>
               <el-input
                 v-model="selectedTipeUnitNomor"

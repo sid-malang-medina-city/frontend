@@ -30,7 +30,7 @@
             </el-button>
           </div>
           <el-button
-            v-if="hasAccess('CREATE_MARKETER')"
+            v-if="hasAccess('CREATE_VENDOR')"
             type="primary"
             class="actions__create-btn"
             @click="goToCreatePage"
@@ -88,7 +88,7 @@
             min-width="150"
           />
           <el-table-column
-            v-if="hasAccess('UPDATE_MARKETER') || hasAccess('DELETE_MARKETER')"
+            v-if="hasAccess('UPDATE_VENDOR')"
             label="Action"
             width="90"
             align="center"
@@ -97,21 +97,13 @@
             <template #default="scope">
               <div class="table__actions">
                 <el-button
-                  v-if="hasAccess('UPDATE_MARKETER')"
+                  v-if="hasAccess('UPDATE_VENDOR')"
                   :icon="icons.edit"
                   type="primary"
                   class="table__actions-edit"
                   text
                   @click.stop="goToEditPage(scope.row.id)"
                 />
-                <!-- <el-button
-                  v-if="hasAccess('DELETE_MARKETER')"
-                  :icon="icons.delete"
-                  type="primary"
-                  class="table__actions-delete"
-                  text
-                  @click.stop="openModalConfirmation(scope.row.id)"
-                /> -->
               </div>
             </template>
           </el-table-column>
