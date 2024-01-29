@@ -39,6 +39,7 @@ export default {
         email: '',
         password: ''
       },
+      visibleLoading: false,
       divisions: [],
       roles: []
     }

@@ -437,10 +437,6 @@
       justify-content: end;
     }
 
-    &__submit-btn {
-      width: 150px;
-    }
-
     .rows {
       display: flex;
       gap: 24px;
