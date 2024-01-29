@@ -115,6 +115,7 @@ export default [
     component: Dashboard,
     meta: {
       title: 'Dashboard',
+      action: 'DASHBOARD',
       requireLogin: true
     }
   },
@@ -584,7 +585,7 @@ export default [
     component: ManajemenVendor,
     meta: {
       title: 'Manajemen Vendor',
-      action: 'LIST_MARKETER',
+      action: 'LIST_VENDOR',
       requireLogin: true
     }
   },
@@ -594,7 +595,7 @@ export default [
     component: ManajemenVendorCreate,
     meta: {
       title: 'Manajemen Vendor Create',
-      action: 'LIST_MARKETER',
+      action: 'CREATE_VENDOR',
       requireLogin: true
     }
   },
@@ -604,7 +605,7 @@ export default [
     component: ManajemenVendorEdit,
     meta: {
       title: 'Manajemen Vendor Edit',
-      action: 'LIST_MARKETER',
+      action: 'UPDATE_VENDOR',
       requireLogin: true
     }
   },
@@ -614,7 +615,7 @@ export default [
     component: ManajemenTemplateSPK,
     meta: {
       title: 'Manajemen Template SPK',
-      action: 'LIST_MARKETER',
+      action: 'LIST_TEMPLATE_SPK',
       requireLogin: true
     }
   },
@@ -624,7 +625,7 @@ export default [
     component: ManajemenTemplateSPKCreate,
     meta: {
       title: 'Manajemen Template SPK Create',
-      action: 'LIST_MARKETER',
+      action: 'CREATE_TEMPLATE_SPK',
       requireLogin: true
     }
   },
@@ -634,7 +635,7 @@ export default [
     component: ManajemenTemplateSPKEdit,
     meta: {
       title: 'Manajemen Template SPK Edit',
-      action: 'LIST_MARKETER',
+      action: 'UPDATE_TEMPLATE_SPK',
       requireLogin: true
     }
   },
@@ -644,7 +645,7 @@ export default [
     component: ManajemenSPK,
     meta: {
       title: 'Manajemen SPK',
-      action: 'LIST_MARKETER',
+      action: 'LIST_SPK',
       requireLogin: true
     }
   },
@@ -654,7 +655,7 @@ export default [
     component: ManajemenSPKCreate,
     meta: {
       title: 'Manajemen SPK Create',
-      action: 'LIST_MARKETER',
+      action: 'CREATE_SPK',
       requireLogin: true
     }
   },
@@ -664,7 +665,7 @@ export default [
     component: ManajemenSPKEdit,
     meta: {
       title: 'Manajemen SPK Edit',
-      action: 'LIST_MARKETER',
+      action: 'UPDATE_SPK',
       requireLogin: true
     }
   },
@@ -674,7 +675,7 @@ export default [
     component: ManajemenLaporanProgresPembangunan,
     meta: {
       title: 'Manajemen Laporan Progres Pembangunan',
-      action: 'LIST_MARKETER',
+      action: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
       requireLogin: true
     }
   },
@@ -684,7 +685,7 @@ export default [
     component: ManajemenLaporanProgresPembangunanCreate,
     meta: {
       title: 'Manajemen Laporan Progres Pembangunan Create',
-      action: 'LIST_MARKETER',
+      action: 'CREATE_LAPORAN_PROGRES_PEMBANGUNAN',
       requireLogin: true
     }
   },
@@ -694,7 +695,7 @@ export default [
     component: ManajemenLaporanProgresPembangunanEdit,
     meta: {
       title: 'Manajemen Laporan Progres Pembangunan Edit',
-      action: 'LIST_MARKETER',
+      action: 'UPDATE_LAPORAN_PROGRES_PEMBANGUNAN',
       requireLogin: true
     }
   },

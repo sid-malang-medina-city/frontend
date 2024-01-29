@@ -133,7 +133,7 @@ export default {
     addPekerjaan () {
       if (!this.form.pekerjaans.some(pekerjaan => pekerjaan.nama === this.namaPekerjaan)) {
         this.form.pekerjaans.push({
-          id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
+          id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,

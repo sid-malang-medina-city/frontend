@@ -26,6 +26,7 @@
               </div>
               <el-input
                 v-model="formData.nama"
+                v-loading="isDataFetched"
                 placeholder="Masukkan nama template"
                 class="row__input"
               />
@@ -36,6 +37,7 @@
               </div>
               <el-select
                 v-model="formData.tipe_unit"
+                v-loading="isDataFetched"
                 placeholder="Pilih tipe unit"
                 class="row__input"
                 clearable
@@ -70,12 +72,12 @@
               </el-icon>
             </el-button>
           </div>
-          <el-empty
+          <!-- <el-empty
             v-if="!formData.jenis_pekerjaans.length"
             description="Belum ada pekerjaan"
-          />
+          /> -->
           <el-table
-            v-else
+            v-loading="isDataFetched"
             :data="formData.jenis_pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"

@@ -65,6 +65,7 @@ export default {
       },
       visibleDrawer: false,
       visibleLoading: false,
+      isDataFetched: false,
       isEditMode: false,
       helpers
     }
@@ -104,11 +105,14 @@ export default {
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
 
     async getTemplateSPK () {
+      this.isDataFetched = true
       try {
         const { data } = await this.fetchTemplateSPK(this.id)
         this.initFormData(JSON.parse(JSON.stringify(data)))
       } catch (e) {
         this.showErrorResponse(e)
+      } finally {
+        this.isDataFetched = false
       }
     },
 
@@ -120,8 +124,6 @@ export default {
         this.tipeUnits = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
-      } finally {
-        this.visibleLoadingTable = false
       }
     },
 
@@ -132,7 +134,7 @@ export default {
         jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
         jenisPekerjaan.actions = true
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
           pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
         })
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)

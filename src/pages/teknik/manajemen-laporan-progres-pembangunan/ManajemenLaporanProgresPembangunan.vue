@@ -30,7 +30,7 @@
             </el-button>
           </div>
           <el-button
-            v-if="hasAccess('CREATE_MARKETER')"
+            v-if="hasAccess('CREATE_LAPORAN_PROGRES_PEMBANGUNAN')"
             type="primary"
             class="actions__create-btn"
             @click="goToCreatePage"
@@ -183,7 +183,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            v-if="hasAccess('UPDATE_MARKETER') || hasAccess('DELETE_MARKETER')"
+            v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
             label="Action"
             width="90"
             align="center"
@@ -192,7 +192,7 @@
             <template #default="scope">
               <div class="table__actions">
                 <el-button
-                  v-if="hasAccess('UPDATE_MARKETER')"
+                  v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
                   :icon="icons.edit"
                   type="primary"
                   class="table__actions-edit"
@@ -271,6 +271,7 @@
       border: 1px solid #E3EADC;
       background: #F6F8F4;
       display: flex;
+      flex-wrap: wrap;
       gap: 24px;
       margin-top: 16px;
 

@@ -6,6 +6,7 @@ import ToastHandler from '~/mixins/toast-handler'
 import RouterHandler from '~/mixins/router-handler'
 
 import { Bar, Line, Pie } from 'vue-chartjs'
+import 'chartjs-plugin-datalabels'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -205,7 +206,7 @@ export default {
           value: () => {
             const end = new Date()
             const start = new Date()
-            start.setMonth(start.getMonth() - 6)
+            start.setMonth(start.getMonth() - 5)
             return [start, end]
           },
         },
@@ -214,7 +215,8 @@ export default {
         'Penjualan Unit',
         'Progress Pembangunan Unit',
         'Demografi Usia',
-        'Demografi Kota',
+        'Demografi Provinsi',
+        'Demografi Kota di Jawa Timur',
         'Demografi Gaji',
         'Demografi Pekerjaan',
         'Demografi Alasan'
@@ -223,7 +225,8 @@ export default {
         'Penjualan Unit',
         'Progress Pembangunan Unit',
         'Demografi Usia',
-        'Demografi Kota',
+        'Demografi Provinsi',
+        'Demografi Kota di Jawa Timur',
         'Demografi Gaji',
         'Demografi Pekerjaan',
         'Demografi Alasan'
@@ -232,7 +235,8 @@ export default {
         'Penjualan Unit',
         'Progress Pembangunan Unit',
         'Demografi Usia',
-        'Demografi Kota',
+        'Demografi Provinsi',
+        'Demografi Kota di Jawa Timur',
         'Demografi Gaji',
         'Demografi Pekerjaan',
         'Demografi Alasan'
@@ -242,7 +246,40 @@ export default {
         datasets: []
       },
       barChartOptions: {
-        responsive: true
+        responsive: true,
+        legend: {
+          display: false
+        },
+        scales: {
+          y: {
+            ticks: {
+              callback: function(value, index, ticks) {
+                return value + ' unit';
+              },
+              stepSize: 1
+            },
+            min: 0
+          }
+        }
+      },
+      wilayahChartOptions: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            ticks: {
+              callback: function(value, index, ticks) {
+                return value + ' unit';
+              },
+              stepSize: 1
+            },
+            min: 0
+          }
+        }
       },
       lineChartData: {
         labels: [],
@@ -260,6 +297,10 @@ export default {
         datasets: []
       },
       kotaChart: {
+        labels: [],
+        datasets: []
+      },
+      provinsiChart: {
         labels: [],
         datasets: []
       },
@@ -286,6 +327,7 @@ export default {
     this.getDemografiUsia()
     this.getDemografiGaji()
     this.getDemografiKota()
+    this.getDemografiProvinsi()
     this.getDemografiAlasan()
     this.getDemografiPekerjaan()
   },
@@ -365,7 +407,7 @@ export default {
     
     async getDemografiKota () {
       try {
-        const { data } = await this.fetchDemografi({ type: 'WILAYAH' } )
+        const { data } = await this.fetchDemografi({ type: 'WILAYAH_KOTA_DI_JAWA_TIMUR' } )
         this.initDemografiKota(JSON.parse(JSON.stringify(data)))
       } catch (error) {
         this.showErrorResponse(error)
@@ -374,6 +416,25 @@ export default {
 
     initDemografiKota (data) {
       this.kotaChart = {
+        labels: data.labels,
+        datasets: [{
+          backgroundColor: RINGKASAN_PENJUALAN_CHART_COLORS,
+          data: data.values
+        }]
+      }
+    },
+    
+    async getDemografiProvinsi () {
+      try {
+        const { data } = await this.fetchDemografi({ type: 'WILAYAH_PROVINSI' } )
+        this.initDemografiProvinsi(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    initDemografiProvinsi (data) {
+      this.provinsiChart = {
         labels: data.labels,
         datasets: [{
           backgroundColor: RINGKASAN_PENJUALAN_CHART_COLORS,
@@ -433,51 +494,6 @@ export default {
         chartData.datasets.push(dataset)
       })
       this.barChartData = chartData
-
-      const ticks = {
-        min: 0,
-        fontSize: 14,
-        padding: 8,
-        maxRotation: 0,
-        minRotation: 0,
-        callback: (label) => {
-          if (/\s/.test(label)) {
-            return label.split(' ')
-          } else {
-            return label
-          }
-        }
-      }
-      const scaleLabel = {
-        display: true,
-        fontColor: 'rgba(0, 0, 0, 0.38)',
-        fontSize: 14
-      }
-      const gridLines = {
-        drawOnChartArea: false,
-        drawTicks: false
-      }
-      this.barChartOptions = {
-        responsive: true,
-        legend: {
-          display: false
-        },
-        tooltips: {
-          xPadding: 12,
-          yPadding: 12
-        },
-        scales: {
-          y: {
-            ticks: {
-              callback: function(value, index, ticks) {
-                return value + ' unit';
-              },
-              stepSize: 1
-            },
-            min: 0
-          }
-        }
-      }
     },
     
     
@@ -532,6 +548,7 @@ export default {
     getDefaultFilter () {
       const end = new Date()
       const start = new Date(new Date().getFullYear(), 1)
+      start.setMonth(start.getMonth() - 5);
       return {
         start_month: `${start.getFullYear()}-${(start.getMonth()).toString().padStart(2, '0')}`,
         end_month: `${end.getFullYear()}-${(end.getMonth() + 1).toString().padStart(2, '0')}`

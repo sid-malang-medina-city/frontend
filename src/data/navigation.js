@@ -11,7 +11,7 @@ export const NAVIGATION_ITEMS = [
   {
     label: 'Dashboard',
     iconPath: dashboardIcon,
-    menuCode: '',
+    menuCode: 'DASHBOARD',
     type: 'root',
     path: '',
     routeName: 'Dashboard',
@@ -98,13 +98,14 @@ export const NAVIGATION_ITEMS = [
     type: 'root',
     path: '',
     routeName: '',
+    menuCode: 'MODULE_KEUANGAN',
     labelIndex: 4,
     children: [
       {
         label: 'Manajemen Dokumen Konsumen',
         path: '/keuangan/manajemen-dokumen-konsumen',
         routeName: 'KeuanganManajemenDokumenKonsumen',
-        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        menuCode: 'MODULE_KEUANGAN',
         labelIndex: 1,
         childRoutes: [],
         iconPath: null
@@ -113,7 +114,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Laporan Marketing',
         path: '/keuangan/laporan-marketing',
         routeName: 'KeuanganLaporanMarketing',
-        menuCode: 'LIST_LAPORAN_MARKETING',
+        menuCode: 'MODULE_KEUANGAN',
         labelIndex: 2,
         childRoutes: [],
         iconPath: null
@@ -122,7 +123,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Laporan Invoice',
         path: '/keuangan/laporan-invoice',
         routeName: 'KeuanganLaporanMarketingInvoice',
-        menuCode: 'LIST_LAPORAN_MARKETING_INVOICE',
+        menuCode: 'MODULE_KEUANGAN',
         labelIndex: 3,
         childRoutes: [],
         iconPath: null
@@ -141,7 +142,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Manajemen Vendor',
         path: '/teknik/manajemen-vendor',
         routeName: 'ManajemenVendor',
-        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        menuCode: 'LIST_VENDOR',
         labelIndex: 1,
         childRoutes: [],
         iconPath: null
@@ -150,7 +151,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Manajemen Template SPK',
         path: '/teknik/manajemen-template-spk',
         routeName: 'ManajemenTemplateSPK',
-        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        menuCode: 'LIST_TEMPLATE_SPK',
         labelIndex: 2,
         childRoutes: [],
         iconPath: null
@@ -159,7 +160,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Manajemen SPK',
         path: '/teknik/manajemen-spk',
         routeName: 'ManajemenSPK',
-        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        menuCode: 'LIST_SPK',
         labelIndex: 3,
         childRoutes: [],
         iconPath: null
@@ -168,7 +169,7 @@ export const NAVIGATION_ITEMS = [
         label: 'Manajemen Laporan Progres Pembangunan',
         path: '/teknik/manajemen-laporan-progres-pembangunan',
         routeName: 'ManajemenLaporanProgresPembangunan',
-        menuCode: 'LIST_DOKUMEN_KONSUMEN',
+        menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
         labelIndex: 4,
         childRoutes: [],
         iconPath: null
@@ -177,7 +178,7 @@ export const NAVIGATION_ITEMS = [
       //   label: 'Laporan Invoice Progress Pembangunan',
       //   path: '/teknik/laporan-invoice-progress-pembangunan',
       //   routeName: 'LaporanInvoiceProgressPembangunan',
-      //   menuCode: 'LIST_DOKUMEN_KONSUMEN',
+      //   menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
       //   labelIndex: 5,
       //   childRoutes: [],
       //   iconPath: null

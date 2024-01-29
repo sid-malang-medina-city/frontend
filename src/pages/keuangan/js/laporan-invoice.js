@@ -185,11 +185,11 @@ export default {
       currentY = 160
       doc.setFontSize(12).text(`Malang, ${helpers.getCurrentDate()}`, 80, currentY)
       currentY += 6
-      doc.setFontSize(12).text('Disetujui/Pihak', 91, currentY)
+      doc.setFontSize(12).text('Disetujui/Pihak', 87, currentY)
       currentY += 22
-      doc.setFontSize(12).text('Henny Trisnowati', 91, currentY)
+      doc.setFontSize(12).text('Nikmatul Hasanah', 84, currentY)
       currentY += 6
-      doc.setFontSize(12).text('Manager Divisi Marketing', 81, currentY)
+      doc.setFontSize(12).text('Manajer Divisi Admin', 81, currentY)
       doc.output('dataurlnewwindow');
     }
   }
