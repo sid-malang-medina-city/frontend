@@ -214,9 +214,9 @@ export default {
       charts: [
         'Penjualan Unit',
         'Progress Pembangunan Unit',
-        'Demografi Usia',
         'Demografi Provinsi',
         'Demografi Kota di Jawa Timur',
+        'Demografi Usia',
         'Demografi Gaji',
         'Demografi Pekerjaan',
         'Demografi Alasan'
@@ -224,9 +224,9 @@ export default {
       visibleCharts: [
         'Penjualan Unit',
         'Progress Pembangunan Unit',
-        'Demografi Usia',
         'Demografi Provinsi',
         'Demografi Kota di Jawa Timur',
+        'Demografi Usia',
         'Demografi Gaji',
         'Demografi Pekerjaan',
         'Demografi Alasan'
@@ -234,9 +234,9 @@ export default {
       checkedCharts: [
         'Penjualan Unit',
         'Progress Pembangunan Unit',
-        'Demografi Usia',
         'Demografi Provinsi',
         'Demografi Kota di Jawa Timur',
+        'Demografi Usia',
         'Demografi Gaji',
         'Demografi Pekerjaan',
         'Demografi Alasan'

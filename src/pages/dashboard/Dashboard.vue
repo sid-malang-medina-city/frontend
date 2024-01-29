@@ -148,6 +148,38 @@
             />
           </div>
         </div>
+        
+        <div
+          v-if="visibleCharts.includes('Demografi Provinsi')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Provinsi
+          </div>
+          <div class="bar-chart__content">
+            <Bar
+              :data="provinsiChart"
+              :options="wilayahChartOptions"
+              id="bar-chart-id"
+            />
+          </div>
+        </div>
+
+        <div
+          v-if="visibleCharts.includes('Demografi Kota di Jawa Timur')"
+          class="dashboard__bar-chart bar-chart"
+        >
+          <div class="bar-chart__header">
+            Demografi Kota di Jawa Timur
+          </div>
+          <div class="bar-chart__content">
+            <Bar
+              :data="kotaChart"
+              :options="wilayahChartOptions"
+              id="bar-chart-id"
+            />
+          </div>
+        </div>
 
         <div
           v-if="visibleCharts.includes('Demografi Usia')"
@@ -170,38 +202,6 @@
           </div>
           <div class="bar-chart__content">
             <Pie :data="gajiChart" :options="pieChartOptions" />
-          </div>
-        </div>
-        
-        <div
-          v-if="visibleCharts.includes('Demografi Kota di Jawa Timur')"
-          class="dashboard__bar-chart bar-chart"
-        >
-          <div class="bar-chart__header">
-            Demografi Kota di Jawa Timur
-          </div>
-          <div class="bar-chart__content">
-            <Bar
-              :data="kotaChart"
-              :options="wilayahChartOptions"
-              id="bar-chart-id"
-            />
-          </div>
-        </div>
-        
-        <div
-          v-if="visibleCharts.includes('Demografi Provinsi')"
-          class="dashboard__bar-chart bar-chart"
-        >
-          <div class="bar-chart__header">
-            Demografi Provinsi
-          </div>
-          <div class="bar-chart__content">
-            <Bar
-              :data="provinsiChart"
-              :options="wilayahChartOptions"
-              id="bar-chart-id"
-            />
           </div>
         </div>
 
