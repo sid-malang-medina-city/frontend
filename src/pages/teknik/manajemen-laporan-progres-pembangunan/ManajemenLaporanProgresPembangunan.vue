@@ -113,6 +113,15 @@
             min-width="200"
           />
           <el-table-column
+            prop=""
+            label="Bulan (Termin)"
+            min-width="220"
+          >
+            <template #default="scope">
+              {{ getMonth(scope.row.tanggal) }} (Ke-{{ calculateTermin(scope.row) }})
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="unit_tipe_nama"
             label="Tipe Unit"
           />
@@ -130,7 +139,7 @@
           />
           <el-table-column
             prop="harga_progres_sebelumnya"
-            label="Harga Sampai Bulan Ini"
+            label="Harga Sebelumnya"
             min-width="180"
           >
             <template #default="scope">

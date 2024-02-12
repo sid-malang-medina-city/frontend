@@ -222,6 +222,21 @@ export default {
           id: id
         }
       })
+    },
+
+    calculateTermin (row) {
+      return new Date(row.tanggal).getMonth() - new Date(row.spk_awal_periode).getMonth() + 1
+    },
+
+    getMonth (date) {
+      // return new Date(date).getMonth() - 
+      const options = {
+        year: "numeric",
+        month: "long"
+      }
+
+      
+      return new Date(date).toLocaleDateString('in', options)
     }
   }
 }

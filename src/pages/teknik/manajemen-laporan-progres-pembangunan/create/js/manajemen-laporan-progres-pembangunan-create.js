@@ -78,7 +78,10 @@ export default {
       isSPKFetched: false,
       visibleDrawer: false,
       visibleDialog: false,
-      visibleLoading: false,
+      visibleLoading: {
+        submitButton: false,
+        spkDropdown: true
+      },
       isEditMode: false,
       hargaInputInvalid: false,
       helpers
@@ -118,6 +121,7 @@ export default {
           skip_pagination: true
         })
         this.SPKs = JSON.parse(JSON.stringify(data))
+        this.visibleLoading.spkDropdown = false
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -299,11 +303,14 @@ export default {
         })
       })
       this.formData.persentase_progres_bulan_ini = (totalHargaBulanIni/this.formData.harga_total)*100
+      this.formData.persentase_progres_sebelumnya = (this.formData.harga_progres_total / this.formData.harga_total)*100
       this.formData.persentase_progres_total = this.formData.persentase_progres_sebelumnya + this.formData.persentase_progres_bulan_ini
+      this.formData.harga_bulan_ini = totalHargaBulanIni
+      this.formData.harga_progres_total += totalHargaBulanIni
     },
 
     async submit () {
-      this.visibleLoading = true
+      this.visibleLoading.submitButton = true
       this.calculateHargaBulanIni()
       try {
         await this.createLaporanProgresPembangunan(this.generatePayload())
@@ -312,7 +319,7 @@ export default {
       } catch (e) {
         this.showErrorResponse(e)
       } finally {
-        this.visibleLoading = false
+        this.visibleLoading.submitButton = false
       }
     },
 
