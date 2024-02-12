@@ -26,6 +26,7 @@
               </div>
               <el-select
                 v-model="selectedSPKId"
+                v-loading="visibleLoading.spkDropdown"
                 placeholder="Pilih SPK"
                 class="row__input"
                 remote-show-suffix
@@ -212,7 +213,7 @@
         <div class="manajemen-laporan-progres-pembangunan-create__submit-section">
           <el-button
             :disabled="isSubmitButtonDisabled"
-            :loading="visibleLoading"
+            :loading="visibleLoading.submitButton"
             type="primary"
             class="manajemen-laporan-progres-pembangunan-create__submit-btn"
             @click="submit"
