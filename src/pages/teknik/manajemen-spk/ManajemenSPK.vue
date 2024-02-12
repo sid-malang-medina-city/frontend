@@ -182,7 +182,7 @@
                           Preview
                         </div>
                       </div>
-                      <el-dropdown-item v-if="!!scope.row.spk_access_url" @click="openDocumentInNewTab(scope.row.access_url)">
+                      <el-dropdown-item v-if="!!scope.row.spk_access_url" @click="openDocumentInNewTab(scope.row.spk_access_url)">
                         PDF
                       </el-dropdown-item>
                       <div

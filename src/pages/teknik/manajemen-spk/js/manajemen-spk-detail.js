@@ -174,8 +174,8 @@ export default {
       this.visibleImagePreviewDialog = true
     },
 
-    openDocumentInNewTab (identifier) {
-      window.open(this.SPK[identifier], '_blank');
+    openDocumentInNewTab (accessUrl) {
+      window.open(accessUrl, '_blank');
     }
   }
 }

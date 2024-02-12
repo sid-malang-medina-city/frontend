@@ -54,7 +54,7 @@
                   </div>
                   <el-dropdown-item @click="generateSPKPDF">PDF</el-dropdown-item>
                   <div
-                    v-if="SPK.access_url"
+                    v-if="SPK.spk_access_url"
                     class="actions__preview-wrapper"
                   >
                     <el-icon class="actions__preview-icon">
@@ -64,7 +64,7 @@
                       Preview
                     </div>
                   </div>
-                  <el-dropdown-item v-if="SPK.access_url" @click="openDocumentInNewTab('access_url')">
+                  <el-dropdown-item v-if="SPK.spk_access_url" @click="openDocumentInNewTab(SPK.spk_access_url)">
                     PDF
                   </el-dropdown-item>
                 </el-dropdown-menu>
