@@ -73,7 +73,7 @@
           </div>
           <el-empty
             v-if="!formData.jenis_pekerjaans.length"
-            description="Belum ada pekerjaan"
+            description="Pilih SPK terlebih dahulu"
           />
           <el-table
             v-else
@@ -184,13 +184,15 @@
                 <el-input
                   v-if="!scope.row.hasOwnProperty('actions')"
                   v-model="scope.row.harga_bulan_ini"
+                  :disabled="scope.row.harga_progres_sebelumnya === scope.row.harga_total"
                   :formatter="(value) => {
                     const parts = value.toString().split(',');
                     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
                     return `Rp ${parts.slice(0,2).join(',')}`;
                   }"
                   :parser="(value) => value.replace(/[^\d,]/g, '')"
-                  class="row__input"
+                  :class="{ 'table__input--error': !!scope.row.error }"
+                  class="table__input"
                   @input="handleHargaBulanIniChange(scope.row)"
                 />
               </template>
@@ -209,7 +211,7 @@
         </div>
         <div class="manajemen-laporan-progres-pembangunan-create__submit-section">
           <el-button
-            :disabled="!isAllRequiredFieldsFilled"
+            :disabled="isSubmitButtonDisabled"
             :loading="visibleLoading"
             type="primary"
             class="manajemen-laporan-progres-pembangunan-create__submit-btn"
@@ -273,6 +275,14 @@
       }
 
       .table {
+        &__input {
+          &--error {
+            :deep(.el-input__wrapper) {
+              border: 1px solid #FF613A;
+            }
+          }
+        }
+
         &__actions {
           display: flex;
           justify-content: center;

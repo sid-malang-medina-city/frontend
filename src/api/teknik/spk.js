@@ -17,4 +17,7 @@ export default {
   editSPK (id, body) {
     return api.putRequest(apiUrls.teknik.SPK.detail(id), body)
   },
+  generatePDF (body) {
+    return api.postRequest(apiUrls.teknik.SPK.generateSPK, body)
+  }
 }

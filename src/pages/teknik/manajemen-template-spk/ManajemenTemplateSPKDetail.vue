@@ -1,40 +1,79 @@
 <template>
-  <div class="manajemen-dokumen-konsumen-detail">
+  <div class="manajemen-template-spk-detail">
     <page-header
-      title="Detail Dokumen Konsumen"
+      title="Detail Template SPK"
       show-back-icon
-      @back="goToManajemenDokumenKonsumen"
+      @back="goToManajemenTemplateSPK"
     />
 
     <div class="page-content">
-      <div class="manajemen-dokumen-konsumen-detail__wrapper">
-        <div class="manajemen-dokumen-konsumen-detail__header header">
+      <div class="manajemen-template-spk-detail__wrapper">
+        <div class="manajemen-template-spk-detail__header header">
           <div class="header__title">
-            <div class="header__title-dokumen-konsumen">
-              Dokumen Konsumen
+            <div class="header__title-template-spk">
+              Template SPK
             </div>
             <div class="header__title-name">
-              {{ dokumenKonsumen.id }}
+              {{ templateSPK.nama }}
             </div>
           </div>
           <div class="header__actions actions">
             <el-button
-              v-if="hasAccess('UPDATE_DOKUMEN_KONSUMEN')"
+              v-if="hasAccess('UPDATE_TEMPLATE_SPK')"
               type="primary"
               class="actions__edit-btn"
               plain
               @click="goToEditPage"
             >
-              Edit Dokumen Konsumen
+              Edit Template SPK
               <el-icon class="el-icon--right">
                 <EditPen />
               </el-icon>
             </el-button>
+            <el-button
+              v-if="hasAccess('DELETE_TEMPLATE_SPK') || true"
+              :icon="icons.delete"
+              type="danger"
+              class="actions__delete-btn"
+              plain
+              @click="openModalConfirmation"
+            >
+            </el-button>
           </div>
         </div>
 
-        <div class="manajemen-dokumen-konsumen-detail__content content">
+        <div class="manajemen-template-spk-detail__content content">
           <div class="content__informasi-umum-wrapper">
+            <div class="content__header">
+              <img
+                :src="icons.receipt"
+                alt="Image Icon"
+              />
+              <div class="content__header-title">
+                Info General
+              </div>
+            </div>
+  
+            <div class="content__rows rows last-row">
+              <div class="rows__row">
+                <div class="row__label required">
+                  Nama Template
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(templateSPK.nama) }}
+                </div>
+              </div>
+              <div class="rows__row">
+                <div class="row__label required">
+                  Tipe Unit
+                </div>
+                <div class="row__value">
+                  {{ helpers.convertEmptyValueWithDash(templateSPK.unit_tipe_nama) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="content__informasi-umum-wrapper">
             <div class="content__informasi-umum-content">
               <div class="content__informasi-umum informasi-umum">
                 <div class="informasi-umum__column column">
@@ -42,7 +81,7 @@
                     ID
                   </div>
                   <div class="column__value">
-                    {{ dokumenKonsumen.id }}
+                    {{ templateSPK.id }}
                   </div>
                 </div>
                 <div class="informasi-umum__column column">
@@ -51,8 +90,8 @@
                   </div>
                   <div class="column__value">
                     <status-badge
-                      :text="verificationStatuses[dokumenKonsumen.status_verifikasi] ? verificationStatuses[dokumenKonsumen.status_verifikasi].name: ''"
-                      :color="verificationStatuses[dokumenKonsumen.status_verifikasi] ? verificationStatuses[dokumenKonsumen.status_verifikasi].color: ''"
+                      :text="verificationStatuses[templateSPK.status_verifikasi] ? verificationStatuses[templateSPK.status_verifikasi].name: ''"
+                      :color="verificationStatuses[templateSPK.status_verifikasi] ? verificationStatuses[templateSPK.status_verifikasi].color: ''"
                       type="detail"
                     />
                   </div>
@@ -63,15 +102,15 @@
                   </div>
                   <div class="column__value">
                     <status-badge
-                      :text="paymentStatuses[dokumenKonsumen.status_pembayaran] ? paymentStatuses[dokumenKonsumen.status_pembayaran].name: ''"
-                      :color="paymentStatuses[dokumenKonsumen.status_pembayaran] ? paymentStatuses[dokumenKonsumen.status_pembayaran].color: ''"
+                      :text="paymentStatuses[templateSPK.status_pembayaran] ? paymentStatuses[templateSPK.status_pembayaran].name: ''"
+                      :color="paymentStatuses[templateSPK.status_pembayaran] ? paymentStatuses[templateSPK.status_pembayaran].color: ''"
                       type="detail"
                     />
                   </div>
                 </div>
               </div>
               <div
-                v-if="!!dokumenKonsumen.keterangan"
+                v-if="!!templateSPK.keterangan"
                 class="content__informasi-umum-keterangan informasi-umum-keterangan"
               >
                 <div class="informasi-umum-keterangan__header">
@@ -82,24 +121,24 @@
                   Keterangan
                 </div>
                 <div class="informasi-umum-keterangan__content">
-                  {{ dokumenKonsumen.keterangan }}
+                  {{ templateSPK.keterangan }}
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="content__informasi-pendukung-wrapper informasi-pendukung-wrapper--top">
             <div class="content__header">
               <img
-                :src="icons.newspaperClipping"
+                :src="icons.briefcase"
                 alt="Image Icon"
               />
               <div class="content__header-title">
-                Data Diri
+                Pekerjaan
               </div>
             </div>
   
-            <div class="content__rows rows">
+            <!-- <div class="content__rows rows">
               <div class="rows__row">
                 <div class="row__label required">
                   Nama Konsumen
@@ -109,7 +148,7 @@
                     class="row__link"
                     @click="goToKonsumenDetailPage"
                   >
-                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.konsumen_nama) }}
+                    {{ helpers.convertEmptyValueWithDash(templateSPK.konsumen_nama) }}
                   </u>
                 </div>
               </div>
@@ -118,7 +157,7 @@
                   Tanggal Lahir
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.tanggal_lahir) }}
+                  {{ helpers.convertEmptyValueWithDash(templateSPK.tanggal_lahir) }}
                 </div>
               </div>
             </div>
@@ -129,7 +168,7 @@
                   Provinsi
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.provinsi?.name) }}
+                  {{ helpers.convertEmptyValueWithDash(templateSPK.provinsi?.name) }}
                 </div>
               </div>
               <div class="rows__row">
@@ -137,7 +176,7 @@
                   Kabupaten/Kota
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.kota?.name) }}
+                  {{ helpers.convertEmptyValueWithDash(templateSPK.kota?.name) }}
                 </div>
               </div>
             </div>
@@ -148,7 +187,7 @@
                   Pekerjaan
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.pekerjaan?.nama) }}
+                  {{ helpers.convertEmptyValueWithDash(templateSPK.pekerjaan?.nama) }}
                 </div>
               </div>
               <div class="rows__row">
@@ -156,333 +195,96 @@
                   Gaji Per Bulan
                 </div>
                 <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.gaji_per_bulan) }}
+                  {{ helpers.convertPriceToRupiah(templateSPK.gaji_per_bulan) }}
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <div class="content__rows rows last-row">
-              <div class="rows__row">
+              <!-- <div class="rows__row">
                 <div class="row__label required">
                   Alasan
                 </div>
                 <div class="row__value">
-                  {{ !dokumenKonsumen.alasans?.length ? '-' : getAlasansRepresentation(dokumenKonsumen.alasans) }}
+                  {{ !templateSPK.alasans?.length ? '-' : getAlasansRepresentation(templateSPK.alasans) }}
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="content__informasi-utama-wrapper">
-            <div class="content__header">
-              <img
-                :src="icons.signature"
-                alt="Image Icon"
-              />
-              <div class="content__header-title">
-                Lampiran Berkas
-              </div>
-            </div>
-          </div>
-
-          <div
-            v-if="hasAccess('READ_FILEVIEW_DOKUMEN_KONSUMEN')"
-            class="content__image-upload image-upload"
-          >
-            <div
-              v-for="(identifier, index) in fileIdentifiers"
-              class="image-upload__wrapper"
-            >
-              <div
-                v-if="!!getFilesUrl(identifier) & !isFileTypePDF(identifier)"
-                class="image-upload__container"
+              </div> -->
+              <el-table
+                v-loading="!isDataFetched"
+                :data="templateSPK.jenis_pekerjaans"
+                class="input-section__table table general-table"
+                header-row-class-name="general-table__header-gray"
+                row-key="id_table"
+                stripe
+                default-expand-all
               >
-                <div
-                  class="image-upload__image-content image-content"
-                  :class="{ 'image-content--w-auto': !!getFilesUrl(identifier) }"
-                  @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons(identifier)"
-                  @mouseleave="removeVisibleImageActionIcons(identifier)"
+                <el-table-column
+                  prop="nama"
+                  label="Nama Pekerjaan" 
+                  fixed="left"
+                  width="200"
                 >
-                  <img
-                    :src="getFilesUrl(identifier)"
-                    :class="{ 'image-content__img--hovered': visibleImageActionIcons[identifier] }"
-                    alt=""
-                    class="image-content__img"
-                  />
-                  <span
-                    v-if="visibleImageActionIcons[identifier]"
-                    class="image-content__item-actions item-actions"
-                  >
+                  <template #default="scope">
                     <div
-                      class="item-actions__wrapper"
-                      @click="handlePictureCardPreview(identifier)"
+                      v-if="!scope.row.hasOwnProperty('actions')"
+                      class="table__nama-pekerjaan"
                     >
-                      <el-icon color="#434343">
-                        <View />
-                      </el-icon>
+                      {{ scope.row.nama }}
                     </div>
-                  </span>
-                </div>
-                <div class="image-upload__label">
-                  {{ fileLabels[index] }}
-                </div>
-              </div>
-              <div
-                v-else-if="!!getFilesUrl(identifier) && isFileTypePDF(identifier)"
-                class="image-upload__container"
-              >
-                <div
-                  class="image-upload__image-content image-content image-content--bg-success empty-state"
-                  :class="{ 'image-content--w-auto': !!getFilesUrl(identifier) }"
-                  @click.stop=""
-                  @mouseenter="addVisibleImageActionIcons(identifier)"
-                  @mouseleave="removeVisibleImageActionIcons(identifier)"
+                    <template v-else>
+                      {{ scope.row.nama }}
+                    </template>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="satuan_ukuran"
+                  label="Satuan Ukuran"
+                  width="80"
+                />
+                <el-table-column
+                  prop="volume"
+                  label="Volume" 
+                  width="80"
+                />
+                <el-table-column
+                  prop="harga_satuan"
+                  label="Harga Satuan"
                 >
-                  <el-icon
-                    size="77"
-                    color="#89AE8B"
-                    class="empty-state__upload-image-icon"
-                  >
-                    <CircleCheckFilled />
-                  </el-icon>
-                  <div class="empty-state__desc">
-                    Dokumen Tersedia
-                  </div>
-                  <span
-                    v-if="visibleImageActionIcons[identifier]"
-                    class="image-content__item-actions item-actions"
-                  >
-                    <div
-                      class="item-actions__wrapper"
-                      @click="openDocumentInNewTab(identifier)"
-                    >
-                      <el-icon color="#434343">
-                        <View />
-                      </el-icon>
-                    </div>
-                  </span>
-                </div>
-                <div class="image-upload__label">
-                  {{ fileLabels[index] }}
-                </div>
-              </div>
-              <div
-                v-else
-                class="image-upload__empty-state-wrapper"
-              >
-                <div class="image-upload__empty-state empty-state">
-                  <img
-                    :src="icons.uploadImage"
-                    alt="Upload Image"
-                    class="empty-state__upload-image-icon"
-                  />
-                </div>
-                <div class="empty-state__label">
-                  {{ fileLabels[index] }}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            v-else-if="hasAccess('READ_CHECKBOX_DOKUMEN_KONSUMEN')"
-            class="content__checkbox-wrapper checkbox-wrapper"
-          >
-            <div
-              v-for="(identifier, index) in checkboxIdentifiers"
-              class="checkbox-wrapper__card card"
-            >
-              <div class="card__title">
-                {{ checkboxLabels[index] }}
-              </div>
-              <div class="card__checkbox">
-                <el-icon
-                  v-if="!!dokumenKonsumen[identifier]"
-                  color="#74C627"
+                  <template #default="scope">
+                    {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="harga_total"
+                  label="Harga Total"
                 >
-                  <CircleCheckFilled />
-                </el-icon>
-                <el-icon
-                  v-else
-                  color="#FF613A"
+                  <template #default="scope">
+                    {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="persentase_pekerjaan"
+                  label="Persentase Pekerjaan"
                 >
-                  <CircleCloseFilled />
-                </el-icon>
-                <div class="card__info">
-                  {{ !!dokumenKonsumen[identifier] ? 'Tersedia' : 'Tidak Tersedia' }}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="content__informasi-pendukung-wrapper">
-            <div class="content__header">
-              <img
-                :src="icons.newspaperClipping"
-                alt="Image Icon"
-              />
-              <div class="content__header-title">
-                Rincian Pembelian
-              </div>
-            </div>
-  
-            <div class="content__rows rows">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Nama Konsumen
-                </div>
-                <div class="row__value">
-                  <u
-                    class="row__link"
-                    @click="goToKonsumenDetailPage"
-                  >
-                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.konsumen_nama) }}
-                  </u>
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Nama Marketer
-                </div>
-                <div class="row__value">
-                  <u
-                    class="row__link"
-                    @click="goToMarketerDetailPage"
-                  >
-                    {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.marketer_nama) }}
-                  </u>
-                </div>
-              </div>
-            </div>
-            
-            <div class="content__rows rows last-row">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Unit
-                </div>
-                <div class="row__value">
-                  <u
-                    class="row__link"
-                    @click="goToUnitDetailPage"
-                  >
-                    {{ dokumenKonsumen.unit_cluster_nama }} - {{ dokumenKonsumen.unit_nomor_kavling }}
-                  </u>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="content__informasi-pendukung-wrapper">
-            <div class="content__header">
-              <img
-                :src="icons.newspaperClipping"
-                alt="Image Icon"
-              />
-              <div class="content__header-title">
-                Rincian Deal
-              </div>
-            </div>
-  
-            <div class="content__rows rows">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Deal Awal
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga_deal_awal) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Cash
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.unit_harga) }}
-                </div>
-              </div>
-            </div>
-            
-            <div class="content__rows rows">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Diskon
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.nominal_diskon) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Cash Setelah Diskon
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga_cash_setelah_diskon) }}
-                </div>
-              </div>
-            </div>
-            
-            <div class="content__rows rows">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Deal Akhir
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(dokumenKonsumen.harga_deal_akhir) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Kategori Diskon
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.kategori_diskon) }}
-                </div>
-              </div>
-            </div>
-            
-            <div class="content__rows rows">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Skema Pembayaran
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.skema_bayar) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Tanggal PPJB
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.tanggal_ppjb) }}
-                </div>
-              </div>
-            </div>
-            
-            <div class="content__rows rows last-row">
-              <div class="rows__row">
-                <div class="row__label required">
-                  Keterangan Deal
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertEmptyValueWithDash(dokumenKonsumen.keterangan_deal) }}
-                </div>
-              </div>
+                  <template #default="scope">
+                    {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                  </template>
+                </el-table-column>
+              </el-table>
             </div>
           </div>
         </div>
 
-        <div class="manajemen-dokumen-konsumen-detail__author-info author-info">
+        <div class="manajemen-template-spk-detail__author-info author-info">
           <div class="author-info__label">
             Dibuat oleh
           </div>
           <div class="author-info__value">
             <div class="author-info__author">
-              {{ dokumenKonsumen.created_by_name }}
+              {{ templateSPK.created_by_name }}
             </div>
             <div class="author-info__date-time">
-              {{ helpers.convertDateTimeZoneToDateTimeString(dokumenKonsumen.created_at) }}
+              {{ helpers.convertDateTimeZoneToDateTimeString(templateSPK.created_at) }}
             </div>
           </div>
           <div class="author-info__label">
@@ -490,10 +292,10 @@
           </div>
           <div class="author-info__value">
             <div class="author-info__author">
-              {{ dokumenKonsumen.updated_by_name }}
+              {{ templateSPK.updated_by_name }}
             </div>
             <div class="author-info__date-time">
-              {{ helpers.convertDateTimeZoneToDateTimeString(dokumenKonsumen.updated_at) }}
+              {{ helpers.convertDateTimeZoneToDateTimeString(templateSPK.updated_at) }}
             </div>
           </div>
         </div>
@@ -504,18 +306,19 @@
       <img
         :src="selectedImageUrl"
         alt="Preview Image"
-        class="manajemen-dokumen-konsumen-detail__preview-image"
+        class="manajemen-template-spk-detail__preview-image"
       />
     </el-dialog>
   </div>
 </template>
 
-<script src="./js/manajemen-dokumen-konsumen-detail.js"></script>
+<script src="./js/manajemen-template-spk-detail.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
+@import "~/assets/scss/table.scss";
 
-  .manajemen-dokumen-konsumen-detail {
+  .manajemen-template-spk-detail {
     &__wrapper {
       background-color: white;
       border: 1px solid #EAEAEA;
@@ -570,6 +373,7 @@
       }
 
       &__informasi-umum-wrapper {
+        padding: 20px 20px 0px 20px;
         border-bottom: 1px solid var(--neutral-gray-100, #E9E9E9);
       }
 
@@ -905,6 +709,20 @@
         font-size: 14px;
         font-weight: 400;
       }
+    }
+
+    .table {
+      &__nama-pekerjaan {
+        padding-left: 30px;
+      }
+    }
+
+    :deep(.el-table__placeholder) {
+      display: none;
+    }
+    
+    :deep(.el-table__indent) {
+      display: none;
     }
   }
 </style>

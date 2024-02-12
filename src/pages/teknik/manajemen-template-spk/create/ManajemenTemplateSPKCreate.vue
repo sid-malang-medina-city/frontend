@@ -36,6 +36,7 @@
               </div>
               <el-select
                 v-model="formData.tipe_unit"
+                v-loading="visibleLoading.tipeUnitDropdown"
                 placeholder="Pilih tipe unit"
                 class="row__input"
                 clearable
@@ -167,7 +168,7 @@
         <div class="manajemen-template-spk-create__submit-section">
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
-            :loading="visibleLoading"
+            :loading="visibleLoading.submitButton"
             type="primary"
             class="manajemen-template-spk-create__submit-btn"
             @click="submit"
@@ -356,7 +357,6 @@
             </el-button>
             <el-button
               :disabled="!isAddJenisPekerjaanFormIsFilled"
-              :loading="visibleLoading"
               type="primary"
               class="actions__submit-btn"
               @click="!isEditMode ? addJenisPekerjaan() : updateJenisPekerjaan()"

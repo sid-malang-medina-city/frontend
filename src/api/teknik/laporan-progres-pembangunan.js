@@ -17,4 +17,7 @@ export default {
   editLaporanProgresPembangunan (id, body) {
     return api.putRequest(apiUrls.teknik.laporanProgresPembangunan.detail(id), body)
   },
+  generatePDF (body) {
+    return api.postRequest(apiUrls.teknik.laporanProgresPembangunan.generatePDF, body)
+  },
 }

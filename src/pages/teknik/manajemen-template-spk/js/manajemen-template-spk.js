@@ -143,8 +143,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus template SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus template SPK berarti menghilangkan progress data dan akses mereka',
-          'Hapus TemplateSPK',
+          'Apakah anda yakin ingin menghapus template SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus template SPK berarti menghilangkan progress data',
+          'Hapus Template SPK',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -153,7 +153,7 @@ export default {
           }
         )
         await this.handleDeleteTemplateSPK(id)
-        this.showToast('TemplateSPK berhasil dihapus!')
+        this.showToast('Template SPK berhasil dihapus!')
       } catch (e) {}
     },
 
@@ -171,11 +171,11 @@ export default {
     },
 
     goToDetailPage ({ id }) {
-      // this.redirectTo('ManajemenTemplateSPKDetail', {
-      //   params: {
-      //     id: id
-      //   }
-      // })
+      this.redirectTo('ManajemenTemplateSPKDetail', {
+        params: {
+          id: id
+        }
+      })
     },
 
     goToEditPage (id) {

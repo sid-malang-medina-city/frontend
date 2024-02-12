@@ -54,15 +54,20 @@ const KeuanganManajemenDokumenKonsumenEdit = defineAsyncComponent(() => import(/
 const ManajemenVendor = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor" */ '~/pages/teknik/manajemen-vendor/ManajemenVendor.vue'))
 const ManajemenVendorCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor-create" */ '~/pages/teknik/manajemen-vendor/create/ManajemenVendorCreate.vue'))
 const ManajemenVendorEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor-edit" */ '~/pages/teknik/manajemen-vendor/edit/ManajemenVendorEdit.vue'))
+const ManajemenVendorDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-vendor-detail" */ '~/pages/teknik/manajemen-vendor/ManajemenVendorDetail.vue'))
 const ManajemenTemplateSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk" */ '~/pages/teknik/manajemen-template-spk/ManajemenTemplateSPK.vue'))
 const ManajemenTemplateSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk-create" */ '~/pages/teknik/manajemen-template-spk/create/ManajemenTemplateSPKCreate.vue'))
 const ManajemenTemplateSPKEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk-edit" */ '~/pages/teknik/manajemen-template-spk/edit/ManajemenTemplateSPKEdit.vue'))
+const ManajemenTemplateSPKDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-template-spk-detail" */ '~/pages/teknik/manajemen-template-spk/ManajemenTemplateSPKDetail.vue'))
 const ManajemenSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk" */ '~/pages/teknik/manajemen-spk/ManajemenSPK.vue'))
 const ManajemenSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-create" */ '~/pages/teknik/manajemen-spk/create/ManajemenSPKCreate.vue'))
 const ManajemenSPKEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-edit" */ '~/pages/teknik/manajemen-spk/edit/ManajemenSPKEdit.vue'))
+const ManajemenSPKDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-detail" */ '~/pages/teknik/manajemen-spk/ManajemenSPKDetail.vue'))
 const ManajemenLaporanProgresPembangunan = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/ManajemenLaporanProgresPembangunan.vue'))
 const ManajemenLaporanProgresPembangunanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-create" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/create/ManajemenLaporanProgresPembangunanCreate.vue'))
 const ManajemenLaporanProgresPembangunanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-edit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/edit/ManajemenLaporanProgresPembangunanEdit.vue'))
+const ManajemenLaporanProgresPembangunanDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-detail" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/ManajemenLaporanProgresPembangunanDetail.vue'))
+const LaporanInvoiceProgresPembangunan = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-invoice-progres-pembangunan" */ '~/pages/teknik/laporan-invoice-progres-pembangunan/LaporanInvoiceProgresPembangunan.vue'))
 
 export default [
   {
@@ -610,6 +615,16 @@ export default [
     }
   },
   {
+    path: '/teknik/manajemen-vendor/:id',
+    name: 'ManajemenVendorDetail',
+    component: ManajemenVendorDetail,
+    meta: {
+      title: 'Manajemen Vendor Detail',
+      action: 'READ_VENDOR',
+      requireLogin: true
+    }
+  },
+  {
     path: '/teknik/manajemen-template-spk',
     name: 'ManajemenTemplateSPK',
     component: ManajemenTemplateSPK,
@@ -636,6 +651,16 @@ export default [
     meta: {
       title: 'Manajemen Template SPK Edit',
       action: 'UPDATE_TEMPLATE_SPK',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-template-spk/:id',
+    name: 'ManajemenTemplateSPKDetail',
+    component: ManajemenTemplateSPKDetail,
+    meta: {
+      title: 'Manajemen Template SPK Detail',
+      action: 'READ_TEMPLATE_SPK',
       requireLogin: true
     }
   },
@@ -670,6 +695,16 @@ export default [
     }
   },
   {
+    path: '/teknik/manajemen-spk/:id',
+    name: 'ManajemenSPKDetail',
+    component: ManajemenSPKDetail,
+    meta: {
+      title: 'Manajemen SPK Detail',
+      action: 'READ_SPK',
+      requireLogin: true
+    }
+  },
+  {
     path: '/teknik/manajemen-laporan-progres-pembangunan',
     name: 'ManajemenLaporanProgresPembangunan',
     component: ManajemenLaporanProgresPembangunan,
@@ -696,6 +731,26 @@ export default [
     meta: {
       title: 'Manajemen Laporan Progres Pembangunan Edit',
       action: 'UPDATE_LAPORAN_PROGRES_PEMBANGUNAN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan/:id',
+    name: 'ManajemenLaporanProgresPembangunanDetail',
+    component: ManajemenLaporanProgresPembangunanDetail,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Detail',
+      action: 'READ_LAPORAN_PROGRES_PEMBANGUNAN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/laporan-invoice-progres-pembangunan',
+    name: 'LaporanInvoiceProgresPembangunan',
+    component: LaporanInvoiceProgresPembangunan,
+    meta: {
+      title: 'Laporan Invoice Progres Pembangunan',
+      action: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
       requireLogin: true
     }
   },

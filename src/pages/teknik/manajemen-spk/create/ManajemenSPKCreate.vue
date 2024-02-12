@@ -26,6 +26,7 @@
               </div>
               <el-select
                 v-model="formData.unit"
+                v-loading="visibleLoading.unitDropdown"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -66,7 +67,8 @@
               </div>
               <el-select
                 v-model="formData.vendor"
-                placeholder="Pilih unit"
+                v-loading="visibleLoading.vendorDropdown"
+                placeholder="Pilih vendor"
                 class="row__input"
                 remote-show-suffix
                 filterable
@@ -148,7 +150,7 @@
                 Harga Pekerjaan Pembangunan Rumah
               </div>
               <el-input
-                v-model="formData.harga_ppr"
+                v-model="formData.harga_pekerjaan_pembangunan_rumah"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -363,7 +365,7 @@
         <div class="manajemen-spk-create__submit-section">
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
-            :loading="visibleLoading"
+            :loading="visibleLoading.submitButton"
             type="primary"
             class="manajemen-spk-create__submit-btn"
             @click="submit"
@@ -551,7 +553,6 @@
             </el-button>
             <el-button
               :disabled="!isAddJenisPekerjaanFormIsFilled"
-              :loading="visibleLoading"
               type="primary"
               class="actions__submit-btn"
               @click="!isEditMode ? addJenisPekerjaan() : updateJenisPekerjaan()"

@@ -175,9 +175,9 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       // {
-      //   label: 'Laporan Invoice Progress Pembangunan',
-      //   path: '/teknik/laporan-invoice-progress-pembangunan',
-      //   routeName: 'LaporanInvoiceProgressPembangunan',
+      //   label: 'Laporan Invoice Progres Pembangunan',
+      //   path: '/teknik/laporan-invoice-progres-pembangunan',
+      //   routeName: 'LaporanInvoiceProgresPembangunan',
       //   menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
       //   labelIndex: 5,
       //   childRoutes: [],

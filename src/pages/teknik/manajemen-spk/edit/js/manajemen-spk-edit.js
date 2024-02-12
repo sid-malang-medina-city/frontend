@@ -55,7 +55,7 @@ export default {
         keterangan: '',
         harga_total: null,
         harga_total_ppr: 0,
-        harga_ppr: 0,
+        harga_pekerjaan_pembangunan_rumah: 0,
         harga_subsidi: 0,
         harga_pph21: 0,
         harga_total_ppr_subsidi: 0,
@@ -86,7 +86,12 @@ export default {
       },
       visibleDrawer: false,
       visibleDialog: false,
-      visibleLoading: false,
+      visibleLoading: {
+        submitButton: false,
+        unitDropdown: false,
+        vendorDropdown: false
+      },
+      isDataFetched: false,
       isEditMode: false,
       helpers
     }
@@ -142,15 +147,19 @@ export default {
     },
 
     async getUnits () {
+      this.visibleLoading.unitDropdown = true
       try {
         const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERJUAL' })
         this.units = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
+      } finally {
+        this.visibleLoading.unitDropdown = false
       }
     },
 
     async getVendors () {
+      this.visibleLoading.vendorDropdown = true
       try {
         const { data } = await this.fetchVendors({
           skip_pagination: true
@@ -158,6 +167,8 @@ export default {
         this.vendors = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
+      } finally {
+        this.visibleLoading.vendorDropdown = false
       }
     },
 
@@ -169,6 +180,7 @@ export default {
       try {
         const { data } = await this.fetchSPK(this.id)
         this.initFormData(JSON.parse(JSON.stringify(data)))
+        this.isDataFetched = true
       } catch (e) {
         this.showErrorResponse(e)
       }
@@ -200,7 +212,7 @@ export default {
         jenisPekerjaan.actions = true
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
           delete pekerjaan.id
-          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString(),
           pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
         })
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
@@ -249,7 +261,7 @@ export default {
     },
 
     calculateHargaTotal () {
-      this.formData.harga_total_ppr = parseFloat(this.formData.harga_ppr) * this.selectedTipeUnitNomor
+      this.formData.harga_total_ppr = parseFloat(this.formData.harga_pekerjaan_pembangunan_rumah) * this.selectedTipeUnitNomor
       this.formData.harga_total_ppr_subsidi = parseFloat(this.formData.harga_total_ppr) + parseFloat(this.formData.harga_subsidi)
       this.formData.harga_total_spk = parseFloat(this.formData.harga_total_ppr_subsidi) - parseFloat(this.formData.harga_pph21)
     },
@@ -257,7 +269,7 @@ export default {
     addPekerjaan () {
       if (!this.form.pekerjaans.some(pekerjaan => pekerjaan.nama === this.namaPekerjaan)) {
         this.form.pekerjaans.push({
-          id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
+          id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
@@ -361,7 +373,7 @@ export default {
     },
 
     async submit () {
-      this.visibleLoading = true
+      this.visibleLoading.submitButton = true
       this.calculatePersentasePekerjaan()
       try {
         await this.editSPK(this.id, this.generatePayload())
@@ -370,7 +382,7 @@ export default {
       } catch (e) {
         this.showErrorResponse(e)
       } finally {
-        this.visibleLoading = false
+        this.visibleLoading.submitButton = false
       }
     },
 

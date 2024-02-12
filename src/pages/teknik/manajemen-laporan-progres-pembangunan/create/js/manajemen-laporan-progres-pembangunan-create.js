@@ -80,6 +80,7 @@ export default {
       visibleDialog: false,
       visibleLoading: false,
       isEditMode: false,
+      hargaInputInvalid: false,
       helpers
     }
   },
@@ -88,6 +89,9 @@ export default {
     isAllRequiredFieldsFilled () {
       const requiredFields = ['spk', 'tanggal']
       return requiredFields.every(field => !!this.formData[field])
+    },
+    isSubmitButtonDisabled () {
+      return !this.isAllRequiredFieldsFilled || this.hargaInputInvalid
     },
     totalPrice () {
       let price = 0
@@ -146,12 +150,13 @@ export default {
         jenisPekerjaan.actions = true
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
           pekerjaan.pekerjaan = pekerjaan.id
-          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString(),
           pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
           pekerjaan.harga_bulan_ini = 0
           pekerjaan.persentase_progres_bulan_ini = 0
           pekerjaan.harga_progres_total = pekerjaan.harga_progres_sebelumnya
           pekerjaan.persentase_progres_total = pekerjaan.persentase_progres_sebelumnya
+          pekerjaan.error = false
         })
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
@@ -168,7 +173,7 @@ export default {
     addPekerjaan () {
       if (!this.form.pekerjaans.some(pekerjaan => pekerjaan.nama === this.namaPekerjaan)) {
         this.form.pekerjaans.push({
-          id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
+          id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
           volume: this.volume,
@@ -263,6 +268,17 @@ export default {
     },
 
     handleHargaBulanIniChange (row) {
+      if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
+        if (!row.error) {
+          this.showToast('Harga bulan ini melebihi harga total', 'error')
+          row.error = true
+          this.hargaInputInvalid = true
+        }
+      } else {
+        row.error = false
+        this.hargaInputInvalid = false
+      }
+
       if (row.harga_bulan_ini === '') {
         row.persentase_progres_bulan_ini = 0
         row.harga_progres_total = row.harga_progres_sebelumnya
@@ -274,9 +290,21 @@ export default {
       row.persentase_progres_total = row.persentase_progres_sebelumnya + row.persentase_progres_bulan_ini
     },
 
+    calculateHargaBulanIni () {
+      let totalHargaBulanIni = 0
+      this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
+        jenisPekerjaan.pekerjaans.forEach(pekerjaan => {
+          pekerjaan.harga_bulan_ini = parseFloat(pekerjaan.harga_bulan_ini.replace(',', '.'))
+          totalHargaBulanIni += pekerjaan.harga_bulan_ini
+        })
+      })
+      this.formData.persentase_progres_bulan_ini = (totalHargaBulanIni/this.formData.harga_total)*100
+      this.formData.persentase_progres_total = this.formData.persentase_progres_sebelumnya + this.formData.persentase_progres_bulan_ini
+    },
+
     async submit () {
       this.visibleLoading = true
-      this.calculatePersentasePekerjaan()
+      this.calculateHargaBulanIni()
       try {
         await this.createLaporanProgresPembangunan(this.generatePayload())
         this.redirectTo('ManajemenLaporanProgresPembangunan')
