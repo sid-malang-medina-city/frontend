@@ -84,11 +84,16 @@ export default {
     },
     SPK: {
       list: '/teknik/spk',
-      detail: id => `/teknik/spk/${encodeURIComponent(id)}`
+      detail: id => `/teknik/spk/${encodeURIComponent(id)}`,
+      generateSPK: '/teknik/spk-generate-pdf'
     },
     laporanProgresPembangunan: {
       list: '/teknik/laporan-progres-pembangunan',
-      detail: id => `/teknik/laporan-progres-pembangunan/${encodeURIComponent(id)}`
+      detail: id => `/teknik/laporan-progres-pembangunan/${encodeURIComponent(id)}`,
+      generatePDF: '/teknik/laporan-progres-pembangunan-generate-pdf'
+    },
+    laporanInvoiceProgresPembangunan: {
+      list: '/teknik/laporan-invoice-progres-pembangunan'
     }
   }
 }

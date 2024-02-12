@@ -26,6 +26,7 @@
               </div>
               <el-select
                 v-model="formData.unit"
+                v-loading="visibleLoading.unitDropdown || !isDataFetched"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -46,7 +47,13 @@
               <div class="row__label required">
                 Periode
               </div>
+              <el-input
+                v-if="!isDataFetched"
+                v-loading="true"
+                class="row__input"
+              />
               <el-date-picker
+                v-else
                 v-model="periodeValue"
                 :clearable="false"
                 type="monthrange"
@@ -66,6 +73,7 @@
               </div>
               <el-select
                 v-model="formData.vendor"
+                v-loading="visibleLoading.vendorDropdown || !isDataFetched"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -87,6 +95,7 @@
               </div>
               <el-input
                 v-model="formData.keterangan"
+                v-loading="!isDataFetched"
                 :rows="3"
                 resize="none"
                 placeholder="Masukkan keterangan"
@@ -102,6 +111,7 @@
               </div>
               <el-select
                 v-model="formData.status"
+                v-loading="!isDataFetched"
                 placeholder="Pilih status"
                 class="row__input"
               >
@@ -119,6 +129,7 @@
               </div>
               <el-input
                 v-model="selectedTipeUnitNomor"
+                v-loading="!isDataFetched"
                 placeholder="Pilih unit terlebih dahulu"
                 class="row__input"
                 disabled
@@ -132,6 +143,7 @@
               </div>
               <el-input
                 v-model="formData.harga_subsidi"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -148,7 +160,8 @@
                 Harga Pekerjaan Pembangunan Rumah
               </div>
               <el-input
-                v-model="formData.harga_ppr"
+                v-model="formData.harga_pekerjaan_pembangunan_rumah"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -168,6 +181,7 @@
               </div>
               <el-input
                 v-model="formData.harga_total_ppr_subsidi"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -185,6 +199,7 @@
               </div>
               <el-input
                 v-model="formData.harga_total_ppr"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -204,6 +219,7 @@
               </div>
               <el-input
                 v-model="formData.harga_pph21"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -221,6 +237,7 @@
               </div>
               <el-input
                 v-model="formData.harga_total_spk"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -267,12 +284,8 @@
               </el-button>
             </div>
           </div>
-          <el-empty
-            v-if="!formData.jenis_pekerjaans.length"
-            description="Belum ada pekerjaan"
-          />
           <el-table
-            v-else
+            v-loading="!isDataFetched"
             :data="formData.jenis_pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
@@ -371,12 +384,12 @@
           </el-button>
           <el-button
             :disabled="!isAllRequiredFieldsFilled"
-            :loading="visibleLoading"
+            :loading="visibleLoading.submitButton"
             type="primary"
             class="manajemen-spk-edit__submit-btn"
             @click="submit"
           >
-            Simpan Template SPK
+            Simpan SPK
           </el-button>
         </div>
       </div>

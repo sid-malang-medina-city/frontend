@@ -20,7 +20,10 @@ import {
   ArrowUp,
   Plus,
   Search,
-  Edit,
+  MoreFilled,
+  Stamp,
+  View,
+  Document,
   Delete
 } from '@element-plus/icons-vue'
 
@@ -35,6 +38,10 @@ export default {
     ArrowDown,
     ArrowUp,
     Plus,
+    MoreFilled,
+    Stamp,
+    View,
+    Document,
     Search
   },
 
@@ -56,7 +63,6 @@ export default {
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
-        edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
       },
       helpers
@@ -94,7 +100,7 @@ export default {
   methods: {
     ...mapActions(SPKStore, [
       'fetchSPKs',
-      'deleteSPK'
+      'generatePDF'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
     
@@ -147,6 +153,21 @@ export default {
       this.handleFilterChange()
     },
 
+    async generateSPKPDF (id) {
+      try {
+        const { data } = await this.generatePDF({ id })
+        const accessUrl = JSON.parse(JSON.stringify(data.access_url))
+        window.open(accessUrl, '_blank');
+        this.getSPKs()
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    openDocumentInNewTab (accessUrl) {
+      window.open(accessUrl, '_blank');
+    },
+
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
@@ -178,11 +199,11 @@ export default {
     },
 
     goToDetailPage ({ id }) {
-      // this.redirectTo('ManajemenSPKDetail', {
-      //   params: {
-      //     id: id
-      //   }
-      // })
+      this.redirectTo('ManajemenSPKDetail', {
+        params: {
+          id: id
+        }
+      })
     },
 
     goToEditPage (id) {

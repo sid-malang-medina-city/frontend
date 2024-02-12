@@ -155,11 +155,11 @@ export default {
     },
 
     goToDetailPage ({ id }) {
-      // this.redirectTo('ManajemenVendorDetail', {
-      //   params: {
-      //     id: id
-      //   }
-      // })
+      this.redirectTo('ManajemenVendorDetail', {
+        params: {
+          id: id
+        }
+      })
     },
 
     goToEditPage (id) {

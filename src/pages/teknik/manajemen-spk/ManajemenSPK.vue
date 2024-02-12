@@ -124,6 +124,15 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="persentase_progres_total"
+            label="Persentase Total"
+            min-width="150"
+          >
+            <template #default="scope">
+              {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total) }}
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="status"
             label="Status"
             min-width="100"
@@ -141,25 +150,61 @@
             width="90"
             align="center"
             fixed="right"
+            @click.stop="() => {}"
           >
             <template #default="scope">
-              <div class="table__actions">
-                <el-button
-                  v-if="hasAccess('UPDATE_SPK') && scope.row.status !== 'FINAL'"
-                  :icon="icons.edit"
-                  type="primary"
-                  class="table__actions-edit"
-                  text
-                  @click.stop="goToEditPage(scope.row.id)"
-                />
-                <!-- <el-button
-                  v-if="hasAccess('DELETE_MARKETER')"
-                  :icon="icons.delete"
-                  type="primary"
-                  class="table__actions-delete"
-                  text
-                  @click.stop="openModalConfirmation(scope.row.id)"
-                /> -->
+              <div class="table__actions actions" @click.stop="() => {}">
+                <el-dropdown trigger="click">
+                  <span class="el-dropdown-link actions__trigger">
+                    <el-icon class="el-icon--right">
+                      <more-filled />
+                    </el-icon>
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu class="actions__dropdown-menu">
+                      <div class="actions__generate-wrapper">
+                        <el-icon class="actions__generate-icon">
+                          <Stamp />
+                        </el-icon>
+                        <div class="actions__generate">
+                          Generate
+                        </div>
+                      </div>
+                      <el-dropdown-item @click="generateSPKPDF(scope.row.id)">PDF</el-dropdown-item>
+                      <div
+                        v-if="!!scope.row.spk_access_url"
+                        class="actions__preview-wrapper"
+                      >
+                        <el-icon class="actions__preview-icon">
+                          <View />
+                        </el-icon>
+                        <div class="actions__preview">
+                          Preview
+                        </div>
+                      </div>
+                      <el-dropdown-item v-if="!!scope.row.spk_access_url" @click="openDocumentInNewTab(scope.row.access_url)">
+                        PDF
+                      </el-dropdown-item>
+                      <div
+                        v-if="hasAccess('UPDATE_SPK') && scope.row.status !== 'FINAL'"
+                        class="actions__other-wrapper"
+                      >
+                        <el-icon class="actions__other-icon">
+                          <Document />
+                        </el-icon>
+                        <div class="actions__preview">
+                          Other
+                        </div>
+                      </div>
+                      <el-dropdown-item
+                        v-if="hasAccess('UPDATE_SPK') && scope.row.status !== 'FINAL'"
+                        @click.stop="goToEditPage(scope.row.id)"
+                      >
+                        Edit
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
               </div>
             </template>
           </el-table-column>
@@ -256,13 +301,9 @@
     .table {
       margin-bottom: 24px;
 
-      &__actions {
+      .actions {
         display: flex;
         justify-content: center;
-
-        &-edit, &-delete {
-          padding: 0;
-        }
       }
     }
 
@@ -276,4 +317,29 @@
       align-items: center;
     }
   }
+
+  .actions {
+    &__trigger {
+      cursor: pointer;
+    }
+
+    &__dropdown-menu {
+      padding: 0;
+    }
+
+    &__generate-wrapper, &__preview-wrapper, &__other-wrapper {
+      display: flex;
+      padding: 6px 12px;
+      align-items: center;
+      gap: 6px;
+      align-self: stretch;
+      border-bottom: 0.5px solid #E9E9E9;
+      background: #FAFAFA;
+      color: var(--Neutral-Gray-400, #9D9D9D);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+  }
+
 </style>

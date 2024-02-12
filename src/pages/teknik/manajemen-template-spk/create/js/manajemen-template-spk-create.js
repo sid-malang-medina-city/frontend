@@ -64,7 +64,10 @@ export default {
         edit: Edit
       },
       visibleDrawer: false,
-      visibleLoading: false,
+      visibleLoading: {
+        submitButton: false,
+        tipeUnitDropdown: false
+      },
       isEditMode: false,
       helpers
     }
@@ -100,6 +103,7 @@ export default {
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
 
     async getTipeUnits () {
+      this.visibleLoading.tipeUnitDropdown = true
       try {
         const { data } = await this.fetchTipeUnits({
           skip_pagination: true
@@ -108,7 +112,7 @@ export default {
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
-        this.visibleLoadingTable = false
+        this.visibleLoading.tipeUnitDropdown = false
       }
     },
 
@@ -231,7 +235,7 @@ export default {
     },
 
     async submit () {
-      this.visibleLoading = true
+      this.visibleLoading.submitButton = true
       try {
         await this.createTemplateSPK(this.generatePayload())
         this.redirectTo('ManajemenTemplateSPK')
@@ -239,7 +243,7 @@ export default {
       } catch (e) {
         this.showErrorResponse(e)
       } finally {
-        this.visibleLoading = false
+        this.visibleLoading.submitButton = false
       }
     },
 

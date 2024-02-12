@@ -191,7 +191,8 @@
                     return `Rp ${parts.slice(0,2).join(',')}`;
                   }"
                   :parser="(value) => value.replace(/[^\d,]/g, '')"
-                  class="row__input"
+                  :class="{ 'table__input--error': !!scope.row.error }"
+                  class="table__input"
                   @input="handleHargaBulanIniChange(scope.row)"
                 />
               </template>
@@ -217,6 +218,7 @@
             Cancel
           </el-button>
           <el-button
+            :disabled="isSubmitButtonDisabled"
             :loading="visibleLoading"
             type="primary"
             class="manajemen-laporan-progres-pembangunan-edit__submit-btn"
@@ -280,6 +282,14 @@
       }
 
       .table {
+        &__input {
+          &--error {
+            :deep(.el-input__wrapper) {
+              border: 1px solid #FF613A;
+            }
+          }
+        }
+
         &__actions {
           display: flex;
           justify-content: center;

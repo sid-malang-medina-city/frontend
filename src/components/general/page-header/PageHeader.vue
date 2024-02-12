@@ -26,7 +26,7 @@
 
 <style lang="scss" scoped>
   .page-header {
-    z-index: 1000;
+    z-index: 2001;
     position: sticky;
     display: flex;
     gap: 16px;

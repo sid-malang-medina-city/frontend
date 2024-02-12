@@ -17,6 +17,9 @@ export const laporanProgresPembangunanStore = defineStore('LaporanProgresPembang
     },
     async editLaporanProgresPembangunan (id, body) {
       return api.editLaporanProgresPembangunan(id, body)
-    }
+    },
+    async generatePDF (body) {
+      return api.generatePDF(body)
+    },
   }
 })

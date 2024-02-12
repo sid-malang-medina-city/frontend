@@ -17,6 +17,9 @@ export const SPKStore = defineStore('SPKStore', {
     },
     async editSPK (id, body) {
       return api.editSPK(id, body)
+    },
+    async generatePDF (body) {
+      return api.generatePDF(body)
     }
   }
 })

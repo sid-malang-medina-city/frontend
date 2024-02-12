@@ -17,7 +17,10 @@ import {
   ArrowUp,
   Plus,
   Search,
-  Edit,
+  MoreFilled,
+  Stamp,
+  View,
+  Document,
   Delete
 } from '@element-plus/icons-vue'
 
@@ -31,6 +34,10 @@ export default {
     ArrowDown,
     ArrowUp,
     Plus,
+    MoreFilled,
+    Stamp,
+    View,
+    Document,
     Search
   },
 
@@ -54,7 +61,6 @@ export default {
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
-        edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
       },
       helpers
@@ -93,7 +99,7 @@ export default {
   methods: {
     ...mapActions(laporanProgresPembangunanStore, [
       'fetchLaporanProgresPembangunans',
-      'deleteLaporanProgresPembangunan'
+      'generatePDF'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
 
@@ -157,11 +163,26 @@ export default {
       this.handleFilterChange()
     },
 
+    async generateLaporanProgresPembangunanPDF (id, type) {
+      try {
+        const { data } = await this.generatePDF({ id, type })
+        const accessUrl = JSON.parse(JSON.stringify(data.access_url))
+        window.open(accessUrl, '_blank');
+        this.getLaporanProgresPembangunans()
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    openDocumentInNewTab (accessUrl) {
+      window.open(accessUrl, '_blank');
+    },
+
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
           'Apakah anda yakin ingin menghapus laporan progres pembangunan ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus laporan progres pembangunan berarti menghilangkan progres data dan akses mereka',
-          'Hapus LaporanProgresPembangunan',
+          'Hapus Laporan Progres Pembangunan',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -188,11 +209,11 @@ export default {
     },
 
     goToDetailPage ({ id }) {
-      // this.redirectTo('ManajemenLaporanProgresPembangunanDetail', {
-      //   params: {
-      //     id: id
-      //   }
-      // })
+      this.redirectTo('ManajemenLaporanProgresPembangunanDetail', {
+        params: {
+          id: id
+        }
+      })
     },
 
     goToEditPage (id) {
