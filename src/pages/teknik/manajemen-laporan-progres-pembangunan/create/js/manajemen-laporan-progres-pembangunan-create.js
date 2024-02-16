@@ -159,7 +159,6 @@ export default {
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
           pekerjaan.pekerjaan = pekerjaan.id
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString(),
-          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
           pekerjaan.harga_bulan_ini = 0
           pekerjaan.persentase_progres_bulan_ini = 0
           pekerjaan.harga_progres_total = pekerjaan.harga_progres_sebelumnya
@@ -276,6 +275,7 @@ export default {
     },
 
     handleHargaBulanIniChange (row) {
+      console.log(parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya, '>', row.harga_total)
       if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
         if (!row.error) {
           this.showToast('Harga bulan ini melebihi harga total', 'error')
