@@ -78,7 +78,10 @@ export default {
       isSPKFetched: false,
       visibleDrawer: false,
       visibleDialog: false,
-      visibleLoading: false,
+      visibleLoading: {
+        submitButton: false,
+        table: true
+      },
       isEditMode: false,
       hargaInputInvalid: false,
       helpers
@@ -135,6 +138,7 @@ export default {
       try {
         const { data } = await this.fetchLaporanProgresPembangunan(this.id)
         this.initFormData(JSON.parse(JSON.stringify(data)))
+        this.visibleLoading.table = false
       } catch (e) {
         this.showErrorResponse(e)
       }
@@ -306,7 +310,7 @@ export default {
       let totalHargaBulanIni = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         jenisPekerjaan.pekerjaans.forEach(pekerjaan => {
-          pekerjaan.harga_bulan_ini = parseFloat(pekerjaan.harga_bulan_ini.replace(',', '.'))
+          pekerjaan.harga_bulan_ini = parseFloat(pekerjaan.harga_bulan_ini.toString().replace(',', '.'))
           totalHargaBulanIni += pekerjaan.harga_bulan_ini
         })
       })
@@ -318,7 +322,7 @@ export default {
     },
 
     async submit () {
-      this.visibleLoading = true
+      this.visibleLoading.submitButton = true
       this.calculateHargaBulanIni()
       try {
         await this.editLaporanProgresPembangunan(this.id, this.generatePayload())
@@ -327,7 +331,7 @@ export default {
       } catch (e) {
         this.showErrorResponse(e)
       } finally {
-        this.visibleLoading = false
+        this.visibleLoading.submitButton = false
       }
     },
 

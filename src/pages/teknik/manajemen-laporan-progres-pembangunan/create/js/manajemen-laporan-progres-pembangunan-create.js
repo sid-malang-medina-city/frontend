@@ -80,7 +80,8 @@ export default {
       visibleDialog: false,
       visibleLoading: {
         submitButton: false,
-        spkDropdown: true
+        spkDropdown: true,
+        table: false
       },
       isEditMode: false,
       hargaInputInvalid: false,
@@ -132,6 +133,7 @@ export default {
     },
 
     async getSPK () {
+      this.visibleLoading.table = true
       try {
         const { data } = await this.fetchSPK(this.selectedSPKId)
         this.keyForMonthPicker = 'keyMonth'
@@ -139,6 +141,8 @@ export default {
         this.isSPKFetched = true
       } catch (e) {
         this.showErrorResponse(e)
+      } finally {
+        this.visibleLoading.table = false
       }
     },
 
@@ -298,7 +302,7 @@ export default {
       let totalHargaBulanIni = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         jenisPekerjaan.pekerjaans.forEach(pekerjaan => {
-          pekerjaan.harga_bulan_ini = parseFloat(pekerjaan.harga_bulan_ini.replace(',', '.'))
+          pekerjaan.harga_bulan_ini = parseFloat(pekerjaan.harga_bulan_ini.toString().replace(',', '.'))
           totalHargaBulanIni += pekerjaan.harga_bulan_ini
         })
       })
@@ -324,7 +328,7 @@ export default {
     },
 
     generatePayload () {
-      const { created_at, ...formData} = JSON.parse(JSON.stringify(this.formData))
+      const { ...formData} = JSON.parse(JSON.stringify(this.formData))
       formData.jenis_pekerjaans.forEach(data => {
         data.pekerjaans = [...data.children]
       })

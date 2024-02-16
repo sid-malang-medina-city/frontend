@@ -72,16 +72,17 @@
               </div>
             </div>
           </div>
-          <el-empty
+          <!-- <el-empty
             v-if="!formData.jenis_pekerjaans.length"
             description="Pilih SPK terlebih dahulu"
-          />
+          /> -->
           <el-table
-            v-else
+            v-loading="visibleLoading.table"
             :data="formData.jenis_pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
             row-key="id_table"
+            empty-text="Pilih SPK terlebih dahulu"
             stripe
             default-expand-all
           >

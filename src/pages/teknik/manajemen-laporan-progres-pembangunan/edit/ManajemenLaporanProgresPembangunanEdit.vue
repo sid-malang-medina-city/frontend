@@ -72,12 +72,8 @@
               </div>
             </div>
           </div>
-          <el-empty
-            v-if="!formData.jenis_pekerjaans.length"
-            description="Belum ada pekerjaan"
-          />
           <el-table
-            v-else
+            v-loading="visibleLoading.table"
             :data="formData.jenis_pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
@@ -219,7 +215,7 @@
           </el-button>
           <el-button
             :disabled="isSubmitButtonDisabled"
-            :loading="visibleLoading"
+            :loading="visibleLoading.submitButton"
             type="primary"
             class="manajemen-laporan-progres-pembangunan-edit__submit-btn"
             @click="submit"

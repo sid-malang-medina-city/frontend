@@ -87,7 +87,7 @@ export default {
       let price = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseFloat(pekerjaan.harga_total)
+          return harga + parseFloat(parseFloat(pekerjaan.harga_total).toFixed(2))
         }, 0)
       })
       return price
@@ -122,7 +122,7 @@ export default {
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
-        return harga + parseFloat(pekerjaan.harga_total)
+        return harga + parseFloat(parseFloat(pekerjaan.harga_total).toFixed(2))
       }, 0)
     },
 
@@ -140,9 +140,9 @@ export default {
           id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
-          volume: this.volume,
-          harga_satuan: parseFloat(this.hargaSatuan),
-          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
+          volume: parseFloat(parseFloat(this.volume).toFixed(2)),
+          harga_satuan: parseFloat(parseFloat(this.hargaSatuan.replace(',','.')).toFixed(2)),
+          harga_total: parseFloat((parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))).toFixed(2))
         })
         this.showToast('Pekerjaan berhasil ditambahkan!')
         this.clearPekerjaan()
