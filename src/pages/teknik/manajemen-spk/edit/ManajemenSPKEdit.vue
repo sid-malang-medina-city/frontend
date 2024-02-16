@@ -572,7 +572,6 @@
             </el-button>
             <el-button
               :disabled="!isAddJenisPekerjaanFormIsFilled"
-              :loading="visibleLoading"
               type="primary"
               class="actions__submit-btn"
               @click="!isEditMode ? addJenisPekerjaan() : updateJenisPekerjaan()"
