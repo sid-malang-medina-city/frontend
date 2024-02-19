@@ -138,12 +138,27 @@
             </el-table-column>
             <el-table-column
               label="Action"
-              width="150"
               align="center"
               fixed="right"
             >
               <template #default="scope">
                 <div class="table__actions">
+                  <el-button
+                    v-if="scope.row.id_table-1 !== 0 && scope.row.hasOwnProperty('actions')"
+                    :icon="icons.arrowUp"
+                    type="primary"
+                    class="table__actions-edit"
+                    text
+                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'UP')"
+                  />
+                  <el-button
+                    v-if="scope.row.id_table-1 !== formData.jenis_pekerjaans.length-1 && scope.row.hasOwnProperty('actions')"
+                    :icon="icons.arrowDown"
+                    type="primary"
+                    class="table__actions-edit"
+                    text
+                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'DOWN')"
+                  />
                   <el-button
                     v-if="scope.row.actions"
                     :icon="icons.edit"
@@ -265,9 +280,9 @@
             :disabled="!isAddPekerjaanFormIsFilled"
             type="primary"
             class="form__button"
-            @click="addPekerjaan"
+            @click="!isEditPekerjaanMode ? addPekerjaan() : editPekerjaan()"
           >
-            Tambah Pekerjaan
+            {{ isEditPekerjaanMode ? 'Simpan' : 'Tambah Pekerjaan' }}
           </el-button>
 
           <div class="drawer__table-header">
@@ -293,6 +308,7 @@
   
           <el-table
             :data="form.pekerjaans"
+            :class="{ 'table__edit-mode': isEditPekerjaanMode }"
             class="drawer__table table general-table"
             header-row-class-name="general-table__header-gray"
             stripe
@@ -337,12 +353,38 @@
               <template #default="scope">
                 <div class="table__actions">
                   <el-button
-                    :icon="icons.delete"
+                    v-if="scope.$index !== 0"
+                    :icon="icons.arrowUp"
                     type="primary"
-                    class="table__actions-delete"
+                    class="table__actions-edit"
                     text
-                    @click.stop="deletePekerjaan(scope.row.nama)"
+                    @click.stop="movePekerjaan(scope.$index, 'UP')"
                   />
+                  <el-button
+                    v-if="scope.$index !== form.pekerjaans.length-1"
+                    :icon="icons.arrowDown"
+                    type="primary"
+                    class="table__actions-edit"
+                    text
+                    @click.stop="movePekerjaan(scope.$index, 'DOWN')"
+                  />
+                  <el-dropdown trigger="click">
+                    <span class="el-dropdown-link table__actions-trigger">
+                      <el-icon class="el-icon--right">
+                        <more-filled />
+                      </el-icon>
+                    </span>
+                    <template #dropdown>
+                      <el-dropdown-menu class="table__actions-dropdown-menu">
+                        <el-dropdown-item @click.stop="toggleEditPekerjaan(scope.row)">
+                          Edit
+                        </el-dropdown-item>
+                        <el-dropdown-item @click.stop="deletePekerjaan(scope.row.nama)">
+                          Delete
+                        </el-dropdown-item>
+                      </el-dropdown-menu>
+                    </template>
+                  </el-dropdown>
                 </div>
               </template>
             </el-table-column>
@@ -522,6 +564,8 @@
       }
 
       .form {
+        padding-bottom: 50px;
+
         &__label {
           margin-bottom: 8px;
           color: #434343;
@@ -562,6 +606,28 @@
           font-size: 14px;
 
           margin-bottom: 15px;
+        }
+      }
+
+      .table {
+        &__actions {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+
+          &-edit, &-delete {
+            padding: 0;
+            margin: 0;
+          }
+
+          &-trigger {
+            cursor: pointer;
+          }
+        }
+
+        &__edit-mode {
+          filter: opacity(0.3);
         }
       }
 

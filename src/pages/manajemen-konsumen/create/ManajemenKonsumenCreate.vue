@@ -90,10 +90,16 @@
                 reserve-keyword
               >
                 <el-option
+                  v-if="marketers.length"
                   v-for="marketer in marketers"
                   :key="marketer.id"
                   :label="marketer.nama"
                   :value="marketer.id"
+                />
+                <el-option
+                  v-else
+                  disabled
+                  label="Tidak ada marketer tersedia"
                 />
               </el-select>
             </div>
@@ -103,7 +109,6 @@
               </div>
               <el-select
                 v-model="formData.unit_id"
-                :remote-method="remoteMethod"
                 :loading="loading"
                 placeholder="Pilih unit"
                 class="row__input"
@@ -113,10 +118,16 @@
                 reserve-keyword
               >
                 <el-option
+                  v-if="units.length"
                   v-for="unit in units"
                   :key="unit.id"
                   :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
                   :value="unit.id"
+                />
+                <el-option
+                  v-else
+                  disabled
+                  label="Tidak ada unit tersedia"
                 />
               </el-select>
             </div>
