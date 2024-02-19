@@ -155,7 +155,7 @@ export default {
     async getUnits () {
       this.visibleLoading.unitDropdown = true
       try {
-        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERJUAL' })
+        const { data } = await this.fetchUnits({ skip_pagination: "True", spk_creatable: true })
         this.units = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)

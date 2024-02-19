@@ -57,6 +57,8 @@ export default {
         akhir_periode: '',
         vendor: '',
         keterangan: '',
+        unit: '',
+        vendor: '',
         harga_total: null,
         harga_total_ppr: 0,
         harga_pekerjaan_pembangunan_rumah: 0,
@@ -158,8 +160,11 @@ export default {
     async getUnits () {
       this.visibleLoading.unitDropdown = true
       try {
-        const { data } = await this.fetchUnits({ skip_pagination: "True", status: 'TERJUAL' })
-        this.units = JSON.parse(JSON.stringify(data))
+        const { data } = await this.fetchUnits({ skip_pagination: "True", spk_creatable: true })
+        this.units = [
+          ...this.units,
+          ...JSON.parse(JSON.stringify(data))
+        ]
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -188,8 +193,29 @@ export default {
     async getSPK () {
       try {
         const { data } = await this.fetchSPK(this.id)
+
+        if (data.status === 'FINAL') {
+          this.redirectTo('ManajemenSPK')
+          this.showToast('Status SPK sudah final, tidak bisa diubah lagi', 'error')
+          return
+        }
+
         this.initFormData(JSON.parse(JSON.stringify(data)))
         this.isDataFetched = true
+        this.units = [
+          ...this.units,
+          {
+            cluster: {
+              code: data.unit_cluster_code,
+              nama: data.unit_cluster_nama
+            },
+            tipe: {
+              nomor: data.unit_tipe_nomor
+            },
+            id: data.unit_id,
+            nomor_kavling: data.unit_nomor_kavling
+          }
+        ]
       } catch (e) {
         this.showErrorResponse(e)
       }
@@ -440,6 +466,7 @@ export default {
     },
 
     handleUnitChange (unit) {
+      console.log('yey')
       this.selectedTipeUnitNomor = unit.tipe.nomor
       this.calculateHargaTotal()
     },
@@ -483,6 +510,11 @@ export default {
 
     toggleDialog () {
       this.visibleDialog = !this.visibleDialog
+    }
+  },
+  watch: {
+    isDataFetched () {
+      
     }
   }
 }
