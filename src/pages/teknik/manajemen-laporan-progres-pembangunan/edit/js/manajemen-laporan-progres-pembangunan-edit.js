@@ -49,6 +49,7 @@ export default {
         nama: '',
         spk: '',
         tanggal: '',
+        status: '',
         jenis_pekerjaans: []
       },
       form: {
@@ -93,7 +94,7 @@ export default {
       return this.$route.params.id
     },
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['spk', 'tanggal']
+      const requiredFields = ['spk', 'tanggal', 'status']
       return requiredFields.every(field => !!this.formData[field])
     },
     isSubmitButtonDisabled () {
@@ -137,19 +138,15 @@ export default {
     async getLaporanProgresPembangunan () {
       try {
         const { data } = await this.fetchLaporanProgresPembangunan(this.id)
+
+        if (data.status === 'FINAL') {
+          this.redirectTo('ManajemenLaporanProgresPembangunan')
+          this.showToast('Status Laporan Progres Pembangunan sudah final, tidak bisa diubah lagi', 'error')
+          return
+        }
+
         this.initFormData(JSON.parse(JSON.stringify(data)))
         this.visibleLoading.table = false
-      } catch (e) {
-        this.showErrorResponse(e)
-      }
-    },
-
-    async getSPK () {
-      try {
-        const { data } = await this.fetchSPK(this.selectedSPKId)
-        this.keyForMonthPicker = 'keyMonth'
-        this.initFormData(JSON.parse(JSON.stringify(data)))
-        this.isSPKFetched = true
       } catch (e) {
         this.showErrorResponse(e)
       }
@@ -158,15 +155,12 @@ export default {
     initFormData (data) {
       this.formData = {
         ...this.formData,
-        ...data,
-        spk: data.id
+        ...data
       }
       this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
-        jenisPekerjaan.jenis_pekerjaan = jenisPekerjaan.id
         jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
         jenisPekerjaan.actions = true
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-          pekerjaan.pekerjaan = pekerjaan.id
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString(),
           pekerjaan.harga_progres_total = pekerjaan.harga_progres_sebelumnya + pekerjaan.harga_bulan_ini
           pekerjaan.persentase_progres_total = pekerjaan.persentase_progres_sebelumnya + pekerjaan.persentase_progres_bulan_ini
@@ -313,9 +307,12 @@ export default {
           totalHargaBulanIni += pekerjaan.harga_bulan_ini
         })
       })
+      
+      // harga dan persentase sebelumnya dari data SPK
+      this.formData.persentase_progres_sebelumnya = this.formData.persentase_progres_total
       this.formData.persentase_progres_bulan_ini = (totalHargaBulanIni/this.formData.harga_total)*100
-      this.formData.persentase_progres_sebelumnya = (this.formData.harga_progres_total / this.formData.harga_total)*100
-      this.formData.persentase_progres_total = this.formData.persentase_progres_sebelumnya + this.formData.persentase_progres_bulan_ini
+      this.formData.persentase_progres_total += this.formData.persentase_progres_bulan_ini
+      this.formData.harga_progres_sebelumnya = this.formData.harga_progres_total
       this.formData.harga_bulan_ini = totalHargaBulanIni
       this.formData.harga_progres_total += totalHargaBulanIni
     },

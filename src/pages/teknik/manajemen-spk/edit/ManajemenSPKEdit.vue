@@ -304,10 +304,10 @@
                   v-if="!scope.row.hasOwnProperty('actions')"
                   class="table__nama-pekerjaan"
                 >
-                  {{ scope.row.nama }}
+                  {{ scope.row.sequence }}. {{ scope.row.nama }}
                 </div>
                 <template v-else>
-                  {{ scope.row.nama }}
+                  {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
                 </template>
               </template>
             </el-table-column>

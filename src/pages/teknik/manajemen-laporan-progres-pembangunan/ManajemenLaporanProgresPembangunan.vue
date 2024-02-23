@@ -115,7 +115,7 @@
           <el-table-column
             prop=""
             label="Bulan (Termin)"
-            min-width="220"
+            min-width="150"
           >
             <template #default="scope">
               {{ getMonth(scope.row.tanggal) }} (Ke-{{ calculateTermin(scope.row) }})
@@ -136,7 +136,21 @@
           <el-table-column
             prop="vendor_nama"
             label="Vendor"
+            min-width="170"
           />
+          <el-table-column
+            prop="status"
+            label="Status"
+            min-width="100"
+          >
+            <template #default="scope">
+              <status-badge
+                v-if="statuses.hasOwnProperty(scope.row.status)"
+                :color="statuses[scope.row.status].color"
+                :text="statuses[scope.row.status].name"
+              />
+            </template>
+          </el-table-column>
           <el-table-column
             prop="harga_progres_sebelumnya"
             label="Harga Sebelumnya"
@@ -250,7 +264,7 @@
                         Kwitansi
                       </el-dropdown-item>
                       <div
-                        v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                        v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN') && scope.row.status !== 'FINAL'"
                         class="actions__other-wrapper"
                       >
                         <el-icon class="actions__other-icon">
@@ -261,7 +275,7 @@
                         </div>
                       </div>
                       <el-dropdown-item
-                        v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                        v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN') && scope.row.status !== 'FINAL'"
                         @click.stop="goToEditPage(scope.row.id)"
                       >
                         Edit

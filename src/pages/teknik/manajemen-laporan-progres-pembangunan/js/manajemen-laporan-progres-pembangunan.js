@@ -2,6 +2,8 @@ import { mapActions } from 'pinia'
 import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
 
+import { STATUSES } from '~/data/spk'
+
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
@@ -59,6 +61,7 @@ export default {
       totalLaporanProgresPembangunans: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
+      statuses: STATUSES,
       icons: {
         delete: Delete,
         arrowCounterClockwise: arrowCounterClockwiseIcon

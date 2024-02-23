@@ -237,17 +237,17 @@
                   fixed="left"
                   width="200"
                 >
-                  <template #default="scope">
-                    <div
-                      v-if="!scope.row.hasOwnProperty('actions')"
-                      class="table__nama-pekerjaan"
-                    >
-                      {{ scope.row.nama }}
-                    </div>
-                    <template v-else>
-                      {{ scope.row.nama }}
-                    </template>
+                <template #default="scope">
+                  <div
+                    v-if="!scope.row.hasOwnProperty('actions')"
+                    class="table__nama-pekerjaan"
+                  >
+                    {{ scope.row.sequence }}. {{ scope.row.nama }}
+                  </div>
+                  <template v-else>
+                    {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
                   </template>
+                </template>
                 </el-table-column>
                 <el-table-column
                   prop="satuan_ukuran"

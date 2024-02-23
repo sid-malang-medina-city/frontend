@@ -59,6 +59,23 @@
                 class="row__input"
               />
             </div>
+            <div class="rows__row">
+              <div class="row__label required">
+                Status
+              </div>
+              <el-select
+                v-model="formData.status"
+                placeholder="Pilih status"
+                class="row__input"
+              >
+                <el-option
+                  v-for="status in statuses"
+                  :key="status.code"
+                  :label="status.name"
+                  :value="status.code"
+                />
+              </el-select>
+            </div>
           </div>
           <div class="input-section__header input-section__header--flex">
             <div class="input-section__header-left">
@@ -97,10 +114,10 @@
                   v-if="!scope.row.hasOwnProperty('actions')"
                   class="table__nama-pekerjaan"
                 >
-                  {{ scope.row.nama }}
+                  {{ scope.row.sequence }}. {{ scope.row.nama }}
                 </div>
                 <template v-else>
-                  {{ scope.row.nama }}
+                  {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
                 </template>
               </template>
             </el-table-column>

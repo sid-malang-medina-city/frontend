@@ -49,6 +49,7 @@ export default {
         nama: '',
         spk: '',
         tanggal: '',
+        status: '',
         jenis_pekerjaans: []
       },
       form: {
@@ -91,7 +92,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['spk', 'tanggal']
+      const requiredFields = ['spk', 'tanggal', 'status']
       return requiredFields.every(field => !!this.formData[field])
     },
     isSubmitButtonDisabled () {
@@ -147,17 +148,23 @@ export default {
     },
 
     initFormData (data) {
+      const { id, status, ...formData } = data
       this.formData = {
-        ...this.formData,
-        ...data,
+        ...formData,
         spk: data.id
       }
+      // this.formData = {
+      //   ...this.formData,
+      //   ...data,
+      //   spk: data.id
+      // }
       this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
         jenisPekerjaan.jenis_pekerjaan = jenisPekerjaan.id
         jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
         jenisPekerjaan.actions = true
+        delete jenisPekerjaan.id
         jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-          pekerjaan.pekerjaan = pekerjaan.id
+          delete pekerjaan.id
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString(),
           pekerjaan.harga_bulan_ini = 0
           pekerjaan.persentase_progres_bulan_ini = 0
@@ -306,9 +313,12 @@ export default {
           totalHargaBulanIni += pekerjaan.harga_bulan_ini
         })
       })
+      
+      // harga dan persentase sebelumnya dari data SPK
+      this.formData.persentase_progres_sebelumnya = this.formData.persentase_progres_total
       this.formData.persentase_progres_bulan_ini = (totalHargaBulanIni/this.formData.harga_total)*100
-      this.formData.persentase_progres_sebelumnya = (this.formData.harga_progres_total / this.formData.harga_total)*100
-      this.formData.persentase_progres_total = this.formData.persentase_progres_sebelumnya + this.formData.persentase_progres_bulan_ini
+      this.formData.persentase_progres_total += this.formData.persentase_progres_bulan_ini
+      this.formData.harga_progres_sebelumnya = this.formData.harga_progres_total
       this.formData.harga_bulan_ini = totalHargaBulanIni
       this.formData.harga_progres_total += totalHargaBulanIni
     },

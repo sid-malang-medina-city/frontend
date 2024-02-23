@@ -114,6 +114,18 @@
                   {{ helpers.convertDateTimeZoneToDateString(laporanProgresPembangunan.tanggal) }}
                 </div>
               </div>
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Status
+                </div>
+                <div class="column__value">
+                  <status-badge
+                    :text="statuses[laporanProgresPembangunan.status] ? statuses[laporanProgresPembangunan.status].name: ''"
+                    :color="statuses[laporanProgresPembangunan.status] ? statuses[laporanProgresPembangunan.status].color: ''"
+                    type="detail"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           
@@ -143,17 +155,17 @@
                   fixed="left"
                   width="200"
                 >
-                  <template #default="scope">
-                    <div
-                      v-if="!scope.row.hasOwnProperty('actions')"
-                      class="table__nama-pekerjaan"
-                    >
-                      {{ scope.row.nama }}
-                    </div>
-                    <template v-else>
-                      {{ scope.row.nama }}
-                    </template>
+                <template #default="scope">
+                  <div
+                    v-if="!scope.row.hasOwnProperty('actions')"
+                    class="table__nama-pekerjaan"
+                  >
+                    {{ scope.row.sequence }}. {{ scope.row.nama }}
+                  </div>
+                  <template v-else>
+                    {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
                   </template>
+                </template>
                 </el-table-column>
                 <el-table-column
                   prop="satuan_ukuran"
