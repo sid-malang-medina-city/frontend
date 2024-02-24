@@ -52,6 +52,7 @@ export default {
   data () {
     return {
       formData: {
+        nomor: '',
         unit: '',
         awal_periode: '',
         akhir_periode: '',
