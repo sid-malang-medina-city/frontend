@@ -294,6 +294,10 @@ export default {
         this.formData.jenis_pekerjaans[index].id_table = index + 1
         this.formData.jenis_pekerjaans[index + 1].id_table = index + 2
       }
+
+      this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, indexJenisPekerjaan) => {
+        jenisPekerjaan.sequence = indexJenisPekerjaan + 1
+      })
     },
 
     deleteJenisPekerjaan (selectedJenisPekerjaan) {
