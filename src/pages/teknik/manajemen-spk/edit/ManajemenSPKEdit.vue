@@ -22,6 +22,16 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
+                Nomor SPK
+              </div>
+              <el-input
+                v-model="formData.nomor"
+                placeholder="Masukkan nomor SPK"
+                class="row__input"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label required">
                 Unit
               </div>
               <el-select
@@ -43,6 +53,8 @@
                 />
               </el-select>
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Periode
@@ -65,8 +77,6 @@
                 @change="handleDateRangeChange"
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Vendor
@@ -89,6 +99,8 @@
                 />
               </el-select>
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Keterangan
@@ -103,8 +115,6 @@
                 class="row__input"
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Status
@@ -123,6 +133,8 @@
                 />
               </el-select>
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Tipe Unit
@@ -135,8 +147,6 @@
                 disabled
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga Subsidi
@@ -155,6 +165,8 @@
                 @input="calculateHargaTotal"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga Pekerjaan Pembangunan Rumah
@@ -173,8 +185,6 @@
                 @input="calculateHargaTotal"
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Pekerjaan Pembangunan Rumah dan Subsidi
@@ -193,6 +203,8 @@
                 disabled
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Pekerjaan Pembangunan Rumah
@@ -211,8 +223,6 @@
                 disabled
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga PPh 21
@@ -231,6 +241,8 @@
                 @input="calculateHargaTotal"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga Total SPK
