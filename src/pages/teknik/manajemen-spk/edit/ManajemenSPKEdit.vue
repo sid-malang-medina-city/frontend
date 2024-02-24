@@ -26,6 +26,7 @@
               </div>
               <el-input
                 v-model="formData.nomor"
+                v-loading="!isDataFetched"
                 placeholder="Masukkan nomor SPK"
                 class="row__input"
               />
