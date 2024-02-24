@@ -13,6 +13,7 @@ import {
   MoreFilled
 } from '@element-plus/icons-vue'
 
+import { STATUSES } from '~/data/spk'
 
 import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import helpers from '~/utils/helpers'
@@ -69,6 +70,7 @@ export default {
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: {},
       selectedImageUrl: '',
+      statuses: STATUSES,
       imageStartingIndex: 0,
       helpers
     }
