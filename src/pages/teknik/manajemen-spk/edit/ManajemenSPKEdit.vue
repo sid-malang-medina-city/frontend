@@ -333,7 +333,11 @@
               prop="volume"
               label="Volume" 
               width="80"
-            />
+            >
+              <template #default="scope">
+                {{ helpers.convertToTwoDecimalPoint(scope.row.volume) }}
+              </template>
+            </el-table-column>
             <el-table-column
               prop="harga_satuan"
               label="Harga Satuan"
@@ -553,9 +557,13 @@
             />
             <el-table-column
               prop="volume"
-              label="Volume"
+              label="Volume" 
               min-width="50"
-            />
+            >
+              <template #default="scope">
+                {{ helpers.convertToTwoDecimalPoint(scope.row.volume) }}
+              </template>
+            </el-table-column>
             <el-table-column
               prop="harga_satuan"
               label="Harga Satuan"

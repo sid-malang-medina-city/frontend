@@ -74,6 +74,14 @@ export default {
     return decimal.toFixed(2) + '%'
   },
 
+  convertToTwoDecimalPoint (decimal) {
+    if (decimal === null || decimal === undefined) {
+      return
+    }
+
+    return parseFloat(decimal).toFixed(2)
+  },
+
   convertDateToAge (date) {
     if (!date) {
       return
