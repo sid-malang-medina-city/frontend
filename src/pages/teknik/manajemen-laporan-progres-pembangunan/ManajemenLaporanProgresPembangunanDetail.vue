@@ -127,6 +127,16 @@
                 </div>
               </div>
             </div>
+            <div class="content__informasi-utama informasi-utama">
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Biaya Pajak
+                </div>
+                <div class="column__value">
+                  {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.pajak, true) || '-' }}
+                </div>
+              </div>
+            </div>
           </div>
           
           <div class="content__informasi-pendukung-wrapper informasi-pendukung-wrapper--top">

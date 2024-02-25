@@ -77,6 +77,24 @@
               </el-select>
             </div>
           </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
+                Biaya Pajak
+              </div>
+              <el-input
+                v-model="formData.pajak"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan biaya pajak"
+                class="row__input"
+              />
+            </div>
+          </div>
           <div class="input-section__header input-section__header--flex">
             <div class="input-section__header-left">
               <img

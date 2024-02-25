@@ -50,6 +50,7 @@ export default {
         spk: '',
         tanggal: '',
         status: '',
+        pajak: '',
         jenis_pekerjaans: []
       },
       form: {
@@ -94,7 +95,7 @@ export default {
       return this.$route.params.id
     },
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['spk', 'tanggal', 'status']
+      const requiredFields = ['spk', 'tanggal', 'status', 'pajak']
       return requiredFields.every(field => !!this.formData[field])
     },
     isSubmitButtonDisabled () {
@@ -320,6 +321,7 @@ export default {
     async submit () {
       this.visibleLoading.submitButton = true
       this.calculateHargaBulanIni()
+      this.formData.pajak = parseFloat(this.formData.pajak)
       try {
         await this.editLaporanProgresPembangunan(this.id, this.generatePayload())
         this.redirectTo('ManajemenLaporanProgresPembangunan')

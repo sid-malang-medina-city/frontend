@@ -308,7 +308,7 @@ export default {
           id_table: (this.formData.jenis_pekerjaans.length + 1).toString() + (this.formData.jenis_pekerjaans.length + 1).toString() + (this.form.pekerjaans.length + 1).toString(),
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
-          volume: parseFloat(parseFloat(this.volume).toFixed(2)),
+          volume: parseFloat(this.volume),
           harga_satuan: parseFloat(parseFloat(this.hargaSatuan.replace(',','.')).toFixed(2)),
           harga_total: parseFloat((parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))).toFixed(2))
         })
@@ -324,7 +324,7 @@ export default {
           if ((pekerjaan.nama !== this.namaPekerjaan && !this.form.pekerjaans.some(checkPekerjaan => checkPekerjaan.nama === this.namaPekerjaan)) || pekerjaan.nama === this.namaPekerjaan) {
             pekerjaan.nama = this.namaPekerjaan,
             pekerjaan.satuan_ukuran = this.satuanUkuran,
-            pekerjaan.volume = parseFloat(parseFloat(this.volume).toFixed(2)),
+            pekerjaan.volume = parseFloat(this.volume),
             pekerjaan.harga_satuan = parseFloat(parseFloat(this.hargaSatuan.replace(',', '.')).toFixed(2)),
             pekerjaan.harga_total = parseFloat((parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))).toFixed(2))
             this.showToast('Pekerjaan berhasil diubah')
