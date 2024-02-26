@@ -228,7 +228,7 @@ export default {
     },
 
     calculateTermin (row) {
-      return new Date(row.tanggal).getMonth() - new Date(row.spk_awal_periode).getMonth() + 1
+      return (new Date(row.tanggal).getMonth() - new Date(row.spk_awal_periode).getMonth() + 12 * (new Date(row.tanggal).getYear() - new Date(row.spk_awal_periode).getYear())) + 1
     },
 
     getMonth (date) {

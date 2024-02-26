@@ -310,12 +310,10 @@ export default {
       })
       
       // harga dan persentase sebelumnya dari data SPK
-      this.formData.persentase_progres_sebelumnya = this.formData.persentase_progres_total
       this.formData.persentase_progres_bulan_ini = (totalHargaBulanIni/this.formData.harga_total)*100
-      this.formData.persentase_progres_total += this.formData.persentase_progres_bulan_ini
-      this.formData.harga_progres_sebelumnya = this.formData.harga_progres_total
+      this.formData.persentase_progres_total = this.formData.persentase_progres_sebelumnya + this.formData.persentase_progres_bulan_ini
       this.formData.harga_bulan_ini = totalHargaBulanIni
-      this.formData.harga_progres_total += totalHargaBulanIni
+      this.formData.harga_progres_total = this.formData.harga_progres_sebelumnya + totalHargaBulanIni
     },
 
     async submit () {
