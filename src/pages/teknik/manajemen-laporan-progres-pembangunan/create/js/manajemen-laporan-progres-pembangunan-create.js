@@ -121,7 +121,8 @@ export default {
     async getSPKs () {
       try {
         const { data } = await this.fetchSPKs({
-          skip_pagination: true
+          skip_pagination: true,
+          lpp_creatable: true
         })
         this.SPKs = JSON.parse(JSON.stringify(data))
         this.visibleLoading.spkDropdown = false

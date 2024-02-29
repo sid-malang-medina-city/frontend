@@ -22,9 +22,67 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
+                SPK Addendum
+              </div>
+              <el-checkbox
+                v-model="isSPKAddendum"
+                label="SPK Addendum"
+                class="row__input"
+                @change="handleSPKAddendumChange"
+              />
+            </div>
+            <div
+              v-if="isSPKAddendum"
+              class="rows__row"
+            >
+              <div class="row__label required">
+                SPK
+              </div>
+              <el-select
+                v-model="formData.related_spk"
+                v-loading="visibleLoading.spkDropdown"
+                placeholder="Pilih SPK"
+                class="row__input"
+                remote-show-suffix
+                filterable
+                remote
+                reserve-keyword
+              >
+                <el-option
+                  v-for="spk in spks"
+                  :key="spk.id"
+                  :label="spk.nomor"
+                  :value="spk.id"
+                  @click="getSPK(spk.id)"
+                />
+              </el-select>
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
                 Unit
               </div>
               <el-select
+                v-if="isSPKAddendum"
+                v-model="formData.unit"
+                v-loading="visibleLoading.unitDropdown || !isDataFetched"
+                placeholder="Pilih unit"
+                class="row__input"
+                remote-show-suffix
+                filterable
+                remote
+                disabled
+                reserve-keyword
+              >
+                <el-option
+                  :key="formData.unit"
+                  :label="formData.unit_cluster_nama ? `${formData.unit_cluster_nama} - ${formData.unit_nomor_kavling}` : ''"
+                  :value="formData.unit"
+                />
+              </el-select>
+              <el-select
+                v-else
                 v-model="formData.unit"
                 v-loading="visibleLoading.unitDropdown"
                 placeholder="Pilih unit"
@@ -49,6 +107,7 @@
               </div>
               <el-date-picker
                 v-model="periodeValue"
+                v-loading="!isDataFetched"
                 :clearable="false"
                 type="monthrange"
                 range-separator="-"
@@ -67,7 +126,7 @@
               </div>
               <el-select
                 v-model="formData.vendor"
-                v-loading="visibleLoading.vendorDropdown"
+                v-loading="visibleLoading.vendorDropdown || !isDataFetched"
                 placeholder="Pilih vendor"
                 class="row__input"
                 remote-show-suffix
@@ -89,6 +148,7 @@
               </div>
               <el-input
                 v-model="formData.keterangan"
+                v-loading="!isDataFetched"
                 :rows="3"
                 resize="none"
                 placeholder="Masukkan keterangan"
@@ -104,6 +164,7 @@
               </div>
               <el-select
                 v-model="formData.status"
+                v-loading="!isDataFetched"
                 placeholder="Pilih status"
                 class="row__input"
               >
@@ -121,6 +182,7 @@
               </div>
               <el-input
                 v-model="selectedTipeUnitNomor"
+                v-loading="!isDataFetched"
                 placeholder="Pilih unit terlebih dahulu"
                 class="row__input"
                 disabled
@@ -134,6 +196,7 @@
               </div>
               <el-input
                 v-model="formData.harga_subsidi"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -151,6 +214,7 @@
               </div>
               <el-input
                 v-model="formData.harga_pekerjaan_pembangunan_rumah"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -170,6 +234,7 @@
               </div>
               <el-input
                 v-model="formData.harga_total_ppr_subsidi"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -187,6 +252,7 @@
               </div>
               <el-input
                 v-model="formData.harga_total_ppr"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -206,6 +272,7 @@
               </div>
               <el-input
                 v-model="formData.harga_pph21"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -223,6 +290,7 @@
               </div>
               <el-input
                 v-model="formData.harga_total_spk"
+                v-loading="!isDataFetched"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');

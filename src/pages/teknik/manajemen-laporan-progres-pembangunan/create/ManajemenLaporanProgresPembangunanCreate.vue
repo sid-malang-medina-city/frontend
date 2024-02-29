@@ -59,6 +59,8 @@
                 class="row__input"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Status
@@ -76,8 +78,6 @@
                 />
               </el-select>
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Biaya Pajak
@@ -177,21 +177,21 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="harga_progres_sebelumnya"
-              label="Harga bulan sebelumnya"
+              prop="harga_bulan_lalu"
+              label="Harga bulan lalu"
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya, true, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
-              prop="persentase_progres_sebelumnya"
-              label="Progres bulan sebelumnya"
+              prop="persentase_bulan_lalu"
+              label="Progres bulan lalu"
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column

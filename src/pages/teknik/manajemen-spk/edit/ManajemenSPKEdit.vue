@@ -22,6 +22,48 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
+                SPK Addendum
+              </div>
+              <el-checkbox
+                v-model="isSPKAddendum"
+                v-loading="!isDataFetched"
+                label="SPK Addendum"
+                class="row__input"
+                disabled
+                @change="handleSPKAddendumChange"
+              />
+            </div>
+            <div
+              v-if="isSPKAddendum"
+              class="rows__row"
+            >
+              <div class="row__label required">
+                SPK
+              </div>
+              <el-select
+                v-model="formData.related_spk"
+                v-loading="visibleLoading.spkDropdown"
+                placeholder="Pilih SPK"
+                class="row__input"
+                remote-show-suffix
+                filterable
+                remote
+                disabled
+                reserve-keyword
+              >
+                <el-option
+                  v-for="spk in spks"
+                  :key="spk.id"
+                  :label="spk.nomor"
+                  :value="spk.id"
+                  @click="getSPK(spk.id)"
+                />
+              </el-select>
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
                 Nomor SPK
               </div>
               <el-input
@@ -42,6 +84,7 @@
                 class="row__input"
                 remote-show-suffix
                 filterable
+                disabled
                 remote
                 reserve-keyword
               >

@@ -60,6 +60,7 @@ export default {
         keterangan: '',
         unit: '',
         vendor: '',
+        related_spk: '',
         harga_total: null,
         harga_total_ppr: 0,
         harga_pekerjaan_pembangunan_rumah: 0,
@@ -82,6 +83,7 @@ export default {
       editedNamaPekerjaan: '',
       templateSPKId: null,
       templateSPKs: [],
+      spks: [],
       periodeValue: null,
       satuanUkurans: SATUAN_UKURANS,
       statuses: STATUSES,
@@ -100,7 +102,8 @@ export default {
       visibleLoading: {
         submitButton: false,
         unitDropdown: false,
-        vendorDropdown: false
+        vendorDropdown: false,
+        spkDropdown: false
       },
       isDataFetched: false,
       isEditMode: false,
@@ -139,10 +142,11 @@ export default {
     this.getUnits()
     this.getVendors()
     this.getTemplateSPKs()
+    this.getSPKs()
   },
 
   methods: {
-    ...mapActions(SPKStore, ['editSPK', 'fetchSPK']),
+    ...mapActions(SPKStore, ['editSPK', 'fetchSPK', 'fetchSPKs']),
     ...mapActions(templateSPKStore, ['fetchTemplateSPK', 'fetchTemplateSPKs']),
     ...mapActions(unitStore, ['fetchUnits']),
     ...mapActions(vendorStore, ['fetchVendors']),
@@ -155,6 +159,18 @@ export default {
         this.templateSPKs = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
+      }
+    },
+
+    async getSPKs () {
+      this.visibleLoading.spkDropdown = true
+      try {
+        const { data } = await this.fetchSPKs({ skip_pagination: "True", status: 'FINAL' })
+        this.spks = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      } finally {
+        this.visibleLoading.spkDropdown = false
       }
     },
 
@@ -279,6 +295,7 @@ export default {
       })
       this.selectedTipeUnitNomor = this.formData.unit_tipe_nomor
       this.periodeValue = [this.formData.awal_periode, this.formData.akhir_periode]
+      this.isSPKAddendum = this.related_spk !== null
       this.calculatePersentasePekerjaan()
     },
 
