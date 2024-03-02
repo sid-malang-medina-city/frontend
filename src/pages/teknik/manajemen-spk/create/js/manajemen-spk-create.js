@@ -282,6 +282,11 @@ export default {
         }
         this.selectedTipeUnitNomor = null
         this.periodeValue = []
+      } else {
+        this.formData = {
+          ...this.formData,
+          unit: ''
+        }
       }
     },
 
