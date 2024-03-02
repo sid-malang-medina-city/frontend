@@ -59,6 +59,7 @@ export default {
         vendor: '',
         keterangan: '',
         status: 'DRAFT',
+        related_spk: '',
         harga_total: null,
         harga_total_ppr: 0,
         harga_pekerjaan_pembangunan_rumah: 0,
@@ -84,6 +85,7 @@ export default {
       periodeValue: null,
       satuanUkurans: SATUAN_UKURANS,
       statuses: STATUSES,
+      spks: [],
       units: [],
       vendors: [],
       icons: {
@@ -99,10 +101,12 @@ export default {
       visibleLoading: {
         submitButton: false,
         unitDropdown: false,
-        vendorDropdown: false
+        vendorDropdown: false,
+        spkDropdown: false
       },
       isEditMode: false,
       isEditPekerjaanMode: false,
+      isDataFetched: true,
       helpers
     }
   },
@@ -133,10 +137,11 @@ export default {
     this.getUnits()
     this.getVendors()
     this.getTemplateSPKs()
+    this.getSPKs()
   },
 
   methods: {
-    ...mapActions(SPKStore, ['createSPK']),
+    ...mapActions(SPKStore, ['createSPK', 'fetchSPKs', 'fetchSPK']),
     ...mapActions(templateSPKStore, ['fetchTemplateSPK', 'fetchTemplateSPKs']),
     ...mapActions(unitStore, ['fetchUnits']),
     ...mapActions(vendorStore, ['fetchVendors']),
@@ -149,6 +154,30 @@ export default {
         this.templateSPKs = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
+      }
+    },
+
+    async getSPKs () {
+      this.visibleLoading.spkDropdown = true
+      try {
+        const { data } = await this.fetchSPKs({ skip_pagination: "True", status: 'FINAL' })
+        this.spks = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      } finally {
+        this.visibleLoading.spkDropdown = false
+      }
+    },
+
+    async getSPK (id) {
+      this.isDataFetched = false
+      try {
+        const { data } = await this.fetchSPK(id)
+        this.initFormDataSPKAddendum(JSON.parse(JSON.stringify(data)))
+      } catch (error) {
+        this.showErrorResponse(error)
+      } finally {
+        this.isDataFetched = true
       }
     },
 
@@ -213,6 +242,47 @@ export default {
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
       })
       this.calculatePersentasePekerjaan()
+    },
+
+    initFormDataSPKAddendum (data) {
+      this.formData = {
+        unit: data.unit,
+        unit_cluster_nama: data.unit_cluster_nama,
+        unit_nomor_kavling: data.unit_nomor_kavling,
+        unit_tipe_nomor: data.unit_tipe_nomor,
+        vendor: data.vendor,
+        awal_periode: data.awal_periode,
+        akhir_periode: data.akhir_periode,
+        related_spk: this.formData.related_spk,
+        status: 'DRAFT',
+        jenis_pekerjaans: []
+      }
+      this.selectedTipeUnitNomor = this.formData.unit_tipe_nomor
+      this.periodeValue = [this.formData.awal_periode, this.formData.akhir_periode]
+    },
+
+    handleSPKAddendumChange () {
+      if (!this.isSPKAddendum) {
+        this.formData = {
+          nama: '',
+          unit: '',
+          awal_periode: '',
+          akhir_periode: '',
+          vendor: '',
+          keterangan: '',
+          status: 'DRAFT',
+          harga_total: null,
+          harga_total_ppr: 0,
+          harga_pekerjaan_pembangunan_rumah: 0,
+          harga_subsidi: 0,
+          harga_pph21: 0,
+          harga_total_ppr_subsidi: 0,
+          harga_total_spk: 0,
+          jenis_pekerjaans: []
+        }
+        this.selectedTipeUnitNomor = null
+        this.periodeValue = []
+      }
     },
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {

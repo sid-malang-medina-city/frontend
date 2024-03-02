@@ -59,23 +59,6 @@
                 disabled
               />
             </div>
-            <div class="rows__row">
-              <div class="row__label required">
-                Status
-              </div>
-              <el-select
-                v-model="formData.status"
-                placeholder="Pilih status"
-                class="row__input"
-              >
-                <el-option
-                  v-for="status in statuses"
-                  :key="status.code"
-                  :label="status.name"
-                  :value="status.code"
-                />
-              </el-select>
-            </div>
           </div>
           <div class="input-section__rows rows">
             <div class="rows__row">
@@ -93,6 +76,23 @@
                 placeholder="Masukkan biaya pajak"
                 class="row__input"
               />
+            </div>
+            <div class="rows__row">
+              <div class="row__label required">
+                Status
+              </div>
+              <el-select
+                v-model="formData.status"
+                placeholder="Pilih status"
+                class="row__input"
+              >
+                <el-option
+                  v-for="status in statuses"
+                  :key="status.code"
+                  :label="status.name"
+                  :value="status.code"
+                />
+              </el-select>
             </div>
           </div>
           <div class="input-section__header input-section__header--flex">
@@ -172,21 +172,21 @@
               </template>
             </el-table-column>
             <el-table-column
-              prop="harga_progres_sebelumnya"
-              label="Harga bulan sebelumnya"
+              prop="harga_bulan_lalu"
+              label="Harga bulan lalu"
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya, true, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
-              prop="persentase_progres_sebelumnya"
-              label="Progres bulan sebelumnya"
+              prop="persentase_bulan_lalu"
+              label="Persentase bulan lalu"
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions')) }}
               </template>
             </el-table-column>
             <el-table-column
