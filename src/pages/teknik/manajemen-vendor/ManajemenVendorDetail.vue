@@ -57,7 +57,7 @@
                 Jabatan
               </div>
               <div class="header-section__value">
-                {{ helpers.convertEmptyValueWithDash(vendor.nama) }}
+                {{ helpers.convertEmptyValueWithDash(vendor.jabatan) }}
               </div>
             </div>
           </div>
