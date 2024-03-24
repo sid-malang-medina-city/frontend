@@ -107,7 +107,7 @@ export default {
     },
 
     openDocumentInNewTab () {
-      window.open(POSupplier.po_access_url, '_blank');
+      window.open(this.POSupplier.po_access_url, '_blank');
     },
 
     goToEditPage () {
