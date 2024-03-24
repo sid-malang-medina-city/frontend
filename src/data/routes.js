@@ -67,7 +67,14 @@ const ManajemenLaporanProgresPembangunan = defineAsyncComponent(() => import(/* 
 const ManajemenLaporanProgresPembangunanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-create" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/create/ManajemenLaporanProgresPembangunanCreate.vue'))
 const ManajemenLaporanProgresPembangunanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-edit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/edit/ManajemenLaporanProgresPembangunanEdit.vue'))
 const ManajemenLaporanProgresPembangunanDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-detail" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/ManajemenLaporanProgresPembangunanDetail.vue'))
-const LaporanInvoiceProgresPembangunan = defineAsyncComponent(() => import(/* webpackChunkName: "p-laporan-invoice-progres-pembangunan" */ '~/pages/teknik/laporan-invoice-progres-pembangunan/LaporanInvoiceProgresPembangunan.vue'))
+const ManajemenSupplier = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier" */ '~/pages/teknik/manajemen-supplier/ManajemenSupplier.vue'))
+const ManajemenSupplierCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-create" */ '~/pages/teknik/manajemen-supplier/create/ManajemenSupplierCreate.vue'))
+const ManajemenSupplierEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-edit" */ '~/pages/teknik/manajemen-supplier/edit/ManajemenSupplierEdit.vue'))
+const ManajemenSupplierDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-detail" */ '~/pages/teknik/manajemen-supplier/ManajemenSupplierDetail.vue'))
+const ManajemenPOSupplier = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier" */ '~/pages/teknik/manajemen-po-supplier/ManajemenPOSupplier.vue'))
+const ManajemenPOSupplierCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier-create" */ '~/pages/teknik/manajemen-po-supplier/create/ManajemenPOSupplierCreate.vue'))
+const ManajemenPOSupplierEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier-edit" */ '~/pages/teknik/manajemen-po-supplier/edit/ManajemenPOSupplierEdit.vue'))
+const ManajemenPOSupplierDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier-detail" */ '~/pages/teknik/manajemen-po-supplier/ManajemenPOSupplierDetail.vue'))
 
 export default [
   {
@@ -745,12 +752,82 @@ export default [
     }
   },
   {
-    path: '/teknik/laporan-invoice-progres-pembangunan',
-    name: 'LaporanInvoiceProgresPembangunan',
-    component: LaporanInvoiceProgresPembangunan,
+    path: '/teknik/manajemen-supplier',
+    name: 'ManajemenSupplier',
+    component: ManajemenSupplier,
     meta: {
-      title: 'Laporan Invoice Progres Pembangunan',
-      action: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
+      title: 'Manajemen Supplier',
+      action: 'LIST_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-supplier/create',
+    name: 'ManajemenSupplierCreate',
+    component: ManajemenSupplierCreate,
+    meta: {
+      title: 'Manajemen Supplier Create',
+      action: 'CREATE_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-supplier/edit/:id',
+    name: 'ManajemenSupplierEdit',
+    component: ManajemenSupplierEdit,
+    meta: {
+      title: 'Manajemen Supplier Edit',
+      action: 'UPDATE_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-supplier/:id',
+    name: 'ManajemenSupplierDetail',
+    component: ManajemenSupplierDetail,
+    meta: {
+      title: 'Manajemen Supplier Detail',
+      action: 'READ_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-po-supplier',
+    name: 'ManajemenPOSupplier',
+    component: ManajemenPOSupplier,
+    meta: {
+      title: 'Manajemen PO Supplier',
+      action: 'LIST_PO_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-po-supplier/create',
+    name: 'ManajemenPOSupplierCreate',
+    component: ManajemenPOSupplierCreate,
+    meta: {
+      title: 'Manajemen PO Supplier Create',
+      action: 'CREATE_PO_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-po-supplier/edit/:id',
+    name: 'ManajemenPOSupplierEdit',
+    component: ManajemenPOSupplierEdit,
+    meta: {
+      title: 'Manajemen PO Supplier Edit',
+      action: 'UPDATE_PO_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-po-supplier/:id',
+    name: 'ManajemenPOSupplierDetail',
+    component: ManajemenPOSupplierDetail,
+    meta: {
+      title: 'Manajemen PO Supplier Detail',
+      action: 'READ_PO_SUPPLIER',
       requireLogin: true
     }
   },

@@ -1,7 +1,5 @@
 import { mapActions } from 'pinia'
-import { SPKStore } from '~/store/teknik/spk'
-import { tipeUnitStore } from '~/store/unit/tipe-unit'
-import { STATUSES } from '~/data/spk'
+import { supplierStore } from '~/store/teknik/supplier'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -9,69 +7,54 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 import DebounceHandler from '~/mixins/debounce-handler'
 
-import helpers from '~/utils/helpers'
-
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
-
-import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 
 import {
   ArrowDown,
   ArrowUp,
   Plus,
   Search,
-  MoreFilled,
-  Stamp,
-  View,
-  Document,
+  Edit,
   Delete
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-spk',
+  name: 'manajemen-supplier',
 
   mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
-    StatusBadge,
     ArrowDown,
     ArrowUp,
     Plus,
-    MoreFilled,
-    Stamp,
-    View,
-    Document,
     Search
   },
 
   data () {
     return {
       filters: {
-        search: this.$route.query.search || null,
-        tipe_unit: this.$route.query.tipe_unit || null
+        search: this.$route.query.search || null
       },
       pagination: {
         page: 1,
         size: 10
       },
-      tipeUnits: [],
-      SPKs: [],
-      statuses: STATUSES,
-      totalSPKs: 0,
+      suppliers: [],
+      totalSuppliers: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
+        edit: Edit,
         arrowCounterClockwise: arrowCounterClockwiseIcon
-      },
-      helpers
+      }
     }
   },
 
   computed: {
-    totalShownSPKs () {
-      const totalItems = this.totalSPKs
+    totalShownSuppliers () {
+      const totalItems = this.totalSuppliers
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -93,23 +76,24 @@ export default {
 
   created () {
     this.visibleFilter = this.isAnyFilterApplied
-    this.getSPKs()
-    this.getTipeUnits()
+    this.getSuppliers()
   },
 
   methods: {
-    ...mapActions(SPKStore, [
-      'fetchSPKs',
-      'generatePDF'
+    ...mapActions(supplierStore, [
+      'fetchSuppliers',
+      'deleteSupplier'
     ]),
-    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
-    
-    async getSPKs () {
+
+    async getSuppliers () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchSPKs(this.generateFilters)
-        this.SPKs = JSON.parse(JSON.stringify(data.data))
-        this.totalSPKs = data.pagination.total_items
+        console.log(1)
+        const { data } = await this.fetchSuppliers(this.generateFilters)
+        console.log(2)
+        this.suppliers = JSON.parse(JSON.stringify(data.data))
+        console.log(3)
+        this.totalSuppliers = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -117,20 +101,9 @@ export default {
       }
     },
 
-    async getTipeUnits () {
-      try {
-        const { data } = await this.fetchTipeUnits({
-          skip_pagination: true
-        })
-        this.tipeUnits = JSON.parse(JSON.stringify(data))
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
-    },
-
     handlePageChange (page) {
       this.pagination.page = page
-      this.getSPKs()
+      this.getSuppliers()
     },
 
     handleFilterChange () {
@@ -138,7 +111,7 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenSupplier', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -153,26 +126,11 @@ export default {
       this.handleFilterChange()
     },
 
-    async generateSPKPDF (id) {
-      try {
-        const { data } = await this.generatePDF({ id })
-        const accessUrl = JSON.parse(JSON.stringify(data.access_url))
-        window.open(accessUrl, '_blank');
-        this.getSPKs()
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
-    },
-
-    openDocumentInNewTab (accessUrl) {
-      window.open(accessUrl, '_blank');
-    },
-
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan progress data dan akses mereka',
-          'Hapus SPK',
+          'Apakah anda yakin ingin menghapus supplier ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus supplier berarti menghilangkan progress data dan akses mereka',
+          'Hapus Supplier',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -180,26 +138,26 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteSPK(id)
-        this.showToast('SPK berhasil dihapus!')
+        await this.handleDeleteSupplier(id)
+        this.showToast('Supplier berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteSPK(id) {
+    async handleDeleteSupplier(id) {
       try {
-        await this.deleteSPK(id)
-        this.getSPKs()
+        await this.deleteSupplier(id)
+        this.getSuppliers()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenSPKCreate')
+      this.redirectTo('ManajemenSupplierCreate')
     },
 
     goToDetailPage ({ id }) {
-      this.redirectTo('ManajemenSPKDetail', {
+      this.redirectTo('ManajemenSupplierDetail', {
         params: {
           id: id
         }
@@ -207,7 +165,7 @@ export default {
     },
 
     goToEditPage (id) {
-      this.redirectTo('ManajemenSPKEdit', {
+      this.redirectTo('ManajemenSupplierEdit', {
         params: {
           id: id
         }

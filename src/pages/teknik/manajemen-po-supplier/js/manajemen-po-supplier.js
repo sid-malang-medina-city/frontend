@@ -1,7 +1,7 @@
 import { mapActions } from 'pinia'
-import { SPKStore } from '~/store/teknik/spk'
+import { POSupplierStore } from '~/store/teknik/po-supplier'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
-import { STATUSES } from '~/data/spk'
+// import { STATUSES } from '~/data/po-supplier'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -28,7 +28,7 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-spk',
+  name: 'manajemen-po-supplier',
 
   mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
@@ -56,9 +56,9 @@ export default {
         size: 10
       },
       tipeUnits: [],
-      SPKs: [],
-      statuses: STATUSES,
-      totalSPKs: 0,
+      POSuppliers: [],
+      // statuses: STATUSES,
+      totalPOSuppliers: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
@@ -70,8 +70,8 @@ export default {
   },
 
   computed: {
-    totalShownSPKs () {
-      const totalItems = this.totalSPKs
+    totalShownPOSuppliers () {
+      const totalItems = this.totalPOSuppliers
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -93,23 +93,23 @@ export default {
 
   created () {
     this.visibleFilter = this.isAnyFilterApplied
-    this.getSPKs()
+    this.getPOSuppliers()
     this.getTipeUnits()
   },
 
   methods: {
-    ...mapActions(SPKStore, [
-      'fetchSPKs',
+    ...mapActions(POSupplierStore, [
+      'fetchPOSuppliers',
       'generatePDF'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
     
-    async getSPKs () {
+    async getPOSuppliers () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchSPKs(this.generateFilters)
-        this.SPKs = JSON.parse(JSON.stringify(data.data))
-        this.totalSPKs = data.pagination.total_items
+        const { data } = await this.fetchPOSuppliers(this.generateFilters)
+        this.POSuppliers = JSON.parse(JSON.stringify(data.data))
+        this.totalPOSuppliers = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -130,7 +130,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getSPKs()
+      this.getPOSuppliers()
     },
 
     handleFilterChange () {
@@ -138,7 +138,7 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenPOSupplier', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -153,12 +153,12 @@ export default {
       this.handleFilterChange()
     },
 
-    async generateSPKPDF (id) {
+    async generatePOSupplierPDF (id) {
       try {
         const { data } = await this.generatePDF({ id })
         const accessUrl = JSON.parse(JSON.stringify(data.access_url))
         window.open(accessUrl, '_blank');
-        this.getSPKs()
+        this.getPOSuppliers()
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -171,8 +171,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan progress data dan akses mereka',
-          'Hapus SPK',
+          'Apakah anda yakin ingin menghapus PO Supplier ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus PO Supplier berarti menghilangkan progress data dan akses mereka',
+          'Hapus PO Supplier',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -180,26 +180,26 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteSPK(id)
-        this.showToast('SPK berhasil dihapus!')
+        await this.handleDeletePOSupplier(id)
+        this.showToast('PO Supplier berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteSPK(id) {
+    async handleDeletePOSupplier(id) {
       try {
-        await this.deleteSPK(id)
-        this.getSPKs()
+        await this.deletePOSupplier(id)
+        this.getPOSuppliers()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenSPKCreate')
+      this.redirectTo('ManajemenPOSupplierCreate')
     },
 
     goToDetailPage ({ id }) {
-      this.redirectTo('ManajemenSPKDetail', {
+      this.redirectTo('ManajemenPOSupplierDetail', {
         params: {
           id: id
         }
@@ -207,7 +207,7 @@ export default {
     },
 
     goToEditPage (id) {
-      this.redirectTo('ManajemenSPKEdit', {
+      this.redirectTo('ManajemenPOSupplierEdit', {
         params: {
           id: id
         }
