@@ -201,7 +201,7 @@
   
             <div class="content__rows rows last-row rows--no-flex">
               <div class="row__label">Catatan Tambahan</div>
-              <div class="row__value row__value--pre-line">{{ helpers.convertPriceToRupiah(POSupplier.catatan) }}</div>
+              <div class="row__value row__value--pre-line">{{ helpers.convertEmptyValueWithDash(POSupplier.catatan) }}</div>
             </div>
           </div>  
 
@@ -504,6 +504,7 @@
 
             &--pre-line {
               white-space: pre-line;
+              width: 824px;
             }
 
             &--flex {
