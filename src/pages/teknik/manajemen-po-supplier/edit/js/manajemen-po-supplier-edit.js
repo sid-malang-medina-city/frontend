@@ -144,6 +144,7 @@ export default {
 
     initFormData (data) {
       this.formData = data
+      this.formData.supplier = data.supplier_id
       this.formData.barangs.forEach((barang, index) => {
         barang.id_table = (index + 1).toString()
       })
@@ -265,6 +266,8 @@ export default {
       const formData = JSON.parse(JSON.stringify(this.formData))
       formData.harga_total = this.subTotalPrice
       formData.harga_final = this.totalPrice
+      formData.biaya_kirim = formData.biaya_kirim || 0
+      formData.biaya_lainnya = formData.biaya_lainnya || 0
       formData.barangs.forEach((barang, index) => {
         barang.sequence = index + 1
       })
