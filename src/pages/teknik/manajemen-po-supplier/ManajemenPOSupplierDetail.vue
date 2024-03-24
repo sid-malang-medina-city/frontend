@@ -220,7 +220,7 @@
               <el-table
                 v-loading="!isDataFetched"
                 :data="POSupplier.barangs"
-                class="input-section__table table general-table"
+                class="rows__table table general-table"
                 header-row-class-name="general-table__header-gray"
                 row-key="id_table"
                 stripe
@@ -239,6 +239,9 @@
                 <template #default="scope">
                   <div class="table__keterangan">
                     {{ scope.row.keterangan }}
+                  </div>
+                  <div class="table__spesifikasi-label">
+                    Spesifikasi Produk:
                   </div>
                   <div class="table__spesifikasi">
                     {{ scope.row.spesifikasi }}
@@ -465,6 +468,17 @@
 
         &--no-flex {
           display: block;
+        }
+
+        .table {
+          &__keterangan, &__spesifikasi {
+            white-space: pre-line;
+          }
+
+          &__spesifikasi-label {
+            margin-top: 5px;
+            font-weight: 600;
+          }
         }
 
         .row {

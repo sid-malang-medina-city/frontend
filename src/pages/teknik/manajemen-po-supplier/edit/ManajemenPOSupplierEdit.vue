@@ -177,6 +177,9 @@
                 <div class="table__keterangan">
                   {{ scope.row.keterangan }}
                 </div>
+                <div class="table__spesifikasi-label">
+                  Spesifikasi Produk:
+                </div>
                 <div class="table__spesifikasi">
                   {{ scope.row.spesifikasi }}
                 </div>
@@ -497,6 +500,11 @@
 
         &__keterangan, &__spesifikasi {
           white-space: pre-wrap;
+        }
+
+        &__spesifikasi-label {
+          margin-top: 5px;
+          font-weight: 600;
         }
 
         &__nama-pekerjaan {
