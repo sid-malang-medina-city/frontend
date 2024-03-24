@@ -106,6 +106,10 @@ export default {
       }
     },
 
+    openDocumentInNewTab () {
+      window.open(POSupplier.po_access_url, '_blank');
+    },
+
     goToEditPage () {
       this.redirectTo('ManajemenPOSupplierEdit', {
         params: {

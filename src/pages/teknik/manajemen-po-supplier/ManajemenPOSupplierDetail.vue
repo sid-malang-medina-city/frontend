@@ -48,6 +48,20 @@
                     </div>
                   </div>
                   <el-dropdown-item @click="generatePOSupplierPDF">PDF</el-dropdown-item>
+                  <div
+                    v-if="POSupplier.po_access_url"
+                    class="actions__preview-wrapper"
+                  >
+                    <el-icon class="actions__preview-icon">
+                      <View />
+                    </el-icon>
+                    <div class="actions__preview">
+                      Preview
+                    </div>
+                  </div>
+                  <el-dropdown-item v-if="!!POSupplier.po_access_url" @click="openDocumentInNewTab()">
+                    PDF
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
