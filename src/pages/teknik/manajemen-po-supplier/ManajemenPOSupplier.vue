@@ -167,7 +167,7 @@
                       </div>
                       <el-dropdown-item @click="generatePOSupplierPDF(scope.row.id)">PDF</el-dropdown-item>
                       <div
-                        v-if="!!scope.row.po_supplier_access_url"
+                        v-if="!!scope.row.po_access_url"
                         class="actions__preview-wrapper"
                       >
                         <el-icon class="actions__preview-icon">
@@ -177,7 +177,7 @@
                           Preview
                         </div>
                       </div>
-                      <el-dropdown-item v-if="!!scope.row.po_supplier_access_url" @click="openDocumentInNewTab(scope.row.po-supplier_access_url)">
+                      <el-dropdown-item v-if="!!scope.row.po_access_url" @click="openDocumentInNewTab(scope.row.po_access_url)">
                         PDF
                       </el-dropdown-item>
                       <div
