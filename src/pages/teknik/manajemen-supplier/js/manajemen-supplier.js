@@ -88,11 +88,8 @@ export default {
     async getSuppliers () {
       this.visibleLoadingTable = true
       try {
-        console.log(1)
         const { data } = await this.fetchSuppliers(this.generateFilters)
-        console.log(2)
         this.suppliers = JSON.parse(JSON.stringify(data.data))
-        console.log(3)
         this.totalSuppliers = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)

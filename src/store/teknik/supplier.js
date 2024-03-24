@@ -4,7 +4,6 @@ import api from '~/api/teknik/supplier'
 export const supplierStore = defineStore('SupplierStore', {
   actions: {
     async fetchSuppliers (params) {
-      console.log('msk')
       return api.fetchSuppliers(params)
     },
     async fetchSupplier (id) {

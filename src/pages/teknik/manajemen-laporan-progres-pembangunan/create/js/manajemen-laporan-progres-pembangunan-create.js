@@ -284,7 +284,6 @@ export default {
     },
 
     handleHargaBulanIniChange (row) {
-      console.log(parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya, '>', row.harga_total)
       if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
         if (!row.error) {
           this.showToast('Harga bulan ini melebihi harga total', 'error')
