@@ -174,15 +174,24 @@ export const NAVIGATION_ITEMS = [
         childRoutes: [],
         iconPath: null
       },
-      // {
-      //   label: 'Laporan Invoice Progres Pembangunan',
-      //   path: '/teknik/laporan-invoice-progres-pembangunan',
-      //   routeName: 'LaporanInvoiceProgresPembangunan',
-      //   menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
-      //   labelIndex: 5,
-      //   childRoutes: [],
-      //   iconPath: null
-      // }
+      {
+        label: 'Manajemen Supplier',
+        path: '/teknik/manajemen-supplier',
+        routeName: 'ManajemenSupplier',
+        menuCode: 'LIST_SUPPLIER',
+        labelIndex: 5,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'Manajemen PO Supplier',
+        path: '/teknik/manajemen-po-supplier',
+        routeName: 'ManajemenPOSupplier',
+        menuCode: 'LIST_PO_SUPPLIER',
+        labelIndex: 6,
+        childRoutes: [],
+        iconPath: null
+      }
     ]
   }
 ]

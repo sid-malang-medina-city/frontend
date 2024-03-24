@@ -4,8 +4,8 @@ import { axiosApiInstance } from './api'
 
 export const requestInterceptor = async config => {
   const accessToken = localStorage.getItem('accessToken')
-  const applicationJsonTypeUrls = ['spk', 'laporan-progres-pembangunan']
-  const formDataTypeUrls = ['spk-generate-pdf', 'laporan-progres-pembangunan-generate-pdf']
+  const applicationJsonTypeUrls = ['spk', 'laporan-progres-pembangunan', 'purchase-order']
+  const formDataTypeUrls = ['spk-generate-pdf', 'laporan-progres-pembangunan-generate-pdf', 'purchase-order-generate-pdf']
   config.headers = { 
     'Authorization': `Bearer ${accessToken}`,
     'Content-Type': applicationJsonTypeUrls.some(url => config.url.includes(url)) && !formDataTypeUrls.some(url => config.url.includes(url)) ? 'application/json' : 'multipart/form-data'

@@ -94,6 +94,15 @@ export default {
     },
     laporanInvoiceProgresPembangunan: {
       list: '/teknik/laporan-invoice-progres-pembangunan'
+    },
+    supplier: {
+      list: '/teknik/supplier',
+      detail: id => `/teknik/supplier/${encodeURIComponent(id)}`
+    },
+    POSupplier: {
+      list: '/teknik/purchase-order',
+      detail: id => `/teknik/purchase-order/${encodeURIComponent(id)}`,
+      generatePOSupplier: '/teknik/purchase-order-generate-pdf'
     }
   }
 }
