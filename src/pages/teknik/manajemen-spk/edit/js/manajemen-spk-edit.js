@@ -488,7 +488,6 @@ export default {
     },
 
     handleUnitChange (unit) {
-      console.log('yey')
       this.selectedTipeUnitNomor = unit.tipe.nomor
       this.calculateHargaTotal()
     },
