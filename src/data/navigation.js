@@ -166,11 +166,20 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
+        label: 'Manajemen SPK Non Unit',
+        path: '/teknik/manajemen-spk-non-unit',
+        routeName: 'ManajemenSPKNonUnit',
+        menuCode: 'LIST_SPK_NON_UNIT',
+        labelIndex: 4,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
         label: 'Manajemen Laporan Progres Pembangunan',
         path: '/teknik/manajemen-laporan-progres-pembangunan',
         routeName: 'ManajemenLaporanProgresPembangunan',
         menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
-        labelIndex: 4,
+        labelIndex: 5,
         childRoutes: [],
         iconPath: null
       },
@@ -179,7 +188,7 @@ export const NAVIGATION_ITEMS = [
         path: '/teknik/manajemen-supplier',
         routeName: 'ManajemenSupplier',
         menuCode: 'LIST_SUPPLIER',
-        labelIndex: 5,
+        labelIndex: 6,
         childRoutes: [],
         iconPath: null
       },
@@ -188,7 +197,7 @@ export const NAVIGATION_ITEMS = [
         path: '/teknik/manajemen-po-supplier',
         routeName: 'ManajemenPOSupplier',
         menuCode: 'LIST_PO_SUPPLIER',
-        labelIndex: 6,
+        labelIndex: 7,
         childRoutes: [],
         iconPath: null
       }
