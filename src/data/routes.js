@@ -63,6 +63,10 @@ const ManajemenSPK = defineAsyncComponent(() => import(/* webpackChunkName: "p-m
 const ManajemenSPKCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-create" */ '~/pages/teknik/manajemen-spk/create/ManajemenSPKCreate.vue'))
 const ManajemenSPKEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-edit" */ '~/pages/teknik/manajemen-spk/edit/ManajemenSPKEdit.vue'))
 const ManajemenSPKDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-detail" */ '~/pages/teknik/manajemen-spk/ManajemenSPKDetail.vue'))
+const ManajemenSPKNonUnit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-non-unit" */ '~/pages/teknik/manajemen-spk-non-unit/ManajemenSPKNonUnit.vue'))
+const ManajemenSPKNonUnitCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-non-unit-create" */ '~/pages/teknik/manajemen-spk-non-unit/create/ManajemenSPKNonUnitCreate.vue'))
+const ManajemenSPKNonUnitEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-non-unit-edit" */ '~/pages/teknik/manajemen-spk-non-unit/edit/ManajemenSPKNonUnitEdit.vue'))
+const ManajemenSPKNonUnitDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-spk-non-unit-detail" */ '~/pages/teknik/manajemen-spk-non-unit/ManajemenSPKNonUnitDetail.vue'))
 const ManajemenLaporanProgresPembangunan = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/ManajemenLaporanProgresPembangunan.vue'))
 const ManajemenLaporanProgresPembangunanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-create" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/create/ManajemenLaporanProgresPembangunanCreate.vue'))
 const ManajemenLaporanProgresPembangunanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-edit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/edit/ManajemenLaporanProgresPembangunanEdit.vue'))
@@ -708,6 +712,46 @@ export default [
     meta: {
       title: 'Manajemen SPK Detail',
       action: 'READ_SPK',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk-non-unit',
+    name: 'ManajemenSPKNonUnit',
+    component: ManajemenSPKNonUnit,
+    meta: {
+      title: 'Manajemen SPK Non Unit',
+      action: 'LIST_SPK_NON_UNIT',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk-non-unit/create',
+    name: 'ManajemenSPKNonUnitCreate',
+    component: ManajemenSPKNonUnitCreate,
+    meta: {
+      title: 'Manajemen SPK Non Unit Create',
+      action: 'CREATE_SPK_NON_UNIT',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk-non-unit/edit/:id',
+    name: 'ManajemenSPKNonUnitEdit',
+    component: ManajemenSPKNonUnitEdit,
+    meta: {
+      title: 'Manajemen SPK Non Unit Edit',
+      action: 'UPDATE_SPK_NON_UNIT',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-spk-non-unit/:id',
+    name: 'ManajemenSPKNonUnitDetail',
+    component: ManajemenSPKNonUnitDetail,
+    meta: {
+      title: 'Manajemen SPK Non Unit Detail',
+      action: 'READ_SPK_NON_UNIT',
       requireLogin: true
     }
   },

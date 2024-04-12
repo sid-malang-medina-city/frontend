@@ -103,6 +103,11 @@ export default {
       list: '/teknik/purchase-order',
       detail: id => `/teknik/purchase-order/${encodeURIComponent(id)}`,
       generatePOSupplier: '/teknik/purchase-order-generate-pdf'
+    },
+    SPKNonUnit: {
+      list: '/teknik/spk-non-unit',
+      detail: id => `/teknik/spk-non-unit/${encodeURIComponent(id)}`,
+      generateSPKNonUnit: '/teknik/spk-non-unit-generate-pdf'
     }
   }
 }
