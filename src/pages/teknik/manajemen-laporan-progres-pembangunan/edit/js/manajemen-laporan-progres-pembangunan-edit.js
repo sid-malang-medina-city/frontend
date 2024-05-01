@@ -51,6 +51,8 @@ export default {
         tanggal: '',
         status: '',
         pajak: '',
+        termin: null,
+        keterangan: '',
         jenis_pekerjaans: []
       },
       form: {
@@ -156,6 +158,7 @@ export default {
     initFormData (data) {
       this.formData = {
         ...this.formData,
+        termin: data.nomor_progres_termin_terakhir || 1,
         ...data
       }
       this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
@@ -300,6 +303,32 @@ export default {
       row.persentase_progres_total = row.persentase_progres_sebelumnya + row.persentase_progres_bulan_ini
     },
 
+    handlePersentaseBulanIniChange (row) {
+      row.persentase_progres_bulan_ini = parseFloat(row.persentase_progres_bulan_ini)
+      
+      let hargaBulanIni = (row.persentase_progres_bulan_ini / 100) * row.harga_total
+      if (!row.persentase_progres_bulan_ini) {
+        row.persentase_progres_bulan_ini = 0
+        hargaBulanIni = 0
+      }
+      
+      row.harga_bulan_ini = hargaBulanIni.toString().replaceAll('.', ',')
+
+      row.harga_progres_total = parseFloat(row.harga_progres_sebelumnya) + parseFloat(row.harga_bulan_ini.replace(',', '.'))
+      row.persentase_progres_total = row.persentase_progres_sebelumnya + row.persentase_progres_bulan_ini
+
+      if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
+        if (!row.error) {
+          this.showToast('Harga bulan ini melebihi harga total', 'error')
+          row.error = true
+          this.hargaInputInvalid = true
+        }
+      } else {
+        row.error = false
+        this.hargaInputInvalid = false
+      }
+    },
+
     calculateHargaBulanIni () {
       let totalHargaBulanIni = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
@@ -371,6 +400,11 @@ export default {
     disabledDate(time) {
       if (!this.keyForMonthPicker) {
         return false
+      }
+      if (this.formData.last_tanggal_laporan_progres_pembangunan) {
+        let lastTanggalLaporanProgresPembangunan = new Date(this.formData.last_tanggal_laporan_progres_pembangunan)
+        lastTanggalLaporanProgresPembangunan.setMonth(lastTanggalLaporanProgresPembangunan.getMonth() + 1)
+        return time.getTime() < lastTanggalLaporanProgresPembangunan.getTime() 
       }
       return !this.isDateInArray(time, this.formData.available_periode_laporan_progres_pekerjaan)
     },

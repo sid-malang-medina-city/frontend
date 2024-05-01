@@ -157,7 +157,14 @@
             min-width="180"
           >
             <template #default="scope">
-              {{ helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya) }}
+              <el-tooltip
+                :content="helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya, true, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya, true, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -166,7 +173,14 @@
             min-width="180"
           >
             <template #default="scope">
-              {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya) }}
+              <el-tooltip
+                :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -175,7 +189,14 @@
             min-width="180"
           >
             <template #default="scope">
-              {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_ini) }}
+              <el-tooltip
+                :content="helpers.convertPriceToRupiah(scope.row.harga_bulan_ini, true, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_ini, true, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -184,7 +205,14 @@
             min-width="180"
           >
             <template #default="scope">
-              {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_bulan_ini) }}
+              <el-tooltip
+                :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_bulan_ini, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_bulan_ini, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -193,7 +221,14 @@
             min-width="180"
           >
             <template #default="scope">
-              {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total) }}
+              <el-tooltip
+                :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -202,7 +237,14 @@
             min-width="180"
           >
             <template #default="scope">
-              {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total) }}
+              <el-tooltip
+                :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column

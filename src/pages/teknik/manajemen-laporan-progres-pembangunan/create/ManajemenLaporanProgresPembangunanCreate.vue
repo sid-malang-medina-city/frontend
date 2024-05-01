@@ -95,6 +95,33 @@
               />
             </div>
           </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
+                Termin
+              </div>
+              <el-input
+                v-model="formData.termin"
+                placeholder="Masukkan termin"
+                type="number"
+                min="1"
+                class="row__input"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Keterangan
+              </div>
+              <el-input
+                v-model="formData.keterangan"
+                :rows="3"
+                resize="none"
+                placeholder="Masukkan keterangan"
+                type="textarea"
+                class="row__input"
+              />
+            </div>
+          </div>
           <div class="input-section__header input-section__header--flex">
             <div class="input-section__header-left">
               <img
@@ -155,7 +182,14 @@
               min-width="150"
             >
               <template #default="scope">
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
                 {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -164,7 +198,14 @@
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -173,7 +214,14 @@
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -182,7 +230,14 @@
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -191,7 +246,14 @@
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -200,7 +262,14 @@
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -209,7 +278,14 @@
               min-width="150"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -221,7 +297,7 @@
                 <el-input
                   v-if="!scope.row.hasOwnProperty('actions')"
                   v-model="scope.row.harga_bulan_ini"
-                  :disabled="scope.row.harga_progres_sebelumnya === scope.row.harga_total"
+                  :disabled="scope.row.persentase_progres_sebelumnya >= 99.9"
                   :formatter="(value) => {
                     const parts = value.toString().split(',');
                     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -241,7 +317,16 @@
               fixed="right"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_bulan_ini, scope.row.hasOwnProperty('actions')) }}
+                <el-input
+                  v-if="!scope.row.hasOwnProperty('actions')"
+                  v-model="scope.row.persentase_progres_bulan_ini"
+                  :disabled="scope.row.persentase_progres_sebelumnya >= 99.9"
+                  :class="{ 'table__input--error': !!scope.row.error }"
+                  :max="100"
+                  class="table__input"
+                  type="number"
+                  @input="handlePersentaseBulanIniChange(scope.row)"
+                />
               </template>
             </el-table-column>
           </el-table>
