@@ -118,7 +118,7 @@
             min-width="150"
           >
             <template #default="scope">
-              {{ getMonth(scope.row.tanggal) }} (Ke-{{ scope.row.termin || calculateTermin(scope.row) }})
+              {{ getMonth(scope.row.tanggal) }} (Ke-{{ scope.row.termin }})
             </template>
           </el-table-column>
           <el-table-column
