@@ -51,6 +51,8 @@ export default {
         tanggal: '',
         status: '',
         pajak: '',
+        keterangan: '',
+        termin: null,
         jenis_pekerjaans: []
       },
       form: {
@@ -153,6 +155,7 @@ export default {
       const { id, status, ...formData } = data
       this.formData = {
         ...formData,
+        termin: data.nomor_progres_termin_terakhir || 1,
         spk: data.id
       }
       // this.formData = {
@@ -284,7 +287,8 @@ export default {
     },
 
     handleHargaBulanIniChange (row) {
-      if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
+      const tempPersentaseProgresTotal = row.persentase_progres_sebelumnya + (parseFloat(row.harga_bulan_ini.replace(',', '.'))/parseFloat(row.harga_total))*100
+      if (tempPersentaseProgresTotal > 100.1) {
         if (!row.error) {
           this.showToast('Harga bulan ini melebihi harga total', 'error')
           row.error = true
@@ -304,6 +308,32 @@ export default {
       row.persentase_progres_bulan_ini = (parseFloat(row.harga_bulan_ini.replace(',', '.'))/parseFloat(row.harga_total))*100
       row.harga_progres_total = parseFloat(row.harga_progres_sebelumnya) + parseFloat(row.harga_bulan_ini.replace(',', '.'))
       row.persentase_progres_total = row.persentase_progres_sebelumnya + row.persentase_progres_bulan_ini
+    },
+
+    handlePersentaseBulanIniChange (row) {
+      row.persentase_progres_bulan_ini = parseFloat(row.persentase_progres_bulan_ini)
+      
+      let hargaBulanIni = (row.persentase_progres_bulan_ini / 100) * row.harga_total
+      if (!row.persentase_progres_bulan_ini) {
+        row.persentase_progres_bulan_ini = 0
+        hargaBulanIni = 0
+      }
+      
+      row.harga_bulan_ini = hargaBulanIni.toString().replaceAll('.', ',')
+
+      row.harga_progres_total = parseFloat(row.harga_progres_sebelumnya) + parseFloat(row.harga_bulan_ini.replace(',', '.'))
+      row.persentase_progres_total = row.persentase_progres_sebelumnya + row.persentase_progres_bulan_ini
+
+      if (row.persentase_progres_total > 100.1) {
+        if (!row.error) {
+          this.showToast('Harga bulan ini melebihi harga total', 'error')
+          row.error = true
+          this.hargaInputInvalid = true
+        }
+      } else {
+        row.error = false
+        this.hargaInputInvalid = false
+      }
     },
 
     calculateHargaBulanIni () {
@@ -379,6 +409,11 @@ export default {
     disabledDate(time) {
       if (!this.keyForMonthPicker) {
         return false
+      }
+      if (this.formData.last_tanggal_laporan_progres_pembangunan) {
+        let lastTanggalLaporanProgresPembangunan = new Date(this.formData.last_tanggal_laporan_progres_pembangunan)
+        lastTanggalLaporanProgresPembangunan.setMonth(lastTanggalLaporanProgresPembangunan.getMonth() + 1)
+        return time.getTime() < lastTanggalLaporanProgresPembangunan.getTime() 
       }
       return !this.isDateInArray(time, this.formData.available_periode_laporan_progres_pekerjaan)
     },

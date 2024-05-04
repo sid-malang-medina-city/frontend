@@ -1,9 +1,18 @@
 export default {
-  convertPriceToRupiah (price, withPrefix = true, actions = false) {
+  convertPriceToRupiah (price, withPrefix = true, actions = false, isToFixed = false) {
     if (price === null || price === undefined || actions) {
       return
     }
     const stringPrice = price.toString()
+
+    if (isToFixed) {
+      if (stringPrice.includes('.')) {
+        const splittedPrice = stringPrice.split('.')
+        return withPrefix ? 'Rp' + splittedPrice[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + splittedPrice[1] : splittedPrice[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ',' + splittedPrice[1]
+      }
+      return withPrefix ? 'Rp' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+    }
+
     if (stringPrice.includes('.')) {
       const formattedPrice = price.toFixed(2)
       const splittedPrice = formattedPrice.split('.')
@@ -66,9 +75,13 @@ export default {
     return output
   },
 
-  convertDecimalToPercentage (decimal, actions = false) {
+  convertDecimalToPercentage (decimal, actions = false, isToFixed = false) {
     if (actions) {
       return
+    }
+
+    if (isToFixed) {
+      return decimal + '%'
     }
 
     return decimal.toFixed(2) + '%'
