@@ -322,7 +322,7 @@
                   v-model="scope.row.persentase_progres_bulan_ini"
                   :disabled="scope.row.persentase_progres_sebelumnya >= 99.9"
                   :class="{ 'table__input--error': !!scope.row.error }"
-                  :max="100"
+                  :max="100.1"
                   class="table__input"
                   type="number"
                   @input="handlePersentaseBulanIniChange(scope.row)"

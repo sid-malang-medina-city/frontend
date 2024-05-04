@@ -127,13 +127,31 @@
                 </div>
               </div>
             </div>
-            <div class="content__informasi-utama informasi-utama">
-              <div class="informasi-utama__column column">
-                <div class="column__label">
+            <div class="content__row">
+              <div class="content__data">
+                <div class="content__label">
                   Biaya Pajak
                 </div>
-                <div class="column__value">
+                <div class="content__value">
                   {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.pajak, true) || '-' }}
+                </div>
+              </div>
+              <div class="content__data">
+                <div class="content__label">
+                  Termin
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertEmptyValueWithDash(laporanProgresPembangunan.termin) }}
+                </div>
+              </div>
+            </div>
+            <div class="content__row">
+              <div class="content__data">
+                <div class="content__label">
+                  Keterangan
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertEmptyValueWithDash(laporanProgresPembangunan.keterangan) }}
                 </div>
               </div>
             </div>
@@ -655,6 +673,7 @@
 
       &__row {
         display: flex;
+        margin-top: 30px;
         gap: 40px;
         margin-bottom: 16px;
       }

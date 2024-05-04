@@ -287,7 +287,8 @@ export default {
     },
 
     handleHargaBulanIniChange (row) {
-      if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
+      const tempPersentaseProgresTotal = row.persentase_progres_sebelumnya + (parseFloat(row.harga_bulan_ini.replace(',', '.'))/parseFloat(row.harga_total))*100
+      if (tempPersentaseProgresTotal > 100.1) {
         if (!row.error) {
           this.showToast('Harga bulan ini melebihi harga total', 'error')
           row.error = true
@@ -323,7 +324,7 @@ export default {
       row.harga_progres_total = parseFloat(row.harga_progres_sebelumnya) + parseFloat(row.harga_bulan_ini.replace(',', '.'))
       row.persentase_progres_total = row.persentase_progres_sebelumnya + row.persentase_progres_bulan_ini
 
-      if (parseFloat(row.harga_bulan_ini.replace(',', '.')) + row.harga_progres_sebelumnya > row.harga_total) {
+      if (row.persentase_progres_total > 100.1) {
         if (!row.error) {
           this.showToast('Harga bulan ini melebihi harga total', 'error')
           row.error = true
