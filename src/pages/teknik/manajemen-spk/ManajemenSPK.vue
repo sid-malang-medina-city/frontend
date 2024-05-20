@@ -120,7 +120,14 @@
             min-width="150"
           >
             <template #default="scope">
-              {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+              <el-tooltip
+                :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -129,7 +136,14 @@
             min-width="150"
           >
             <template #default="scope">
-              {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total) }}
+              <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -186,7 +200,7 @@
                         PDF
                       </el-dropdown-item>
                       <div
-                        v-if="hasAccess('UPDATE_SPK') && scope.row.status !== 'FINAL'"
+                        v-if="hasAccess('UPDATE_SPK')"
                         class="actions__other-wrapper"
                       >
                         <el-icon class="actions__other-icon">
@@ -197,7 +211,7 @@
                         </div>
                       </div>
                       <el-dropdown-item
-                        v-if="hasAccess('UPDATE_SPK') && scope.row.status !== 'FINAL'"
+                        v-if="hasAccess('UPDATE_SPK')"
                         @click.stop="goToEditPage(scope.row.id)"
                       >
                         Edit

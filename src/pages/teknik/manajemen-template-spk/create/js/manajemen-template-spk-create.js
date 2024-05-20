@@ -95,7 +95,7 @@ export default {
       let price = 0
       this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
         price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseFloat(parseFloat(pekerjaan.harga_total).toFixed(2))
+          return harga + parseFloat(pekerjaan.harga_total)
         }, 0)
       })
       return price
@@ -130,7 +130,7 @@ export default {
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
       return pekerjaans.reduce((harga, pekerjaan) => {
-        return harga + parseFloat(parseFloat(pekerjaan.harga_total).toFixed(2))
+        return harga + parseFloat(pekerjaan.harga_total)
       }, 0)
     },
 
@@ -149,8 +149,8 @@ export default {
           nama: this.namaPekerjaan,
           satuan_ukuran: this.satuanUkuran,
           volume: parseFloat(this.volume),
-          harga_satuan: parseFloat(parseFloat(this.hargaSatuan.replace(',','.')).toFixed(2)),
-          harga_total: parseFloat((parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))).toFixed(2))
+          harga_satuan: parseFloat(this.hargaSatuan.replace(',','.')),
+          harga_total: parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
         })
         this.showToast('Pekerjaan berhasil ditambahkan!')
         this.clearPekerjaan()
@@ -166,8 +166,8 @@ export default {
             pekerjaan.nama = this.namaPekerjaan,
             pekerjaan.satuan_ukuran = this.satuanUkuran,
             pekerjaan.volume = parseFloat(this.volume),
-            pekerjaan.harga_satuan = parseFloat(parseFloat(this.hargaSatuan.replace(',', '.')).toFixed(2)),
-            pekerjaan.harga_total = parseFloat((parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))).toFixed(2))
+            pekerjaan.harga_satuan = parseFloat(this.hargaSatuan.replace(',', '.')),
+            pekerjaan.harga_total = parseFloat(this.volume) * parseFloat(this.hargaSatuan.replace(',','.'))
             this.showToast('Pekerjaan berhasil diubah')
             this.clearPekerjaan()
             this.isEditPekerjaanMode = false
@@ -224,7 +224,7 @@ export default {
       this.namaPekerjaan = pekerjaan.nama.toString()
       this.satuanUkuran = pekerjaan.satuan_ukuran.toString()
       this.volume = pekerjaan.volume.toString()
-      this.hargaSatuan = pekerjaan.harga_satuan.toString()
+      this.hargaSatuan = pekerjaan.harga_satuan.toString().replaceAll('.', ',')
     },
 
     addJenisPekerjaan () {

@@ -185,7 +185,7 @@ export default {
           actions: true,
           volume: this.form.volume,
           satuan_ukuran: this.form.satuan_ukuran,
-          harga_satuan: this.form.harga_satuan,
+          harga_satuan: parseFloat(this.form.harga_satuan.replace(',', '.')),
           harga_total: this.form.harga_total
         }
         this.formData.pekerjaans.push(pekerjaanRow)
@@ -206,7 +206,7 @@ export default {
           actions: true,
           volume: this.form.volume,
           satuan_ukuran: this.form.satuan_ukuran,
-          harga_satuan: this.form.harga_satuan,
+          harga_satuan: parseFloat(this.form.harga_satuan.replace(',', '.')),
           harga_total: this.form.harga_total
         })
         this.showToast('Pekerjaan berhasil diubah!')

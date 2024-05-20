@@ -184,11 +184,20 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
+        label: 'Manajemen Laporan Progres Pembangunan Non Unit',
+        path: '/teknik/manajemen-laporan-progres-pembangunan-non-unit',
+        routeName: 'ManajemenLaporanProgresPembangunanNonUnit',
+        menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
+        labelIndex: 6,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
         label: 'Manajemen Supplier',
         path: '/teknik/manajemen-supplier',
         routeName: 'ManajemenSupplier',
         menuCode: 'LIST_SUPPLIER',
-        labelIndex: 6,
+        labelIndex: 7,
         childRoutes: [],
         iconPath: null
       },
@@ -197,7 +206,7 @@ export const NAVIGATION_ITEMS = [
         path: '/teknik/manajemen-po-supplier',
         routeName: 'ManajemenPOSupplier',
         menuCode: 'LIST_PO_SUPPLIER',
-        labelIndex: 7,
+        labelIndex: 8,
         childRoutes: [],
         iconPath: null
       }

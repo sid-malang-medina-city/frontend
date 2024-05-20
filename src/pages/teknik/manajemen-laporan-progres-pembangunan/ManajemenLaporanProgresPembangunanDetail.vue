@@ -19,7 +19,7 @@
           </div>
           <div class="header__actions actions">
             <el-button
-              v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN') && laporanProgresPembangunan.status !== 'FINAL'"
+              v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
               type="primary"
               class="actions__edit-btn"
               plain

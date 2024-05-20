@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { SPKStore } from '~/store/teknik/spk'
+import { laporanProgresPembangunanNonUnitStore } from '~/store/teknik/laporan-progres-pembangunan-non-unit'
 
 import {
   Delete,
@@ -14,6 +14,7 @@ import {
 } from '@element-plus/icons-vue'
 
 import { STATUSES } from '~/data/spk'
+
 import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import helpers from '~/utils/helpers'
 
@@ -30,7 +31,7 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 
 export default {
-  name: 'manajemen-spk-detail',
+  name: 'manajemen-laporan-progres-pembangunan-non-unit-detail',
 
   mixins: [RouterHandler, ToastHandler, AclHandler],
 
@@ -48,7 +49,7 @@ export default {
 
   data () {
     return {
-      SPK: {},
+      laporanProgresPembangunanNonUnit: {},
       icons: {
         delete: Delete,
         moreFilled: MoreFilled,
@@ -64,12 +65,12 @@ export default {
       checkboxIdentifiers: ['e_ktp', 'e_ktp_partner', 'slip_gaji', 'kartu_keluarga', 'mutasi_tabungan', 'surat_pernikahan', 'dokumen_pendukung'],
       fileLabels: ['e-KTP', 'e-KTP Pasangan', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Surat Pernikahan', 'Dokumen Pendukung'],
       checkboxLabels: ['e-KTP', 'e-KTP Pasangan', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Surat Pernikahan', 'Dokumen Pendukung'],
-      statuses: STATUSES,
       isDataFetched: false,
       visiblePassword: false,
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: {},
       selectedImageUrl: '',
+      statuses: STATUSES,
       imageStartingIndex: 0,
       helpers
     }
@@ -81,77 +82,49 @@ export default {
     },
     totalPrice () {
       let price = 0
-      this.SPK.jenis_pekerjaans.forEach(jenisPekerjaan => {
-        price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseFloat(pekerjaan.harga_total)
-        }, 0)
-      })
-      return price
-    },
-    totalPricePengurangan () {
-      let price = 0
-      this.SPK.jenis_pekerjaan_pengurangans.forEach(jenisPekerjaan => {
-        price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseFloat(pekerjaan.harga_total)
-        }, 0)
+      this.laporanProgresPembangunanNonUnit.pekerjaans.forEach(pekerjaan => {
+        price += pekerjaan.harga_total
       })
       return price
     }
   },
 
   created () {
-    // this.initVisibleImageActions()
-    this.getSPK()
+    this.getLaporanProgresPembangunanNonUnit()
   },
 
   methods: {
-    ...mapActions(SPKStore, [
-      'fetchSPK',
+    ...mapActions(laporanProgresPembangunanNonUnitStore, [
+      'fetchLaporanProgresPembangunanNonUnit',
       'generatePDF'
     ]),
 
-    initVisibleImageActions () {
-      this.fileIdentifiers.forEach(identifier => {
-        this.visibleImageActionIcons[identifier] = false
-      })
-    },
-
-    async getSPK () {
+    async getLaporanProgresPembangunanNonUnit () {
       try {
-        const { data } = await this.fetchSPK(this.id)
-        this.initSPK(JSON.parse(JSON.stringify(data)))
+        const { data } = await this.fetchLaporanProgresPembangunanNonUnit(this.id)
+        this.initLaporanProgresPembangunanNonUnit(JSON.parse(JSON.stringify(data)))
         this.isDataFetched = true
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
-    initSPK (data) {
-      this.SPK = data
-      delete this.SPK.id
-      this.SPK.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
-        jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
-        jenisPekerjaan.actions = true
-        jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
-          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
-        })
-        jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
-        jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
+    initLaporanProgresPembangunanNonUnit (data) {
+      this.laporanProgresPembangunanNonUnit = data
+      // this.laporanProgresPembangunanNonUnit.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
+      //   jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
+      //   jenisPekerjaan.actions = true
+      //   jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
+      //     pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+      //     pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
+      //   })
+      //   jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
+      //   jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
+      // })
+      this.laporanProgresPembangunanNonUnit.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
+        pekerjaan.id_table = (pekerjaanIndex + 1).toString()
       })
-      this.SPK.jenis_pekerjaan_pengurangans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
-        console.log(1)
-        jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
-        jenisPekerjaan.actions = true
-        console.log(2)
-        jenisPekerjaan.pekerjaan_pengurangans.forEach((pekerjaan, pekerjaanIndex) => {
-          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
-          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
-        })
-        console.log(3)
-        jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaan_pengurangans)
-        jenisPekerjaan.children = [...jenisPekerjaan.pekerjaan_pengurangans]
-      })
+      this.calculatePersentasePekerjaan()
     },
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
@@ -160,36 +133,44 @@ export default {
       }, 0)
     },
 
-    async generateSPKPDF () {
+    calculatePersentasePekerjaan () {
+      this.laporanProgresPembangunanNonUnit.harga_total = 0
+      this.laporanProgresPembangunanNonUnit.pekerjaans.forEach(pekerjaan => {
+        pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
+        this.laporanProgresPembangunanNonUnit.harga_total += pekerjaan.harga_total
+      })
+    },
+
+    async generateLaporanProgresPembangunanNonUnitPDF (type) {
       try {
-        const { data } = await this.generatePDF({ id: this.id })
+        const { data } = await this.generatePDF({ id: this.id, type })
         const accessUrl = JSON.parse(JSON.stringify(data.access_url))
         window.open(accessUrl, '_blank');
-        this.getSPK()
+        this.getLaporanProgresPembangunanNonUnit()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToEditPage () {
-      this.redirectTo('ManajemenSPKEdit', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitEdit', {
         params: {
-          id: this.SPK.id
+          id: this.laporanProgresPembangunanNonUnit.id
         }
       })
     },
 
-    goToManajemenSPK () {
-      this.redirectTo('ManajemenSPK')
+    goToManajemenLaporanProgresPembangunanNonUnit () {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnit')
     },
 
     getFilesUrl (identifier) {
-      return this.SPK[identifier]
+      return this.laporanProgresPembangunanNonUnit[identifier]
     },
 
     isFileTypePDF (identifier) {
       const fileIdentifier = identifier.substring(0, identifier.length - 11)
-      return this.SPK[fileIdentifier]?.substring(this.SPK[fileIdentifier].length-4, this.SPK[fileIdentifier].length) === '.pdf'
+      return this.laporanProgresPembangunanNonUnit[fileIdentifier]?.substring(this.laporanProgresPembangunanNonUnit[fileIdentifier].length-4, this.laporanProgresPembangunanNonUnit[fileIdentifier].length) === '.pdf'
     },
 
     addVisibleImageActionIcons (identifier) {

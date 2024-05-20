@@ -207,7 +207,14 @@
                   label="Harga"
                 >
                   <template #default="scope">
-                    {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                    <el-tooltip
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, false, true)"
+                      class="box-item"
+                      effect="dark"
+                      placement="top"
+                    >
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                    </el-tooltip>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -215,7 +222,14 @@
                   label="Jumlah"
                 >
                   <template #default="scope">
-                    {{ helpers.convertPriceToRupiah(scope.row.harga_total, true) }}
+                    <el-tooltip
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, false, true)"
+                      class="box-item"
+                      effect="dark"
+                      placement="top"
+                    >
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                    </el-tooltip>
                   </template>
                 </el-table-column>
               </el-table>

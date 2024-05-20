@@ -1,31 +1,31 @@
 <template>
-  <div class="manajemen-spk-detail">
+  <div class="manajemen-laporan-progres-pembangunan-non-unit-detail">
     <page-header
-      title="Detail SPK"
+      title="Detail Laporan Progres Pembangunan Non Unit"
       show-back-icon
-      @back="goToManajemenSPK"
+      @back="goToManajemenLaporanProgresPembangunanNonUnit"
     />
 
     <div class="page-content">
-      <div class="manajemen-spk-detail__wrapper">
-        <div class="manajemen-spk-detail__header header">
+      <div class="manajemen-laporan-progres-pembangunan-non-unit-detail__wrapper">
+        <div class="manajemen-laporan-progres-pembangunan-non-unit-detail__header header">
           <div class="header__title">
-            <div class="header__title-spk">
-              SPK
+            <div class="header__title-laporan-progres-pembangunan">
+              Laporan Progres Pembangunan Non Unit
             </div>
             <div class="header__title-name">
-              {{ SPK.nomor }}
+              {{ laporanProgresPembangunanNonUnit.nomor }}
             </div>
           </div>
           <div class="header__actions actions">
             <el-button
-              v-if="hasAccess('UPDATE_SPK')"
+              v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
               type="primary"
               class="actions__edit-btn"
               plain
               @click="goToEditPage"
             >
-              Edit SPK
+              Edit Laporan Progres Pembangunan
               <el-icon class="el-icon--right">
                 <EditPen />
               </el-icon>
@@ -37,11 +37,6 @@
                 plain
               >
               </el-button>
-              <!-- <span class="el-dropdown-link actions__trigger">
-                <el-icon class="el-icon--right">
-                  <more-filled />
-                </el-icon>
-              </span> -->
               <template #dropdown>
                 <el-dropdown-menu class="actions__dropdown-menu">
                   <div class="actions__generate-wrapper">
@@ -52,9 +47,11 @@
                       Generate
                     </div>
                   </div>
-                  <el-dropdown-item @click="generateSPKPDF">PDF</el-dropdown-item>
+                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP')">Laporan Progress Pembangunan</el-dropdown-item>
+                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP_PO')">PO</el-dropdown-item>
+                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP_KWITANSI')">Kwitansi</el-dropdown-item>
                   <div
-                    v-if="SPK.spk_access_url"
+                    v-if="!!laporanProgresPembangunanNonUnit.lpp_url || !!laporanProgresPembangunanNonUnit.po_url || !!laporanProgresPembangunanNonUnit.kwitansi_url"
                     class="actions__preview-wrapper"
                   >
                     <el-icon class="actions__preview-icon">
@@ -64,8 +61,23 @@
                       Preview
                     </div>
                   </div>
-                  <el-dropdown-item v-if="SPK.spk_access_url" @click="openDocumentInNewTab(SPK.spk_access_url)">
-                    PDF
+                  <el-dropdown-item
+                    v-if="!!laporanProgresPembangunanNonUnit.lpp_url"
+                    @click="openDocumentInNewTab(laporanProgresPembangunanNonUnit.lpp_access_url)"
+                  >
+                    Laporan Progres Pembangunan
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="!!laporanProgresPembangunanNonUnit.po_url"
+                    @click="openDocumentInNewTab(laporanProgresPembangunanNonUnit.po_access_url)"
+                  >
+                    PO
+                  </el-dropdown-item>
+                  <el-dropdown-item
+                    v-if="!!laporanProgresPembangunanNonUnit.kwitansi_url"
+                    @click="openDocumentInNewTab(laporanProgresPembangunanNonUnit.kwitansi_access_url)"
+                  >
+                    Kwitansi
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -73,7 +85,7 @@
           </div>
         </div>
 
-        <div class="manajemen-spk-detail__content content">
+        <div class="manajemen-laporan-progres-pembangunan-non-unit-detail__content content">
           <div class="content__informasi-umum-wrapper">
             <div class="content__header">
               <img
@@ -91,41 +103,15 @@
                   No SPK
                 </div>
                 <div class="column__value">
-                  {{ SPK.nomor }}
+                  {{ laporanProgresPembangunanNonUnit.spk_non_unit_nomor }}
                 </div>
               </div>
               <div class="informasi-utama__column column">
                 <div class="column__label">
-                  Vendor
+                  Tanggal
                 </div>
                 <div class="column__value">
-                  {{ SPK.vendor_nama }}
-                </div>
-              </div>
-            </div>
-            <div class="content__informasi-utama informasi-utama">
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Tipe Unit
-                </div>
-                <div class="column__value">
-                  {{ SPK.unit_tipe_nama }}
-                </div>
-              </div>
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Unit
-                </div>
-                <div class="column__value">
-                  {{ SPK.unit_cluster_nama }} - {{ SPK.unit_nomor_kavling }}
-                </div>
-              </div>
-              <div class="informasi-utama__column column">
-                <div class="column__label">
-                  Periode
-                </div>
-                <div class="column__value">
-                  {{ helpers.convertDateTimeZoneToDateString(SPK.awal_periode) }} - {{ helpers.convertDateTimeZoneToDateString(SPK.akhir_periode) }}
+                  {{ helpers.convertDateTimeZoneToDateString(laporanProgresPembangunanNonUnit.tanggal) }}
                 </div>
               </div>
               <div class="informasi-utama__column column">
@@ -134,127 +120,33 @@
                 </div>
                 <div class="column__value">
                   <status-badge
-                    :text="statuses[SPK.status] ? statuses[SPK.status].name: ''"
-                    :color="statuses[SPK.status] ? statuses[SPK.status].color: ''"
+                    :text="statuses[laporanProgresPembangunanNonUnit.status] ? statuses[laporanProgresPembangunanNonUnit.status].name: ''"
+                    :color="statuses[laporanProgresPembangunanNonUnit.status] ? statuses[laporanProgresPembangunanNonUnit.status].color: ''"
                     type="detail"
                   />
                 </div>
               </div>
             </div>
+            <div class="content__row">
+              <div class="content__data">
+                <div class="content__label">
+                  Termin
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertEmptyValueWithDash(laporanProgresPembangunanNonUnit.termin) }}
+                </div>
+              </div>
+              <div class="content__data">
+                <div class="content__label">
+                  Keterangan
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertEmptyValueWithDash(laporanProgresPembangunanNonUnit.keterangan) }}
+                </div>
+              </div>
+            </div>
           </div>
           
-          <div class="content__informasi-umum-wrapper">
-            <div class="content__header">
-              <img
-                :src="icons.receipt"
-                alt="Image Icon"
-              />
-              <div class="content__header-title">
-                Info Harga
-              </div>
-            </div>
-  
-            <div
-              v-if="SPK.spk_type === 'SPK_ADDENDUM'"
-              class="content__rows rows"
-            >
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Pekerjaan Penambahan
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(totalPrice) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Pekerjaan Pengurangan
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(totalPricePengurangan) }}
-                </div>
-              </div>
-            </div>
-            
-            <div
-              v-if="SPK.spk_type === 'SPK_ADDENDUM'"
-              class="content__rows rows"
-            >
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Total
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(totalPrice - totalPricePengurangan) }}
-                </div>
-              </div>
-            </div>
-
-            <div
-              v-if="SPK.spk_type !== 'SPK_ADDENDUM'"
-              class="content__rows rows"
-            >
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Subsidi
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(SPK.harga_subsidi) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Pekerjaan Pembangunan Rumah
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(SPK.harga_pekerjaan_pembangunan_rumah) }}
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="SPK.spk_type !== 'SPK_ADDENDUM'"
-              class="content__rows rows"
-            >
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Total Pekerjaan Pembangunan Rumah
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(SPK.harga_total_ppr) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Total Pekerjaan Pembangunan Rumah dan Subsidi
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(SPK.harga_total_ppr_subsidi) }}
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="SPK.spk_type !== 'SPK_ADDENDUM'"
-              class="content__rows rows last-row"
-            >
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga PPh 21
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(SPK.harga_pph21) }}
-                </div>
-              </div>
-              <div class="rows__row">
-                <div class="row__label required">
-                  Harga Total SPK
-                </div>
-                <div class="row__value">
-                  {{ helpers.convertPriceToRupiah(SPK.harga_total_spk) }}
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="content__informasi-pendukung-wrapper informasi-pendukung-wrapper--top">
             <div class="content__header">
               <img
@@ -262,14 +154,13 @@
                 alt="Image Icon"
               />
               <div class="content__header-title">
-                {{ SPK.spk_type === 'SPK_ADDENDUM' ? 'Pekerjaan Tambahan' : 'Pekerjaan' }}
+                Tabel Laporan Progres Pembangunan Non Unit
               </div>
             </div>
   
             <div class="content__rows rows last-row">
               <el-table
-                v-loading="!isDataFetched"
-                :data="SPK.jenis_pekerjaans"
+                :data="laporanProgresPembangunanNonUnit.pekerjaans"
                 class="input-section__table table general-table"
                 header-row-class-name="general-table__header-gray"
                 row-key="id_table"
@@ -283,15 +174,9 @@
                   width="200"
                 >
                 <template #default="scope">
-                  <div
-                    v-if="!scope.row.hasOwnProperty('actions')"
-                    class="table__nama-pekerjaan"
-                  >
+                  <div class="table__nama-pekerjaan">
                     {{ scope.row.sequence }}. {{ scope.row.nama }}
                   </div>
-                  <template v-else>
-                    {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
-                  </template>
                 </template>
                 </el-table-column>
                 <el-table-column
@@ -307,147 +192,145 @@
                 <el-table-column
                   prop="harga_satuan"
                   label="Harga Satuan"
+                  min-width="150"
                 >
                   <template #default="scope">
                     <el-tooltip
-                      :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, false, true)"
                       class="box-item"
                       effect="dark"
                       placement="top"
                     >
-                      {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
                     </el-tooltip>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="harga_total"
                   label="Harga Total"
+                  min-width="150"
                 >
                   <template #default="scope">
                     <el-tooltip
-                      :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, false, true)"
                       class="box-item"
                       effect="dark"
                       placement="top"
                     >
-                      {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
                     </el-tooltip>
                   </template>
                 </el-table-column>
                 <el-table-column
                   prop="persentase_pekerjaan"
                   label="Persentase Pekerjaan"
+                  min-width="150"
                 >
                   <template #default="scope">
                     <el-tooltip
-                      :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                      :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, false, true)"
                       class="box-item"
                       effect="dark"
                       placement="top"
                     >
-                      {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
-                    </el-tooltip>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
-            
-            <div
-              v-if="SPK.spk_type === 'SPK_ADDENDUM'"
-              class="content__header"
-            >
-              <img
-                :src="icons.briefcase"
-                alt="Image Icon"
-              />
-              <div class="content__header-title">
-                Pekerjaan Pengurangan
-              </div>
-            </div>
-  
-            <div
-              v-if="SPK.spk_type === 'SPK_ADDENDUM'"
-              class="content__rows rows last-row"
-            >
-              <el-table
-                v-loading="!isDataFetched"
-                :data="SPK.jenis_pekerjaan_pengurangans"
-                class="input-section__table table general-table"
-                header-row-class-name="general-table__header-gray"
-                row-key="id_table"
-                stripe
-                default-expand-all
-              >
-                <el-table-column
-                  prop="nama"
-                  label="Nama Pekerjaan" 
-                  fixed="left"
-                  width="200"
-                >
-                <template #default="scope">
-                  <div
-                    v-if="!scope.row.hasOwnProperty('actions')"
-                    class="table__nama-pekerjaan"
-                  >
-                    {{ scope.row.sequence }}. {{ scope.row.nama }}
-                  </div>
-                  <template v-else>
-                    {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
-                  </template>
-                </template>
-                </el-table-column>
-                <el-table-column
-                  prop="satuan_ukuran"
-                  label="Satuan Ukuran"
-                  width="80"
-                />
-                <el-table-column
-                  prop="volume"
-                  label="Volume" 
-                  width="80"
-                />
-                <el-table-column
-                  prop="harga_satuan"
-                  label="Harga Satuan"
-                >
-                  <template #default="scope">
-                    <el-tooltip
-                      :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
-                      class="box-item"
-                      effect="dark"
-                      placement="top"
-                    >
-                      {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                      {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, false) }}
                     </el-tooltip>
                   </template>
                 </el-table-column>
                 <el-table-column
-                  prop="harga_total"
-                  label="Harga Total"
+                  prop="harga_progres_sebelumnya"
+                  label="Harga minggu sebelumnya"
+                  min-width="150"
                 >
                   <template #default="scope">
                     <el-tooltip
-                      :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya, true, false, true)"
                       class="box-item"
                       effect="dark"
                       placement="top"
                     >
-                      {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_progres_sebelumnya, true, false) }}
                     </el-tooltip>
                   </template>
                 </el-table-column>
                 <el-table-column
-                  prop="persentase_pekerjaan"
-                  label="Persentase Pekerjaan"
+                  prop="persentase_progres_sebelumnya"
+                  label="Progres minggu sebelumnya"
+                  min-width="150"
                 >
                   <template #default="scope">
                     <el-tooltip
-                      :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                      :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya, false, true)"
                       class="box-item"
                       effect="dark"
                       placement="top"
                     >
-                      {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                      {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_sebelumnya, false) }}
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="harga_progres_total"
+                  label="Harga Sampai Minggu Ini"
+                  min-width="150"
+                >
+                  <template #default="scope">
+                    <el-tooltip
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, false, true)"
+                      class="box-item"
+                      effect="dark"
+                      placement="top"
+                    >
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, false) }}
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="persentase_progres_total"
+                  label="Progres Sampai Minggu Ini"
+                  min-width="150"
+                >
+                  <template #default="scope">
+                    <el-tooltip
+                      :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, false, true)"
+                      class="box-item"
+                      effect="dark"
+                      placement="top"
+                    >
+                      {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, false) }}
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="persentase_progres_minggu_ini"
+                  label="Progres minggu ini"
+                  min-width="150"
+                  fixed="right"
+                >
+                  <template #default="scope">
+                    <el-tooltip
+                      :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_minggu_ini, false, true)"
+                      class="box-item"
+                      effect="dark"
+                      placement="top"
+                    >
+                      {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_minggu_ini, false) }}
+                    </el-tooltip>
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="harga_minggu_ini"
+                  label="Harga Minggu Ini"
+                  min-width="150"
+                >
+                  <template #default="scope">
+                    <el-tooltip
+                      :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, false, true)"
+                      class="box-item"
+                      effect="dark"
+                      placement="top"
+                    >
+                      {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, false) }}
                     </el-tooltip>
                   </template>
                 </el-table-column>
@@ -456,16 +339,16 @@
           </div>
         </div>
 
-        <div class="manajemen-spk-detail__author-info author-info">
+        <div class="manajemen-laporan-progres-pembangunan-non-unit-detail__author-info author-info">
           <div class="author-info__label">
             Dibuat oleh
           </div>
           <div class="author-info__value">
             <div class="author-info__author">
-              {{ SPK.created_by_name }}
+              {{ laporanProgresPembangunanNonUnit.created_by_name }}
             </div>
             <div class="author-info__date-time">
-              {{ helpers.convertDateTimeZoneToDateTimeString(SPK.created_at) }}
+              {{ helpers.convertDateTimeZoneToDateTimeString(laporanProgresPembangunanNonUnit.created_at) }}
             </div>
           </div>
           <div class="author-info__label">
@@ -473,10 +356,10 @@
           </div>
           <div class="author-info__value">
             <div class="author-info__author">
-              {{ SPK.updated_by_name }}
+              {{ laporanProgresPembangunanNonUnit.updated_by_name }}
             </div>
             <div class="author-info__date-time">
-              {{ helpers.convertDateTimeZoneToDateTimeString(SPK.updated_at) }}
+              {{ helpers.convertDateTimeZoneToDateTimeString(laporanProgresPembangunanNonUnit.updated_at) }}
             </div>
           </div>
         </div>
@@ -487,19 +370,19 @@
       <img
         :src="selectedImageUrl"
         alt="Preview Image"
-        class="manajemen-spk-detail__preview-image"
+        class="manajemen-laporan-progres-pembangunan-non-unit-detail__preview-image"
       />
     </el-dialog>
   </div>
 </template>
 
-<script src="./js/manajemen-spk-detail.js"></script>
+<script src="./js/manajemen-laporan-progres-pembangunan-non-unit-detail.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-spk-detail {
+  .manajemen-laporan-progres-pembangunan-non-unit-detail {
     &__wrapper {
       background-color: white;
       border: 1px solid #EAEAEA;
@@ -837,6 +720,7 @@
 
       &__row {
         display: flex;
+        margin-top: 30px;
         gap: 40px;
         margin-bottom: 16px;
       }

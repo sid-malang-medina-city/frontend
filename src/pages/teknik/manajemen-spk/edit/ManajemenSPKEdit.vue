@@ -22,19 +22,25 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
-                SPK Addendum
+                Tipe SPK
               </div>
-              <el-checkbox
-                v-model="isSPKAddendum"
-                v-loading="!isDataFetched"
-                label="SPK Addendum"
+              <el-select
+                v-model="formData.spk_type"
+                placeholder="Pilih tipe SPK"
                 class="row__input"
                 disabled
-                @change="handleSPKAddendumChange"
-              />
+                @change="handleSPKTypeChange"
+              >
+                <el-option
+                  v-for="(label, value) in spkTypes"
+                  :key="value"
+                  :label="label"
+                  :value="value"
+                />
+              </el-select>
             </div>
             <div
-              v-if="isSPKAddendum"
+              v-if="isNotDefaultSPK"
               class="rows__row"
             >
               <div class="row__label required">
@@ -69,6 +75,7 @@
               <el-input
                 v-model="formData.nomor"
                 v-loading="!isDataFetched"
+                :disabled="formData.status === 'FINAL'"
                 placeholder="Masukkan nomor SPK"
                 class="row__input"
               />
@@ -78,6 +85,7 @@
                 Unit
               </div>
               <el-select
+                v-if="formData.spk_type === 'SPK_ADDENDUM' || formData.spk_type === 'SPK_LANJUTAN'"
                 v-model="formData.unit"
                 v-loading="visibleLoading.unitDropdown || !isDataFetched"
                 placeholder="Pilih unit"
@@ -85,6 +93,25 @@
                 remote-show-suffix
                 filterable
                 disabled
+                remote
+                reserve-keyword
+              >
+                <el-option
+                  v-for="unit in units"
+                  :key="unit.id"
+                  :label="`${unit.cluster.nama} - ${unit.nomor_kavling}`"
+                  :value="unit.id"
+                  @click="handleUnitChange(unit)"
+                />
+              </el-select>
+              <el-select
+                v-else
+                v-model="formData.unit"
+                v-loading="visibleLoading.unitDropdown"
+                placeholder="Pilih unit"
+                class="row__input"
+                remote-show-suffix
+                filterable
                 remote
                 reserve-keyword
               >
@@ -112,6 +139,7 @@
                 v-else
                 v-model="periodeValue"
                 :clearable="false"
+                :disabled="formData.status === 'FINAL'"
                 type="monthrange"
                 range-separator="-"
                 start-placeholder="Tanggal awal"
@@ -128,6 +156,7 @@
               <el-select
                 v-model="formData.vendor"
                 v-loading="visibleLoading.vendorDropdown || !isDataFetched"
+                :disabled="formData.status === 'FINAL'"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -166,6 +195,7 @@
               <el-select
                 v-model="formData.status"
                 v-loading="!isDataFetched"
+                :disabled="formData.status === 'FINAL'"
                 placeholder="Pilih status"
                 class="row__input"
               >
@@ -191,13 +221,38 @@
                 disabled
               />
             </div>
-            <div class="rows__row">
+            <div
+              v-if="formData.spk_type === 'SPK_ADDENDUM'"
+              class="rows__row"
+            >
+              <div class="row__label">
+                Harga Total Penambahan
+              </div>
+              <el-input
+                v-model="totalPrice"
+                v-loading="!isDataFetched"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan pekerjaan tambahan"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div
+              v-else
+              class="rows__row"
+            >
               <div class="row__label">
                 Harga Subsidi
               </div>
               <el-input
                 v-model="formData.harga_subsidi"
                 v-loading="!isDataFetched"
+                :disabled="formData.status === 'FINAL'"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -210,7 +265,51 @@
               />
             </div>
           </div>
-          <div class="input-section__rows rows">
+          <div
+            v-if="formData.spk_type === 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Pengurangan
+              </div>
+              <el-input
+                v-model="totalPricePengurangan"
+                v-loading="!isDataFetched"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan pekerjaan pengurangan"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total
+              </div>
+              <el-input
+                v-model="formData.harga_total"
+                v-loading="!isDataFetched"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan pekerjaan tambahan atau pekerjaan pengurangan"
+                class="row__input"
+                disabled
+              />
+            </div>
+          </div>
+          <div
+            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Pekerjaan Pembangunan Rumah
@@ -218,6 +317,7 @@
               <el-input
                 v-model="formData.harga_pekerjaan_pembangunan_rumah"
                 v-loading="!isDataFetched"
+                :disabled="formData.status === 'FINAL'"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -248,7 +348,10 @@
               />
             </div>
           </div>
-          <div class="input-section__rows rows">
+          <div
+            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Pekerjaan Pembangunan Rumah
@@ -274,6 +377,7 @@
               <el-input
                 v-model="formData.harga_pph21"
                 v-loading="!isDataFetched"
+                :disabled="formData.status === 'FINAL'"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -286,7 +390,10 @@
               />
             </div>
           </div>
-          <div class="input-section__rows rows">
+          <div
+            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total SPK
@@ -314,10 +421,10 @@
                 class="input-section__header-icon"
               >
               <div class="input-section__header-text">
-                Pekerjaan
+                {{ formData.spk_type === 'SPK_ADDENDUM' ? 'Pekerjaan Tambahan' : 'Pekerjaan' }} 
               </div>
             </div>
-            <div>
+            <div v-if="formData.status !== 'FINAL'">
               <el-button
                 type="primary"
                 class="input-section__import-template"
@@ -343,6 +450,176 @@
           <el-table
             v-loading="!isDataFetched"
             :data="formData.jenis_pekerjaans"
+            class="input-section__table table general-table table--pekerjaan"
+            header-row-class-name="general-table__header-gray"
+            row-key="id_table"
+            stripe
+            default-expand-all
+          >
+            <el-table-column
+              prop="nama"
+              label="Nama Pekerjaan" 
+              fixed="left"
+              width="200"
+            >
+              <template #default="scope">
+                <div
+                  v-if="!scope.row.hasOwnProperty('actions')"
+                  class="table__nama-pekerjaan"
+                >
+                  {{ scope.row.sequence }}. {{ scope.row.nama }}
+                </div>
+                <template v-else>
+                  {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
+                </template>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="satuan_ukuran"
+              label="Satuan Ukuran"
+              width="80"
+            />
+            <el-table-column
+              prop="volume"
+              label="Volume" 
+              width="80"
+            >
+              <template #default="scope">
+                {{ helpers.convertToTwoDecimalPoint(scope.row.volume) }}
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="harga_satuan"
+              label="Harga Satuan"
+            >
+              <template #default="scope">
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="harga_total"
+              label="Harga Total"
+            >
+              <template #default="scope">
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="persentase_pekerjaan"
+              label="Persentase Pekerjaan"
+            >
+              <template #default="scope">
+                <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="formData.status !== 'FINAL'"
+              label="Action"
+              align="center"
+              fixed="right"
+            >
+              <template #default="scope">
+                <div class="table__actions">
+                  <el-button
+                    v-if="scope.row.id_table-1 !== 0 && scope.row.hasOwnProperty('actions')"
+                    :icon="icons.arrowUp"
+                    type="primary"
+                    class="table__actions-edit"
+                    text
+                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'UP')"
+                  />
+                  <el-button
+                    v-if="scope.row.id_table-1 !== formData.jenis_pekerjaans.length-1 && scope.row.hasOwnProperty('actions')"
+                    :icon="icons.arrowDown"
+                    type="primary"
+                    class="table__actions-edit"
+                    text
+                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'DOWN')"
+                  />
+                  <el-button
+                    v-if="scope.row.actions"
+                    :icon="icons.edit"
+                    type="primary"
+                    class="table__actions-edit"
+                    text
+                    @click.stop="toggleDrawer(scope.row.nama)"
+                  />
+                  <el-button
+                    v-if="scope.row.actions"
+                    :icon="icons.delete"
+                    type="primary"
+                    class="table__actions-delete"
+                    text
+                    @click.stop="deleteJenisPekerjaan(scope.row.nama)"
+                  />
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div
+            v-if="formData.spk_type === 'SPK_ADDENDUM'"
+            class="input-section__header input-section__header--flex input-section__header--pengurangan"
+          >
+            <div class="input-section__header-left">
+              <img
+                :src="icons.briefcase"
+                alt=""
+                class="input-section__header-icon"
+              >
+              <div class="input-section__header-text">
+                Pekerjaan Pengurangan
+              </div>
+            </div>
+            <div>
+              <el-button
+                type="primary"
+                class="input-section__import-template"
+                @click="toggleDialog()"
+              >
+                Import Template
+                <el-icon class="el-icon--right">
+                  <Download />
+                </el-icon>
+              </el-button>
+              <el-button
+                type="primary"
+                @click="toggleDrawer('', true)"
+              >
+                Tambah Pekerjaan
+                <el-icon class="el-icon--right">
+                  <Plus />
+                </el-icon>
+              </el-button>
+            </div>
+          </div>
+          <el-empty
+            v-if="!formData.jenis_pekerjaan_pengurangans.length && formData.spk_type === 'SPK_ADDENDUM'"
+            description="Belum ada pekerjaan pengurangan"
+          />
+          <el-table
+            v-else-if="formData.spk_type === 'SPK_ADDENDUM'"
+            :data="formData.jenis_pekerjaan_pengurangans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
             row-key="id_table"
@@ -386,7 +663,14 @@
               label="Harga Satuan"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -394,7 +678,14 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -402,7 +693,14 @@
               label="Persentase Pekerjaan"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -418,7 +716,7 @@
                     type="primary"
                     class="table__actions-edit"
                     text
-                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'UP')"
+                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'UP', true)"
                   />
                   <el-button
                     v-if="scope.row.id_table-1 !== formData.jenis_pekerjaans.length-1 && scope.row.hasOwnProperty('actions')"
@@ -426,7 +724,7 @@
                     type="primary"
                     class="table__actions-edit"
                     text
-                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'DOWN')"
+                    @click.stop="moveJenisPekerjaan(scope.row.id_table-1, 'DOWN', true)"
                   />
                   <el-button
                     v-if="scope.row.actions"
@@ -434,7 +732,7 @@
                     type="primary"
                     class="table__actions-edit"
                     text
-                    @click.stop="toggleDrawer(scope.row.nama)"
+                    @click.stop="toggleDrawer(scope.row.nama, true)"
                   />
                   <el-button
                     v-if="scope.row.actions"
@@ -442,7 +740,7 @@
                     type="primary"
                     class="table__actions-delete"
                     text
-                    @click.stop="deleteJenisPekerjaan(scope.row.nama)"
+                    @click.stop="deleteJenisPekerjaan(scope.row.nama, true)"
                   />
                 </div>
               </template>
@@ -612,7 +910,14 @@
               label="Harga Satuan"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -620,7 +925,14 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -768,6 +1080,10 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+        }
+
+        &--pengurangan {
+          margin-top: 20px;
         }
 
         &-left {
@@ -963,6 +1279,10 @@
 
         &__edit-mode {
           filter: opacity(0.3);
+        }
+
+        &--pekerjaan {
+          margin-bottom: 15px;
         }
       }
 

@@ -1,6 +1,5 @@
 import { mapActions } from 'pinia'
-import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
-import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { laporanProgresPembangunanNonUnitStore } from '~/store/teknik/laporan-progres-pembangunan-non-unit'
 
 import { STATUSES } from '~/data/spk'
 
@@ -27,7 +26,7 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-laporan-progres-pembangunan',
+  name: 'manajemen-laporan-progres-pembangunan-non-unit',
 
   mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
@@ -47,7 +46,6 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        tipe_unit: this.$route.query.tipe_unit || null,
         start_tanggal: this.$route.query.start_tanggal || null,
         end_tanggal: this.$route.query.end_tanggal || null,
       },
@@ -55,10 +53,9 @@ export default {
         page: 1,
         size: 10
       },
-      bulanValue: null,
-      laporanProgresPembangunans: [],
-      tipeUnits: [],
-      totalLaporanProgresPembangunans: 0,
+      tanggalValue: null,
+      laporanProgresPembangunanNonUnits: [],
+      totalLaporanProgresPembangunanNonUnits: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
       statuses: STATUSES,
@@ -71,8 +68,8 @@ export default {
   },
 
   computed: {
-    totalShownLaporanProgresPembangunans () {
-      const totalItems = this.totalLaporanProgresPembangunans
+    totalShownLaporanProgresPembangunanNonUnits () {
+      const totalItems = this.totalLaporanProgresPembangunanNonUnits
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -95,23 +92,21 @@ export default {
   created () {
     this.visibleFilter = this.isAnyFilterApplied
     this.initFilters()
-    this.getTipeUnits()
-    this.getLaporanProgresPembangunans()
+    this.getLaporanProgresPembangunanNonUnits()
   },
 
   methods: {
-    ...mapActions(laporanProgresPembangunanStore, [
-      'fetchLaporanProgresPembangunans',
+    ...mapActions(laporanProgresPembangunanNonUnitStore, [
+      'fetchLaporanProgresPembangunanNonUnits',
       'generatePDF'
     ]),
-    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
 
-    async getLaporanProgresPembangunans () {
+    async getLaporanProgresPembangunanNonUnits () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchLaporanProgresPembangunans(this.generateFilters)
-        this.laporanProgresPembangunans = JSON.parse(JSON.stringify(data.data))
-        this.totalLaporanProgresPembangunans = data.pagination.total_items
+        const { data } = await this.fetchLaporanProgresPembangunanNonUnits(this.generateFilters)
+        this.laporanProgresPembangunanNonUnits = JSON.parse(JSON.stringify(data.data))
+        this.totalLaporanProgresPembangunanNonUnits = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -119,29 +114,18 @@ export default {
       }
     },
 
-    async getTipeUnits () {
-      try {
-        const { data } = await this.fetchTipeUnits({
-          skip_pagination: true
-        })
-        this.tipeUnits = JSON.parse(JSON.stringify(data))
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
-    },
-
     initFilters () {
-      this.bulanValue = [this.filters.start_tanggal, this.filters.end_tanggal]
+      this.tanggalValue = [this.filters.start_tanggal, this.filters.end_tanggal]
     },
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getLaporanProgresPembangunans()
+      this.getLaporanProgresPembangunanNonUnits()
     },
 
-    handleMonthRangeChange () {
-      this.filters.start_tanggal = this.bulanValue[0]
-      this.filters.end_tanggal = this.bulanValue[1]
+    handleTanggalRangeChange () {
+      this.filters.start_tanggal = this.tanggalValue[0]
+      this.filters.end_tanggal = this.tanggalValue[1]
       this.handleFilterChange()
     },
 
@@ -150,7 +134,7 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenLaporanProgresPembangunan', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenLaporanProgresPembangunanNonUnit', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -162,16 +146,16 @@ export default {
       Object.keys(this.filters).forEach(filter => {
         this.filters[filter] = null
       })
-      this.bulanValue = null
+      this.tanggalValue = null
       this.handleFilterChange()
     },
 
-    async generateLaporanProgresPembangunanPDF (id, type) {
+    async generateLaporanProgresPembangunanNonUnitPDF (id, type) {
       try {
         const { data } = await this.generatePDF({ id, type })
         const accessUrl = JSON.parse(JSON.stringify(data.access_url))
         window.open(accessUrl, '_blank');
-        this.getLaporanProgresPembangunans()
+        this.getLaporanProgresPembangunanNonUnits()
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -193,26 +177,26 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteLaporanProgresPembangunan(id)
+        await this.handleDeleteLaporanProgresPembangunanNonUnit(id)
         this.showToast('Laporan progres pembangunan berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteLaporanProgresPembangunan(id) {
+    async handleDeleteLaporanProgresPembangunanNonUnit(id) {
       try {
-        await this.deleteLaporanProgresPembangunan(id)
-        this.getLaporanProgresPembangunans()
+        await this.deleteLaporanProgresPembangunanNonUnit(id)
+        this.getLaporanProgresPembangunanNonUnits()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenLaporanProgresPembangunanCreate')
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitCreate')
     },
 
     goToDetailPage ({ id }) {
-      this.redirectTo('ManajemenLaporanProgresPembangunanDetail', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitDetail', {
         params: {
           id: id
         }
@@ -220,26 +204,11 @@ export default {
     },
 
     goToEditPage (id) {
-      this.redirectTo('ManajemenLaporanProgresPembangunanEdit', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitEdit', {
         params: {
           id: id
         }
       })
-    },
-
-    calculateTermin (row) {
-      return (new Date(row.tanggal).getMonth() - new Date(row.spk_awal_periode).getMonth() + 12 * (new Date(row.tanggal).getYear() - new Date(row.spk_awal_periode).getYear())) + 1
-    },
-
-    getMonth (date) {
-      // return new Date(date).getMonth() - 
-      const options = {
-        year: "numeric",
-        month: "long"
-      }
-
-      
-      return new Date(date).toLocaleDateString('in', options)
     }
   }
 }
