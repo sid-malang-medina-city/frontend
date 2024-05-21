@@ -16,7 +16,6 @@ export const laporanProgresPembangunanNonUnitStore = defineStore('LaporanProgres
       return api.createLaporanProgresPembangunanNonUnit(body)
     },
     async editLaporanProgresPembangunanNonUnit (id, body) {
-      console.log('store')
       return api.editLaporanProgresPembangunanNonUnit(id, body)
     },
     async generatePDF (body) {

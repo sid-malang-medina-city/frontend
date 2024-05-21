@@ -128,7 +128,6 @@ export default {
 
     async getSPK () {
       try {
-        console.log('id', this.id)
         const { data } = await this.fetchSPK(this.id)
         this.initSPK(JSON.parse(JSON.stringify(data)))
         this.isDataFetched = true
@@ -151,15 +150,12 @@ export default {
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
       })
       this.SPK.jenis_pekerjaan_pengurangans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
-        console.log(1)
         jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
         jenisPekerjaan.actions = true
-        console.log(2)
         jenisPekerjaan.pekerjaan_pengurangans.forEach((pekerjaan, pekerjaanIndex) => {
           pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
           pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
         })
-        console.log(3)
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaan_pengurangans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaan_pengurangans]
       })

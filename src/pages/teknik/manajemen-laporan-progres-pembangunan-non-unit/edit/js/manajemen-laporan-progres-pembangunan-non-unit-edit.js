@@ -242,9 +242,7 @@ export default {
       this.visibleLoading.submitButton = true
       this.calculateHargaMingguIni()
       try {
-        console.log(1)
         await this.editLaporanProgresPembangunanNonUnit(this.id, this.generatePayload())
-        console.log(2)
         this.redirectTo('ManajemenLaporanProgresPembangunanNonUnit')
         this.showToast('Laporan Progres Pembangunan berhasil diubah!')
       } catch (e) {
