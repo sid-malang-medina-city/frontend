@@ -52,6 +52,8 @@ export default {
         status: '',
         keterangan: '',
         termin: null,
+        start_pekerjaan: null,
+        end_pekerjaan: null,
         pekerjaans: []
       },
       form: {
@@ -209,8 +211,8 @@ export default {
     },
 
     handleDateRangeChange () {
-      this.formData.awal_periode = this.periodeValue[0]
-      this.formData.akhir_periode = this.periodeValue[1]
+      this.formData.start_pekerjaan = this.periodeValue[0]
+      this.formData.end_pekerjaan = this.periodeValue[1]
     },
 
     handleHargaMingguIniChange (row) {

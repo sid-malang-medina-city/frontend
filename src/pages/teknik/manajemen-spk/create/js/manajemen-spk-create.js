@@ -621,6 +621,10 @@ export default {
       })
       formData.harga_total = this.totalPrice
       formData.harga_total_pengurangan = this.totalPricePengurangan
+
+      formData.related_spk_lanjutan = formData.spk_type === 'SPK_LANJUTAN' ? formData.related_spk : null
+      formData.related_spk = formData.spk_type === 'SPK_ADDENDUM' ? formData.related_spk : null
+
       return formData
     },
 

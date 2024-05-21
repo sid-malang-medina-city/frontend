@@ -96,6 +96,7 @@ export default {
   methods: {
     ...mapActions(laporanProgresPembangunanNonUnitStore, [
       'fetchLaporanProgresPembangunanNonUnit',
+      'deleteLaporanProgresPembangunanNonUnit',
       'generatePDF'
     ]),
 
@@ -188,6 +189,32 @@ export default {
 
     openDocumentInNewTab (accessUrl) {
       window.open(accessUrl, '_blank');
-    }
+    },
+
+    async openModalConfirmation () {
+      try {
+        await this.$confirm(
+          'Apakah anda yakin ingin menghapus laporan progres pembangunan ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus laporan progres pembangunan berarti menghilangkan progres data LPP',
+          'Hapus Laporan Progres Pembangunan',
+          {
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            type: 'warning',
+            showClose: true
+          }
+        )
+        await this.handleDeleteLaporanProgresPembangunanNonUnit()
+        this.redirectTo('ManajemenLaporanProgresPembangunanNonUnit')
+        this.showToast('Laporan progres pembangunan berhasil dihapus!')
+      } catch (e) {}
+    },
+
+    async handleDeleteLaporanProgresPembangunanNonUnit() {
+      try {
+        await this.deleteLaporanProgresPembangunanNonUnit(this.id)
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
   }
 }

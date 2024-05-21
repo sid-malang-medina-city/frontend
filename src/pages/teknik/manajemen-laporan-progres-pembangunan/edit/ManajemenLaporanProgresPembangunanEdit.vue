@@ -16,7 +16,7 @@
               class="input-section__header-icon"
             >
             <div class="input-section__header-text">
-              Info SPK
+              Informasi Utama
             </div>
           </div>
           <div class="input-section__rows rows">

@@ -164,7 +164,13 @@
               prop="nama"
               label="Uraian Pekerjaan"
               min-width="150"
-            />
+            >
+              <template #default="scope">
+                <div class="table__nama-pekerjaan">
+                  {{ scope.row.sequence }}. {{ scope.row.nama }}
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column
               prop="volume"
               label="Volume"
@@ -454,10 +460,6 @@
         &__spesifikasi-label {
           margin-top: 5px;
           font-weight: 600;
-        }
-
-        &__nama-pekerjaan {
-          padding-left: 30px;
         }
       }
     }

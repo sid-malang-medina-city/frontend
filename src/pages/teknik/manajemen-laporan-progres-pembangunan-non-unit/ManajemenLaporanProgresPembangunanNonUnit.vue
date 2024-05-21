@@ -47,11 +47,11 @@
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              No SPK/Unit
+              No SPK/Vendor
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari berdasarkan no SPK/Unit"
+              placeholder="Cari berdasarkan no SPK/Vendor"
               class="filters__input"
               @keyup="debounceDelay(() => handleFilterChange())"
             >
@@ -242,9 +242,7 @@
                           Generate
                         </div>
                       </div>
-                      <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF(scope.row.id, 'LPP')">Laporan Progress Pembangunan</el-dropdown-item>
-                      <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF(scope.row.id, 'LPP_PO')">PO</el-dropdown-item>
-                      <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF(scope.row.id, 'LPP_KWITANSI')">Kwitansi</el-dropdown-item>
+                      <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF(scope.row.id, 'LPP')">LPP Non Unit</el-dropdown-item>
                       <div
                         v-if="!!scope.row.lpp_url || !!scope.row.po_url || !!scope.row.kwitansi_url"
                         class="actions__preview-wrapper"
@@ -290,6 +288,12 @@
                         @click.stop="goToEditPage(scope.row.id)"
                       >
                         Edit
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="hasAccess('DELETE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                        @click.stop="openModalConfirmation(scope.row.id)"
+                      >
+                        Delete
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>

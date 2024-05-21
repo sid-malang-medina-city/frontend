@@ -322,6 +322,12 @@
                       >
                         Edit
                       </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="hasAccess('DELETE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                        @click.stop="openModalConfirmation(scope.row.id)"
+                      >
+                        Delete
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>

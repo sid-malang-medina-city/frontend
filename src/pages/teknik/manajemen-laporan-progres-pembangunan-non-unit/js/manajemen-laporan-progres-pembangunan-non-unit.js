@@ -98,6 +98,7 @@ export default {
   methods: {
     ...mapActions(laporanProgresPembangunanNonUnitStore, [
       'fetchLaporanProgresPembangunanNonUnits',
+      'deleteLaporanProgresPembangunanNonUnit',
       'generatePDF'
     ]),
 
@@ -168,7 +169,7 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus laporan progres pembangunan ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus laporan progres pembangunan berarti menghilangkan progres data dan akses mereka',
+          'Apakah anda yakin ingin menghapus laporan progres pembangunan ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus laporan progres pembangunan berarti menghilangkan progres data LPP',
           'Hapus Laporan Progres Pembangunan',
           {
             confirmButtonText: 'Hapus',

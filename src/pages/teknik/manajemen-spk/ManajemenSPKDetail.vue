@@ -67,6 +67,23 @@
                   <el-dropdown-item v-if="SPK.spk_access_url" @click="openDocumentInNewTab(SPK.spk_access_url)">
                     PDF
                   </el-dropdown-item>
+                  <div
+                    v-if="hasAccess('DELETE_SPK')"
+                    class="actions__other-wrapper"
+                  >
+                    <el-icon class="actions__other-icon">
+                      <Document />
+                    </el-icon>
+                    <div class="actions__preview">
+                      Other
+                    </div>
+                  </div>
+                  <el-dropdown-item
+                    v-if="hasAccess('DELETE_SPK')"
+                    @click.stop="openModalConfirmation()"
+                  >
+                    Delete
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -138,6 +155,82 @@
                     :color="statuses[SPK.status] ? statuses[SPK.status].color: ''"
                     type="detail"
                   />
+                </div>
+              </div>
+            </div>
+            <div class="content__row content__row--column">
+              <div class="">
+                <div class="content__label">
+                  SPK Utama
+                </div>
+                <div class="content__spks">
+                  <div
+                    v-if="SPK.related_spk || SPK.related_spk_lanjutan"
+                    class="content__value"
+                  >
+                    <u
+                      class="content__link"
+                      @click="goToManajemenSPKDetail(SPK.related_spk || SPK.related_spk_lanjutan)"
+                    >
+                      {{ SPK.related_spk_nomor || SPK.related_spk_lanjutan_nomor }}
+                    </u>
+                  </div>
+                  <div
+                    v-else
+                    class="content__value"
+                  >
+                    -
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <div class="content__label">
+                  SPK Addendum
+                </div>
+                <div class="content__spks">
+                  <div
+                    v-if="SPK.addendum_spks?.length > 0"
+                    v-for="addendumSPK in SPK.addendum_spks"
+                    class="content__value"
+                  >
+                    <u
+                      class="content__link"
+                      @click="goToManajemenSPKDetail(addendumSPK.id)"
+                    >
+                      {{ addendumSPK.nomor }}
+                    </u>
+                  </div>
+                  <div
+                    v-else
+                    class="content__value"
+                  >
+                    -
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <div class="content__label">
+                  SPK Lanjutan
+                </div>
+                <div class="content__spks">
+                  <div
+                    v-if="SPK.spk_lanjutans?.length > 0"
+                    v-for="spkLanjutan in SPK.spk_lanjutans"
+                    class="content__value"
+                  >
+                    <u
+                      class="content__link"
+                      @click="goToManajemenSPKDetail(spkLanjutan.id)"
+                    >
+                      {{ spkLanjutan.nomor }}
+                    </u>
+                  </div>
+                  <div
+                    v-else
+                    class="content__value"
+                  >
+                    -
+                  </div>
                 </div>
               </div>
             </div>
@@ -567,6 +660,11 @@
         border-top: 1px solid #E9E9E9;
       }
 
+      &__link {
+        cursor: pointer;
+        width: fit-content;
+      }
+
       .informasi-pendukung-wrapper--top {
         border-top: none;
         border-bottom: 1px solid #E9E9E9;
@@ -839,6 +937,11 @@
         display: flex;
         gap: 40px;
         margin-bottom: 16px;
+
+        &--column {
+          gap: 15px;
+          flex-direction: column;
+        }
       }
 
       &__data {
@@ -856,6 +959,12 @@
         color: #696969;
         font-size: 14px;
         font-weight: 400;
+      }
+
+      &__spks {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
       }
 
       &__value-password {

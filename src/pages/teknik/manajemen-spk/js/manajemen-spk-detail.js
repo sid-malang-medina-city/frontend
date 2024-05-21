@@ -71,7 +71,16 @@ export default {
       visibleImageActionIcons: {},
       selectedImageUrl: '',
       imageStartingIndex: 0,
-      helpers
+      helpers,
+      spkLanjutans: [
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+      ]
     }
   },
 
@@ -107,6 +116,7 @@ export default {
   methods: {
     ...mapActions(SPKStore, [
       'fetchSPK',
+      'deleteSPK',
       'generatePDF'
     ]),
 
@@ -118,6 +128,7 @@ export default {
 
     async getSPK () {
       try {
+        console.log('id', this.id)
         const { data } = await this.fetchSPK(this.id)
         this.initSPK(JSON.parse(JSON.stringify(data)))
         this.isDataFetched = true
@@ -183,6 +194,13 @@ export default {
       this.redirectTo('ManajemenSPK')
     },
 
+    async goToManajemenSPKDetail (id) {
+      await this.redirectTo('ManajemenSPKDetail', {
+        params: { id }
+      })
+      this.getSPK()
+    },
+
     getFilesUrl (identifier) {
       return this.SPK[identifier]
     },
@@ -207,6 +225,32 @@ export default {
 
     openDocumentInNewTab (accessUrl) {
       window.open(accessUrl, '_blank');
-    }
+    },
+
+    async openModalConfirmation () {
+      try {
+        await this.$confirm(
+          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan data SPK dan LPP yang telah ada',
+          'Hapus SPK',
+          {
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            type: 'warning',
+            showClose: true
+          }
+        )
+        await this.handleDeleteSPK()
+        this.redirectTo('ManajemenSPK')
+        this.showToast('SPK berhasil dihapus!')
+      } catch (e) {}
+    },
+
+    async handleDeleteSPK() {
+      try {
+        await this.deleteSPK(this.id)
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
   }
 }

@@ -100,6 +100,7 @@ export default {
   methods: {
     ...mapActions(SPKStore, [
       'fetchSPKs',
+      'deleteSPK',
       'generatePDF'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
@@ -171,7 +172,7 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan progress data dan akses mereka',
+          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan data SPK dan LPP yang telah ada',
           'Hapus SPK',
           {
             confirmButtonText: 'Hapus',

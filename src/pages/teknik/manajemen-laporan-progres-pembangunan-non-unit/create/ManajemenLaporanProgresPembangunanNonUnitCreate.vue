@@ -16,7 +16,7 @@
               class="input-section__header-icon"
             >
             <div class="input-section__header-text">
-              Info SPK
+              Informasi Utama
             </div>
           </div>
           <div class="input-section__rows rows">
@@ -92,6 +92,23 @@
             </div>
           </div>
           <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Periode Pekerjaan
+              </div>
+              <el-date-picker
+                v-model="periodeValue"
+                v-loading="!isDataFetched"
+                :clearable="false"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="Tanggal awal"
+                end-placeholder="Tanggal akhir"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                @change="handleDateRangeChange"
+              />
+            </div>
             <div class="rows__row">
               <div class="row__label">
                 Keterangan
@@ -584,6 +601,10 @@
 
     :deep(.el-date-editor--date) {
       width: 400px;
+    }
+    
+    :deep(.el-date-editor--daterange) {
+      width: 380px;
     }
   }
 </style>

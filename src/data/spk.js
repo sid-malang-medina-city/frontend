@@ -4,6 +4,11 @@ export const STATUSES = {
     code: 'DRAFT',
     color: '#1DC4F9'
   },
+  FINAL: {
+    name: 'Final',
+    code: 'FINAL',
+    color: '#74C627'
+  },
   PARTIALLY_DONE: {
     name: 'Partially Done',
     code: 'PARTIALLY_DONE',
@@ -12,11 +17,6 @@ export const STATUSES = {
   DONE: {
     name: 'Done',
     code: 'DONE',
-    color: '#74C627'
-  },
-  FINAL: {
-    name: 'Final',
-    code: 'FINAL',
     color: '#74C627'
   }
 }

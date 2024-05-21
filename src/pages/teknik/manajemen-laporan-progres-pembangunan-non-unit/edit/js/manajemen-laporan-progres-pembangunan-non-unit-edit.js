@@ -151,12 +151,14 @@ export default {
         ...data
       }
       this.formData.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-        delete pekerjaan.pekerjaan
-        pekerjaan.pekerjaan_non_unit = pekerjaan.id
         pekerjaan.id_table = (pekerjaanIndex + 1).toString(),
         pekerjaan.error = false
         pekerjaan.actions = false
       })
+      this.periodeValue = [
+        this.formData.start_pekerjaan,
+        this.formData.end_pekerjaan
+      ]
       this.calculatePersentasePekerjaan()
     },
 
@@ -166,6 +168,11 @@ export default {
         pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
         this.formData.harga_total += pekerjaan.harga_total
       })
+    },
+
+    handleDateRangeChange () {
+      this.formData.start_pekerjaan = this.periodeValue[0]
+      this.formData.end_pekerjaan = this.periodeValue[1]
     },
 
     handleHargaMingguIniChange (row) {

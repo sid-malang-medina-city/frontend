@@ -161,6 +161,12 @@
                       >
                         Edit
                       </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="hasAccess('DELETE_SPK_NON_UNIT')"
+                        @click.stop="openModalConfirmation(scope.row.id)"
+                      >
+                        Delete
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>

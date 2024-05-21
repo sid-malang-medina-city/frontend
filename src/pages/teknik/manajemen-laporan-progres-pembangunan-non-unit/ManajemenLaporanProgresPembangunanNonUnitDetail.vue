@@ -47,9 +47,7 @@
                       Generate
                     </div>
                   </div>
-                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP')">Laporan Progress Pembangunan</el-dropdown-item>
-                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP_PO')">PO</el-dropdown-item>
-                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP_KWITANSI')">Kwitansi</el-dropdown-item>
+                  <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF('LPP')">LPP Non Unit</el-dropdown-item>
                   <div
                     v-if="!!laporanProgresPembangunanNonUnit.lpp_url || !!laporanProgresPembangunanNonUnit.po_url || !!laporanProgresPembangunanNonUnit.kwitansi_url"
                     class="actions__preview-wrapper"
@@ -67,17 +65,22 @@
                   >
                     Laporan Progres Pembangunan
                   </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="!!laporanProgresPembangunanNonUnit.po_url"
-                    @click="openDocumentInNewTab(laporanProgresPembangunanNonUnit.po_access_url)"
+                  <div
+                    v-if="hasAccess('DELETE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                    class="actions__other-wrapper"
                   >
-                    PO
-                  </el-dropdown-item>
+                    <el-icon class="actions__other-icon">
+                      <Document />
+                    </el-icon>
+                    <div class="actions__preview">
+                      Other
+                    </div>
+                  </div>
                   <el-dropdown-item
-                    v-if="!!laporanProgresPembangunanNonUnit.kwitansi_url"
-                    @click="openDocumentInNewTab(laporanProgresPembangunanNonUnit.kwitansi_access_url)"
+                    v-if="hasAccess('DELETE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                    @click.stop="openModalConfirmation()"
                   >
-                    Kwitansi
+                    Delete
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
@@ -93,7 +96,7 @@
                 alt="Image Icon"
               />
               <div class="content__header-title">
-                Info General
+                Informasi Utama
               </div>
             </div>
   
@@ -112,6 +115,14 @@
                 </div>
                 <div class="column__value">
                   {{ helpers.convertDateTimeZoneToDateString(laporanProgresPembangunanNonUnit.tanggal) }}
+                </div>
+              </div>
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Periode
+                </div>
+                <div class="column__value">
+                  {{ helpers.convertDateTimeZoneToDateString(laporanProgresPembangunanNonUnit.start_pekerjaan) }} - {{ helpers.convertDateTimeZoneToDateString(laporanProgresPembangunanNonUnit.end_pekerjaan) }}
                 </div>
               </div>
               <div class="informasi-utama__column column">
@@ -173,11 +184,11 @@
                   fixed="left"
                   width="200"
                 >
-                <template #default="scope">
-                  <div class="table__nama-pekerjaan">
-                    {{ scope.row.sequence }}. {{ scope.row.nama }}
-                  </div>
-                </template>
+                  <template #default="scope">
+                    <div class="table__nama-pekerjaan">
+                      {{ scope.row.sequence }}. {{ scope.row.nama }}
+                    </div>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="satuan_ukuran"
@@ -778,12 +789,6 @@
         color: #696969;
         font-size: 14px;
         font-weight: 400;
-      }
-    }
-
-    .table {
-      &__nama-pekerjaan {
-        padding-left: 30px;
       }
     }
 

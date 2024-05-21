@@ -62,6 +62,23 @@
                   <el-dropdown-item v-if="!!SPKNonUnit.spk_non_unit_access_url" @click="openDocumentInNewTab()">
                     PDF
                   </el-dropdown-item>
+                  <div
+                    v-if="hasAccess('DELETE_SPK_NON_UNIT')"
+                    class="actions__other-wrapper"
+                  >
+                    <el-icon class="actions__other-icon">
+                      <Document />
+                    </el-icon>
+                    <div class="actions__preview">
+                      Other
+                    </div>
+                  </div>
+                  <el-dropdown-item
+                    v-if="hasAccess('DELETE_SPK_NON_UNIT')"
+                    @click.stop="openModalConfirmation()"
+                  >
+                    Delete
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -187,7 +204,13 @@
                   prop="nama"
                   label="Uraian Pekerjaan"
                   min-width="150"
-                />
+                >
+                  <template #default="scope">
+                    <div class="table__nama-pekerjaan">
+                      {{ scope.row.sequence }}. {{ scope.row.nama }}
+                    </div>
+                  </template>
+                </el-table-column>
                 <el-table-column
                   prop="volume"
                   label="Volume"
@@ -687,12 +710,6 @@
         color: #696969;
         font-size: 14px;
         font-weight: 400;
-      }
-    }
-
-    .table {
-      &__nama-pekerjaan {
-        padding-left: 30px;
       }
     }
 
