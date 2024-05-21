@@ -1,14 +1,14 @@
 <template>
-  <div class="manajemen-laporan-progres-pembangunan-edit">
+  <div class="manajemen-laporan-progres-pembangunan-non-unit-edit">
     <page-header
-      title="Edit Laporan Progres Pembangunan"
+      title="Edit Laporan Progres Pembangunan Non Unit"
       show-back-icon
-      @back="goToManajemenLaporanProgresPembangunan"
+      @back="goToManajemenLaporanProgresPembangunanNonUnit"
     />
 
     <div class="page-content">
-      <div class="manajemen-laporan-progres-pembangunan-edit__wrapper">
-        <div class="manajemen-laporan-progres-pembangunan-edit__input-section input-section">
+      <div class="manajemen-laporan-progres-pembangunan-non-unit-edit__wrapper">
+        <div class="manajemen-laporan-progres-pembangunan-non-unit-edit__input-section input-section">
           <div class="input-section__header">
             <img
               :src="icons.receipt"
@@ -22,10 +22,10 @@
           <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
-                SPK
+                SPK Non Unit
               </div>
               <el-select
-                :model-value="formData.spk_nomor"
+                :model-value="formData.spk_non_unit"
                 placeholder="Pilih SPK"
                 class="row__input"
                 remote-show-suffix
@@ -33,27 +33,27 @@
                 remote
                 reserve-keyword
                 disabled
-                @change="getSPK"
+                @change="getSPKNonUnit"
               >
                 <el-option
-                  v-for="SPK in SPKs"
-                  :key="SPK.id"
-                  :label="SPK.nomor"
-                  :value="SPK.id"
+                  v-for="SPKNonUnit in SPKNonUnits"
+                  :key="SPKNonUnit.id"
+                  :label="SPKNonUnit.nomor"
+                  :value="SPKNonUnit.id"
                 />
               </el-select>
             </div>
             <div class="rows__row">
               <div class="row__label required">
-                Bulan
+                Tanggal
               </div>
               <el-date-picker
                 v-model="formData.tanggal"
-                :key="keyForMonthPicker"
+                :key="keyForMingguPicker"
                 :disabled-date="disabledDate"
-                type="month"
-                placeholder="Pilih bulan"
-                format="MM-YYYY"
+                type="date"
+                placeholder="Pilih tanggal"
+                format="DD-MM-YYYY"
                 value-format="YYYY-MM-DD"
                 class="row__input"
                 disabled
@@ -61,23 +61,6 @@
             </div>
           </div>
           <div class="input-section__rows rows">
-            <div class="rows__row">
-              <div class="row__label required">
-                Biaya Pajak
-              </div>
-              <el-input
-                v-model="formData.pajak"
-                :disabled="formData.status === 'FINAL'"
-                :formatter="(value) => {
-                  const parts = value.toString().split(',');
-                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-                  return `Rp ${parts.slice(0,2).join(',')}`;
-                }"
-                :parser="(value) => value.replace(/[^\d,]/g, '')"
-                placeholder="Masukkan biaya pajak"
-                class="row__input"
-              />
-            </div>
             <div class="rows__row">
               <div class="row__label required">
                 Status
@@ -96,8 +79,6 @@
                 />
               </el-select>
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Termin
@@ -109,6 +90,25 @@
                 type="number"
                 min="1"
                 class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Periode Pekerjaan
+              </div>
+              <el-date-picker
+                v-model="periodeValue"
+                v-loading="!isDataFetched"
+                :clearable="false"
+                type="daterange"
+                range-separator="-"
+                start-placeholder="Tanggal awal"
+                end-placeholder="Tanggal akhir"
+                format="DD-MM-YYYY"
+                value-format="YYYY-MM-DD"
+                @change="handleDateRangeChange"
               />
             </div>
             <div class="rows__row">
@@ -133,13 +133,13 @@
                 class="input-section__header-icon"
               >
               <div class="input-section__header-text">
-                Tabel Progres Pembangunan
+                Tabel Progres Pembangunan Non Unit
               </div>
             </div>
           </div>
           <el-table
             v-loading="visibleLoading.table"
-            :data="formData.jenis_pekerjaans"
+            :data="formData.pekerjaans"
             class="input-section__table table general-table"
             header-row-class-name="general-table__header-gray"
             row-key="id_table"
@@ -153,15 +153,9 @@
               width="200"
             >
               <template #default="scope">
-                <div
-                  v-if="!scope.row.hasOwnProperty('actions')"
-                  class="table__nama-pekerjaan"
-                >
+                <div class="table__nama-pekerjaan">
                   {{ scope.row.sequence }}. {{ scope.row.nama }}
                 </div>
-                <template v-else>
-                  {{ String.fromCharCode(64 + scope.row.sequence) }}. {{ scope.row.nama }}
-                </template>
               </template>
             </el-table-column>
             <el-table-column
@@ -181,7 +175,7 @@
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
@@ -197,12 +191,12 @@
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
                 >
-                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, false) }}
                 </el-tooltip>
               </template>
             </el-table-column>
@@ -213,88 +207,88 @@
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
                 >
-                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, false) }}
                 </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
-              prop="harga_bulan_lalu"
-              label="Harga bulan lalu"
+              prop="harga_minggu_lalu"
+              label="Harga minggu lalu"
               min-width="150"
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_minggu_lalu, true, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
                 >
-                  {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_lalu, true, scope.row.hasOwnProperty('actions')) }}
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_minggu_lalu, true, false) }}
                 </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
-              prop="persentase_bulan_lalu"
-              label="Persentase bulan lalu"
+              prop="persentase_minggu_lalu"
+              label="Persentase minggu lalu"
               min-width="150"
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_minggu_lalu, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
                 >
-                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_bulan_lalu, scope.row.hasOwnProperty('actions')) }}
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_minggu_lalu, false) }}
                 </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
               prop="harga_progres_total"
-              label="Harga Sampai Bulan Ini"
+              label="Harga Sampai Minggu Ini"
               min-width="150"
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
                 >
-                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, false) }}
                 </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
               prop="persentase_progres_total"
-              label="Progres Sampai Bulan Ini"
+              label="Progres Sampai Minggu Ini"
               min-width="150"
             >
               <template #default="scope">
                 <el-tooltip
-                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions'), true)"
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, false, true)"
                   class="box-item"
                   effect="dark"
                   placement="top"
                 >
-                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, scope.row.hasOwnProperty('actions')) }}
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_total, false) }}
                 </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
-              label="Harga Bulan Ini"
+              label="Harga Minggu Ini"
               min-width="150"
               fixed="right"
             >
               <template #default="scope">
                 <el-input
-                  v-if="!scope.row.hasOwnProperty('actions')"
-                  v-model="scope.row.harga_bulan_ini"
+                  v-if="!false"
+                  v-model="scope.row.harga_minggu_ini"
                   :disabled="formData.status === 'FINAL'"
                   :formatter="(value) => {
                     const parts = value.toString().split(',');
@@ -304,37 +298,37 @@
                   :parser="(value) => value.replace(/[^\d,]/g, '')"
                   :class="{ 'table__input--error': !!scope.row.error }"
                   class="table__input"
-                  @input="handleHargaBulanIniChange(scope.row)"
+                  @input="handleHargaMingguIniChange(scope.row)"
                 />
               </template>
             </el-table-column>
             <el-table-column
-              prop="persentase_progres_bulan_ini"
-              label="Progres bulan ini"
+              prop="persentase_progres_minggu_ini"
+              label="Progres minggu ini"
               min-width="150"
               fixed="right"
             >
               <template #default="scope">
                 <el-input
-                  v-if="!scope.row.hasOwnProperty('actions')"
-                  v-model="scope.row.persentase_progres_bulan_ini"
+                  v-if="!false"
+                  v-model="scope.row.persentase_progres_minggu_ini"
                   :disabled="formData.status === 'FINAL'"
                   :class="{ 'table__input--error': !!scope.row.error }"
                   :max="100"
                   class="table__input"
                   type="number"
-                  @input="handlePersentaseBulanIniChange(scope.row)"
+                  @input="handlePersentaseMingguIniChange(scope.row)"
                 />
                 <div v-else></div>
               </template>
             </el-table-column>
           </el-table>
         </div>
-        <div class="manajemen-laporan-progres-pembangunan-edit__submit-section">
+        <div class="manajemen-laporan-progres-pembangunan-non-unit-edit__submit-section">
           <el-button
             type="secondary"
-            class="manajemen-laporan-progres-pembangunan-edit__cancel-btn"
-            @click="goToManajemenLaporanProgresPembangunan"
+            class="manajemen-laporan-progres-pembangunan-non-unit-edit__cancel-btn"
+            @click="goToManajemenLaporanProgresPembangunanNonUnit"
           >
             Cancel
           </el-button>
@@ -342,7 +336,7 @@
             :disabled="isSubmitButtonDisabled"
             :loading="visibleLoading.submitButton"
             type="primary"
-            class="manajemen-laporan-progres-pembangunan-edit__submit-btn"
+            class="manajemen-laporan-progres-pembangunan-non-unit-edit__submit-btn"
             @click="submit"
           >
             Simpan
@@ -353,13 +347,13 @@
   </div>
 </template>
 
-<script src="./js/manajemen-laporan-progres-pembangunan-edit.js"></script>
+<script src="./js/manajemen-laporan-progres-pembangunan-non-unit-edit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-laporan-progres-pembangunan-edit {
+  .manajemen-laporan-progres-pembangunan-non-unit-edit {
     &__wrapper {
       background: white;
       border-radius: 12px;
@@ -421,9 +415,9 @@
           }
         }
 
-        &__nama-pekerjaan {
-          padding-left: 30px;
-        }
+        // &__nama-pekerjaan {
+        //   padding-left: 30px;
+        // }
       }
     }
 
@@ -610,8 +604,12 @@
       color: #FF613A;
     }
 
-    :deep(.el-date-editor--month) {
+    :deep(.el-date-editor--date) {
       width: 400px;
+    }
+    
+    :deep(.el-date-editor--daterange) {
+      width: 380px;
     }
   }
 </style>

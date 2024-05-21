@@ -27,7 +27,7 @@ export const NAVIGATION_ITEMS = [
     labelIndex: 2,
     children: [
       {
-        label: 'Manajemen Marketer',
+        label: 'Marketer',
         path: '/marketing/manajemen-marketer',
         routeName: 'ManajemenMarketer',
         menuCode: 'LIST_MARKETER',
@@ -64,7 +64,7 @@ export const NAVIGATION_ITEMS = [
     labelIndex: 3,
     children: [
       {
-        label: 'Manajemen Dokumen Konsumen',
+        label: 'Dokumen Konsumen',
         path: '/verifikasi/manajemen-dokumen-konsumen',
         routeName: 'ManajemenDokumenKonsumen',
         menuCode: 'LIST_DOKUMEN_KONSUMEN',
@@ -73,7 +73,7 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen Pekerjaan',
+        label: 'Pekerjaan',
         path: '/verifikasi/manajemen-pekerjaan',
         routeName: 'ManajemenPekerjaan',
         menuCode: 'LIST_DOKUMEN_KONSUMEN',
@@ -82,7 +82,7 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen Alasan',
+        label: 'Alasan',
         path: '/verifikasi/manajemen-alasan',
         routeName: 'ManajemenAlasan',
         menuCode: 'LIST_DOKUMEN_KONSUMEN',
@@ -102,7 +102,7 @@ export const NAVIGATION_ITEMS = [
     labelIndex: 4,
     children: [
       {
-        label: 'Manajemen Dokumen Konsumen',
+        label: 'Dokumen Konsumen',
         path: '/keuangan/manajemen-dokumen-konsumen',
         routeName: 'KeuanganManajemenDokumenKonsumen',
         menuCode: 'MODULE_KEUANGAN',
@@ -139,7 +139,7 @@ export const NAVIGATION_ITEMS = [
     labelIndex: 5,
     children: [
       {
-        label: 'Manajemen Vendor',
+        label: 'Vendor',
         path: '/teknik/manajemen-vendor',
         routeName: 'ManajemenVendor',
         menuCode: 'LIST_VENDOR',
@@ -148,7 +148,7 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen Template SPK',
+        label: 'Template SPK',
         path: '/teknik/manajemen-template-spk',
         routeName: 'ManajemenTemplateSPK',
         menuCode: 'LIST_TEMPLATE_SPK',
@@ -157,7 +157,7 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen SPK',
+        label: 'SPK',
         path: '/teknik/manajemen-spk',
         routeName: 'ManajemenSPK',
         menuCode: 'LIST_SPK',
@@ -166,38 +166,47 @@ export const NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen SPK Non Unit',
-        path: '/teknik/manajemen-spk-non-unit',
-        routeName: 'ManajemenSPKNonUnit',
-        menuCode: 'LIST_SPK_NON_UNIT',
+        label: 'LPP',
+        path: '/teknik/manajemen-laporan-progres-pembangunan',
+        routeName: 'ManajemenLaporanProgresPembangunan',
+        menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
         labelIndex: 4,
         childRoutes: [],
         iconPath: null
       },
       {
-        label: 'Manajemen Laporan Progres Pembangunan',
-        path: '/teknik/manajemen-laporan-progres-pembangunan',
-        routeName: 'ManajemenLaporanProgresPembangunan',
-        menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
+        label: 'SPK Non Unit',
+        path: '/teknik/manajemen-spk-non-unit',
+        routeName: 'ManajemenSPKNonUnit',
+        menuCode: 'LIST_SPK_NON_UNIT',
         labelIndex: 5,
         childRoutes: [],
         iconPath: null
       },
       {
-        label: 'Manajemen Supplier',
-        path: '/teknik/manajemen-supplier',
-        routeName: 'ManajemenSupplier',
-        menuCode: 'LIST_SUPPLIER',
+        label: 'LPP Non Unit',
+        path: '/teknik/manajemen-laporan-progres-pembangunan-non-unit',
+        routeName: 'ManajemenLaporanProgresPembangunanNonUnit',
+        menuCode: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
         labelIndex: 6,
         childRoutes: [],
         iconPath: null
       },
       {
-        label: 'Manajemen PO Supplier',
+        label: 'Supplier',
+        path: '/teknik/manajemen-supplier',
+        routeName: 'ManajemenSupplier',
+        menuCode: 'LIST_SUPPLIER',
+        labelIndex: 7,
+        childRoutes: [],
+        iconPath: null
+      },
+      {
+        label: 'PO Supplier',
         path: '/teknik/manajemen-po-supplier',
         routeName: 'ManajemenPOSupplier',
         menuCode: 'LIST_PO_SUPPLIER',
-        labelIndex: 7,
+        labelIndex: 8,
         childRoutes: [],
         iconPath: null
       }
@@ -215,7 +224,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
     labelIndex: 1,
     children: [
       {
-        label: 'Manajemen Unit',
+        label: 'Unit',
         path: '/manajemen-unit',
         routeName: 'ManajemenUnit',
         menuCode: 'LIST_UNIT',
@@ -224,7 +233,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen Cluster',
+        label: 'Cluster',
         path: '/manajemen-unit/cluster',
         menuCode: 'LIST_UNIT',
         routeName: 'ManajemenCluster',
@@ -233,7 +242,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen Tipe Unit',
+        label: 'Tipe Unit',
         path: '/manajemen-unit/tipe',
         menuCode: 'LIST_UNIT',
         routeName: 'ManajemenTipeUnit',
@@ -242,7 +251,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
         iconPath: null
       },
       {
-        label: 'Manajemen Fasilitas',
+        label: 'Fasilitas',
         path: '/manajemen-unit/fasilitas',
         menuCode: 'LIST_UNIT',
         routeName: 'ManajemenFasilitas',
@@ -253,7 +262,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
     ]
   },
   {
-    label: 'Manajemen Konsumen',
+    label: 'Konsumen',
     iconPath: manajemenKonsumenIcon,
     menuCode: 'LIST_KONSUMEN',
     type: 'root',
@@ -263,7 +272,7 @@ export const ADMIN_NAVIGATION_ITEMS = [
     children: []
   },
   {
-    label: 'Manajemen User',
+    label: 'User',
     iconPath: manajemenUserIcon,
     menuCode: 'LIST_USER',
     type: 'root',

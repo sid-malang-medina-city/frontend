@@ -1,6 +1,6 @@
 import { mapActions } from 'pinia'
-import { SPKStore } from '~/store/teknik/spk'
-import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { laporanProgresPembangunanNonUnitStore } from '~/store/teknik/laporan-progres-pembangunan-non-unit'
+
 import { STATUSES } from '~/data/spk'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
@@ -12,8 +12,6 @@ import DebounceHandler from '~/mixins/debounce-handler'
 import helpers from '~/utils/helpers'
 
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
-
-import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 
 import {
   ArrowDown,
@@ -28,13 +26,12 @@ import {
 } from '@element-plus/icons-vue'
 
 export default {
-  name: 'manajemen-spk',
+  name: 'manajemen-laporan-progres-pembangunan-non-unit',
 
   mixins: [RouterHandler, ToastHandler, AclHandler, DebounceHandler],
 
   components: {
     PageHeader,
-    StatusBadge,
     ArrowDown,
     ArrowUp,
     Plus,
@@ -49,18 +46,19 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
-        tipe_unit: this.$route.query.tipe_unit || null
+        start_tanggal: this.$route.query.start_tanggal || null,
+        end_tanggal: this.$route.query.end_tanggal || null,
       },
       pagination: {
         page: 1,
         size: 10
       },
-      tipeUnits: [],
-      SPKs: [],
-      statuses: STATUSES,
-      totalSPKs: 0,
+      tanggalValue: null,
+      laporanProgresPembangunanNonUnits: [],
+      totalLaporanProgresPembangunanNonUnits: 0,
       visibleFilter: false,
       visibleLoadingTable: false,
+      statuses: STATUSES,
       icons: {
         delete: Delete,
         arrowCounterClockwise: arrowCounterClockwiseIcon
@@ -70,8 +68,8 @@ export default {
   },
 
   computed: {
-    totalShownSPKs () {
-      const totalItems = this.totalSPKs
+    totalShownLaporanProgresPembangunanNonUnits () {
+      const totalItems = this.totalLaporanProgresPembangunanNonUnits
       const { page, size } = this.pagination
       const totalSize = page * size
       const lastPageSize = totalItems % size
@@ -93,24 +91,23 @@ export default {
 
   created () {
     this.visibleFilter = this.isAnyFilterApplied
-    this.getSPKs()
-    this.getTipeUnits()
+    this.initFilters()
+    this.getLaporanProgresPembangunanNonUnits()
   },
 
   methods: {
-    ...mapActions(SPKStore, [
-      'fetchSPKs',
-      'deleteSPK',
+    ...mapActions(laporanProgresPembangunanNonUnitStore, [
+      'fetchLaporanProgresPembangunanNonUnits',
+      'deleteLaporanProgresPembangunanNonUnit',
       'generatePDF'
     ]),
-    ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
-    
-    async getSPKs () {
+
+    async getLaporanProgresPembangunanNonUnits () {
       this.visibleLoadingTable = true
       try {
-        const { data } = await this.fetchSPKs(this.generateFilters)
-        this.SPKs = JSON.parse(JSON.stringify(data.data))
-        this.totalSPKs = data.pagination.total_items
+        const { data } = await this.fetchLaporanProgresPembangunanNonUnits(this.generateFilters)
+        this.laporanProgresPembangunanNonUnits = JSON.parse(JSON.stringify(data.data))
+        this.totalLaporanProgresPembangunanNonUnits = data.pagination.total_items
       } catch (error) {
         this.showErrorResponse(error)
       } finally {
@@ -118,20 +115,19 @@ export default {
       }
     },
 
-    async getTipeUnits () {
-      try {
-        const { data } = await this.fetchTipeUnits({
-          skip_pagination: true
-        })
-        this.tipeUnits = JSON.parse(JSON.stringify(data))
-      } catch (error) {
-        this.showErrorResponse(error)
-      }
+    initFilters () {
+      this.tanggalValue = [this.filters.start_tanggal, this.filters.end_tanggal]
     },
 
     handlePageChange (page) {
       this.pagination.page = page
-      this.getSPKs()
+      this.getLaporanProgresPembangunanNonUnits()
+    },
+
+    handleTanggalRangeChange () {
+      this.filters.start_tanggal = this.tanggalValue[0]
+      this.filters.end_tanggal = this.tanggalValue[1]
+      this.handleFilterChange()
     },
 
     handleFilterChange () {
@@ -139,7 +135,7 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters })
+      this.setRouteParam('ManajemenLaporanProgresPembangunanNonUnit', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 
@@ -151,15 +147,16 @@ export default {
       Object.keys(this.filters).forEach(filter => {
         this.filters[filter] = null
       })
+      this.tanggalValue = null
       this.handleFilterChange()
     },
 
-    async generateSPKPDF (id) {
+    async generateLaporanProgresPembangunanNonUnitPDF (id, type) {
       try {
-        const { data } = await this.generatePDF({ id })
+        const { data } = await this.generatePDF({ id, type })
         const accessUrl = JSON.parse(JSON.stringify(data.access_url))
         window.open(accessUrl, '_blank');
-        this.getSPKs()
+        this.getLaporanProgresPembangunanNonUnits()
       } catch (error) {
         this.showErrorResponse(error)
       }
@@ -172,8 +169,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan data SPK dan LPP yang telah ada',
-          'Hapus SPK',
+          'Apakah anda yakin ingin menghapus laporan progres pembangunan ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus laporan progres pembangunan berarti menghilangkan progres data LPP',
+          'Hapus Laporan Progres Pembangunan',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -181,26 +178,26 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteSPK(id)
-        this.showToast('SPK berhasil dihapus!')
+        await this.handleDeleteLaporanProgresPembangunanNonUnit(id)
+        this.showToast('Laporan progres pembangunan berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteSPK(id) {
+    async handleDeleteLaporanProgresPembangunanNonUnit(id) {
       try {
-        await this.deleteSPK(id)
-        this.getSPKs()
+        await this.deleteLaporanProgresPembangunanNonUnit(id)
+        this.getLaporanProgresPembangunanNonUnits()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToCreatePage () {
-      this.redirectTo('ManajemenSPKCreate')
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitCreate')
     },
 
     goToDetailPage ({ id }) {
-      this.redirectTo('ManajemenSPKDetail', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitDetail', {
         params: {
           id: id
         }
@@ -208,7 +205,7 @@ export default {
     },
 
     goToEditPage (id) {
-      this.redirectTo('ManajemenSPKEdit', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitEdit', {
         params: {
           id: id
         }

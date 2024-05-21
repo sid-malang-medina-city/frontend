@@ -75,6 +75,7 @@ export default {
   methods: {
     ...mapActions(SPKNonUnitStore, [
       'fetchSPKNonUnit',
+      'deleteSPKNonUnit',
       'generatePDF'
     ]),
 
@@ -128,6 +129,32 @@ export default {
           id: this.SPKNonUnit.vendor_id
         }
       })
-    }
+    },
+
+    async openModalConfirmation () {
+      try {
+        await this.$confirm(
+          'Apakah anda yakin ingin menghapus SPK Non Unit ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK Non Unit berarti menghilangkan data SPK Non Unit dan LPP Non Unit yang ada',
+          'Hapus SPK Non Unit',
+          {
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            type: 'warning',
+            showClose: true
+          }
+        )
+        await this.handleDeleteSPKNonUnit()
+        this.redirectTo('ManajemenSPKNonUnit')
+        this.showToast('SPK Non Unit berhasil dihapus!')
+      } catch (e) {}
+    },
+
+    async handleDeleteSPKNonUnit() {
+      try {
+        await this.deleteSPKNonUnit(this.id)
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
   }
 }

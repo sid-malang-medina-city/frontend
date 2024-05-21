@@ -8,5 +8,21 @@ export const STATUSES = {
     name: 'Final',
     code: 'FINAL',
     color: '#74C627'
+  },
+  PARTIALLY_DONE: {
+    name: 'Partially Done',
+    code: 'PARTIALLY_DONE',
+    color: '#74C627'
+  },
+  DONE: {
+    name: 'Done',
+    code: 'DONE',
+    color: '#74C627'
   }
+}
+
+export const SPK_TYPES = {
+  SPK: 'SPK',
+  SPK_ADDENDUM: 'SPK Addendum',
+  SPK_LANJUTAN: 'SPK Lanjutan'
 }

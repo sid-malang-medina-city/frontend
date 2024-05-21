@@ -1,9 +1,9 @@
 <template>
-  <div class="manajemen-laporan-progres-pembangunan">
-    <page-header title="Manajemen Laporan Progres Pembangunan" />
-    <div class="manajemen-laporan-progres-pembangunan__wrapper page-content">
-      <div class="manajemen-laporan-progres-pembangunan__actions-wrapper">
-        <div class="manajemen-laporan-progres-pembangunan__actions actions">
+  <div class="manajemen-laporan-progres-pembangunan-non-unit">
+    <page-header title="Manajemen Laporan Progres Pembangunan Non Unit" />
+    <div class="manajemen-laporan-progres-pembangunan-non-unit__wrapper page-content">
+      <div class="manajemen-laporan-progres-pembangunan-non-unit__actions-wrapper">
+        <div class="manajemen-laporan-progres-pembangunan-non-unit__actions actions">
           <div class="actions-filters">
             <el-button
               type="secondary"
@@ -35,7 +35,7 @@
             class="actions__create-btn"
             @click="goToCreatePage"
           >
-            Tambah Laporan Progres Pembangunan
+            Tambah Laporan Progres Pembangunan Non Unit
             <el-icon class="el-icon--right">
               <Plus />
             </el-icon>
@@ -43,15 +43,15 @@
         </div>
         <div
           v-show="visibleFilter"
-          class="manajemen-laporan-progres-pembangunan__filters filters"
+          class="manajemen-laporan-progres-pembangunan-non-unit__filters filters"
         >
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              No SPK/Unit
+              No SPK/Vendor
             </div>
             <el-input
               v-model="filters.search"
-              placeholder="Cari berdasarkan no SPK/Unit"
+              placeholder="Cari berdasarkan no SPK/Vendor"
               class="filters__input"
               @keyup="debounceDelay(() => handleFilterChange())"
             >
@@ -62,75 +62,44 @@
           </div>
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Tipe Unit
-            </div>
-            <el-select
-              v-model="filters.tipe_unit"
-              placeholder="Pilih tipe unit"
-              class="filters__input"
-              clearable
-              @change="handleFilterChange()"
-            >
-              <el-option
-                v-for="tipeUnit in tipeUnits"
-                :key="tipeUnit.id"
-                :label="tipeUnit.nama"
-                :value="tipeUnit.id"
-              />
-            </el-select>
-          </div>
-          <div class="filters__input-wrapper">
-            <div class="filters__label">
-              Bulan
+              Tanggal
             </div>
             <el-date-picker
-              v-model="bulanValue"
+              v-model="tanggalValue"
               :clearable="false"
-              type="monthrange"
+              type="daterange"
               range-separator="-"
-              start-placeholder="Bulan awal"
-              end-placeholder="Bulan akhir"
-              format="MM-YYYY"
+              start-placeholder="Tanggal awal"
+              end-placeholder="Tanggal akhir"
+              format="DD-MM-YYYY"
               value-format="YYYY-MM-DD"
-              @change="handleMonthRangeChange"
+              @change="handleTanggalRangeChange"
             />
           </div>
         </div>
       </div>
 
-      <div class="manajemen-laporan-progres-pembangunan__table-wrapper">
+      <div class="manajemen-laporan-progres-pembangunan-non-unit__table-wrapper">
         <el-table
           v-loading="visibleLoadingTable"
-          :data="laporanProgresPembangunans"
-          class="manajemen-laporan-progres-pembangunan__table table general-table"
+          :data="laporanProgresPembangunanNonUnits"
+          class="manajemen-laporan-progres-pembangunan-non-unit__table table general-table"
           header-row-class-name="general-table__header-gray"
           stripe
           @row-click="goToDetailPage"
         >
           <el-table-column
-            prop="spk_nomor"
+            prop="spk_non_unit_nomor"
             label="Nomor SPK"
             min-width="200"
           />
           <el-table-column
             prop=""
-            label="Bulan (Termin)"
+            label="Minggu (Termin)"
             min-width="150"
           >
             <template #default="scope">
-              {{ getMonth(scope.row.tanggal) }} (Ke-{{ scope.row.termin }})
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="unit_tipe_nama"
-            label="Tipe Unit"
-          />
-          <el-table-column
-            label="Unit"
-            min-width="150"
-          >
-            <template #default="scope">
-              {{ scope.row.unit_cluster_nama }} - {{ scope.row.unit_nomor_kavling }}
+              Ke-{{ scope.row.termin }}
             </template>
           </el-table-column>
           <el-table-column
@@ -184,34 +153,34 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="harga_bulan_ini"
-            label="Harga Bulan Ini"
+            prop="harga_minggu_ini"
+            label="Harga Minggu Ini"
             min-width="180"
           >
             <template #default="scope">
               <el-tooltip
-                :content="helpers.convertPriceToRupiah(scope.row.harga_bulan_ini, true, scope.row.hasOwnProperty('actions'), true)"
+                :content="helpers.convertPriceToRupiah(scope.row.harga_minggu_ini, true, scope.row.hasOwnProperty('actions'), true)"
                 class="box-item"
                 effect="dark"
                 placement="top"
               >
-                {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_ini, true, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_minggu_ini, true, scope.row.hasOwnProperty('actions')) }}
               </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
-            prop="persentase_progres_bulan_ini"
-            label="Persentase Bulan Ini"
+            prop="persentase_progres_minggu_ini"
+            label="Persentase Minggu Ini"
             min-width="180"
           >
             <template #default="scope">
               <el-tooltip
-                :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_bulan_ini, scope.row.hasOwnProperty('actions'), true)"
+                :content="helpers.convertDecimalToPercentage(scope.row.persentase_progres_minggu_ini, scope.row.hasOwnProperty('actions'), true)"
                 class="box-item"
                 effect="dark"
                 placement="top"
               >
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_bulan_ini, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertDecimalToPercentage(scope.row.persentase_progres_minggu_ini, scope.row.hasOwnProperty('actions')) }}
               </el-tooltip>
             </template>
           </el-table-column>
@@ -273,9 +242,7 @@
                           Generate
                         </div>
                       </div>
-                      <el-dropdown-item @click="generateLaporanProgresPembangunanPDF(scope.row.id, 'LPP')">Laporan Progress Pembangunan</el-dropdown-item>
-                      <el-dropdown-item @click="generateLaporanProgresPembangunanPDF(scope.row.id, 'LPP_PO')">PO</el-dropdown-item>
-                      <el-dropdown-item @click="generateLaporanProgresPembangunanPDF(scope.row.id, 'LPP_KWITANSI')">Kwitansi</el-dropdown-item>
+                      <el-dropdown-item @click="generateLaporanProgresPembangunanNonUnitPDF(scope.row.id, 'LPP')">LPP Non Unit</el-dropdown-item>
                       <div
                         v-if="!!scope.row.lpp_url || !!scope.row.po_url || !!scope.row.kwitansi_url"
                         class="actions__preview-wrapper"
@@ -335,15 +302,15 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="manajemen-laporan-progres-pembangunan__footer">
-          <div class="manajemen-laporan-progres-pembangunan__total-laporan-progres-pembangunans font-grey">
-            Menampilkan {{ totalShownLaporanProgresPembangunans }} dari {{ totalLaporanProgresPembangunans }} laporan progres pembangunan
+        <div class="manajemen-laporan-progres-pembangunan-non-unit__footer">
+          <div class="manajemen-laporan-progres-pembangunan-non-unit__total-laporan-progres-pembangunan-non-units font-grey">
+            Menampilkan {{ totalShownLaporanProgresPembangunanNonUnits }} dari {{ totalLaporanProgresPembangunanNonUnits }} laporan progres pembangunan
           </div>
-          <div class="manajemen-laporan-progres-pembangunan__pagination">
+          <div class="manajemen-laporan-progres-pembangunan-non-unit__pagination">
             <el-pagination
               :current-page="pagination.page"
               :page-size="pagination.size"
-              :total="totalLaporanProgresPembangunans"
+              :total="totalLaporanProgresPembangunanNonUnits"
               layout="prev, pager, next"
               background
               hide-on-single-page
@@ -356,13 +323,13 @@
   </div>
 </template>
 
-<script src="./js/manajemen-laporan-progres-pembangunan.js"></script>
+<script src="./js/manajemen-laporan-progres-pembangunan-non-unit.js"></script>
 
 <style lang="scss" scoped>
 @import "~/assets/scss/main.scss";
 @import "~/assets/scss/table.scss";
 
-  .manajemen-laporan-progres-pembangunan {
+  .manajemen-laporan-progres-pembangunan-non-unit {
     &__actions-wrapper {
       border-radius: 12px;
       border: 1px solid #EAEAEA;

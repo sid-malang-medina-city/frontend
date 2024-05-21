@@ -71,13 +71,40 @@ export default {
       visibleImageActionIcons: {},
       selectedImageUrl: '',
       imageStartingIndex: 0,
-      helpers
+      helpers,
+      spkLanjutans: [
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+        {id: 1, nomor: 'test abncsaenfjkeajnskfjnasjkfnjkaesnfkjanfjkeasnfjk'},
+      ]
     }
   },
 
   computed: {
     id () {
       return this.$route.params.id
+    },
+    totalPrice () {
+      let price = 0
+      this.SPK.jenis_pekerjaans.forEach(jenisPekerjaan => {
+        price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
+          return harga + parseFloat(pekerjaan.harga_total)
+        }, 0)
+      })
+      return price
+    },
+    totalPricePengurangan () {
+      let price = 0
+      this.SPK.jenis_pekerjaan_pengurangans.forEach(jenisPekerjaan => {
+        price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
+          return harga + parseFloat(pekerjaan.harga_total)
+        }, 0)
+      })
+      return price
     }
   },
 
@@ -89,6 +116,7 @@ export default {
   methods: {
     ...mapActions(SPKStore, [
       'fetchSPK',
+      'deleteSPK',
       'generatePDF'
     ]),
 
@@ -121,6 +149,16 @@ export default {
         jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
         jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
       })
+      this.SPK.jenis_pekerjaan_pengurangans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
+        jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
+        jenisPekerjaan.actions = true
+        jenisPekerjaan.pekerjaan_pengurangans.forEach((pekerjaan, pekerjaanIndex) => {
+          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
+        })
+        jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaan_pengurangans)
+        jenisPekerjaan.children = [...jenisPekerjaan.pekerjaan_pengurangans]
+      })
     },
 
     calculateHargaTotalJenisPekerjaan (pekerjaans) {
@@ -152,6 +190,13 @@ export default {
       this.redirectTo('ManajemenSPK')
     },
 
+    async goToManajemenSPKDetail (id) {
+      await this.redirectTo('ManajemenSPKDetail', {
+        params: { id }
+      })
+      this.getSPK()
+    },
+
     getFilesUrl (identifier) {
       return this.SPK[identifier]
     },
@@ -176,6 +221,32 @@ export default {
 
     openDocumentInNewTab (accessUrl) {
       window.open(accessUrl, '_blank');
-    }
+    },
+
+    async openModalConfirmation () {
+      try {
+        await this.$confirm(
+          'Apakah anda yakin ingin menghapus SPK ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK berarti menghilangkan data SPK dan LPP yang telah ada',
+          'Hapus SPK',
+          {
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+            type: 'warning',
+            showClose: true
+          }
+        )
+        await this.handleDeleteSPK()
+        this.redirectTo('ManajemenSPK')
+        this.showToast('SPK berhasil dihapus!')
+      } catch (e) {}
+    },
+
+    async handleDeleteSPK() {
+      try {
+        await this.deleteSPK(this.id)
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
   }
 }

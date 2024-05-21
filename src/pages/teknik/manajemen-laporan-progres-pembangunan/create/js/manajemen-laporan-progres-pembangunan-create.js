@@ -60,7 +60,7 @@ export default {
         pekerjaans: []
       },
       SPKs: [],
-      selectedSPK: null,
+      selectedSPKId: null,
       namaPekerjaan: '',
       satuanUkuran: '',
       volume: '',
@@ -155,7 +155,7 @@ export default {
       const { id, status, ...formData } = data
       this.formData = {
         ...formData,
-        termin: data.nomor_progres_termin_terakhir || 1,
+        termin: data.nomor_progres_termin_terakhir + 1 || 1,
         spk: data.id
       }
       // this.formData = {

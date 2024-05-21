@@ -1,5 +1,5 @@
 import { mapActions } from 'pinia'
-import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
+import { laporanProgresPembangunanNonUnitStore } from '~/store/teknik/laporan-progres-pembangunan-non-unit'
 
 import {
   Delete,
@@ -31,7 +31,7 @@ import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
 
 export default {
-  name: 'manajemen-laporan-progres-pembangunan-detail',
+  name: 'manajemen-laporan-progres-pembangunan-non-unit-detail',
 
   mixins: [RouterHandler, ToastHandler, AclHandler],
 
@@ -49,7 +49,7 @@ export default {
 
   data () {
     return {
-      laporanProgresPembangunan: {},
+      laporanProgresPembangunanNonUnit: {},
       icons: {
         delete: Delete,
         moreFilled: MoreFilled,
@@ -82,55 +82,48 @@ export default {
     },
     totalPrice () {
       let price = 0
-      this.laporanProgresPembangunan.jenis_pekerjaans.forEach(jenisPekerjaan => {
-        price += jenisPekerjaan.children.reduce((harga, pekerjaan) => {
-          return harga + parseInt(pekerjaan.harga_total)
-        }, 0)
+      this.laporanProgresPembangunanNonUnit.pekerjaans.forEach(pekerjaan => {
+        price += pekerjaan.harga_total
       })
       return price
     }
   },
 
   created () {
-    // this.initVisibleImageActions()
-    this.getLaporanProgresPembangunan()
+    this.getLaporanProgresPembangunanNonUnit()
   },
 
   methods: {
-    ...mapActions(laporanProgresPembangunanStore, [
-      'fetchLaporanProgresPembangunan',
-      'deleteLaporanProgresPembangunan',
+    ...mapActions(laporanProgresPembangunanNonUnitStore, [
+      'fetchLaporanProgresPembangunanNonUnit',
+      'deleteLaporanProgresPembangunanNonUnit',
       'generatePDF'
     ]),
 
-    initVisibleImageActions () {
-      this.fileIdentifiers.forEach(identifier => {
-        this.visibleImageActionIcons[identifier] = false
-      })
-    },
-
-    async getLaporanProgresPembangunan () {
+    async getLaporanProgresPembangunanNonUnit () {
       try {
-        const { data } = await this.fetchLaporanProgresPembangunan(this.id)
-        this.initLaporanProgresPembangunan(JSON.parse(JSON.stringify(data)))
+        const { data } = await this.fetchLaporanProgresPembangunanNonUnit(this.id)
+        this.initLaporanProgresPembangunanNonUnit(JSON.parse(JSON.stringify(data)))
         this.isDataFetched = true
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
-    initLaporanProgresPembangunan (data) {
-      this.laporanProgresPembangunan = data
-      delete this.laporanProgresPembangunan.id
-      this.laporanProgresPembangunan.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
-        jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
-        jenisPekerjaan.actions = true
-        jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
-          pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
-          pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
-        })
-        jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
-        jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
+    initLaporanProgresPembangunanNonUnit (data) {
+      this.laporanProgresPembangunanNonUnit = data
+      // this.laporanProgresPembangunanNonUnit.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {
+      //   jenisPekerjaan.id_table = (jenisPekerjaanIndex + 1).toString()
+      //   jenisPekerjaan.actions = true
+      //   jenisPekerjaan.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
+      //     pekerjaan.id_table = (jenisPekerjaanIndex + 1).toString() + (jenisPekerjaanIndex + 1).toString() + (pekerjaanIndex + 1).toString()
+      //     pekerjaan.harga_total = parseFloat(pekerjaan.volume) * parseFloat(pekerjaan.harga_satuan)
+      //   })
+      //   jenisPekerjaan.harga_total = this.calculateHargaTotalJenisPekerjaan(jenisPekerjaan.pekerjaans)
+      //   jenisPekerjaan.children = [...jenisPekerjaan.pekerjaans]
+      // })
+      this.laporanProgresPembangunanNonUnit.pekerjaans.forEach((pekerjaan, pekerjaanIndex) => {
+        pekerjaan.id_table = (pekerjaanIndex + 1).toString()
       })
       this.calculatePersentasePekerjaan()
     },
@@ -142,45 +135,43 @@ export default {
     },
 
     calculatePersentasePekerjaan () {
-      this.laporanProgresPembangunan.harga_total = 0
-      this.laporanProgresPembangunan.jenis_pekerjaans.forEach(jenisPekerjaan => {
-        jenisPekerjaan.children.forEach(pekerjaan => {
-          pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
-          this.laporanProgresPembangunan.harga_total += pekerjaan.harga_total
-        })
+      this.laporanProgresPembangunanNonUnit.harga_total = 0
+      this.laporanProgresPembangunanNonUnit.pekerjaans.forEach(pekerjaan => {
+        pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
+        this.laporanProgresPembangunanNonUnit.harga_total += pekerjaan.harga_total
       })
     },
 
-    async generateLaporanProgresPembangunanPDF (type) {
+    async generateLaporanProgresPembangunanNonUnitPDF (type) {
       try {
         const { data } = await this.generatePDF({ id: this.id, type })
         const accessUrl = JSON.parse(JSON.stringify(data.access_url))
         window.open(accessUrl, '_blank');
-        this.getLaporanProgresPembangunan()
+        this.getLaporanProgresPembangunanNonUnit()
       } catch (error) {
         this.showErrorResponse(error)
       }
     },
 
     goToEditPage () {
-      this.redirectTo('ManajemenLaporanProgresPembangunanEdit', {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnitEdit', {
         params: {
-          id: this.laporanProgresPembangunan.id
+          id: this.laporanProgresPembangunanNonUnit.id
         }
       })
     },
 
-    goToManajemenLaporanProgresPembangunan () {
-      this.redirectTo('ManajemenLaporanProgresPembangunan')
+    goToManajemenLaporanProgresPembangunanNonUnit () {
+      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnit')
     },
 
     getFilesUrl (identifier) {
-      return this.laporanProgresPembangunan[identifier]
+      return this.laporanProgresPembangunanNonUnit[identifier]
     },
 
     isFileTypePDF (identifier) {
       const fileIdentifier = identifier.substring(0, identifier.length - 11)
-      return this.laporanProgresPembangunan[fileIdentifier]?.substring(this.laporanProgresPembangunan[fileIdentifier].length-4, this.laporanProgresPembangunan[fileIdentifier].length) === '.pdf'
+      return this.laporanProgresPembangunanNonUnit[fileIdentifier]?.substring(this.laporanProgresPembangunanNonUnit[fileIdentifier].length-4, this.laporanProgresPembangunanNonUnit[fileIdentifier].length) === '.pdf'
     },
 
     addVisibleImageActionIcons (identifier) {
@@ -212,15 +203,15 @@ export default {
             showClose: true
           }
         )
-        await this.handleDeleteLaporanProgresPembangunan()
-        this.redirectTo('ManajemenLaporanProgresPembangunan')
+        await this.handleDeleteLaporanProgresPembangunanNonUnit()
+        this.redirectTo('ManajemenLaporanProgresPembangunanNonUnit')
         this.showToast('Laporan progres pembangunan berhasil dihapus!')
       } catch (e) {}
     },
 
-    async handleDeleteLaporanProgresPembangunan() {
+    async handleDeleteLaporanProgresPembangunanNonUnit() {
       try {
-        await this.deleteLaporanProgresPembangunan(this.id)
+        await this.deleteLaporanProgresPembangunanNonUnit(this.id)
       } catch (error) {
         this.showErrorResponse(error)
       }

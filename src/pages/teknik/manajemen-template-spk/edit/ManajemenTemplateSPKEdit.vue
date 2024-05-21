@@ -122,7 +122,14 @@
               label="Harga Satuan"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -130,7 +137,14 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -138,7 +152,14 @@
               label="Persentase Pekerjaan"
             >
               <template #default="scope">
-                {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                <el-tooltip
+                  :content="helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -349,7 +370,14 @@
               label="Harga Satuan"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_satuan) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_satuan, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column
@@ -357,7 +385,14 @@
               label="Harga Total"
             >
               <template #default="scope">
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+                <el-tooltip
+                  :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                  class="box-item"
+                  effect="dark"
+                  placement="top"
+                >
+                  {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column

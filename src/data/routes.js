@@ -71,6 +71,10 @@ const ManajemenLaporanProgresPembangunan = defineAsyncComponent(() => import(/* 
 const ManajemenLaporanProgresPembangunanCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-create" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/create/ManajemenLaporanProgresPembangunanCreate.vue'))
 const ManajemenLaporanProgresPembangunanEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-edit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/edit/ManajemenLaporanProgresPembangunanEdit.vue'))
 const ManajemenLaporanProgresPembangunanDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-detail" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan/ManajemenLaporanProgresPembangunanDetail.vue'))
+const ManajemenLaporanProgresPembangunanNonUnit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-non-unit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan-non-unit/ManajemenLaporanProgresPembangunanNonUnit.vue'))
+const ManajemenLaporanProgresPembangunanNonUnitCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-non-unit-create" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan-non-unit/create/ManajemenLaporanProgresPembangunanNonUnitCreate.vue'))
+const ManajemenLaporanProgresPembangunanNonUnitEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-non-unit-edit" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan-non-unit/edit/ManajemenLaporanProgresPembangunanNonUnitEdit.vue'))
+const ManajemenLaporanProgresPembangunanNonUnitDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-pembangunan-non-unit-detail" */ '~/pages/teknik/manajemen-laporan-progres-pembangunan-non-unit/ManajemenLaporanProgresPembangunanNonUnitDetail.vue'))
 const ManajemenSupplier = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier" */ '~/pages/teknik/manajemen-supplier/ManajemenSupplier.vue'))
 const ManajemenSupplierCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-create" */ '~/pages/teknik/manajemen-supplier/create/ManajemenSupplierCreate.vue'))
 const ManajemenSupplierEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-edit" */ '~/pages/teknik/manajemen-supplier/edit/ManajemenSupplierEdit.vue'))
@@ -791,6 +795,46 @@ export default [
     component: ManajemenLaporanProgresPembangunanDetail,
     meta: {
       title: 'Manajemen Laporan Progres Pembangunan Detail',
+      action: 'READ_LAPORAN_PROGRES_PEMBANGUNAN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan-non-unit',
+    name: 'ManajemenLaporanProgresPembangunanNonUnit',
+    component: ManajemenLaporanProgresPembangunanNonUnit,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Non Unit',
+      action: 'LIST_LAPORAN_PROGRES_PEMBANGUNAN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan-non-unit/create',
+    name: 'ManajemenLaporanProgresPembangunanNonUnitCreate',
+    component: ManajemenLaporanProgresPembangunanNonUnitCreate,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Non Unit Create',
+      action: 'CREATE_LAPORAN_PROGRES_PEMBANGUNAN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan-non-unit/edit/:id',
+    name: 'ManajemenLaporanProgresPembangunanNonUnitEdit',
+    component: ManajemenLaporanProgresPembangunanNonUnitEdit,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Non Unit Edit',
+      action: 'UPDATE_LAPORAN_PROGRES_PEMBANGUNAN',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-pembangunan-non-unit/:id',
+    name: 'ManajemenLaporanProgresPembangunanNonUnitDetail',
+    component: ManajemenLaporanProgresPembangunanNonUnitDetail,
+    meta: {
+      title: 'Manajemen Laporan Progres Pembangunan Non Unit Detail',
       action: 'READ_LAPORAN_PROGRES_PEMBANGUNAN',
       requireLogin: true
     }

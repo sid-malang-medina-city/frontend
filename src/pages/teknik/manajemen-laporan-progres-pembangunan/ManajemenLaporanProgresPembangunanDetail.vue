@@ -19,7 +19,7 @@
           </div>
           <div class="header__actions actions">
             <el-button
-              v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN') && laporanProgresPembangunan.status !== 'FINAL'"
+              v-if="hasAccess('UPDATE_LAPORAN_PROGRES_PEMBANGUNAN')"
               type="primary"
               class="actions__edit-btn"
               plain
@@ -79,6 +79,23 @@
                   >
                     Kwitansi
                   </el-dropdown-item>
+                  <div
+                    v-if="hasAccess('DELETE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                    class="actions__other-wrapper"
+                  >
+                    <el-icon class="actions__other-icon">
+                      <Document />
+                    </el-icon>
+                    <div class="actions__preview">
+                      Other
+                    </div>
+                  </div>
+                  <el-dropdown-item
+                    v-if="hasAccess('DELETE_LAPORAN_PROGRES_PEMBANGUNAN')"
+                    @click.stop="openModalConfirmation()"
+                  >
+                    Delete
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
@@ -93,7 +110,7 @@
                 alt="Image Icon"
               />
               <div class="content__header-title">
-                Info General
+                Informasi Utama
               </div>
             </div>
   

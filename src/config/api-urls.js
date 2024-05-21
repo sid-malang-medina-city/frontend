@@ -92,6 +92,11 @@ export default {
       detail: id => `/teknik/laporan-progres-pembangunan/${encodeURIComponent(id)}`,
       generatePDF: '/teknik/laporan-progres-pembangunan-generate-pdf'
     },
+    laporanProgresPembangunanNonUnit: {
+      list: '/teknik/lpp-spk-non-unit',
+      detail: id => `/teknik/lpp-spk-non-unit/${encodeURIComponent(id)}`,
+      generatePDF: '/teknik/lpp-spk-non-unit-generate-pdf'
+    },
     laporanInvoiceProgresPembangunan: {
       list: '/teknik/laporan-invoice-progres-pembangunan'
     },

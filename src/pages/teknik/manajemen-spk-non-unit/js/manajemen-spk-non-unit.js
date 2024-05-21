@@ -99,6 +99,7 @@ export default {
   methods: {
     ...mapActions(SPKNonUnitStore, [
       'fetchSPKNonUnits',
+      'deleteSPKNonUnit',
       'generatePDF'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
@@ -170,8 +171,8 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus PO Supplier ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus PO Supplier berarti menghilangkan progress data dan akses mereka',
-          'Hapus PO Supplier',
+          'Apakah anda yakin ingin menghapus SPK Non Unit ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus SPK Non Unit berarti menghilangkan data SPK Non Unit dan LPP Non Unit yang ada',
+          'Hapus SPK Non Unit',
           {
             confirmButtonText: 'Hapus',
             cancelButtonText: 'Batal',
@@ -180,7 +181,7 @@ export default {
           }
         )
         await this.handleDeleteSPKNonUnit(id)
-        this.showToast('PO Supplier berhasil dihapus!')
+        this.showToast('SPK Non Unit berhasil dihapus!')
       } catch (e) {}
     },
 

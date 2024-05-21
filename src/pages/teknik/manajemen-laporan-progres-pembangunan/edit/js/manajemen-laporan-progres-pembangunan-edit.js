@@ -142,12 +142,6 @@ export default {
       try {
         const { data } = await this.fetchLaporanProgresPembangunan(this.id)
 
-        if (data.status === 'FINAL') {
-          this.redirectTo('ManajemenLaporanProgresPembangunan')
-          this.showToast('Status Laporan Progres Pembangunan sudah final, tidak bisa diubah lagi', 'error')
-          return
-        }
-
         this.initFormData(JSON.parse(JSON.stringify(data)))
         this.visibleLoading.table = false
       } catch (e) {
@@ -158,7 +152,6 @@ export default {
     initFormData (data) {
       this.formData = {
         ...this.formData,
-        termin: data.nomor_progres_termin_terakhir || 1,
         ...data
       }
       this.formData.jenis_pekerjaans.forEach((jenisPekerjaan, jenisPekerjaanIndex) => {

@@ -93,7 +93,14 @@
             min-width="150"
           >
             <template #default="scope">
-              {{ helpers.convertPriceToRupiah(scope.row.harga_total) }}
+              <el-tooltip
+                :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column
@@ -153,6 +160,12 @@
                         @click.stop="goToEditPage(scope.row.id)"
                       >
                         Edit
+                      </el-dropdown-item>
+                      <el-dropdown-item
+                        v-if="hasAccess('DELETE_SPK_NON_UNIT')"
+                        @click.stop="openModalConfirmation(scope.row.id)"
+                      >
+                        Delete
                       </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
