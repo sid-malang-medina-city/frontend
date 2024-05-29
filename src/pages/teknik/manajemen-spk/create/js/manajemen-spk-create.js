@@ -520,8 +520,6 @@ export default {
         jenisPekerjaan.children.forEach((pekerjaan, indexPekerjaan) => {
           pekerjaan.sequence = indexPekerjaan + 1
           pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPrice)*100
-          // this.formData.harga_total_pekerjaan += pekerjaan.harga_total
-          // this.formData.harga_total += pekerjaan.harga_total
         })
       })
       this.formData.jenis_pekerjaan_pengurangans.forEach((jenisPekerjaan, indexJenisPekerjaan) => {
@@ -529,9 +527,6 @@ export default {
         jenisPekerjaan.children.forEach((pekerjaan, indexPekerjaan) => {
           pekerjaan.sequence = indexPekerjaan + 1
           pekerjaan.persentase_pekerjaan = (pekerjaan.harga_total/this.totalPricePengurangan)*100
-          console.log((pekerjaan.harga_total/this.totalPricePengurangan)*100)
-          // this.formData.harga_total_pekerjaan_pengurangan += pekerjaan.harga_total
-          // this.formData.harga_total -= pekerjaan.harga_total
         })
       })
       this.formData.harga_total = this.totalPrice - this.totalPricePengurangan
