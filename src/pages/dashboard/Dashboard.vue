@@ -80,6 +80,34 @@
           />
         </el-select>
       </div> -->
+      <div class="dashboard__social-medias social-medias">
+        <div class="social-medias__title">
+          Link Google Drive dan Social Media
+        </div>
+        <div class="social-medias__icons">
+          <a href="https://drive.google.com/drive/folders/1CVxLWnO27oVQDdyVv8nnSkPSDsLHi3Yb?usp=sharing" target="_blank">
+            <img
+              src="/google-drive.png"
+              alt=""
+              class="social-medias__icon"
+            >
+          </a>
+          <a href="https://www.instagram.com/malangmedinacity?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+            <img
+              src="/instagram.png"
+              alt=""
+              class="social-medias__icon"
+            >
+          </a>
+          <a href="https://www.youtube.com/channel/UCXAAurLgxsphT473rjLQa5A" target="_blank">
+            <img
+              src="/youtube.png"
+              alt=""
+              class="social-medias__icon"
+            >
+          </a>
+        </div>
+      </div>
       <div class="dashboard__charts">
         <div
           v-if="visibleCharts.includes('Penjualan Unit')"
@@ -333,6 +361,34 @@
           width: 48px;
         }
       }
+    }
+
+    .social-medias {
+      border: 1px solid #EAEAEA;
+      background: #FFF;
+      box-shadow: 0px 4px 8px 0px rgba(224, 224, 224, 0.20);
+      border-radius: 12px;
+      margin-bottom: 30px;
+      
+      &__title {
+        color: #434343;
+        font-size: 20px;
+        font-weight: 600;
+        padding: 14px;
+        border-bottom: 1px solid #EAEAEA;
+      }
+
+      &__icons {
+        display: flex;
+        gap: 20px;
+        padding: 14px
+      }
+
+      &__icon {
+        height: 40px;
+        cursor: pointer;
+        opacity: 0.7;
+      } 
     }
 
     &__charts {

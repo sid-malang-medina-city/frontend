@@ -15,7 +15,6 @@ export default {
     return api.postRequest(apiUrls.teknik.laporanProgresPembangunanNonUnit.list, body)
   },
   editLaporanProgresPembangunanNonUnit (id, body) {
-    console.log('test', id, body)
     return api.putRequest(apiUrls.teknik.laporanProgresPembangunanNonUnit.detail(id), body)
   },
   generatePDF (body) {
