@@ -225,7 +225,7 @@ export default {
     },
 
     goToManajemenSPK () {
-      this.redirectTo('ManajemenSPK')
+      this.$router.back()
     },
 
     async getSPK () {

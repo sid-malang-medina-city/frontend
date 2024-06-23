@@ -52,7 +52,7 @@ export default {
         tipe_unit: this.$route.query.tipe_unit || null
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       tipeUnits: [],
@@ -131,6 +131,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters, ...this.pagination })
       this.getSPKs()
     },
 
@@ -139,7 +140,6 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenSPK', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

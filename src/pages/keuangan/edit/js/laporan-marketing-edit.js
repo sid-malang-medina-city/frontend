@@ -80,7 +80,7 @@ export default {
     },
 
     goToLaporanMarketing () {
-      this.redirectTo('KeuanganLaporanMarketing')
+      this.$router.back()
     },
 
     async submit () {

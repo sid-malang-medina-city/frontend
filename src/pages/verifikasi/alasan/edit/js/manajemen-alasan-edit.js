@@ -56,7 +56,7 @@ export default {
     },
 
     goToManajemenAlasan () {
-      this.redirectTo('ManajemenAlasan')
+      this.$router.back()
     },
 
     async submit () {

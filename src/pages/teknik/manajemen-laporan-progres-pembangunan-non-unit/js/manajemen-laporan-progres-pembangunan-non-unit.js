@@ -50,7 +50,7 @@ export default {
         end_tanggal: this.$route.query.end_tanggal || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       tanggalValue: null,
@@ -121,6 +121,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenLaporanProgresPembangunanNonUnit', { ...this.query, ...this.filters, ...this.pagination })
       this.getLaporanProgresPembangunanNonUnits()
     },
 
@@ -135,7 +136,6 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenLaporanProgresPembangunanNonUnit', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

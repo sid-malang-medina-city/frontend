@@ -118,7 +118,7 @@ export default {
     },
 
     goToManajemenKonsumen () {
-      this.redirectTo('ManajemenKonsumen')
+      this.$router.back()
     },
 
     validateEmail () {

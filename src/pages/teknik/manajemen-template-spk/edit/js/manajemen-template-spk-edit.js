@@ -165,7 +165,7 @@ export default {
     },
 
     goToManajemenTemplateSPK () {
-      this.redirectTo('ManajemenTemplateSPK')
+      this.$router.back()
     },
 
     addPekerjaan () {

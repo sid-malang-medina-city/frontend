@@ -128,7 +128,7 @@ export default {
     },
 
     goToManajemenUser () {
-      this.redirectTo('ManajemenUser')
+      this.$router.back()
     },
     
     goToManajemenUserEditChangePassword () {

@@ -35,7 +35,7 @@ export default {
         search: this.$route.query.search || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       clusters: [],
@@ -93,11 +93,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenCluster', { ...this.query, ...this.filters, ...this.pagination })
       this.getClusters()
     },
 
     handleFilterChange () {
-      this.setRouteParam('ManajemenCluster', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

@@ -52,7 +52,7 @@ export default {
         end_tanggal: this.$route.query.end_tanggal || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       bulanValue: null,
@@ -137,6 +137,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenLaporanProgresPembangunan', { ...this.query, ...this.filters, ...this.pagination })
       this.getLaporanProgresPembangunans()
     },
 
@@ -151,7 +152,6 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenLaporanProgresPembangunan', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

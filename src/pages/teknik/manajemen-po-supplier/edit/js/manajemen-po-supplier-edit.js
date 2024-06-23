@@ -165,7 +165,7 @@ export default {
     },
 
     goToManajemenPOSupplier () {
-      this.redirectTo('ManajemenPOSupplier')
+      this.$router.back()
     },
 
     resetFormBarang () {

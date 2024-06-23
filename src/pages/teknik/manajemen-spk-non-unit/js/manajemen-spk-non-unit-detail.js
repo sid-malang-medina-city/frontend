@@ -120,7 +120,7 @@ export default {
     },
 
     goToManajemenSPKNonUnit () {
-      this.redirectTo('ManajemenSPKNonUnit')
+      this.$router.back()
     },
 
     goToVendorDetailPage () {

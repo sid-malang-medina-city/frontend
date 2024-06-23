@@ -96,7 +96,7 @@ export default {
     },
 
     goToManajemenSupplier () {
-      this.redirectTo('ManajemenSupplier')
+      this.$router.back()
     }
   }
 }

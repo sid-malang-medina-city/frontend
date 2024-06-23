@@ -58,7 +58,7 @@ export default {
     },
 
     goToManajemenCluster () {
-      this.redirectTo('ManajemenCluster')
+      this.$router.back()
     },
 
     generateCode (val) {

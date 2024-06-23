@@ -99,7 +99,7 @@ export default {
     },
 
     goToManajemenMarketer () {
-      this.redirectTo('ManajemenMarketer')
+      this.$router.back()
     }
   }
 }

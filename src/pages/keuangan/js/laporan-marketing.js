@@ -42,7 +42,7 @@ export default {
         status_fee: this.$route.query.status_fee || null
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       statuses: STATUS_MARKETING,
@@ -108,6 +108,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('KeuanganLaporanMarketing', { ...this.query, ...this.filters, ...this.pagination })
       this.getLaporanMarketings()
     },
 
@@ -116,7 +117,6 @@ export default {
         this.filters.status_fee = null
       }
 
-      this.setRouteParam('KeuanganLaporanMarketing', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

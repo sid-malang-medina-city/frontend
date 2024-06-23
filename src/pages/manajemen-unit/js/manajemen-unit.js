@@ -47,7 +47,7 @@ export default {
         status: this.$route.query.status || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       state: {
@@ -150,6 +150,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenUnit', { ...this.query, ...this.filters, ...this.pagination })
       this.getUnits()
     },
 
@@ -191,7 +192,6 @@ export default {
 
       this.filters.min_price = this.priceRange[0]
       this.filters.max_price = this.priceRange[1]
-      this.setRouteParam('ManajemenUnit', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

@@ -162,7 +162,7 @@ export default {
     },
 
     goToManajemenLaporanProgresPembangunanNonUnit () {
-      this.redirectTo('ManajemenLaporanProgresPembangunanNonUnit')
+      this.$router.back()
     },
 
     getFilesUrl (identifier) {
