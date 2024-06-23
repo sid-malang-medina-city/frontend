@@ -171,7 +171,7 @@ export default {
     },
 
     goToManajemenLaporanProgresPembangunan () {
-      this.redirectTo('ManajemenLaporanProgresPembangunan')
+      this.$router.back()
     },
 
     getFilesUrl (identifier) {

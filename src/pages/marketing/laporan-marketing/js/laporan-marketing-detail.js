@@ -71,7 +71,7 @@ export default {
     },
 
     goToLaporanMarketing () {
-      this.redirectTo('LaporanMarketing')
+      this.$router.back()
     },
 
     goToMarketerDetailPage () {

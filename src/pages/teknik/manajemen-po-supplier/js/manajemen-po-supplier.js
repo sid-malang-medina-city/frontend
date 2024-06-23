@@ -48,11 +48,10 @@ export default {
   data () {
     return {
       filters: {
-        search: this.$route.query.search || null,
-        tipe_unit: this.$route.query.tipe_unit || null
+        search: this.$route.query.search || null
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       tipeUnits: [],
@@ -130,6 +129,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenPOSupplier', { ...this.query, ...this.filters, ...this.pagination })
       this.getPOSuppliers()
     },
 
@@ -138,7 +138,6 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenPOSupplier', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

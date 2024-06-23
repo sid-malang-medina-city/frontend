@@ -60,7 +60,7 @@ export default {
         pekerjaan: this.$route.query.pekerjaan || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       tanggalBookingValue: null,
@@ -138,6 +138,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('KeuanganManajemenDokumenKonsumen', { ...this.query, ...this.filters, ...this.pagination })
       this.getDokumenKonsumens()
     },
 
@@ -162,7 +163,6 @@ export default {
         this.filters.status_pembayaran = null
       }
 
-      this.setRouteParam('KeuanganManajemenDokumenKonsumen', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

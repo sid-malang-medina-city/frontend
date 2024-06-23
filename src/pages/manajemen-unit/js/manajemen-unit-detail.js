@@ -121,7 +121,7 @@ export default {
     },
 
     goToManajemenUnit () {
-      this.redirectTo('ManajemenUnit')
+      this.$router.back()
     },
 
     getImageUrl (index) {

@@ -56,7 +56,7 @@ export default {
     },
 
     goToManajemenPekerjaan () {
-      this.redirectTo('ManajemenPekerjaan')
+      this.$router.back()
     },
 
     async submit () {

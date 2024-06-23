@@ -35,7 +35,7 @@ export default {
         search: this.$route.query.search || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       fasilitass: [],
@@ -93,11 +93,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenFasilitas', { ...this.query, ...this.filters, ...this.pagination })
       this.getFasilitass()
     },
 
     handleFilterChange () {
-      this.setRouteParam('ManajemenFasilitas', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

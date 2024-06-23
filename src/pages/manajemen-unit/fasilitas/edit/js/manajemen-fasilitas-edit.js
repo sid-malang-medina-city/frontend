@@ -58,7 +58,7 @@ export default {
     },
 
     goToManajemenFasilitas () {
-      this.redirectTo('ManajemenFasilitas')
+      this.$router.back()
     },
 
     generateCode (val) {

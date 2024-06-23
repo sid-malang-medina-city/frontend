@@ -57,7 +57,7 @@ export default {
     },
 
     goToManajemenTipeUnit () {
-      this.redirectTo('ManajemenTipeUnit')
+      this.$router.back()
     },
 
     generateCode (val) {

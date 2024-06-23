@@ -209,6 +209,15 @@ export const NAVIGATION_ITEMS = [
         labelIndex: 8,
         childRoutes: [],
         iconPath: null
+      },
+      {
+        label: 'Laporan Progres PO',
+        path: '/teknik/manajemen-laporan-progres-po',
+        routeName: 'ManajemenLaporanProgresPO',
+        menuCode: 'LIST_PO_SUPPLIER',
+        labelIndex: 9,
+        childRoutes: [],
+        iconPath: null
       }
     ]
   }

@@ -75,7 +75,7 @@ export default {
     },
 
     goToManajemenVendor () {
-      this.redirectTo('ManajemenVendor')
+      this.$router.back()
     },
 
     async submit () {

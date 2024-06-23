@@ -109,6 +109,11 @@ export default {
       detail: id => `/teknik/purchase-order/${encodeURIComponent(id)}`,
       generatePOSupplier: '/teknik/purchase-order-generate-pdf'
     },
+    laporanProgresPO: {
+      list: '/teknik/progres-purchase-order',
+      detail: id => `/teknik/progres-purchase-order/${encodeURIComponent(id)}`,
+      generateLaporanProgresPO: '/teknik/progres-purchase-order-generate-pdf'
+    },
     SPKNonUnit: {
       list: '/teknik/spk-non-unit',
       detail: id => `/teknik/spk-non-unit/${encodeURIComponent(id)}`,

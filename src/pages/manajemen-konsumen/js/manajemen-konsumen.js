@@ -41,7 +41,7 @@ export default {
         status_verifikasi: this.$route.query.status_verifikasi || null
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       statuses: STATUS_KONSUMEN,
@@ -108,6 +108,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters, ...this.pagination })
       this.getKonsumens()
     },
 
@@ -116,7 +117,6 @@ export default {
         this.filters.status_verifikasi = null
       }
 
-      this.setRouteParam('ManajemenKonsumen', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

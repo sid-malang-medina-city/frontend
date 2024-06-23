@@ -116,7 +116,7 @@ export default {
     },
 
     goToManajemenDokumenKonsumen () {
-      this.redirectTo('KeuanganManajemenDokumenKonsumen')
+      this.$router.back()
     },
 
     goToMarketerDetailPage () {

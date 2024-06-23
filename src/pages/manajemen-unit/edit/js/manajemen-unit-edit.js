@@ -221,7 +221,7 @@ export default {
     },
 
     goToManajemenUnit () {
-      this.redirectTo('ManajemenUnit')
+      this.$router.back()
     },
 
     async validateUpload1 (file) {

@@ -39,7 +39,7 @@ export default {
         search: this.$route.query.search || null,
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       laporanInvoices: [],
@@ -97,11 +97,11 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('KeuanganLaporanMarketingInvoice', { ...this.query, ...this.filters, ...this.pagination })
       this.getLaporanInvoices()
     },
 
     handleFilterChange () {
-      this.setRouteParam('KeuanganLaporanMarketingInvoice', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

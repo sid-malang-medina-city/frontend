@@ -79,6 +79,10 @@ const ManajemenSupplier = defineAsyncComponent(() => import(/* webpackChunkName:
 const ManajemenSupplierCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-create" */ '~/pages/teknik/manajemen-supplier/create/ManajemenSupplierCreate.vue'))
 const ManajemenSupplierEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-edit" */ '~/pages/teknik/manajemen-supplier/edit/ManajemenSupplierEdit.vue'))
 const ManajemenSupplierDetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-supplier-detail" */ '~/pages/teknik/manajemen-supplier/ManajemenSupplierDetail.vue'))
+const ManajemenLaporanProgresPO = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-po" */ '~/pages/teknik/manajemen-laporan-progres-po/ManajemenLaporanProgresPO.vue'))
+const ManajemenLaporanProgresPOCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-po-create" */ '~/pages/teknik/manajemen-laporan-progres-po/create/ManajemenLaporanProgresPOCreate.vue'))
+const ManajemenLaporanProgresPOEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-po-edit" */ '~/pages/teknik/manajemen-laporan-progres-po/edit/ManajemenLaporanProgresPOEdit.vue'))
+const ManajemenLaporanProgresPODetail = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-laporan-progres-po-detail" */ '~/pages/teknik/manajemen-laporan-progres-po/ManajemenLaporanProgresPODetail.vue'))
 const ManajemenPOSupplier = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier" */ '~/pages/teknik/manajemen-po-supplier/ManajemenPOSupplier.vue'))
 const ManajemenPOSupplierCreate = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier-create" */ '~/pages/teknik/manajemen-po-supplier/create/ManajemenPOSupplierCreate.vue'))
 const ManajemenPOSupplierEdit = defineAsyncComponent(() => import(/* webpackChunkName: "p-manajemen-po-supplier-edit" */ '~/pages/teknik/manajemen-po-supplier/edit/ManajemenPOSupplierEdit.vue'))
@@ -876,6 +880,46 @@ export default [
     meta: {
       title: 'Manajemen Supplier Detail',
       action: 'READ_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-po',
+    name: 'ManajemenLaporanProgresPO',
+    component: ManajemenLaporanProgresPO,
+    meta: {
+      title: 'Manajemen Laporan Progres PO',
+      action: 'LIST_PO_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-po/create',
+    name: 'ManajemenLaporanProgresPOCreate',
+    component: ManajemenLaporanProgresPOCreate,
+    meta: {
+      title: 'Manajemen Laporan Progres PO Create',
+      action: 'CREATE_PO_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-po/edit/:id',
+    name: 'ManajemenLaporanProgresPOEdit',
+    component: ManajemenLaporanProgresPOEdit,
+    meta: {
+      title: 'Manajemen Laporan Progres PO Edit',
+      action: 'UPDATE_PO_SUPPLIER',
+      requireLogin: true
+    }
+  },
+  {
+    path: '/teknik/manajemen-laporan-progres-po/:id',
+    name: 'ManajemenLaporanProgresPODetail',
+    component: ManajemenLaporanProgresPODetail,
+    meta: {
+      title: 'Manajemen Laporan Progres PO Detail',
+      action: 'READ_PO_SUPPLIER',
       requireLogin: true
     }
   },

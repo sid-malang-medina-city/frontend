@@ -37,7 +37,7 @@ export default {
         search: this.$route.query.search || null
       },
       pagination: {
-        page: 1,
+        page: parseInt(this.$route.query.page) || 1,
         size: 10
       },
       // statuses: STATUS_MARKETER,
@@ -101,6 +101,7 @@ export default {
 
     handlePageChange (page) {
       this.pagination.page = page
+      this.setRouteParam('ManajemenVendor', { ...this.query, ...this.filters, ...this.pagination })
       this.getVendors()
     },
 
@@ -109,7 +110,6 @@ export default {
         this.filters.status = null
       }
 
-      this.setRouteParam('ManajemenVendor', { ...this.query, ...this.filters })
       this.handlePageChange(1)
     },
 

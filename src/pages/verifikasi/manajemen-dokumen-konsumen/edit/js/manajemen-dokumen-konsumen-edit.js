@@ -400,7 +400,7 @@ export default {
     },
 
     goToManajemenDokumenKonsumen () {
-      this.redirectTo('ManajemenDokumenKonsumen')
+      this.$router.back()
     },
 
     openDocumentInNewTab (identifier) {
