@@ -44,11 +44,25 @@
 
         <div class="manajemen-user-detail__content content">
           <div class="content__name-wrapper">
-            <div class="content__name-label">
-              Nama User
+            <div class="content__name-frame">
+              <div class="content__name-label">
+                Nama User
+              </div>
+              <div class="content__name">
+                {{ helpers.convertEmptyValueWithDash(user.name) }}
+              </div>
             </div>
-            <div class="content__name">
-              {{ helpers.convertEmptyValueWithDash(user.name) }}
+            <div class="content__name-frame">
+              <div class="content__name-label">
+                Status
+              </div>
+              <div class="content__name">
+                <status-badge
+                  :color="userStatuses[user.is_active].color"
+                  :text="userStatuses[user.is_active].name"
+                  type="detail"
+                />
+              </div>
             </div>
           </div>
 
@@ -132,6 +146,12 @@
         background-color: #F5F5F5;
         border-left: 6px solid #C4C4C4;
         border-radius: 8px;
+        display: flex;
+        gap: 18px;
+      }
+
+      &__name-frame {
+        width: 400px;
       }
 
       &__name-label {
