@@ -100,6 +100,25 @@
               />
             </el-select>
           </div>
+          
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status
+            </div>
+            <el-select
+              v-model="filters.is_active"
+              placeholder="Pilih status"
+              class="filters__input"
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="user in userStatuses"
+                :key="user.code"
+                :label="user.name"
+                :value="user.code"
+              />
+            </el-select>
+          </div>
         </div>
       </div>
 
@@ -137,6 +156,18 @@
             min-width="170"
           />
           <el-table-column
+            prop="is_active"
+            label="Status"
+            min-width="170"
+          >
+            <template #default="scope">
+              <status-badge
+                :color="userStatuses[scope.row.is_active].color"
+                :text="userStatuses[scope.row.is_active].name"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
             v-if="hasAccess('UPDATE_USER') || hasAccess('DELETE_USER')"
             label="Action"
             width="90"
@@ -152,13 +183,22 @@
                   text
                   @click.stop="goToEditPage(scope.row.id)"
                 />
-                <!-- <el-button
+                <el-button
+                  v-if="scope.row.is_active"
                   :icon="icons.delete"
                   type="primary"
                   class="table__actions-delete"
                   text
                   @click.stop="openModalConfirmation(scope.row.id)"
-                /> -->
+                />
+                <el-button
+                  v-else
+                  :icon="icons.activate"
+                  type="primary"
+                  class="table__actions-activate"
+                  text
+                  @click.stop="handleActivateUser(scope.row.id)"
+                />
               </div>
             </template>
           </el-table-column>
@@ -259,7 +299,7 @@
         display: flex;
         justify-content: center;
 
-        &-edit, &-delete {
+        &-edit, &-delete, &-activate {
           padding: 0;
         }
       }

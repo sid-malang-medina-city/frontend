@@ -13,6 +13,7 @@ import {
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import AclHandler from '~/mixins/acl-handler'
+import { STATUS_USER } from '~/data/user'
 
 export default {
   name: 'manajemen-user-detail',
@@ -32,6 +33,7 @@ export default {
       icons: {
         delete: Delete
       },
+      userStatuses: STATUS_USER,
       helpers
     }
   },

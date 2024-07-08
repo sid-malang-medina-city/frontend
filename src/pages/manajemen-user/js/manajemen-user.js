@@ -9,13 +9,16 @@ import DebounceHandler from '~/mixins/debounce-handler'
 
 import arrowCounterClockwiseIcon from '/arrow-counter-clockwise.svg'
 
+import { STATUS_USER } from '~/data/user'
+
 import {
   ArrowDown,
   ArrowUp,
   Plus,
   Search,
   Edit,
-  Delete
+  Delete,
+  SwitchButton
 } from '@element-plus/icons-vue'
 
 export default {
@@ -37,6 +40,7 @@ export default {
         search: this.$route.query.search || null,
         division: this.$route.query.division || null,
         role: this.$route.query.role || null,
+        is_active: this.$route.query.is_active || 'true'
       },
       pagination: {
         page: parseInt(this.$route.query.page) || 1,
@@ -46,11 +50,13 @@ export default {
       roles: [],
       users: [],
       totalUsers: 0,
+      userStatuses: STATUS_USER,
       visibleFilter: false,
       visibleLoadingTable: false,
       icons: {
         delete: Delete,
         edit: Edit,
+        activate: SwitchButton,
         arrowCounterClockwise: arrowCounterClockwiseIcon
       }
     }
@@ -90,7 +96,7 @@ export default {
       'fetchUsers',
       'fetchRoles',
       'fetchDivisions',
-      'deleteUser'
+      'editUser'
     ]),
 
     async getUsers () {
@@ -148,7 +154,9 @@ export default {
 
     clearFilters () {
       Object.keys(this.filters).forEach(filter => {
-        this.filters[filter] = null
+        if (filter !== 'is_active') {
+          this.filters[filter] = null
+        }
       })
       this.handleFilterChange()
     },
@@ -176,23 +184,37 @@ export default {
     async openModalConfirmation (id) {
       try {
         await this.$confirm(
-          'Apakah anda yakin ingin menghapus user ini? Tindakan yang sudah dilakukan tidak dapat diubah. Menghapus user berarti menghilangkan progress data dan akses mereka',
-          'Hapus User',
+          'Apakah anda yakin ingin menonaktifkan user ini? Menonaktifkan user berarti menghilangkan akses mereka sampai diaktifkan kembali',
+          'Nonaktifkan User',
           {
-            confirmButtonText: 'Hapus',
+            confirmButtonText: 'Nonaktifkan User',
             cancelButtonText: 'Batal',
             type: 'warning',
             showClose: true
           }
         )
-        await this.handleDeleteUser(id)
-        this.showToast('User berhasil dihapus!')
+        await this.handleDeactivateUser(id)
+        this.showToast('User berhasil dinonaktifkan!')
       } catch (e) {}
     },
 
-    async handleDeleteUser(id) {
+    async handleDeactivateUser(id) {
       try {
-        await this.deleteUser(id)
+        await this.editUser(id, {
+          is_active: 'false'
+        })
+        this.getUsers()
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    async handleActivateUser(id) {
+      try {
+        await this.editUser(id, {
+          is_active: 'true'
+        })
+        this.showToast('User berhasil diaktifkan!')
         this.getUsers()
       } catch (error) {
         this.showErrorResponse(error)
