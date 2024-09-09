@@ -122,7 +122,7 @@ export default {
           totalHargaBulanIni += parseFloat(pekerjaan.harga_bulan_ini.toString().replace(',', '.'))
         })
       })
-      return totalHargaBulanIni
+      return totalHargaBulanIni.toString().replaceAll('.', ',')
     }
   },
 
