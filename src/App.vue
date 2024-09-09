@@ -39,7 +39,6 @@
 <script src="./js/app.js"></script>
 
 <style lang="scss" scoped>
-
   .app {
     position: relative;
     height: 100vh;

@@ -84,7 +84,7 @@
             <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
-                  Nomor KTP
+                  Nomor NIK/NIB
                 </div>
                 <div class="content__value">
                   {{ helpers.convertEmptyValueWithDash(vendor.nomor_ktp) }}

@@ -61,11 +61,11 @@
           <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label">
-                Nomor KTP
+                Nomor NIK/NIB
               </div>
               <el-input
                 v-model="formData.nomor_ktp"
-                placeholder="Masukkan nomor KTP"
+                placeholder="Masukkan nomor NIK/NIB"
                 class="row__input"
               />
             </div>

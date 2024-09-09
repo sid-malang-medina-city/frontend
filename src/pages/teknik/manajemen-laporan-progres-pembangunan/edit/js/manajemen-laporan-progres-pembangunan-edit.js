@@ -52,6 +52,9 @@ export default {
         status: '',
         pajak: '',
         termin: null,
+        harga_bulan_ini_pembulatan: null,
+        potongan_biofil: null,
+        task_force: null,
         keterangan: '',
         jenis_pekerjaans: []
       },
@@ -111,6 +114,15 @@ export default {
         }, 0)
       })
       return price
+    },
+    totalHargaBulanIni () {
+      let totalHargaBulanIni = 0
+      this.formData.jenis_pekerjaans.forEach(jenisPekerjaan => {
+        jenisPekerjaan.pekerjaans.forEach(pekerjaan => {
+          totalHargaBulanIni += parseFloat(pekerjaan.harga_bulan_ini.toString().replace(',', '.'))
+        })
+      })
+      return totalHargaBulanIni
     }
   },
 

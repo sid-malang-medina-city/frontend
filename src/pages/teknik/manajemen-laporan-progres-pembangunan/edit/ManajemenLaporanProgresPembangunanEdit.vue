@@ -113,6 +113,40 @@
             </div>
             <div class="rows__row">
               <div class="row__label">
+                Potongan Biofil
+              </div>
+              <el-input
+                v-model="formData.potongan_biofil"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan potongan biofil"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Task Force
+              </div>
+              <el-input
+                v-model="formData.task_force"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan task force"
+                class="row__input"
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
                 Keterangan
               </div>
               <el-input
@@ -329,6 +363,49 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="input-section__header">
+            <img
+              :src="icons.receipt"
+              alt=""
+              class="input-section__header-icon"
+            >
+            <div class="input-section__header-text">
+              Informasi Harga Total Bulan Ini
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Bulan Ini
+              </div>
+              <el-input
+                :model-value="totalHargaBulanIni"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga Total Bulan Ini Pembulatan
+              </div>
+              <el-input
+                :v-model="formData.harga_bulan_ini_pembulatan"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                class="row__input"
+              />
+            </div>
+          </div>
         </div>
         <div class="manajemen-laporan-progres-pembangunan-edit__submit-section">
           <el-button
@@ -403,6 +480,8 @@
       }
 
       .table {
+        margin-bottom: 20px;
+        
         &__input {
           &--error {
             :deep(.el-input__wrapper) {
