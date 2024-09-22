@@ -165,6 +165,7 @@
             />
             <el-table-column
               label="Harga Total"
+              width="150"
             >
               <template #default="scope">
                 <el-tooltip
@@ -180,6 +181,7 @@
             </el-table-column>
             <el-table-column
               label="Harga Hari Lalu"
+              width="150"
             >
               <template #default="scope">
                 <el-tooltip
@@ -195,6 +197,7 @@
             </el-table-column>
             <el-table-column
               label="Persentase Hari Lalu"
+              width="150"
             >
               <template #default="scope">
                 <el-tooltip
@@ -210,6 +213,7 @@
             </el-table-column>
             <el-table-column
               label="Harga Hari Ini"
+              width="150"
             >
               <template #default="scope">
                 <el-tooltip
@@ -225,6 +229,7 @@
             </el-table-column>
             <el-table-column
               label="Persentase Hari Ini"
+              width="100"
             >
               <template #default="scope">
                 <el-tooltip
@@ -240,6 +245,7 @@
             </el-table-column>
             <el-table-column
               label="Harga Sampai Dengan Hari Ini"
+              width="150"
             >
               <template #default="scope">
                 <el-tooltip
@@ -255,6 +261,7 @@
             </el-table-column>
             <el-table-column
               label="Persentase Sampai Dengan Hari Ini"
+              width="100"
             >
               <template #default="scope">
                 <el-tooltip

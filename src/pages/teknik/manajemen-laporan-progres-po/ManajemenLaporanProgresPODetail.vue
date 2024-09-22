@@ -167,6 +167,7 @@
                 />
                 <el-table-column
                   label="Harga Total"
+                  width="150"
                 >
                   <template #default="scope">
                     <el-tooltip
