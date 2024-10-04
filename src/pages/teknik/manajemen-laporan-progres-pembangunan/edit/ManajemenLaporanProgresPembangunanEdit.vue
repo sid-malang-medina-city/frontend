@@ -395,7 +395,7 @@
                 Harga Total Bulan Ini Pembulatan
               </div>
               <el-input
-                :v-model="formData.harga_bulan_ini_pembulatan"
+                v-model="formData.harga_bulan_ini_pembulatan"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
