@@ -267,6 +267,7 @@
       border: 1px solid #E3EADC;
       background: #F6F8F4;
       display: flex;
+      flex-wrap: wrap;
       gap: 24px;
       margin-top: 16px;
 
