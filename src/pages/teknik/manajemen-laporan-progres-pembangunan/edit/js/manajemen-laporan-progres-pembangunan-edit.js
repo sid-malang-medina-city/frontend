@@ -354,6 +354,9 @@ export default {
       this.visibleLoading.submitButton = true
       this.calculateHargaBulanIni()
       this.formData.pajak = parseFloat(this.formData.pajak)
+      this.formData.potongan_biofil = this.formData.potongan_biofil === "" ? 0 : parseFloat(this.formData.potongan_biofil)
+      this.formData.task_force = this.formData.task_force === "" ? 0 : parseFloat(this.formData.task_force)
+      this.formData.harga_bulan_ini_pembulatan = this.formData.harga_bulan_ini_pembulatan === "" ? 0 : parseFloat(this.formData.harga_bulan_ini_pembulatan)
       try {
         await this.editLaporanProgresPembangunan(this.id, this.generatePayload())
         this.redirectTo('ManajemenLaporanProgresPembangunan')
