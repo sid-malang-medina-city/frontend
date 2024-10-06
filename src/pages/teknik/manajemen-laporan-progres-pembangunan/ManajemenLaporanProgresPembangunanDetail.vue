@@ -165,6 +165,32 @@
             <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
+                  Potongan Biofil
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.potongan_biofil) }}
+                </div>
+              </div>
+              <div class="content__data">
+                <div class="content__label">
+                  Task Force
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.task_force) }}
+                </div>
+              </div>
+            </div>
+            <div class="content__row">
+              <div class="content__data">
+                <div class="content__label">
+                  Harga Total Bulan Ini Pembulatan
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.harga_bulan_ini_pembulatan) }}
+                </div>
+              </div>
+              <div class="content__data">
+                <div class="content__label">
                   Keterangan
                 </div>
                 <div class="content__value">
