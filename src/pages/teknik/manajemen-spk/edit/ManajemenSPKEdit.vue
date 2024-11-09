@@ -75,7 +75,7 @@
               <el-input
                 v-model="formData.nomor"
                 v-loading="!isDataFetched"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="isStatusNotDraft"
                 placeholder="Masukkan nomor SPK"
                 class="row__input"
               />
@@ -88,6 +88,7 @@
                 v-if="formData.spk_type === 'SPK_ADDENDUM' || formData.spk_type === 'SPK_LANJUTAN'"
                 v-model="formData.unit"
                 v-loading="visibleLoading.unitDropdown || !isDataFetched"
+                :disabled="isStatusNotDraft"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -108,6 +109,7 @@
                 v-else
                 v-model="formData.unit"
                 v-loading="visibleLoading.unitDropdown"
+                :disabled="isStatusNotDraft"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -139,7 +141,7 @@
                 v-else
                 v-model="periodeValue"
                 :clearable="false"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="isStatusNotDraft"
                 type="monthrange"
                 range-separator="-"
                 start-placeholder="Tanggal awal"
@@ -156,7 +158,7 @@
               <el-select
                 v-model="formData.vendor"
                 v-loading="visibleLoading.vendorDropdown || !isDataFetched"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="isStatusNotDraft"
                 placeholder="Pilih unit"
                 class="row__input"
                 remote-show-suffix
@@ -195,12 +197,12 @@
               <el-select
                 v-model="formData.status"
                 v-loading="!isDataFetched"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="['PARTIALLY_DONE', 'DONE'].includes(currentStatus)"
                 placeholder="Pilih status"
                 class="row__input"
               >
                 <el-option
-                  v-for="status in statuses"
+                  v-for="status in currentStatus === 'FINAL' ? finalStatuses : statuses"
                   :key="status.code"
                   :label="status.name"
                   :value="status.code"
@@ -252,7 +254,7 @@
               <el-input
                 v-model="formData.harga_subsidi"
                 v-loading="!isDataFetched"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="isStatusNotDraft"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -317,7 +319,7 @@
               <el-input
                 v-model="formData.harga_pekerjaan_pembangunan_rumah"
                 v-loading="!isDataFetched"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="isStatusNotDraft"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -377,7 +379,7 @@
               <el-input
                 v-model="formData.harga_pph21"
                 v-loading="!isDataFetched"
-                :disabled="formData.status === 'FINAL'"
+                :disabled="isStatusNotDraft"
                 :formatter="(value) => {
                   const parts = value.toString().split(',');
                   parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -424,7 +426,7 @@
                 {{ formData.spk_type === 'SPK_ADDENDUM' ? 'Pekerjaan Tambahan' : 'Pekerjaan' }} 
               </div>
             </div>
-            <div v-if="formData.status !== 'FINAL'">
+            <div v-if="!isStatusNotDraft">
               <el-button
                 type="primary"
                 class="input-section__import-template"
@@ -534,7 +536,7 @@
               </template>
             </el-table-column>
             <el-table-column
-              v-if="formData.status !== 'FINAL'"
+              v-if="!isStatusNotDraft"
               label="Action"
               align="center"
               fixed="right"

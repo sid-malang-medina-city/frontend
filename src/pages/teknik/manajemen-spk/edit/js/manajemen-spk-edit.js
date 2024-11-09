@@ -8,7 +8,7 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import helpers from '~/utils/helpers'
-import { STATUSES, SPK_TYPES } from '~/data/spk'
+import { STATUSES, FINAL_STATUSES, SPK_TYPES } from '~/data/spk'
 
 import receiptIcon from '/receipt.svg'
 import briefcaseIcon from '/briefcase.svg'
@@ -77,6 +77,7 @@ export default {
         jenisPekerjaan: '',
         pekerjaans: []
       },
+      currentStatus: 'DRAFT',
       isJenisPekerjaanPenguranganChosen: false,
       isSPKAddendum: false,
       selectedTipeUnitNomor: null,
@@ -91,6 +92,7 @@ export default {
       periodeValue: null,
       satuanUkurans: SATUAN_UKURANS,
       statuses: STATUSES,
+      finalStatuses: FINAL_STATUSES,
       spkTypes: SPK_TYPES,
       units: [],
       vendors: [],
@@ -151,6 +153,9 @@ export default {
     },
     isNotDefaultSPK () {
       return this.formData.spk_type === 'SPK_ADDENDUM' || this.formData.spk_type === 'SPK_LANJUTAN'
+    },
+    isStatusNotDraft () {
+      return this.formData.status !== 'DRAFT'
     }
   },
 
@@ -232,6 +237,7 @@ export default {
       try {
         const { data } = await this.fetchSPK(this.id)
 
+        this.currentStatus = data.status
         this.initFormData(JSON.parse(JSON.stringify(data)))
         this.isDataFetched = true
         this.units = [
