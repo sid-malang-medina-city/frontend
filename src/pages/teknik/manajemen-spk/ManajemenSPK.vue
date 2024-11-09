@@ -60,6 +60,25 @@
               </template>
             </el-input>
           </div>
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status
+            </div>
+            <el-select
+              v-model="filters.status"
+              placeholder="Pilih status"
+              class="filters__input"
+              clearable
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="status in statuses"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
+              />
+            </el-select>
+          </div>
           <!-- <div class="filters__input-wrapper">
             <div class="filters__label">
               Tipe Unit
@@ -149,7 +168,7 @@
           <el-table-column
             prop="status"
             label="Status"
-            min-width="100"
+            min-width="150"
           >
             <template #default="scope">
               <status-badge

@@ -181,7 +181,6 @@ export default {
       doc.setFontSize(12).text(':', 65, currentY)
       doc.setFontSize(12).text(splitKategori, 75, currentY)
       currentY += this.getCalculatedYBasedOnKategori(splitKategori.length)
-      doc.setFontSize(10).text('*Fee belum dipotong PPh 21', 14, currentY)
       currentY = 160
       doc.setFontSize(12).text(`Malang, ${helpers.getCurrentDate()}`, 80, currentY)
       currentY += 6

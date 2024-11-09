@@ -49,6 +49,7 @@ export default {
     return {
       filters: {
         search: this.$route.query.search || null,
+        status: this.$route.query.status || null,
         tipe_unit: this.$route.query.tipe_unit || null
       },
       pagination: {
