@@ -144,7 +144,6 @@ export default {
     },
 
     handleHeaderClass ({ column }) {
-      console.log(column.multiOrder, column.property, this.state.mark)
       column.order = this.state.mark ? column.multiOrder : null
     },
 
@@ -176,7 +175,7 @@ export default {
         this.state.order.pop()
       }
     
-      console.log(this.state.order, property)
+      // console.log(this.state.order, property)
       this.state.mark = true
       // getTableData()
     },
