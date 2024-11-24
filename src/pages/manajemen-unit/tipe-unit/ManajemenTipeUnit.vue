@@ -64,6 +64,11 @@
             min-width="210"
           />
           <el-table-column
+            prop="nomor"
+            label="Nomor"
+            min-width="210"
+          />
+          <el-table-column
             v-if="hasAccess('UPDATE_UNIT') || hasAccess('DELETE_UNIT')"
             label="Action"
             width="90"
