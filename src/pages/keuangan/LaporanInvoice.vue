@@ -81,17 +81,44 @@
             fixed="right"
           >
             <template #default="scope">
-              <div class="table__actions">
-                <el-button
-                  type="primary"
-                  class="table__actions-edit"
-                  link
-                  @click.stop="generatePDF(scope.row)"
-                  >
-                  <b>
-                    Generate invoice
-                  </b>
-                </el-button>
+              <div class="table__actions actions" @click.stop="() => {}">
+                <el-dropdown trigger="click">
+                  <span class="el-dropdown-link actions__trigger">
+                    <el-icon class="el-icon--right">
+                      <more-filled />
+                    </el-icon>
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu class="actions__dropdown-menu">
+                      <div class="actions__generate-wrapper">
+                        <el-icon class="actions__generate-icon">
+                          <Stamp />
+                        </el-icon>
+                        <div class="actions__generate">
+                          Generate
+                        </div>
+                      </div>
+                      <el-dropdown-item @click="generateLaporanInvoicePDF(scope.row.id)">PDF</el-dropdown-item>
+                      <div
+                        v-if="!!scope.row.file_access_url"
+                        class="actions__preview-wrapper"
+                      >
+                        <el-icon class="actions__preview-icon">
+                          <View />
+                        </el-icon>
+                        <div class="actions__preview">
+                          Preview
+                        </div>
+                      </div>
+                      <el-dropdown-item
+                        v-if="!!scope.row.file_access_url"
+                        @click="openDocumentInNewTab(scope.row.file_access_url)"
+                      >
+                        PDF
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
               </div>
             </template>
           </el-table-column>
@@ -226,6 +253,30 @@
 
     .user-section {
       margin-top: 30px;
+    }
+  }
+
+  .actions {
+    &__trigger {
+      cursor: pointer;
+    }
+
+    &__dropdown-menu {
+      padding: 0;
+    }
+
+    &__generate-wrapper, &__preview-wrapper, &__other-wrapper {
+      display: flex;
+      padding: 6px 12px;
+      align-items: center;
+      gap: 6px;
+      align-self: stretch;
+      border-bottom: 0.5px solid #E9E9E9;
+      background: #FAFAFA;
+      color: var(--Neutral-Gray-400, #9D9D9D);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 20px;
     }
   }
 

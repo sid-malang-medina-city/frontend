@@ -8,7 +8,7 @@ export default async function beforeHandler (to, from, next) {
     return
   }
 
-  if (to.meta.action && !localStorage.getItem('acls').includes(to.meta.action)) {
+  if (to.meta.action && !localStorage.getItem('acls')?.includes(to.meta.action)) {
     next('/no-access')
     return
   }

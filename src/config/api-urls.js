@@ -51,7 +51,8 @@ export default {
       detail: id => `/marketing/laporan-marketing/${encodeURIComponent(id)}`
     },
     laporanInvoice: {
-      list: '/marketing/laporan-marketing-invoice'
+      list: '/marketing/laporan-marketing-invoice',
+      generatePDF: '/marketing/laporan-marketing-invoice-generate-pdf'
     }
   },
   verifikasi: {

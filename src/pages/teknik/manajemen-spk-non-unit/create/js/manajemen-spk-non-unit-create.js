@@ -56,6 +56,7 @@ export default {
         cara_pembayaran: null,
         syarat: null,
         lampiran: null,
+        harga_pph21: 0,
         pekerjaans: []
       },
       form: {
@@ -90,7 +91,6 @@ export default {
       const requiredFields = {
         vendor: null,
         nama: '',
-        nomor: '',
         waktu_pelaksanaan: null,
         cara_pembayaran: null,
         syarat: null,
@@ -113,7 +113,7 @@ export default {
       this.formData.pekerjaans.forEach(pekerjaan => {
         price += parseFloat(pekerjaan.harga_total)
       })
-      return price
+      return price - this.formData.harga_pph21
     },
   },
 
@@ -235,6 +235,7 @@ export default {
     generatePayload () {
       const formData = JSON.parse(JSON.stringify(this.formData))
       formData.harga_total = this.totalPrice
+      formData.harga_pph21 = parseFloat(this.formData.harga_pph21) || 0
       formData.pekerjaans.forEach((pekerjaan, index) => {
         pekerjaan.sequence = index + 1
       })

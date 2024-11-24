@@ -95,12 +95,7 @@
           <el-table-column
             prop="nama"
             label="Nama"
-            min-width="120"
-          />
-          <el-table-column
-            prop="alamat"
-            label="Alamat"
-            min-width="250"
+            min-width="200"
           />
           <el-table-column
             prop="status_verifikasi"
