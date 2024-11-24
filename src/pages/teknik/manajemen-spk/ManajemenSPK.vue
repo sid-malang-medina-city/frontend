@@ -79,25 +79,26 @@
               />
             </el-select>
           </div>
-          <!-- <div class="filters__input-wrapper">
+          <div class="filters__input-wrapper">
             <div class="filters__label">
-              Tipe Unit
+              Vendor
             </div>
             <el-select
-              v-model="filters.tipe_unit"
-              placeholder="Pilih tipe unit"
+              v-model="filters.vendor"
+              placeholder="Pilih vendor"
               class="filters__input"
               clearable
+              filterable
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="tipe_unit in tipeUnits"
-                :key="tipe_unit.id"
-                :label="tipe_unit.nama"
-                :value="tipe_unit.id"
+                v-for="vendor in vendors"
+                :key="vendor.id"
+                :label="vendor.nama"
+                :value="vendor.id"
               />
             </el-select>
-          </div> -->
+          </div>
         </div>
       </div>
 
@@ -312,6 +313,7 @@
       border: 1px solid #E3EADC;
       background: #F6F8F4;
       display: flex;
+      flex-wrap: wrap;
       gap: 24px;
       margin-top: 16px;
 

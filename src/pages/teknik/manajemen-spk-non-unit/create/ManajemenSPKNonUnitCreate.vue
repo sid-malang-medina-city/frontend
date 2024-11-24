@@ -40,7 +40,7 @@
               </el-select>
             </div>
             <div class="rows__row">
-              <div class="row__label required">
+              <div class="row__label">
                 Nomor
               </div>
               <el-input
@@ -114,6 +114,24 @@
                 class="row__input"
               />
             </div>
+            <div class="rows__row">
+              <div class="row__label">
+                Harga PPh 21
+              </div>
+              <el-input
+                v-model="formData.harga_pph21"
+                :formatter="(value) => {
+                  const parts = value.toString().split(',');
+                  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                  return `Rp ${parts.slice(0,2).join(',')}`;
+                }"
+                :parser="(value) => value.replace(/[^\d,]/g, '')"
+                placeholder="Masukkan harga PPh 21"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label">
                 Harga Total

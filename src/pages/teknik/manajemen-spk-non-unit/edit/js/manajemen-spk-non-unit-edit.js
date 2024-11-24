@@ -56,6 +56,7 @@ export default {
         cara_pembayaran: null,
         syarat: null,
         lampiran: null,
+        harga_pph21: 0,
         pekerjaans: []
       },
       form: {
@@ -116,7 +117,7 @@ export default {
       this.formData.pekerjaans.forEach(pekerjaan => {
         price += parseFloat(pekerjaan.harga_total)
       })
-      return price
+      return price - this.formData.harga_pph21
     },
   },
 
@@ -144,6 +145,7 @@ export default {
     initFormData (data) {
       this.formData = data
       this.formData.vendor = data.vendor_id
+      this.formData.harga_pph21 = this.formData.harga_pph21 || 0
       this.formData.pekerjaans.forEach((pekerjaan, index) => {
         pekerjaan.id_table = (index + 1).toString()
       })
@@ -258,6 +260,7 @@ export default {
     generatePayload () {
       const formData = JSON.parse(JSON.stringify(this.formData))
       formData.harga_total = this.totalPrice
+      formData.harga_pph21 = parseFloat(this.formData.harga_pph21) || 0
       formData.pekerjaans.forEach((pekerjaan, index) => {
         pekerjaan.sequence = index + 1
       })

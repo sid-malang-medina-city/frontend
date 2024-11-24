@@ -18,14 +18,15 @@ export default {
     return {
       formData: {
         nama: '',
-        code: ''
+        code: '',
+        nomor: null
       }
     }
   },
 
   computed: {
     isAllRequiredFieldsFilled () {
-      return !!this.formData.nama
+      return !!this.formData.nama & (!!this.formData.nomor && this.formData.nomor !== "0")
     },
 
     id () {
@@ -46,10 +47,11 @@ export default {
     async initData () {
       try {
         const { data } = await this.fetchTipeUnit(this.id)
-        const { code, nama } = JSON.parse(JSON.stringify(data))
+        const { code, nama, nomor } = JSON.parse(JSON.stringify(data))
         this.formData = {
-          nama: nama,
-          code: code
+          nama,
+          code,
+          nomor
         }
       } catch (error) {
         this.showErrorResponse(error)
@@ -66,6 +68,7 @@ export default {
 
     async submit () {
       this.visibleLoading = true
+      this.formData.nomor = parseFloat(this.formData.nomor)
       try {
         await this.editTipeUnit(this.id, this.formData)
         this.redirectTo('ManajemenTipeUnit')

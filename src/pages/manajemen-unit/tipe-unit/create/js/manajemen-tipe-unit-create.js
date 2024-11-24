@@ -18,7 +18,8 @@ export default {
     return {
       formData: {
         nama: '',
-        code: ''
+        code: '',
+        nomor: null
       },
       visibleLoading: false
     }
@@ -26,7 +27,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      return !!this.formData.nama
+      return !!this.formData.nama & (!!this.formData.nomor && this.formData.nomor !== "0")
     }
   },
 
@@ -43,6 +44,7 @@ export default {
 
     async submit () {
       this.visibleLoading = true
+      this.formData.nomor = parseFloat(this.formData.nomor)
       try {
         await this.createTipeUnit(this.formData)
         this.redirectTo('ManajemenTipeUnit')

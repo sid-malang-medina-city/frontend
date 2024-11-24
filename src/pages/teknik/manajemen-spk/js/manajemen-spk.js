@@ -1,6 +1,7 @@
 import { mapActions } from 'pinia'
 import { SPKStore } from '~/store/teknik/spk'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
+import { vendorStore } from '~/store/teknik/vendor'
 import { STATUSES } from '~/data/spk'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
@@ -58,6 +59,7 @@ export default {
       },
       tipeUnits: [],
       SPKs: [],
+      vendors: [],
       statuses: STATUSES,
       totalSPKs: 0,
       visibleFilter: false,
@@ -96,6 +98,7 @@ export default {
     this.visibleFilter = this.isAnyFilterApplied
     this.getSPKs()
     this.getTipeUnits()
+    this.getVendors()
   },
 
   methods: {
@@ -105,6 +108,7 @@ export default {
       'generatePDF'
     ]),
     ...mapActions(tipeUnitStore, ['fetchTipeUnits']),
+    ...mapActions(vendorStore, ['fetchVendors']),
     
     async getSPKs () {
       this.visibleLoadingTable = true
@@ -125,6 +129,15 @@ export default {
           skip_pagination: true
         })
         this.tipeUnits = JSON.parse(JSON.stringify(data))
+      } catch (error) {
+        this.showErrorResponse(error)
+      }
+    },
+
+    async getVendors () {
+      try {
+        const { data } = await this.fetchVendors({ skip_pagination: true })
+        this.vendors = JSON.parse(JSON.stringify(data))
       } catch (error) {
         this.showErrorResponse(error)
       }

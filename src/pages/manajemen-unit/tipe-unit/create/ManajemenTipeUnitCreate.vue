@@ -21,6 +21,17 @@
                 @input="generateCode"
               />
             </div>
+            <div class="rows__row">
+              <div class="row__label required">
+                Nomor Tipe Unit
+              </div>
+              <el-input
+                v-model="formData.nomor"
+                placeholder="Masukkan nomor tipe unit"
+                class="row__input"
+                type="number"
+              />
+            </div>
           </div>
         </div>
         <div class="manajemen-tipe-unit-create__submit-section">
