@@ -6,7 +6,7 @@ import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
 import ToastHandler from '~/mixins/toast-handler'
 import helpers from '~/utils/helpers'
-import { STATUSES } from '~/data/spk'
+import { STATUSES, PAYMENT_STATUSES } from '~/data/lpp'
 
 import receiptIcon from '/receipt.svg'
 import briefcaseIcon from '/briefcase.svg'
@@ -74,6 +74,7 @@ export default {
       periodeValue: null,
       satuanUkurans: SATUAN_UKURANS,
       statuses: STATUSES,
+      paymentStatuses: PAYMENT_STATUSES,
       units: [],
       vendors: [],
       icons: {

@@ -14,6 +14,7 @@ import {
 } from '@element-plus/icons-vue'
 
 import { STATUSES } from '~/data/spk'
+import { PAYMENT_STATUSES } from '~/data/lpp'
 
 import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import helpers from '~/utils/helpers'
@@ -71,6 +72,7 @@ export default {
       visibleImageActionIcons: {},
       selectedImageUrl: '',
       statuses: STATUSES,
+      paymentStatuses: PAYMENT_STATUSES,
       imageStartingIndex: 0,
       helpers
     }

@@ -381,7 +381,7 @@
           </div>
           <el-input
             v-model="form.keterangan"
-            :rows="3"
+            :rows="8"
             resize="none"
             placeholder="Masukkan keterangan"
             type="textarea"
@@ -393,7 +393,7 @@
           </div>
           <el-input
             v-model="form.spesifikasi"
-            :rows="3"
+            :rows="8"
             resize="none"
             placeholder="Masukkan spesifikasi"
             type="textarea"

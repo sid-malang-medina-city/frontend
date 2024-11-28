@@ -2,7 +2,7 @@ import { mapActions } from 'pinia'
 import { SPKStore } from '~/store/teknik/spk'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
 import { vendorStore } from '~/store/teknik/vendor'
-import { STATUSES } from '~/data/spk'
+import { STATUSES, SPK_TYPES } from '~/data/spk'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -51,7 +51,8 @@ export default {
       filters: {
         search: this.$route.query.search || null,
         status: this.$route.query.status || null,
-        tipe_unit: this.$route.query.tipe_unit || null
+        tipe_unit: this.$route.query.tipe_unit || null,
+        spk_type: this.$route.query.spk_type || null
       },
       pagination: {
         page: parseInt(this.$route.query.page) || 1,
@@ -61,6 +62,7 @@ export default {
       SPKs: [],
       vendors: [],
       statuses: STATUSES,
+      spkTypes: SPK_TYPES,
       totalSPKs: 0,
       visibleFilter: false,
       visibleLoadingTable: false,

@@ -95,6 +95,44 @@
               @change="handleMonthRangeChange"
             />
           </div>
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status
+            </div>
+            <el-select
+              v-model="filters.status"
+              placeholder="Pilih status"
+              class="filters__input"
+              clearable
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="status in statuses"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
+              />
+            </el-select>
+          </div>
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status Pembayaran
+            </div>
+            <el-select
+              v-model="filters.status_pembayaran"
+              placeholder="Pilih status pembayaran"
+              class="filters__input"
+              clearable
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="status in paymentStatuses"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
+              />
+            </el-select>
+          </div>
         </div>
       </div>
 
@@ -148,6 +186,19 @@
                 v-if="statuses.hasOwnProperty(scope.row.status)"
                 :color="statuses[scope.row.status].color"
                 :text="statuses[scope.row.status].name"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="status_pembayaran"
+            label="Status Pembayaran"
+            min-width="150"
+          >
+            <template #default="scope">
+              <status-badge
+                v-if="paymentStatuses.hasOwnProperty(scope.row.status_pembayaran)"
+                :color="paymentStatuses[scope.row.status_pembayaran].color"
+                :text="paymentStatuses[scope.row.status_pembayaran].name"
               />
             </template>
           </el-table-column>
