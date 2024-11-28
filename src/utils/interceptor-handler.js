@@ -8,7 +8,7 @@ export const requestInterceptor = async config => {
   const formDataTypeUrls = ['spk-generate-pdf', 'laporan-progres-pembangunan-generate-pdf', 'purchase-order-generate-pdf', 'spk-non-unit-generate-pdf', 'laporan-marketing-invoice-generate-pdf']
   config.headers = { 
     'Authorization': `Bearer ${accessToken}`,
-    'Content-Type': applicationJsonTypeUrls.some(url => config.url.includes(url)) || !formDataTypeUrls.some(url => config.url.includes(url)) ? 'application/json' : 'multipart/form-data'
+    'Content-Type': applicationJsonTypeUrls.some(url => config.url.includes(url)) && !formDataTypeUrls.some(url => config.url.includes(url)) ? 'application/json' : 'multipart/form-data'
   }
   return config
 }
