@@ -143,6 +143,18 @@
                   />
                 </div>
               </div>
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  Status Pembayaran
+                </div>
+                <div class="column__value">
+                  <status-badge
+                    :text="paymentStatuses[laporanProgresPembangunan.status_pembayaran] ? paymentStatuses[laporanProgresPembangunan.status_pembayaran].name: ''"
+                    :color="paymentStatuses[laporanProgresPembangunan.status_pembayaran] ? paymentStatuses[laporanProgresPembangunan.status_pembayaran].color: ''"
+                    type="detail"
+                  />
+                </div>
+              </div>
             </div>
             <div class="content__row">
               <div class="content__data">
@@ -183,12 +195,22 @@
             <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
+                  Harga Total Bulan Ini
+                </div>
+                <div class="content__value">
+                  {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.harga_bulan_ini) }}
+                </div>
+              </div>
+              <div class="content__data">
+                <div class="content__label">
                   Harga Total Bulan Ini Pembulatan
                 </div>
                 <div class="content__value">
                   {{ helpers.convertPriceToRupiah(laporanProgresPembangunan.harga_bulan_ini_pembulatan) }}
                 </div>
               </div>
+            </div>
+            <div class="content__row">
               <div class="content__data">
                 <div class="content__label">
                   Keterangan

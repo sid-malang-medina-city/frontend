@@ -2,7 +2,8 @@ import { mapActions } from 'pinia'
 import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
 import { tipeUnitStore } from '~/store/unit/tipe-unit'
 
-import { STATUSES } from '~/data/spk'
+import { STATUSES } from '~/data/lpp'
+import { PAYMENT_STATUSES } from '~/data/lpp'
 
 import PageHeader from '~/components/general/page-header/PageHeader.vue'
 import RouterHandler from '~/mixins/router-handler'
@@ -50,6 +51,8 @@ export default {
         tipe_unit: this.$route.query.tipe_unit || null,
         start_tanggal: this.$route.query.start_tanggal || null,
         end_tanggal: this.$route.query.end_tanggal || null,
+        status: this.$route.query.status || null,
+        status_pembayaran: this.$route.query.status_pembayaran || null,
       },
       pagination: {
         page: parseInt(this.$route.query.page) || 1,
@@ -62,6 +65,7 @@ export default {
       visibleFilter: false,
       visibleLoadingTable: false,
       statuses: STATUSES,
+      paymentStatuses: PAYMENT_STATUSES,
       icons: {
         delete: Delete,
         arrowCounterClockwise: arrowCounterClockwiseIcon

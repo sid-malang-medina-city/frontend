@@ -349,17 +349,32 @@
           </div>
 
           <div class="content__informasi-pendukung-wrapper informasi-pendukung-wrapper--top">
-            <div class="content__header">
+            <div class="content__header-items-info">
               <img
                 :src="icons.briefcase"
                 alt="Image Icon"
               />
-              <div class="content__header-title">
+              <div
+                :class="{ 'content__header-title--inactive': selectedTab === 'LPP' }"
+                class="content__header-title--active"
+                @click="selectedTab = 'PEKERJAAN'"
+              >
                 {{ SPK.spk_type === 'SPK_ADDENDUM' ? 'Pekerjaan Tambahan' : 'Pekerjaan' }}
+              </div>
+              <div>|</div>
+              <div
+                :class="{ 'content__header-title--inactive': selectedTab === 'PEKERJAAN' }"
+                class="content__header-title--active"
+                @click="selectedTab = 'LPP'"
+              >
+                LPP
               </div>
             </div>
   
-            <div class="content__rows rows last-row">
+            <div
+              v-show="selectedTab === 'PEKERJAAN'"
+              class="content__rows rows last-row"
+            >
               <el-table
                 v-loading="!isDataFetched"
                 :data="SPK.jenis_pekerjaans"
@@ -446,7 +461,7 @@
             </div>
             
             <div
-              v-if="SPK.spk_type === 'SPK_ADDENDUM'"
+              v-show="SPK.spk_type === 'SPK_ADDENDUM' && selectedTab === 'PEKERJAAN'"
               class="content__header"
             >
               <img
@@ -457,9 +472,9 @@
                 Pekerjaan Pengurangan
               </div>
             </div>
-  
+
             <div
-              v-if="SPK.spk_type === 'SPK_ADDENDUM'"
+              v-show="SPK.spk_type === 'SPK_ADDENDUM' && selectedTab === 'PEKERJAAN'"
               class="content__rows rows last-row"
             >
               <el-table
@@ -542,6 +557,87 @@
                     >
                       {{ helpers.convertDecimalToPercentage(scope.row.persentase_pekerjaan, scope.row.hasOwnProperty('actions')) }}
                     </el-tooltip>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+
+            <div
+              v-show="selectedTab === 'LPP'"
+              class="content__rows rows rows--no-flex last-row"
+            >
+              <div class="content__informasi-tambahan informasi-tambahan">
+                <div class="informasi-tambahan__column column">
+                  <div class="column__label">
+                    Total Nominal Terbayar
+                  </div>
+                  <div class="column__value">
+                    {{ helpers.convertEmptyValueWithDash(helpers.convertPriceToRupiah(SPK.lpp_total_harga_terbayar)) }}
+                  </div>
+                </div>
+                <div class="informasi-tambahan__column column">
+                  <div class="column__label">
+                    Total Nominal Belum Terbayar
+                  </div>
+                  <div class="column__value column__value--red">
+                    {{ helpers.convertEmptyValueWithDash(helpers.convertPriceToRupiah(SPK.lpp_total_harga_belum_terbayar)) }}
+                  </div>
+                </div>
+              </div>
+              <el-table
+                v-loading="visibleLoadingTableLPP"
+                :data="laporanProgresPembangunans"
+                class="rows__table table general-table"
+                header-row-class-name="general-table__header-gray"
+                stripe
+              >
+                <el-table-column
+                  label="Termin"
+                  min-width="120"
+                  fixed
+                >
+                  <template #default="scope">
+                    Termin ke-{{ scope.row.termin }}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  prop="harga_bulan_ini_pembulatan"
+                  label="Nominal" 
+                  min-width="250"
+                >
+                  <template #default="scope">
+                    {{ helpers.convertPriceToRupiah(scope.row.harga_bulan_ini_pembulatan) }}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  label="Status Pembayaran" 
+                  min-width="150"
+                >
+                  <template #default="scope">
+                    <status-badge
+                      :color="paymentStatuses[scope.row.status_pembayaran].color"
+                      :text="paymentStatuses[scope.row.status_pembayaran].name"
+                    />
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  v-if="hasAccess('READ_LAPORAN_PROGRES_PEMBANGUNAN')"
+                  label="Action"
+                  width="90"
+                  align="center"
+                  fixed="right"
+                >
+                  <template #default="scope">
+                    <div class="table__actions">
+                      <el-button
+                        v-if="hasAccess('READ_LAPORAN_PROGRES_PEMBANGUNAN')"
+                        :icon="icons.document"
+                        type="primary"
+                        class="table__actions-edit"
+                        text
+                        @click.stop="goToLPPDetailPage(scope.row.id)"
+                      />
+                    </div>
                   </template>
                 </el-table-column>
               </el-table>
@@ -636,10 +732,40 @@
         gap: 8px;
         margin-bottom: 24px;
 
+        &-items {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+
+          &-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+          }
+        }
+
         &-title {
           color: #555;
           font-size: 16px;
           font-weight: 600;
+
+          &--active {
+            color: #859671;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 5px;
+            text-decoration-thickness: 1.5px;
+          }
+
+          &--inactive {
+            font-weight: 600;
+            color: #b9b8b8;
+            cursor: pointer;
+            text-decoration: none;
+          }
         }
       }
 
@@ -740,10 +866,39 @@
         }
       }
 
+      .informasi-tambahan {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 20px;
+
+        .column {
+          &__label {
+            margin-bottom: 8px;
+            color: #434343;
+            font-size: 14px;
+            font-weight: 400;
+          }
+  
+          &__value {
+            color: #434343;
+            font-size: 18px;
+            font-weight: 600;
+
+            &--red {
+              color: red;
+            }
+          }
+        }
+      }
+
       .rows {
         display: flex;
         gap: 24px;
         margin-bottom: 16px;
+
+        &--no-flex {
+          display: block;
+        }
 
         .row {
           &__label {

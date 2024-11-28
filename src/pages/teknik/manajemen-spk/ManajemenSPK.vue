@@ -62,20 +62,20 @@
           </div>
           <div class="filters__input-wrapper">
             <div class="filters__label">
-              Status
+              Tipe SPK
             </div>
             <el-select
-              v-model="filters.status"
-              placeholder="Pilih status"
+              v-model="filters.spk_type"
+              placeholder="Pilih tipe SPK"
               class="filters__input"
               clearable
               @change="handleFilterChange()"
             >
               <el-option
-                v-for="status in statuses"
-                :key="status.code"
-                :label="status.name"
-                :value="status.code"
+                v-for="spkType in Object.keys(spkTypes)"
+                :key="spkType"
+                :label="spkTypes[spkType]"
+                :value="spkType"
               />
             </el-select>
           </div>
@@ -96,6 +96,25 @@
                 :key="vendor.id"
                 :label="vendor.nama"
                 :value="vendor.id"
+              />
+            </el-select>
+          </div>
+          <div class="filters__input-wrapper">
+            <div class="filters__label">
+              Status
+            </div>
+            <el-select
+              v-model="filters.status"
+              placeholder="Pilih status"
+              class="filters__input"
+              clearable
+              @change="handleFilterChange()"
+            >
+              <el-option
+                v-for="status in statuses"
+                :key="status.code"
+                :label="status.name"
+                :value="status.code"
               />
             </el-select>
           </div>
@@ -135,18 +154,34 @@
             min-width="150"
           />
           <el-table-column
-            prop="harga_total"
+            prop="harga_total_ppr_subsidi"
             label="Harga Total"
             min-width="150"
           >
             <template #default="scope">
               <el-tooltip
-                :content="helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions'), true)"
+                :content="helpers.convertPriceToRupiah(scope.row.harga_total_ppr_subsidi, true, scope.row.hasOwnProperty('actions'), true)"
                 class="box-item"
                 effect="dark"
                 placement="top"
               >
-                {{ helpers.convertPriceToRupiah(scope.row.harga_total, true, scope.row.hasOwnProperty('actions')) }}
+                {{ helpers.convertPriceToRupiah(scope.row.harga_total_ppr_subsidi, true, scope.row.hasOwnProperty('actions')) }}
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="harga_progres_total"
+            label="Harga Progres Total"
+            min-width="150"
+          >
+            <template #default="scope">
+              <el-tooltip
+                :content="helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions'), true)"
+                class="box-item"
+                effect="dark"
+                placement="top"
+              >
+                {{ helpers.convertPriceToRupiah(scope.row.harga_progres_total, true, scope.row.hasOwnProperty('actions')) }}
               </el-tooltip>
             </template>
           </el-table-column>

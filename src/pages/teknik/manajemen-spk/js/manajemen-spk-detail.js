@@ -1,5 +1,6 @@
 import { mapActions } from 'pinia'
 import { SPKStore } from '~/store/teknik/spk'
+import { laporanProgresPembangunanStore } from '~/store/teknik/laporan-progres-pembangunan'
 
 import {
   Delete,
@@ -14,6 +15,7 @@ import {
 } from '@element-plus/icons-vue'
 
 import { STATUSES } from '~/data/spk'
+import { PAYMENT_STATUSES } from '~/data/lpp'
 import StatusBadge from '~/components/general/status-badge/StatusBadge.vue'
 import helpers from '~/utils/helpers'
 
@@ -49,6 +51,7 @@ export default {
   data () {
     return {
       SPK: {},
+      laporanProgresPembangunans: [],
       icons: {
         delete: Delete,
         moreFilled: MoreFilled,
@@ -59,13 +62,17 @@ export default {
         megaphone: megaphoneIcon,
         receipt: receiptIcon,
         briefcase: briefcaseIcon,
+        document: Document
       },
       fileIdentifiers: ['e_ktp_access_url', 'e_ktp_partner_access_url', 'slip_gaji_access_url', 'kartu_keluarga_access_url', 'mutasi_tabungan_access_url', 'surat_pernikahan_access_url', 'dokumen_pendukung_access_url'],
       checkboxIdentifiers: ['e_ktp', 'e_ktp_partner', 'slip_gaji', 'kartu_keluarga', 'mutasi_tabungan', 'surat_pernikahan', 'dokumen_pendukung'],
       fileLabels: ['e-KTP', 'e-KTP Pasangan', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Surat Pernikahan', 'Dokumen Pendukung'],
       checkboxLabels: ['e-KTP', 'e-KTP Pasangan', 'Slip Gaji', 'Kartu Keluarga', 'Mutasi Tabungan', 'Surat Pernikahan', 'Dokumen Pendukung'],
       statuses: STATUSES,
+      paymentStatuses: PAYMENT_STATUSES,
       isDataFetched: false,
+      selectedTab: 'PEKERJAAN',
+      visibleLoadingTableLPP: false,
       visiblePassword: false,
       visibleImagePreviewDialog: false,
       visibleImageActionIcons: {},
@@ -111,6 +118,7 @@ export default {
   created () {
     // this.initVisibleImageActions()
     this.getSPK()
+    this.getLaporanProgresPembangunans()
   },
 
   methods: {
@@ -119,6 +127,7 @@ export default {
       'deleteSPK',
       'generatePDF'
     ]),
+    ...mapActions(laporanProgresPembangunanStore, ['fetchLaporanProgresPembangunans']),
 
     initVisibleImageActions () {
       this.fileIdentifiers.forEach(identifier => {
@@ -133,6 +142,24 @@ export default {
         this.isDataFetched = true
       } catch (error) {
         this.showErrorResponse(error)
+      }
+    },
+
+    async getLaporanProgresPembangunans () {
+      this.visibleLoadingTableLPP = true
+      try {
+        const { data } = await this.fetchLaporanProgresPembangunans({
+          skip_pagination: true,
+          spk: this.id
+        })
+        this.laporanProgresPembangunans = JSON.parse(JSON.stringify(data))
+        if (this.laporanProgresPembangunans.length > 1) {
+          this.laporanProgresPembangunans.reverse()
+        }
+      } catch (error) {
+        this.showErrorResponse(error)
+      } finally {
+        this.visibleLoadingTableLPP = false
       }
     },
 
@@ -195,6 +222,12 @@ export default {
         params: { id }
       })
       this.getSPK()
+    },
+    
+    async goToLPPDetailPage (id) {
+      await this.redirectTo('ManajemenLaporanProgresPembangunanDetail', {
+        params: { id }
+      })
     },
 
     getFilesUrl (identifier) {
