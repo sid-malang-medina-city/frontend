@@ -569,9 +569,17 @@
               <div class="content__informasi-tambahan informasi-tambahan">
                 <div class="informasi-tambahan__column column">
                   <div class="column__label">
-                    Total Nominal Terbayar
+                    Total Nominal Yang Harus Dibayar
                   </div>
                   <div class="column__value">
+                    {{ helpers.convertEmptyValueWithDash(helpers.convertPriceToRupiah(SPK.harga_total_ppr_subsidi)) }}
+                  </div>
+                </div>
+                <div class="informasi-tambahan__column column">
+                  <div class="column__label">
+                    Total Nominal Terbayar
+                  </div>
+                  <div class="column__value column__value--green">
                     {{ helpers.convertEmptyValueWithDash(helpers.convertPriceToRupiah(SPK.lpp_total_harga_terbayar)) }}
                   </div>
                 </div>
@@ -580,7 +588,7 @@
                     Total Nominal Belum Terbayar
                   </div>
                   <div class="column__value column__value--red">
-                    {{ helpers.convertEmptyValueWithDash(helpers.convertPriceToRupiah(SPK.lpp_total_harga_belum_terbayar)) }}
+                    {{ helpers.convertEmptyValueWithDash(helpers.convertPriceToRupiah(SPK.harga_total_ppr_subsidi - SPK.lpp_total_harga_terbayar)) }}
                   </div>
                 </div>
               </div>
@@ -883,6 +891,10 @@
             color: #434343;
             font-size: 18px;
             font-weight: 600;
+
+            &--green {
+              color: green;
+            }
 
             &--red {
               color: red;
