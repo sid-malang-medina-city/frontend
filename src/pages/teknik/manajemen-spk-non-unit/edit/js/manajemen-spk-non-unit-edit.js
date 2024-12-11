@@ -95,10 +95,7 @@ export default {
         vendor: null,
         nama: '',
         nomor: '',
-        waktu_pelaksanaan: null,
-        cara_pembayaran: null,
-        syarat: null,
-        lampiran: null,
+        waktu_pelaksanaan: null
       }
       return Object.keys(requiredFields).every(key => !!this.formData[key]) && this.formData.pekerjaans.length > 0
     },
