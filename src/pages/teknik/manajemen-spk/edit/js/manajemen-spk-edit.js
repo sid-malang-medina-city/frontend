@@ -62,6 +62,7 @@ export default {
         unit: '',
         vendor: '',
         related_spk: '',
+        penanggung_jawab: '',
         harga_total: null,
         harga_total_pekerjaan_pengurangan: null,
         harga_total_ppr: 0,

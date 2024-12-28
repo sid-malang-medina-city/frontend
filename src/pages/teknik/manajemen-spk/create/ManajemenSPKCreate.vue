@@ -151,6 +151,19 @@
             </div>
             <div class="rows__row">
               <div class="row__label">
+                PJ Pekerjaan
+              </div>
+              <el-input
+                v-model="formData.penanggung_jawab"
+                v-loading="!isDataFetched"
+                placeholder="Masukkan PJ pekerjaan"
+                class="row__input"
+              />
+            </div>
+          </div>
+          <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label">
                 Keterangan
               </div>
               <el-input
@@ -163,8 +176,6 @@
                 class="row__input"
               />
             </div>
-          </div>
-          <div class="input-section__rows rows">
             <div class="rows__row">
               <div class="row__label required">
                 Status
@@ -183,6 +194,11 @@
                 />
               </el-select>
             </div>
+          </div>
+          <div
+            v-if="formData.spk_type === 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Tipe Unit
@@ -195,11 +211,6 @@
                 disabled
               />
             </div>
-          </div>
-          <div
-            v-if="formData.spk_type === 'SPK_ADDENDUM'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Penambahan
@@ -218,6 +229,11 @@
                 disabled
               />
             </div>
+          </div>
+          <div
+            v-if="formData.spk_type === 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Pengurangan
@@ -236,11 +252,6 @@
                 disabled
               />
             </div>
-          </div>
-          <div
-            v-if="formData.spk_type === 'SPK_ADDENDUM'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total
@@ -266,6 +277,18 @@
           >
             <div class="rows__row">
               <div class="row__label">
+                Tipe Unit
+              </div>
+              <el-input
+                v-model="selectedTipeUnitNomor"
+                v-loading="!isDataFetched"
+                placeholder="Pilih unit terlebih dahulu"
+                class="row__input"
+                disabled
+              />
+            </div>
+            <div class="rows__row">
+              <div class="row__label">
                 Harga Subsidi
               </div>
               <el-input
@@ -282,6 +305,11 @@
                 @input="calculateHargaTotal"
               />
             </div>
+          </div>
+          <div
+            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Pekerjaan Pembangunan Rumah
@@ -300,11 +328,6 @@
                 @input="calculateHargaTotal"
               />
             </div>
-          </div>
-          <div
-            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Pekerjaan Pembangunan Rumah dan Subsidi
@@ -323,6 +346,11 @@
                 disabled
               />
             </div>
+          </div>
+          <div
+            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total Pekerjaan Pembangunan Rumah
@@ -341,11 +369,6 @@
                 disabled
               />
             </div>
-          </div>
-          <div
-            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
-            class="input-section__rows rows"
-          >
             <div class="rows__row">
               <div class="row__label">
                 Harga PPh 21
@@ -364,6 +387,11 @@
                 @input="calculateHargaTotal"
               />
             </div>
+          </div>
+          <div
+            v-if="formData.spk_type !== 'SPK_ADDENDUM'"
+            class="input-section__rows rows"
+          >
             <div class="rows__row">
               <div class="row__label">
                 Harga Total SPK

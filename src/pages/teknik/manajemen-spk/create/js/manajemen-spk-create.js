@@ -61,6 +61,7 @@ export default {
         status: 'DRAFT',
         spk_type: 'SPK',
         related_spk: '',
+        penanggung_jawab: '',
         harga_total: null,
         harga_total_pekerjaan_pengurangan: null,
         harga_total_ppr: 0,
