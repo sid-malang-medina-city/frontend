@@ -119,6 +119,14 @@
                   {{ SPK.vendor_nama }}
                 </div>
               </div>
+              <div class="informasi-utama__column column">
+                <div class="column__label">
+                  PJ Pekerjaan
+                </div>
+                <div class="column__value">
+                  {{ helpers.convertEmptyValueWithDash(SPK.penanggung_jawab) }}
+                </div>
+              </div>
             </div>
             <div class="content__informasi-utama informasi-utama">
               <div class="informasi-utama__column column">
