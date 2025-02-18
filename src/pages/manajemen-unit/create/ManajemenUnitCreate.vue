@@ -250,28 +250,50 @@
             </div>
             <div class="rows__row">
               <div class="row__label required">
-                Nomor Kavling
+                Blok Kavling
               </div>
               <el-input
-                v-model="formData.nomor_kavling"
-                :class="{ 'row__input--error': !!error.nomor_kavling }"
-                placeholder="Masukkan nomor kavling"
+                v-model="formData.blok_kavling"
+                :class="{ 'row__input--error': !!error.blok_kavling }"
+                placeholder="Masukkan blok kavling"
                 class="row__input"
               />
               <div class="row__email">
                 <el-icon
-                  v-if="!!error.nomor_kavling"
+                  v-if="!!error.blok_kavling"
                   color="#CC4E2E"
                 >
                   <WarningFilled />
                 </el-icon>
                 <div class="row__email-msg">
-                  {{ error.nomor_kavling }}
+                  {{ error.blok_kavling }}
                 </div>
               </div>
             </div>
           </div>
           <div class="input-section__rows rows">
+            <div class="rows__row">
+              <div class="row__label required">
+                Nomor Kavling
+              </div>
+              <el-input
+                v-model="formData.no_kavling"
+                :class="{ 'row__input--error': !!error.no_kavling }"
+                placeholder="Masukkan nomor kavling"
+                class="row__input"
+              />
+              <div class="row__email">
+                <el-icon
+                  v-if="!!error.no_kavling"
+                  color="#CC4E2E"
+                >
+                  <WarningFilled />
+                </el-icon>
+                <div class="row__email-msg">
+                  {{ error.no_kavling }}
+                </div>
+              </div>
+            </div>
             <div class="rows__row row">
               <div class="row__label required">
                 Harga Cash
@@ -284,6 +306,8 @@
                 class="row__input"
               />
             </div>
+          </div>
+          <div class="input-section__rows rows">
             <div class="rows__row row">
               <div class="row__label required">
                 Tipe Unit

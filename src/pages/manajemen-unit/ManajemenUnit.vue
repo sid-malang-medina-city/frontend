@@ -147,8 +147,8 @@
           >
             <template #default="scope">
               <status-badge
-                :color="statuses[scope.row.status].color"
-                :text="statuses[scope.row.status].name"
+                :color="statuses[scope.row.status]?.color"
+                :text="statuses[scope.row.status]?.name"
               />
             </template>
           </el-table-column>
