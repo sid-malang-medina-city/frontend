@@ -22,7 +22,8 @@ import {
   WarningFilled
 } from '@element-plus/icons-vue'
 
-const NOMOR_KAVLING_REGEX = /^[A-Z]\d+$/
+const NOMOR_KAVLING_REGEX = /^\d.*/
+const BLOK_KAVLING_REGEX = /^[A-Za-z]+$/
 
 export default {
   name: 'manajemen-unit-create',
@@ -42,6 +43,8 @@ export default {
       formData: {
         cluster_id: '',
         nomor_kavling: '',
+        no_kavling: '',
+        blok_kavling: '',
         harga: '',
         tipe_id: '',
         luas_bangunan: '',
@@ -57,7 +60,8 @@ export default {
       },
       error: {
         cluster_id: '',
-        nomor_kavling: '',
+        no_kavling: '',
+        blok_kavling: '',
         harga: '',
         tipe_id: '',
       },
@@ -102,7 +106,7 @@ export default {
 
   computed: {
     isAllRequiredFieldsFilled () {
-      const requiredFields = ['cluster_id', 'nomor_kavling', 'harga', 'tipe_id']
+      const requiredFields = ['cluster_id', 'no_kavling', 'blok_kavling', 'harga', 'tipe_id']
       return requiredFields.every(field => !!this.formData[field])
     },
 
@@ -299,18 +303,31 @@ export default {
     },
 
     validateNomorKavling () {
-      if (!NOMOR_KAVLING_REGEX.test(this.formData.nomor_kavling)) {
-        this.error.nomor_kavling = 'Gunakan format yang sesuai (contoh: A1, B12, C123)'
+      if (!NOMOR_KAVLING_REGEX.test(this.formData.no_kavling)) {
+        this.error.no_kavling = 'Karakter pertama harus angka.'
         return false
       }
 
-      this.error.nomor_kavling = ''
+      this.error.no_kavling = ''
+      return true
+    },
+    
+    validateBlokKavling () {
+      if (!BLOK_KAVLING_REGEX.test(this.formData.blok_kavling)) {
+        this.error.blok_kavling = 'Hanya dapat menggunakan huruf alfabet.'
+        return false
+      }
+
+      this.error.blok_kavling = ''
       return true
     },
 
     async submit () {
-      if (this.validateNomorKavling()) {
+      const isNomorKavlingValid = this.validateNomorKavling()
+      const isBlokKavlingValid = this.validateBlokKavling()
+      if (isNomorKavlingValid && isBlokKavlingValid) {
         this.visibleLoading = true
+        this.formData.nomor_kavling = this.formData.blok_kavling + this.formData.no_kavling
         try {
           await this.createUnit(this.formData)
           this.redirectTo('ManajemenUnit')
@@ -321,6 +338,6 @@ export default {
           this.visibleLoading = false
         }
       }
-      }
+    }
   }
 }
